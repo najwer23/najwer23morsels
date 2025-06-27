@@ -16,7 +16,58 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const slideStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: 'white',
+  fontSize: '40px',
+};
+
 export const Default: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+          <div
+            onClick={action('on-click-2')}
+            style={{
+              background: 'blue',
+              ...slideStyle,
+            }}>
+            2
+          </div>
+          <div
+            onClick={action('on-click-3')}
+            style={{
+              background: 'orange',
+              ...slideStyle,
+            }}>
+            3
+          </div>
+          <div
+            onClick={action('on-click-4')}
+            style={{
+              background: 'green',
+              ...slideStyle,
+            }}>
+            4
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
+
+export const Circular: Story = {
   decorators: [
     () => (
       <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
@@ -24,48 +75,32 @@ export const Default: Story = {
           <div
             style={{
               background: 'red',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
+              ...slideStyle,
             }}
             onClick={action('on-click-1')}>
             1
           </div>
           <div
-          onClick={action('on-click-2')}
+            onClick={action('on-click-2')}
             style={{
               background: 'blue',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
+              ...slideStyle,
             }}>
             2
           </div>
           <div
-          onClick={action('on-click-3')}
+            onClick={action('on-click-3')}
             style={{
               background: 'orange',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
+              ...slideStyle,
             }}>
             3
           </div>
           <div
-          onClick={action('on-click-4')}
+            onClick={action('on-click-4')}
             style={{
               background: 'green',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
+              ...slideStyle,
             }}>
             4
           </div>
