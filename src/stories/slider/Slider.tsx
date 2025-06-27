@@ -8,7 +8,7 @@ type SliderProps = {
   children: ReactNode;
 };
 
-function cloneSlides(slides: SlideElement[], count: number, fromStart = false): SlideElement[] {
+const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] => {
   return (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
     React.cloneElement(el, {
       key: `${fromStart ? 'clone-first' : 'clone-last'}-${i}`,
@@ -158,7 +158,7 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
             ref={(el) => {
               slideWrapperRefs.current[i] = el;
             }}
-            className={`${styles.slide} dupa`}
+            className={`${styles.slide}`}
             aria-hidden={currSlide !== i}>
             {slide}
           </div>
