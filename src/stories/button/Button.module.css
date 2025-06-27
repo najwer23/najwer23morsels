@@ -1,0 +1,128 @@
+@layer najwer23snacksButton {
+  .classic,
+  .close,
+  .calendar,
+  .strawberry {
+    cursor: pointer;
+    border: unset;
+    padding: 10px 17px;
+    border-radius: 8px;
+    color: var(--najwer23snacks-button-font-color);
+    background-color: var(--najwer23snacks-button-bg-color);
+    font-weight: var(--najwer23snacks-button-font-weight);
+    font-size: var(--najwer23snacks-button-font-size);
+    letter-spacing: normal;
+    transition: 0.1s;
+    font-family: var(--najwer23snacks-font-family);
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    transition:
+      background-color 0.3s,
+      box-shadow 0.3s;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--najwer23snacks-button-bg-color-hover);
+        box-shadow: var(--najwer23snacks-button-shadow);
+      }
+    }
+
+    &:active {
+      background-color: var(--najwer23snacks-button-bg-color-active);
+      box-shadow: var(--najwer23snacks-button-shadow);
+    }
+
+    &:focus-visible {
+      outline: none;
+      background-color: var(--najwer23snacks-button-bg-color-focus);
+      box-shadow: var(--najwer23snacks-button-shadow);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      box-shadow: none;
+      background-color: var(--najwer23snacks-button-bg-color-disabled);
+    }
+  }
+
+  .calendar {
+    padding: 7px 10px;
+  }
+
+  .strawberry {
+    height: 50px;
+    padding: 12px;
+
+    & > * {
+      position: relative;
+      display: flex;
+
+      & > * {
+        background-color: white;
+
+        height: 4px;
+        width: 30px;
+        border-radius: 10px;
+        &::after,
+        &::before {
+          content: '';
+          position: absolute;
+          background-color: white;
+          border-radius: 10px;
+        }
+        &::after {
+          top: 10px;
+          bottom: -10px;
+          left: 0;
+          right: 0;
+        }
+        &::before {
+          top: -10px;
+          bottom: 10px;
+          left: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+
+  .close {
+    height: 50px;
+
+    & > * {
+      position: relative;
+      width: 20px; 
+      height: 25px; 
+
+      & > * {
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          background-color: white; 
+          border-radius: 10px;
+          height: 4px; 
+          width: 40px; 
+          left: -9px; 
+        }
+
+        &::before {
+          top: 10.5px; 
+          transform: rotate(45deg);
+        }
+
+        &::after {
+          top: 10.5px; 
+          transform: rotate(-45deg); 
+        }
+      }
+    }
+  }
+}

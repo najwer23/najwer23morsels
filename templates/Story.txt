@@ -1,0 +1,26 @@
+import type { StoryObj } from '@storybook/react';
+
+import { {{name}}Snack } from "." ;
+
+const meta = {
+	title: "{{name}}/{{name}}",
+	component: {{name}}Snack,
+	parameters: {
+		layout: "centered",
+	},
+	tags: ["autodocs"],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const {{name}}: Story = {
+	args: {
+		children: "A"
+	},
+	decorators: [
+		(Story) => <Story />
+	]
+};
+

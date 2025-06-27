@@ -1,0 +1,14 @@
+import styles from './{{name}}.module.css';
+
+export const {{name}}: React.FC<{
+    children: React.ReactNode;
+  }
+> = ({ children, ...props }): JSX.Element => {
+  return (
+    <div className={styles.wrapper} {...props} >
+      Hello!
+    </div>
+  );
+};
+
+{{name}}.displayName = '{{name}}';
