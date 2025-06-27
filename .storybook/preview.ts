@@ -1,11 +1,6 @@
-import type { Preview } from '@storybook/react';
-import './tokens.css';
-import { withConsole } from '@storybook/addon-console';
-
-export const decorators = [(Story: any, context: any) => withConsole()(Story)(context)];
+import type { Preview } from '@storybook/react-vite';
 
 const preview: Preview = {
-  decorators,
   parameters: {
     controls: {
       matchers: {
