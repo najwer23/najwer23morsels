@@ -6,8 +6,7 @@ src/*
 .storybook/*
 rollup.config.mjs
 tsconfig.json
-public/img/f.png
-public/index.html
+public/*
 storybook-static
 templates
 plopfile.mjs

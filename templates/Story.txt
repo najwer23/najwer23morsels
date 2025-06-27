@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { {{name}} } from "." ;
 
-const meta: Meta<typeof TextBox> = {
+const meta: Meta<typeof {{name}}> = {
 	title: "{{name}}/{{name}}",
 	component: {{name}},
 	parameters: {

@@ -40,7 +40,7 @@ export const TextBox: React.FC<TextBoxProps> = ({
   return (
     <Tag
       style={
-        { 
+        {
           '--fw': fontWeight,
           '--fwh': fontWeightHover,
           '--ch': colorHover,
