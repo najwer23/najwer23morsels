@@ -1,12 +1,13 @@
 import styles from './{{name}}.module.css';
 
-export const {{name}}: React.FC<{
-    children: React.ReactNode;
-  }
-> = ({ children, ...props }): JSX.Element => {
+interface {{name}}Props extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
+
+export const {{name}}: React.FC<{{name}}Props> = ({ children, className, ...props }) => {
   return (
-    <div className={styles.wrapper} {...props} >
-      Hello!
+    <div className={[styles.container, 'Morsels{{name}}', className].filter(Boolean).join(' ')} {...props}>
+      {children ?? 'Hello!'}
     </div>
   );
 };
