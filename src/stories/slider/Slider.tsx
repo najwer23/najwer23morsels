@@ -8,31 +8,24 @@ type SliderProps = {
   children: ReactNode;
 };
 
-function mergeClassNames(...classes: (string | undefined)[]) {
-  return classes.filter(Boolean).join(' ');
-}
-
 function cloneSlides(slides: SlideElement[], count: number, fromStart = false): SlideElement[] {
   return (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
     React.cloneElement(el, {
       key: `${fromStart ? 'clone-first' : 'clone-last'}-${i}`,
-      ...{ ['data-clone']: 'true' },
-      className: mergeClassNames(el.props.className, styles.slide),
+      className: el.props.className,
     }),
   );
 }
 
 export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
+
   const [currSlide, setCurrSlide] = useState(isCircular && childSlides.length >= 2 ? 2 : 0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [slideWidth, setSlideWidth] = useState(0);
   const [wrapperWidth, setWrapperWidth] = useState(0);
   const slideWrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setCurrSlide(isCircular && childSlides.length >= 2 ? 2 : 0);
-  }, [isCircular, childSlides.length]);
+  const slideWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const slides =
     isCircular && childSlides.length >= 2
@@ -41,7 +34,7 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
           ...childSlides.map((el, i) =>
             React.cloneElement(el, {
               key: el.key ?? i,
-              className: mergeClassNames(el.props.className, styles.slide),
+              className: el.props.className,
             }),
           ),
           ...cloneSlides(childSlides, 2, true),
@@ -49,17 +42,25 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
       : childSlides.map((el, i) =>
           React.cloneElement(el, {
             key: el.key ?? i,
-            className: mergeClassNames(el.props.className, styles.slide),
+            className: el.props.className,
           }),
         );
+
+  if (slideWrapperRefs.current.length !== slides.length) {
+    slideWrapperRefs.current = Array(slides.length).fill(null);
+  }
+
+  useEffect(() => {
+    setCurrSlide(isCircular && childSlides.length >= 2 ? 2 : 0);
+  }, [isCircular, childSlides.length]);
 
   const updateDimensions = useCallback(() => {
     const wrapper = slideWrapperRef.current;
     if (!wrapper) return;
-    const firstSlide = wrapper.querySelector(`.${styles.slide}`) as HTMLElement | null;
-    if (!firstSlide) return;
-    const style = window.getComputedStyle(firstSlide);
-    setSlideWidth(firstSlide.offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight));
+    const firstSlideWrapper = slideWrapperRefs.current[0];
+    if (!firstSlideWrapper) return;
+    const style = window.getComputedStyle(firstSlideWrapper);
+    setSlideWidth(firstSlideWrapper.offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight));
     setWrapperWidth(wrapper.offsetWidth);
   }, []);
 
@@ -70,66 +71,60 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
   }, [updateDimensions]);
 
   useEffect(() => {
-    const wrapper = slideWrapperRef.current;
-    if (!wrapper) return;
-    const slideEls = Array.from(wrapper.querySelectorAll(`.${styles.slide}`)) as HTMLElement[];
     const SPACING = 10;
     const slideFullWidth = slideWidth + SPACING;
 
-    if (isCircular) {
-      slideEls.forEach((slide, idx) => {
+    slideWrapperRefs.current.forEach((slideWrapper, idx) => {
+      if (!slideWrapper) return;
+
+      if (isCircular) {
         const offset = (idx - currSlide) * slideFullWidth + (wrapperWidth - slideWidth) / 2;
-        slide.style.transition = isAnimating ? 'transform 0.4s cubic-bezier(.4,0,.2,1)' : 'none';
-        slide.style.transform = `translateX(${offset}px)`;
-        slide.style.left = '';
-      });
-    } else {
-      slideEls.forEach((slide, idx) => {
+        slideWrapper.style.transition = isAnimating ? 'transform 0.4s cubic-bezier(.4,0,.2,1)' : 'none';
+        slideWrapper.style.transform = `translateX(${offset}px)`;
+        slideWrapper.style.left = '';
+      } else {
         const left = slideFullWidth * (idx - currSlide) + (wrapperWidth - slideWidth) / 2;
         if (isAnimating) {
-          const prevLeft = parseFloat(slide.style.left || '0');
-          slide
+          const prevLeft = parseFloat(slideWrapper.style.left || '0');
+          slideWrapper
             .animate([{ left: `${prevLeft}px` }, { left: `${left}px` }], {
               duration: 400,
               easing: 'ease-out',
               fill: 'forwards',
             })
             .finished.then(() => {
-              slide.style.left = `${left}px`;
+              slideWrapper.style.left = `${left}px`;
               setIsAnimating(false);
             });
         } else {
-          slide.style.left = `${left}px`;
+          slideWrapper.style.left = `${left}px`;
         }
-        slide.style.transition = 'none';
-        slide.style.transform = '';
-      });
-    }
+        slideWrapper.style.transition = 'none';
+        slideWrapper.style.transform = '';
+      }
+    });
   }, [currSlide, slideWidth, wrapperWidth, isAnimating, slides.length, isCircular]);
 
   useEffect(() => {
     if (!isCircular || !isAnimating) return;
-    const wrapper = slideWrapperRef.current;
-    if (!wrapper) return;
-    const slideEls = Array.from(wrapper.querySelectorAll(`.${styles.slide}`)) as HTMLElement[];
-    const totalSlides = slideEls.length;
+    const totalSlides = slideWrapperRefs.current.length;
+    const lastSlideWrapper = slideWrapperRefs.current[totalSlides - 1];
+    if (!lastSlideWrapper) return;
 
     const handleTransitionEnd = () => {
       let newIndex = currSlide;
       if (currSlide === 1) newIndex = totalSlides - 3;
       else if (currSlide === totalSlides - 2) newIndex = 2;
+
       if (newIndex !== currSlide) {
-        setIsAnimating(false);
         setCurrSlide(newIndex);
-      } else {
-        setIsAnimating(false);
       }
-      slideEls[slideEls.length - 1].removeEventListener('transitionend', handleTransitionEnd);
+      setIsAnimating(false);
+      lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
     };
 
-    slideEls[slideEls.length - 1].addEventListener('transitionend', handleTransitionEnd);
-
-    return () => slideEls[slideEls.length - 1].removeEventListener('transitionend', handleTransitionEnd);
+    lastSlideWrapper.addEventListener('transitionend', handleTransitionEnd);
+    return () => lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
   }, [currSlide, isCircular, isAnimating]);
 
   const nextSlide = () => {
@@ -149,15 +144,25 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
   return (
     <div className={styles.sliderContainer}>
       <div className={styles.sliderBtnControl}>
-        <button className={styles.btn} onClick={prevSlide}>
+        <button className={styles.btn} onClick={prevSlide} disabled={isAnimating}>
           Prev
         </button>
-        <button className={styles.btn} onClick={nextSlide}>
+        <button className={styles.btn} onClick={nextSlide} disabled={isAnimating}>
           Next
         </button>
       </div>
       <div className={styles.slideWrapper} ref={slideWrapperRef}>
-        {slides}
+        {slides.map((slide, i) => (
+          <div
+            key={slide.key ?? i}
+            ref={(el) => {
+              slideWrapperRefs.current[i] = el;
+            }}
+            className={`${styles.slide} dupa`}
+            aria-hidden={currSlide !== i}>
+            {slide}
+          </div>
+        ))}
       </div>
     </div>
   );
