@@ -1,6 +1,6 @@
 {
   "name": "najwer23morsels",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
@@ -45,6 +45,10 @@
     "storybook-css-modules-preset": "^1.1.1",
     "typescript": "^5.8.3",
     "vite": "^7.0.0"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "keywords": [
     "react",
