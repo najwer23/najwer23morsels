@@ -1,5 +1,5 @@
 @layer najwer23morselsTextBox {
-  .morselsTextBox {
+  .najwer23morselsTextBox {
     --mobileFontSize: var(--ms);
     --desktopFontSize: var(--ds);
     --minViewport: 400;
