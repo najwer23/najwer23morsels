@@ -20,7 +20,7 @@
     will-change: transform;
   }
 
-  .najwer23morselsSlide{
+  .najwer23morselsSlide {
     height: 100%;
     overflow: hidden;
     position: absolute;
@@ -34,6 +34,9 @@
   }
 
   .najwer23morselsBtnControl {
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s linear;
     position: absolute;
     left: 0;
     right: 0;
@@ -44,6 +47,11 @@
     pointer-events: none;
     align-items: center;
     height: 100%;
+  }
+
+  .najwer23morselsSliderContainer:hover .najwer23morselsBtnControl {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .najwer23morselsBtn {
@@ -73,7 +81,9 @@
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         filter: brightness(0.95);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.24), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow:
+          0 4px 8px 0 rgba(0, 0, 0, 0.24),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
       }
     }
   }
