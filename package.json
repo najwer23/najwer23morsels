@@ -1,6 +1,6 @@
 {
   "name": "najwer23morsels",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",

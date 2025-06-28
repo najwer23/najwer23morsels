@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.4.0
+
+### Minor Changes
+
+- Slider!
+
 ## 0.3.0
 
 ### Minor Changes
