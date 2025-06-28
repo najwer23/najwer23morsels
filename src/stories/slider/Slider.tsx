@@ -84,7 +84,7 @@ export const Slider: React.FC<SliderProps> = ({
       }
       resizeTimeout.current = window.setTimeout(() => {
         updateDimensions();
-        if (!isCircular) setIsAnimating(true);
+        setIsAnimating(true);
       }, 150);
     };
 
@@ -103,40 +103,21 @@ export const Slider: React.FC<SliderProps> = ({
 
     slideWrapperRefs.current.forEach((slideWrapper, idx) => {
       if (!slideWrapper) return;
-
-      if (isCircular) {
-        const offset = (idx - currSlide) * slideFullWidth + (wrapperWidth - slideWidth) / 2;
-        slideWrapper.style.transition = isAnimating ? 'transform 0.4s cubic-bezier(.4,0,.2,1)' : 'none';
-        slideWrapper.style.transform = `translateX(${offset}px)`;
-        slideWrapper.style.left = '';
-      } else {
-        const left = slideFullWidth * (idx - currSlide) + (wrapperWidth - slideWidth) / 2;
-        if (isAnimating) {
-          const prevLeft = parseFloat(slideWrapper.style.left || '0');
-          slideWrapper
-            .animate([{ left: `${prevLeft}px` }, { left: `${left}px` }], {
-              duration: 400,
-              easing: 'ease-out',
-              fill: 'forwards',
-            })
-            .finished.then(() => {
-              slideWrapper.style.left = `${left}px`;
-              setIsAnimating(false);
-            });
-        } else {
-          slideWrapper.style.left = `${left}px`;
-        }
-        slideWrapper.style.transition = 'none';
-        slideWrapper.style.transform = '';
-      }
+      const offset = (idx - currSlide) * slideFullWidth + (wrapperWidth - slideWidth) / 2;
+      slideWrapper.style.transition = isAnimating ? 'transform 0.4s cubic-bezier(.4,0,.2,1)' : 'none';
+      slideWrapper.style.transform = `translateX(${offset}px)`;
+      slideWrapper.style.left = '';
     });
   }, [currSlide, slideWidth, wrapperWidth, isAnimating, slides.length, isCircular]);
 
   useEffect(() => {
-    if (!isCircular || !isAnimating) return;
+    if (!isAnimating || !isCircular) return;
+
     const totalSlides = slideWrapperRefs.current.length;
     const lastSlideWrapper = slideWrapperRefs.current[totalSlides - 1];
     if (!lastSlideWrapper) return;
+
+    let timeoutId: number;
 
     const handleTransitionEnd = () => {
       let newIndex = currSlide;
@@ -148,11 +129,48 @@ export const Slider: React.FC<SliderProps> = ({
       }
       setIsAnimating(false);
       lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
+      clearTimeout(timeoutId);
     };
 
     lastSlideWrapper.addEventListener('transitionend', handleTransitionEnd);
-    return () => lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
+
+    timeoutId = window.setTimeout(() => {
+      setIsAnimating(false);
+      lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
+    }, 500);
+
+    return () => {
+      lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
+      clearTimeout(timeoutId);
+    };
   }, [currSlide, isCircular, isAnimating]);
+
+  useEffect(() => {
+    if (!isAnimating) return;
+
+    const firstSlide = slideWrapperRefs.current[0];
+    if (!firstSlide) return;
+
+    let timeoutId: number;
+
+    const onTransitionEnd = () => {
+      setIsAnimating(false);
+      firstSlide.removeEventListener('transitionend', onTransitionEnd);
+      clearTimeout(timeoutId);
+    };
+
+    firstSlide.addEventListener('transitionend', onTransitionEnd);
+
+    timeoutId = window.setTimeout(() => {
+      setIsAnimating(false);
+      firstSlide.removeEventListener('transitionend', onTransitionEnd);
+    }, 500);
+
+    return () => {
+      firstSlide.removeEventListener('transitionend', onTransitionEnd);
+      clearTimeout(timeoutId);
+    };
+  }, [isAnimating]);
 
   const nextSlide = () => {
     if (isAnimating) return;
@@ -204,7 +222,9 @@ export const Slider: React.FC<SliderProps> = ({
           </button>
         )}
       </div>
-      <div className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper', className].join(' ')} ref={slideWrapperRef}>
+      <div
+        className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper', className].join(' ')}
+        ref={slideWrapperRef}>
         {slides.map((slide, i) => (
           <div
             key={slide.key ?? i}
