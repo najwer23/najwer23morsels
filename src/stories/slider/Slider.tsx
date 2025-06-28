@@ -11,6 +11,8 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   arrowsColorBackground?: string;
   arrowsColorBorder?: string;
   showCounter?: boolean;
+  loading?: boolean;
+  loadingTextColor?: string;
 }
 
 const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] =>
@@ -29,6 +31,8 @@ export const Slider: React.FC<SliderProps> = ({
   arrowsColorBackground,
   arrowsColorBorder,
   showCounter = true,
+  loading = false,
+  loadingTextColor = 'black',
 }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
 
@@ -66,7 +70,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   useEffect(() => {
     setCurrSlide(isCircular && childSlides.length >= 2 ? 2 : 0);
-  }, [isCircular, childSlides.length]);
+  }, [isCircular, childSlides.length, loading]);
 
   const updateDimensions = useCallback(() => {
     const wrapper = slideWrapperRef.current;
@@ -98,7 +102,7 @@ export const Slider: React.FC<SliderProps> = ({
         clearTimeout(resizeTimeout.current);
       }
     };
-  }, [updateDimensions]);
+  }, [updateDimensions, loading]);
 
   useEffect(() => {
     const SPACING = 10;
@@ -111,7 +115,7 @@ export const Slider: React.FC<SliderProps> = ({
       slideWrapper.style.transform = `translateX(${offset}px)`;
       slideWrapper.style.left = '';
     });
-  }, [currSlide, slideWidth, wrapperWidth, isAnimating, slides.length, isCircular]);
+  }, [currSlide, slideWidth, wrapperWidth, isAnimating, slides.length, isCircular, loading]);
 
   useEffect(() => {
     if (!isAnimating || !isCircular) return;
@@ -146,7 +150,7 @@ export const Slider: React.FC<SliderProps> = ({
       lastSlideWrapper.removeEventListener('transitionend', handleTransitionEnd);
       clearTimeout(timeoutId);
     };
-  }, [currSlide, isCircular, isAnimating]);
+  }, [currSlide, isCircular, isAnimating, loading]);
 
   useEffect(() => {
     if (!isAnimating) return;
@@ -173,7 +177,7 @@ export const Slider: React.FC<SliderProps> = ({
       firstSlide.removeEventListener('transitionend', onTransitionEnd);
       clearTimeout(timeoutId);
     };
-  }, [isAnimating]);
+  }, [isAnimating, loading]);
 
   const nextSlide = () => {
     if (isAnimating) return;
@@ -197,69 +201,99 @@ export const Slider: React.FC<SliderProps> = ({
   };
 
   return (
-    <div className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}>
-      <div
-        className={[styles.najwer23morselsSliderContainerSlider].filter(Boolean).join(' ')}
-        style={
-          {
-            '--ac': arrowsColor,
-            '--abgc': arrowsColorBackground,
-            '--abc': arrowsColorBorder,
-          } as React.CSSProperties
-        }>
+    <div
+      className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
+      style={{ height: loading ? 'calc(100% - 2px)' : (showCounter ? 'calc(100% - 35px)' : '100%') }}>
+      {loading && (
         <div
-          className={[styles.najwer23morselsBtnControl, 'MorselsSliderControl', className].join(' ')}
-          style={{
-            justifyContent: !isCircular
-              ? currSlide === 0
-                ? 'flex-end'
-                : currSlide === childSlides.length - 1
-                  ? 'flex-start'
-                  : 'space-between'
-              : 'space-between',
-          }}>
-          {((isCircular && childSlides.length > 1) || currSlide !== 0) && (
-            <button title="Prev" className={styles.najwer23morselsBtn} onClick={prevSlide} disabled={isAnimating}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="24" height="24" fill="currentColor">
-                <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-              </svg>
-            </button>
-          )}
-          {((isCircular && childSlides.length > 1) || currSlide !== childSlides.length - 1) && (
-            <button title='Next' className={styles.najwer23morselsBtn} onClick={nextSlide} disabled={isAnimating}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="24" height="24" fill="currentColor">
-                <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
-              </svg>
-            </button>
-          )}
-        </div>
-        <div
-          className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper', className].join(' ')}
-          ref={slideWrapperRef}>
-          {slides.map((slide, i) => (
-            <div
-              key={slide.key ?? i}
-              ref={(el) => {
-                slideWrapperRefs.current[i] = el;
-              }}
-              className={`${styles.najwer23morselsSlide}`}
-              style={{
-                width: childSlides.length > 1 ? 'calc(100% - 100px)' : '100%',
-              }}
-              aria-hidden={currSlide !== i}>
-              {slide}
-            </div>
-          ))}
-        </div>
-      </div>
-      {showCounter && (
-        <div className={[styles.najwer23morselsSliderCounter, 'MorselsSliderCounter', className].join(' ')}>
-          <TextBox mobileSize={16} desktopSize={16} color="black">
-            {!isCircular
-              ? `${currSlide + 1} / ${childSlides.length}`
-              : `${getVisualIndex() + 1} / ${childSlides.length}`}
+          className={styles.najwer23morselsLoading}
+          style={
+            {
+              '--lbc': loadingTextColor,
+            } as React.CSSProperties
+          }>
+          <TextBox mobileSize={16} desktopSize={16} color={loadingTextColor}>
+            Loading...
           </TextBox>
         </div>
+      )}
+
+      {!loading && (
+        <>
+          <div
+            className={[styles.najwer23morselsSliderContainerSlider].filter(Boolean).join(' ')}
+            style={
+              {
+                '--ac': arrowsColor,
+                '--abgc': arrowsColorBackground,
+                '--abc': arrowsColorBorder,
+              } as React.CSSProperties
+            }>
+            <div
+              className={[styles.najwer23morselsBtnControl, 'MorselsSliderControl', className].join(' ')}
+              style={{
+                justifyContent: !isCircular
+                  ? currSlide === 0
+                    ? 'flex-end'
+                    : currSlide === childSlides.length - 1
+                      ? 'flex-start'
+                      : 'space-between'
+                  : 'space-between',
+              }}>
+              {((isCircular && childSlides.length > 1) || currSlide !== 0) && (
+                <button title="Prev" className={styles.najwer23morselsBtn} onClick={prevSlide} disabled={isAnimating}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512"
+                    width="24"
+                    height="24"
+                    fill="currentColor">
+                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                  </svg>
+                </button>
+              )}
+              {((isCircular && childSlides.length > 1) || currSlide !== childSlides.length - 1) && (
+                <button title="Next" className={styles.najwer23morselsBtn} onClick={nextSlide} disabled={isAnimating}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512"
+                    width="24"
+                    height="24"
+                    fill="currentColor">
+                    <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                  </svg>
+                </button>
+              )}
+            </div>
+            <div
+              className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper', className].join(' ')}
+              ref={slideWrapperRef}>
+              {slides.map((slide, i) => (
+                <div
+                  key={slide.key ?? i}
+                  ref={(el) => {
+                    slideWrapperRefs.current[i] = el;
+                  }}
+                  className={`${styles.najwer23morselsSlide}`}
+                  style={{
+                    width: childSlides.length > 1 ? 'calc(100% - 40px)' : '100%',
+                  }}
+                  aria-hidden={currSlide !== i}>
+                  {slide}
+                </div>
+              ))}
+            </div>
+          </div>
+          {showCounter && (
+            <div className={[styles.najwer23morselsSliderCounter, 'MorselsSliderCounter', className].join(' ')}>
+              <TextBox mobileSize={16} desktopSize={16} color="black">
+                {!isCircular
+                  ? `${currSlide + 1} / ${childSlides.length}`
+                  : `${getVisualIndex() + 1} / ${childSlides.length}`}
+              </TextBox>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

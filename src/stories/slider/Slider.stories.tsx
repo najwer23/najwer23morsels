@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 
 import { Slider } from '.';
+import { useEffect, useState } from 'react';
 
 const meta: Meta<typeof Slider> = {
   title: 'Slider/Slider',
@@ -244,3 +245,77 @@ export const SldierArrowsStyle: Story = {
     ),
   ],
 };
+
+export const SliderWithoutCounter: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider showCounter={false}>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+          <div
+            style={{
+              background: 'blue',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-2')}>
+            2
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
+
+export const SliderLoading: Story = {
+  decorators: [
+    () => {
+      const LoadingToggle = () => {
+        const [loading, setLoading] = useState(true);
+
+        useEffect(() => {
+          const interval = setInterval(() => {
+            setLoading((prev) => !prev);
+          }, 5000);
+
+          return () => clearInterval(interval); // cleanup on unmount
+        }, []);
+
+        return (
+          <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+            <Slider loading={loading}>
+              <div
+                style={{
+                  background: 'red',
+                  ...slideStyle,
+                }}
+                onClick={action('on-click-1')}
+              >
+                1
+              </div>
+              <div
+                style={{
+                  background: 'green',
+                  ...slideStyle,
+                }}
+                onClick={action('on-click-')}
+              >
+                2
+              </div>
+            </Slider>
+          </div>
+        );
+      };
+
+      return <LoadingToggle />;
+    },
+  ],
+};
+
+
