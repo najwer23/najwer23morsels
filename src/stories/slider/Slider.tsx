@@ -3,10 +3,13 @@ import styles from './Slider.module.css';
 
 type SlideElement = ReactElement<{ className?: string }>;
 
-type SliderProps = {
+interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   isCircular?: boolean;
   children: ReactNode;
-};
+  arrowsColor?: string;
+  arrowsColorBackground?: string;
+  arrowsColorBorder?: string;
+}
 
 const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] =>
   (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
@@ -16,7 +19,14 @@ const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): 
     }),
   );
 
-export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) => {
+export const Slider: React.FC<SliderProps> = ({
+  isCircular = false,
+  children,
+  className,
+  arrowsColor,
+  arrowsColorBackground,
+  arrowsColorBorder,
+}) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
 
   const [currSlide, setCurrSlide] = useState(isCircular && childSlides.length >= 2 ? 2 : 0);
@@ -28,7 +38,6 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
   const slideWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const resizeTimeout = useRef<number | null>(null);
 
-  // Prepare slides with clones if circular
   const slides =
     isCircular && childSlides.length >= 2
       ? [
@@ -48,7 +57,6 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
           }),
         );
 
-  // Keep refs array length in sync
   if (slideWrapperRefs.current.length !== slides.length) {
     slideWrapperRefs.current = Array(slides.length).fill(null);
   }
@@ -161,9 +169,17 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
   };
 
   return (
-    <div className={styles.sliderContainer}>
+    <div
+      className={[styles.sliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
+      style={
+        {
+          '--ac': arrowsColor,
+          '--abgc': arrowsColorBackground,
+          '--abc': arrowsColorBorder,
+        } as React.CSSProperties
+      }>
       <div
-        className={styles.sliderBtnControl}
+        className={[styles.sliderBtnControl, 'MorselsSliderControl', className].join(' ')}
         style={{
           justifyContent: !isCircular
             ? currSlide === 0
@@ -188,7 +204,7 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
           </button>
         )}
       </div>
-      <div className={styles.slideWrapper} ref={slideWrapperRef}>
+      <div className={[styles.slideWrapper, 'MorselsSliderWrapper', className].join(' ')} ref={slideWrapperRef}>
         {slides.map((slide, i) => (
           <div
             key={slide.key ?? i}
@@ -197,7 +213,7 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
             }}
             className={`${styles.slide}`}
             style={{
-              width: childSlides.length > 1 ? "calc(100% - 100px)" : "100%"
+              width: childSlides.length > 1 ? 'calc(100% - 100px)' : '100%',
             }}
             aria-hidden={currSlide !== i}>
             {slide}

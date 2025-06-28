@@ -201,3 +201,46 @@ export const Slider1Slide: Story = {
     ),
   ],
 };
+
+export const SldierArrowsStyle: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider arrowsColorBackground='yellow' arrowsColor='blue' arrowsColorBorder='blue'>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+          <div
+            onClick={action('on-click-2')}
+            style={{
+              background: 'blue',
+              ...slideStyle,
+            }}>
+            2
+          </div>
+          <div
+            onClick={action('on-click-3')}
+            style={{
+              background: 'orange',
+              ...slideStyle,
+            }}>
+            3
+          </div>
+          <div
+            onClick={action('on-click-4')}
+            style={{
+              background: 'green',
+              ...slideStyle,
+            }}>
+            4
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
