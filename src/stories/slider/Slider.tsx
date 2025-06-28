@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback, ReactElement, ReactNode } from 'react';
 import styles from './Slider.module.css';
 import { TextBox } from '../textbox';
+import { Loader } from '../loader';
 
 type SlideElement = ReactElement<{ className?: string }>;
 
@@ -12,7 +13,7 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   arrowsColorBorder?: string;
   showCounter?: boolean;
   loading?: boolean;
-  loadingTextColor?: string;
+  loaderColor?: string;
 }
 
 const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] =>
@@ -32,7 +33,7 @@ export const Slider: React.FC<SliderProps> = ({
   arrowsColorBorder,
   showCounter = true,
   loading = false,
-  loadingTextColor = 'black',
+  loaderColor = 'black',
 }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
 
@@ -203,21 +204,8 @@ export const Slider: React.FC<SliderProps> = ({
   return (
     <div
       className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
-      style={{ height: loading ? 'calc(100% - 2px)' : (showCounter ? 'calc(100% - 35px)' : '100%') }}>
-      {loading && (
-        <div
-          className={styles.najwer23morselsLoading}
-          style={
-            {
-              '--lbc': loadingTextColor,
-            } as React.CSSProperties
-          }>
-          <TextBox mobileSize={16} desktopSize={16} color={loadingTextColor}>
-            Loading...
-          </TextBox>
-        </div>
-      )}
-
+      style={{ height: loading ? 'calc(100% - 2px)' : showCounter ? 'calc(100% - 35px)' : '100%' }}>
+      {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
           <div

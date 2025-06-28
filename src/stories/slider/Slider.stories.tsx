@@ -207,7 +207,7 @@ export const SldierArrowsStyle: Story = {
   decorators: [
     () => (
       <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider arrowsColorBackground='yellow' arrowsColor='blue' arrowsColorBorder='blue'>
+        <Slider arrowsColorBackground="yellow" arrowsColor="blue" arrowsColorBorder="blue">
           <div
             style={{
               background: 'red',
@@ -295,8 +295,7 @@ export const SliderLoading: Story = {
                   background: 'red',
                   ...slideStyle,
                 }}
-                onClick={action('on-click-1')}
-              >
+                onClick={action('on-click-1')}>
                 1
               </div>
               <div
@@ -304,8 +303,7 @@ export const SliderLoading: Story = {
                   background: 'green',
                   ...slideStyle,
                 }}
-                onClick={action('on-click-')}
-              >
+                onClick={action('on-click-')}>
                 2
               </div>
             </Slider>
@@ -317,5 +315,3 @@ export const SliderLoading: Story = {
     },
   ],
 };
-
-
