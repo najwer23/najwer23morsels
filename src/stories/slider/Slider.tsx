@@ -8,14 +8,13 @@ type SliderProps = {
   children: ReactNode;
 };
 
-const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] => {
-  return (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
+const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] =>
+  (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
     React.cloneElement(el, {
       key: `${fromStart ? 'clone-first' : 'clone-last'}-${i}`,
       className: el.props.className,
     }),
   );
-};
 
 export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
@@ -24,9 +23,12 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
   const [isAnimating, setIsAnimating] = useState(false);
   const [slideWidth, setSlideWidth] = useState(0);
   const [wrapperWidth, setWrapperWidth] = useState(0);
+
   const slideWrapperRef = useRef<HTMLDivElement>(null);
   const slideWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const resizeTimeout = useRef<number | null>(null);
 
+  // Prepare slides with clones if circular
   const slides =
     isCircular && childSlides.length >= 2
       ? [
@@ -46,6 +48,7 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
           }),
         );
 
+  // Keep refs array length in sync
   if (slideWrapperRefs.current.length !== slides.length) {
     slideWrapperRefs.current = Array(slides.length).fill(null);
   }
@@ -55,7 +58,6 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
   }, [isCircular, childSlides.length]);
 
   const updateDimensions = useCallback(() => {
-    console.log("resize")
     const wrapper = slideWrapperRef.current;
     if (!wrapper) return;
     const firstSlideWrapper = slideWrapperRefs.current[0];
@@ -67,8 +69,24 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
 
   useEffect(() => {
     updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+
+    const handleResize = () => {
+      if (resizeTimeout.current !== null) {
+        clearTimeout(resizeTimeout.current);
+      }
+      resizeTimeout.current = window.setTimeout(() => {
+        updateDimensions();
+        if (!isCircular) setIsAnimating(true);
+      }, 150);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimeout.current !== null) {
+        clearTimeout(resizeTimeout.current);
+      }
+    };
   }, [updateDimensions]);
 
   useEffect(() => {
@@ -162,7 +180,7 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
             </svg>
           </button>
         )}
-        {((isCircular && childSlides.length > 1) || currSlide != childSlides.length - 1) && (
+        {((isCircular && childSlides.length > 1) || currSlide !== childSlides.length - 1) && (
           <button className={styles.btn} onClick={nextSlide} disabled={isAnimating}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="24" height="24" fill="currentColor">
               <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
@@ -178,6 +196,9 @@ export const Slider: React.FC<SliderProps> = ({ isCircular = false, children }) 
               slideWrapperRefs.current[i] = el;
             }}
             className={`${styles.slide}`}
+            style={{
+              width: childSlides.length > 1 ? "calc(100% - 100px)" : "100%"
+            }}
             aria-hidden={currSlide !== i}>
             {slide}
           </div>

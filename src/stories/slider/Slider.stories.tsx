@@ -67,7 +67,7 @@ export const Default: Story = {
   ],
 };
 
-export const Circular: Story = {
+export const SliderCircular: Story = {
   decorators: [
     () => (
       <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
@@ -137,7 +137,7 @@ export const Slider2Slides: Story = {
   ],
 };
 
-export const Circular2Slides: Story = {
+export const SliderCircular2Slides: Story = {
   decorators: [
     () => (
       <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
@@ -164,7 +164,7 @@ export const Circular2Slides: Story = {
   ],
 };
 
-export const Circular1Slide: Story = {
+export const SliderCircular1Slide: Story = {
   decorators: [
     () => (
       <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
