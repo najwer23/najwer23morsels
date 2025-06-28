@@ -109,3 +109,95 @@ export const Circular: Story = {
     ),
   ],
 };
+
+export const Slider2Slides: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+          <div
+            onClick={action('on-click-2')}
+            style={{
+              background: 'blue',
+              ...slideStyle,
+            }}>
+            2
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
+
+export const Circular2Slides: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider isCircular>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+          <div
+            onClick={action('on-click-2')}
+            style={{
+              background: 'blue',
+              ...slideStyle,
+            }}>
+            2
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
+
+export const Circular1Slide: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider isCircular>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
+
+export const Slider1Slide: Story = {
+  decorators: [
+    () => (
+      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
+        <Slider>
+          <div
+            style={{
+              background: 'red',
+              ...slideStyle,
+            }}
+            onClick={action('on-click-1')}>
+            1
+          </div>
+        </Slider>
+      </div>
+    ),
+  ],
+};
