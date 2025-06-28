@@ -74,7 +74,7 @@ export const GridContainerLoading: Story = {
       useEffect(() => {
         const interval = setInterval(() => {
           setLoading((prev) => !prev);
-        }, 1000000);
+        }, 5000);
 
         return () => clearInterval(interval);
       }, []);
