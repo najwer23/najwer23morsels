@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.5.0
+
+### Minor Changes
+
+- Loader
+
 ## 0.4.0
 
 ### Minor Changes
