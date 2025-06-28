@@ -1,7 +1,7 @@
 @layer najwer23morselsTextBox {
   .najwer23morselsTextBox {
-    --mobileFontSize: var(--ms);
-    --desktopFontSize: var(--ds);
+    --mobileFontSize: var(--textbox-ms);
+    --desktopFontSize: var(--textbox-ds);
     --minViewport: 400;
     --maxViewport: 1400;
     --textBoxFontFamilyDefault:
@@ -24,24 +24,24 @@
       calc(var(--clampMaxSize) / 16 * 1rem)
     );
 
-    line-height: var(--najwer23morselsTextBoxLineHeight, var(--lh, 1.42857));
+    line-height: var(--najwer23morselsTextBoxLineHeight, var(--textbox-lh, 1.42857));
     font-family: var(--najwer23morselsFontFamily, var(--textBoxFontFamilyDefault));
     margin: var(--najwer23morselsTextBoxMargin, var(--m));
-    color: var(--najwer23morselsTextBoxColor, var(--c));
-    font-weight: var(--najwer23morselsTextBoxFontWeight, var(--fw));
+    color: var(--najwer23morselsTextBoxColor, var(--textbox-c));
+    font-weight: var(--najwer23morselsTextBoxFontWeight, var(--textbox-fw));
 
     & a {
-      color: var(--najwer23morselsTextBoxColor, var(--c));
+      color: var(--najwer23morselsTextBoxColor, var(--textbox-c));
       text-decoration: unset;
       transition: color 0.3s ease-in-out;
-      font-weight: var(--najwer23morselsTextBoxFontWeight, var(--fw));
+      font-weight: var(--najwer23morselsTextBoxFontWeight, var(--textbox-fw));
 
       &:hover,
       &:focus-visible,
       &:active {
         text-decoration: underline;
-        color: var(--najwer23morselsTextBoxColorHover, var(--ch, var(--c)));
-        font-weight: var(--najwer23morselsTextBoxFontWeightHover, var(--fwh, var(--fw)));
+        color: var(--najwer23morselsTextBoxColorHover, var(--textbox-fw, var(--textbox-ch)));
+        font-weight: var(--najwer23morselsTextBoxFontWeightHover, var(--textbox-fwh, var(--textbox-fw)));
       }
     }
   }

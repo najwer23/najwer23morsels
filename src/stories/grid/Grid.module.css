@@ -1,0 +1,50 @@
+@layer najwer23morselsGrid {
+  .najwer23morselsGridContainer {
+    max-width: var(--grid-wMax);
+    min-width: var(--grid-wMin);
+    min-height: var(--grid-mh);
+    padding: var(--grid-p);
+    margin: var(--grid-m);
+    box-sizing: border-box;
+  }
+
+  .najwer23morselsGridColumns {
+    display: flex;
+    column-gap: var(--grid-col-gap);
+    row-gap: var(--grid-row-gap);
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .najwer23morselsGridColumns > div {
+    width: calc(
+      (100% / var( --gridFlexCol)) -
+        (((var(--gridFlexCol) - 1) / var(--gridFlexCol)) * var(--grid-col-gap))
+    );
+  }
+
+  /* breakpoints */
+  @media (max-width: 767.98px) {
+    .najwer23morselsGridColumns > div {
+      --gridFlexCol: var(--grid-col-mobile);
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1199.98px) {
+    .najwer23morselsGridColumns > div {
+      --gridFlexCol: var(--grid-col-tablet);
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1599.98px) {
+    .najwer23morselsGridColumns > div {
+      --gridFlexCol: var(--grid-col-small-desktop);
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .najwer23morselsGridColumns > div {
+      --gridFlexCol: var(--grid-col-desktop);
+    }
+  }
+}

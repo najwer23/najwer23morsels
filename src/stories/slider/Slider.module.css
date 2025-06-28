@@ -59,12 +59,12 @@
     pointer-events: auto;
     transition: all 0.2s linear;
     left: 50%;
-    background-color: var(--najwer23morselsSliderArrowsColorBackground, var(--abgc, white));
+    background-color: var(--najwer23morselsSliderArrowsColorBackground, var(--slider-acbg, white));
     padding: 10px;
     display: flex;
     border-radius: 50%;
-    border: 1px solid var(--najwer23morselsSliderArrowsColorBorder, var(--abc, black));
-    color: var(--najwer23morselsSliderArrowsColor, var(--ac, black));
+    border: 1px solid var(--najwer23morselsSliderArrowsColorBorder, var(--slider-acb, black));
+    color: var(--najwer23morselsSliderArrowsColor, var(--slider-ac, black));
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;

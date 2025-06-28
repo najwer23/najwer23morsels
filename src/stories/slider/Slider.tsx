@@ -212,9 +212,9 @@ export const Slider: React.FC<SliderProps> = ({
             className={[styles.najwer23morselsSliderContainerSlider].filter(Boolean).join(' ')}
             style={
               {
-                '--ac': arrowsColor,
-                '--abgc': arrowsColorBackground,
-                '--abc': arrowsColorBorder,
+                '--slider-ac': arrowsColor,
+                '--slider-acbg': arrowsColorBackground,
+                '--slider-acb': arrowsColorBorder,
               } as React.CSSProperties
             }>
             <div

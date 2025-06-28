@@ -41,13 +41,13 @@ export const TextBox: React.FC<TextBoxProps> = ({
     <Tag
       style={
         {
-          '--fw': fontWeight,
-          '--fwh': fontWeightHover,
-          '--ch': colorHover,
-          '--c': color,
-          '--ms': mobileSize,
-          '--ds': desktopSize,
-          '--lh': lineHeight,
+          '--textbox-fw': fontWeight,
+          '--textbox-fwh': fontWeightHover,
+          '--textbox-ch': colorHover,
+          '--textbox-c': color,
+          '--textbox-ms': mobileSize,
+          '--textbox-ds': desktopSize,
+          '--textbox-lh': lineHeight,
           ...(margin !== undefined && margin !== null ? { '--m': margin } : {}),
         } as React.CSSProperties
       }

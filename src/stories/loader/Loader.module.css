@@ -1,11 +1,12 @@
 @layer najwer23morselsLoader {
   .najwer23morselsContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-    height: 100%;
-    color:  var(--najwer23morselsTextBoxColor, var(--lc, black));
-    border: dashed 1px var(--najwer23morselsTextBoxColor, var(--lc, black));
+    justify-content: center;
+    padding-top: 20px;
+    box-sizing: border-box;
+    height: var(--loader-mh, 100%);
+    color: var(--najwer23morselsTextBoxColor, var(--loader-lc, black));
+    border: dashed 1px var(--najwer23morselsTextBoxColor, var(--loader-lc, black));
   }
 }

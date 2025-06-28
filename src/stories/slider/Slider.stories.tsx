@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-
 import { Slider } from '.';
 import { useEffect, useState } from 'react';
 
@@ -25,293 +24,206 @@ const slideStyle = {
   fontSize: '40px',
 };
 
+const slides = [
+  { color: 'red', label: '1', action: action('on-click-1') },
+  { color: 'blue', label: '2', action: action('on-click-2') },
+  { color: 'orange', label: '3', action: action('on-click-3') },
+  { color: 'green', label: '4', action: action('on-click-4') },
+];
+
+const twoSlides = slides.slice(0, 2);
+const oneSlide = slides.slice(0, 1);
+
 export const Default: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider>
+  args: {},
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {slides.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-          <div
-            onClick={action('on-click-2')}
-            style={{
-              background: 'blue',
-              ...slideStyle,
-            }}>
-            2
-          </div>
-          <div
-            onClick={action('on-click-3')}
-            style={{
-              background: 'orange',
-              ...slideStyle,
-            }}>
-            3
-          </div>
-          <div
-            onClick={action('on-click-4')}
-            style={{
-              background: 'green',
-              ...slideStyle,
-            }}>
-            4
-          </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const SliderCircular: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider isCircular>
+  args: { isCircular: true },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {slides.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-          <div
-            onClick={action('on-click-2')}
-            style={{
-              background: 'blue',
-              ...slideStyle,
-            }}>
-            2
-          </div>
-          <div
-            onClick={action('on-click-3')}
-            style={{
-              background: 'orange',
-              ...slideStyle,
-            }}>
-            3
-          </div>
-          <div
-            onClick={action('on-click-4')}
-            style={{
-              background: 'green',
-              ...slideStyle,
-            }}>
-            4
-          </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const Slider2Slides: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider>
+  args: {},
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {twoSlides.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-          <div
-            onClick={action('on-click-2')}
-            style={{
-              background: 'blue',
-              ...slideStyle,
-            }}>
-            2
-          </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const SliderCircular2Slides: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider isCircular>
+  args: { isCircular: true },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {twoSlides.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-          <div
-            onClick={action('on-click-2')}
-            style={{
-              background: 'blue',
-              ...slideStyle,
-            }}>
-            2
-          </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const SliderCircular1Slide: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider isCircular>
+  args: { isCircular: true },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {oneSlide.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const Slider1Slide: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider>
+  args: {},
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {oneSlide.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
-export const SldierArrowsStyle: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider arrowsColorBackground="yellow" arrowsColor="blue" arrowsColorBorder="blue">
+export const SliderArrowsStyle: Story = {
+  args: {
+    arrowsColorBackground: 'yellow',
+    arrowsColor: 'blue',
+    arrowsColorBorder: 'blue',
+  },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {slides.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-          <div
-            onClick={action('on-click-2')}
-            style={{
-              background: 'blue',
-              ...slideStyle,
-            }}>
-            2
-          </div>
-          <div
-            onClick={action('on-click-3')}
-            style={{
-              background: 'orange',
-              ...slideStyle,
-            }}>
-            3
-          </div>
-          <div
-            onClick={action('on-click-4')}
-            style={{
-              background: 'green',
-              ...slideStyle,
-            }}>
-            4
-          </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const SliderWithoutCounter: Story = {
-  decorators: [
-    () => (
-      <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Slider showCounter={false}>
+  args: { showCounter: false },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        {twoSlides.map(({ color, label, action }, i) => (
           <div
-            style={{
-              background: 'red',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-1')}>
-            1
+            key={i}
+            style={{ background: color, ...slideStyle }}
+            onClick={action}
+          >
+            {label}
           </div>
-          <div
-            style={{
-              background: 'blue',
-              ...slideStyle,
-            }}
-            onClick={action('on-click-2')}>
-            2
-          </div>
-        </Slider>
-      </div>
-    ),
-  ],
+        ))}
+      </Slider>
+    </div>
+  ),
 };
 
 export const SliderLoading: Story = {
-  decorators: [
-    () => {
-      const LoadingToggle = () => {
-        const [loading, setLoading] = useState(true);
+  args: {},
+  render: () => {
+    const LoadingToggle = () => {
+      const [loading, setLoading] = useState(true);
 
-        useEffect(() => {
-          const interval = setInterval(() => {
-            setLoading((prev) => !prev);
-          }, 5000);
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setLoading((prev) => !prev);
+        }, 5000);
 
-          return () => clearInterval(interval); // cleanup on unmount
-        }, []);
+        return () => clearInterval(interval);
+      }, []);
 
-        return (
-          <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-            <Slider loading={loading}>
-              <div
-                style={{
-                  background: 'red',
-                  ...slideStyle,
-                }}
-                onClick={action('on-click-1')}>
-                1
-              </div>
-              <div
-                style={{
-                  background: 'green',
-                  ...slideStyle,
-                }}
-                onClick={action('on-click-')}>
-                2
-              </div>
-            </Slider>
-          </div>
-        );
-      };
+      return (
+        <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+          <Slider loading={loading}>
+            <div
+              style={{ background: 'red', ...slideStyle }}
+              onClick={action('on-click-1')}
+            >
+              1
+            </div>
+            <div
+              style={{ background: 'green', ...slideStyle }}
+              onClick={action('on-click-2')}
+            >
+              2
+            </div>
+          </Slider>
+        </div>
+      );
+    };
 
-      return <LoadingToggle />;
-    },
-  ],
+    return <LoadingToggle />;
+  },
 };
