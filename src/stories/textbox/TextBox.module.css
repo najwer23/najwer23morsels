@@ -26,7 +26,7 @@
 
     line-height: var(--najwer23morselsTextBoxLineHeight, var(--textbox-lh, 1.42857));
     font-family: var(--najwer23morselsFontFamily, var(--textBoxFontFamilyDefault));
-    margin: var(--najwer23morselsTextBoxMargin, var(--m));
+    margin: var(--najwer23morselsTextBoxMargin, var(--textbox-m));
     color: var(--najwer23morselsTextBoxColor, var(--textbox-c));
     font-weight: var(--najwer23morselsTextBoxFontWeight, var(--textbox-fw));
 

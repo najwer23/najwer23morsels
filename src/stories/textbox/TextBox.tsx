@@ -48,7 +48,7 @@ export const TextBox: React.FC<TextBoxProps> = ({
           '--textbox-ms': mobileSize,
           '--textbox-ds': desktopSize,
           '--textbox-lh': lineHeight,
-          ...(margin !== undefined && margin !== null ? { '--m': margin } : {}),
+          ...(margin !== undefined && margin !== null ? { '--textbox-m': margin } : {}),
         } as React.CSSProperties
       }
       className={[styles.najwer23morselsTextBox, 'MorselsTextBox', className].filter(Boolean).join(' ')}
