@@ -18,8 +18,8 @@ interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   widthMin?: number;
   widthMax?: number;
-  padding?: string;
-  margin?: string;
+  padding?: string | 0;
+  margin?: string | 0;
   minHeight?: number;
   loading?: boolean;
   gap?: Gap;
@@ -56,7 +56,7 @@ export const Grid: React.FC<GridProps> = ({
         }
         {...props}>
         {!loading && children}
-        {loading && <Loader minHeight={minHeight}/>}
+        {loading && <Loader minHeight={minHeight} />}
       </div>
     );
   }

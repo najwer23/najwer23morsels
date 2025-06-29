@@ -16,11 +16,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-	args: {
-		children: "A"
-	},
-	decorators: [
-		(Story) => <Story />
-	]
-};
+	args: {},
+	render: (args) => (
+		<div >
+		<{{name}} {...args}>hello world!</{{name}}>
+		</div>
+	),
+};  
+
 

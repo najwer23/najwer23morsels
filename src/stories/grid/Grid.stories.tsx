@@ -81,7 +81,7 @@ export const GridContainerLoading: Story = {
 
       return (
         <div style={{ width: '100vw' }}>
-          <Grid {...args} loading={loading} >
+          <Grid {...args} loading={loading}>
             <TextBox mobileSize={12} desktopSize={12}>
               max-width: 600px
             </TextBox>

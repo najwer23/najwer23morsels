@@ -40,11 +40,7 @@ export const Default: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {slides.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -59,11 +55,7 @@ export const SliderCircular: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {slides.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -78,11 +70,7 @@ export const Slider2Slides: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {twoSlides.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -97,11 +85,7 @@ export const SliderCircular2Slides: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {twoSlides.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -116,11 +100,7 @@ export const SliderCircular1Slide: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {oneSlide.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -135,11 +115,7 @@ export const Slider1Slide: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {oneSlide.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -158,11 +134,7 @@ export const SliderArrowsStyle: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {slides.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -177,11 +149,7 @@ export const SliderWithoutCounter: Story = {
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {twoSlides.map(({ color, label, action }, i) => (
-          <div
-            key={i}
-            style={{ background: color, ...slideStyle }}
-            onClick={action}
-          >
+          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
         ))}
@@ -207,16 +175,10 @@ export const SliderLoading: Story = {
       return (
         <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
           <Slider loading={loading}>
-            <div
-              style={{ background: 'red', ...slideStyle }}
-              onClick={action('on-click-1')}
-            >
+            <div style={{ background: 'red', ...slideStyle }} onClick={action('on-click-1')}>
               1
             </div>
-            <div
-              style={{ background: 'green', ...slideStyle }}
-              onClick={action('on-click-2')}
-            >
+            <div style={{ background: 'green', ...slideStyle }} onClick={action('on-click-2')}>
               2
             </div>
           </Slider>

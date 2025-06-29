@@ -3,7 +3,7 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    padding-top: 20px;
+    align-items: center;
     box-sizing: border-box;
     height: var(--loader-mh, 100%);
     color: var(--najwer23morselsTextBoxColor, var(--loader-lc, black));

@@ -55,6 +55,10 @@ export const Example = () => {
     --najwer23morselsSliderArrowsColorBackground: white;
     --najwer23morselsSliderArrowsColorBorder: black;
     --najwer23morselsSliderArrowsColor: black;
+
+    /* MorselsButton */
+    --najwer23morselsButtonBg: black;
+    --najwer23morselsButtonBgDisabled: black;
 }
 ```
 

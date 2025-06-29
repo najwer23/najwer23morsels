@@ -17,10 +17,7 @@
   }
 
   .najwer23morselsGridColumns > div {
-    width: calc(
-      (100% / var( --gridFlexCol)) -
-        (((var(--gridFlexCol) - 1) / var(--gridFlexCol)) * var(--grid-col-gap))
-    );
+    width: calc((100% / var(--gridFlexCol)) - (((var(--gridFlexCol) - 1) / var(--gridFlexCol)) * var(--grid-col-gap)));
   }
 
   /* breakpoints */
