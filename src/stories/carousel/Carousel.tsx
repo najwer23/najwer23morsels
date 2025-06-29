@@ -129,7 +129,7 @@ export const Carousel: React.FC<{
     const targetScrollLeft = Math.max(carouselRef.current.scrollLeft - scrollAmount, 0);
 
     // Force animation on arrow click
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 1000, true);
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 900, true);
   };
 
   const slideRight = () => {
@@ -145,7 +145,7 @@ export const Carousel: React.FC<{
     const targetScrollLeft = Math.min(carouselRef.current.scrollLeft + scrollAmount, maxScrollLeft);
 
     // Force animation on arrow click
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 1000, true);
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 900, true);
   };
 
   const drag = useRef<{ isDown: boolean; startX: number; scrollLeft: number; isMove: boolean }>({
