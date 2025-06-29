@@ -4,7 +4,6 @@
     gap: var(--gap);
     flex-wrap: nowrap;
     overflow-x: scroll;
-    scroll-behavior: smooth;
 
     /* hide scrollbar */
     scrollbar-width: none;
