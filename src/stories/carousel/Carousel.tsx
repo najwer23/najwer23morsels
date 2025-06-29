@@ -91,8 +91,8 @@ export const Carousel: React.FC<{
     const change = target - start;
     const startTime = performance.now();
 
-    const easeInOutQuad = (t: number) =>
-      t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    const easeInOutCubic = (t: number) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
     const animateScroll = (currentTime: number) => {
       if (isUserScrolling.current && !forceAnimate) {
@@ -105,7 +105,7 @@ export const Carousel: React.FC<{
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      element.scrollLeft = start + change * easeInOutQuad(progress);
+      element.scrollLeft = start + change * easeInOutCubic(progress);
 
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
@@ -129,7 +129,7 @@ export const Carousel: React.FC<{
     const targetScrollLeft = Math.max(carouselRef.current.scrollLeft - scrollAmount, 0);
 
     // Force animation on arrow click
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 300, true);
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 1000, true);
   };
 
   const slideRight = () => {
@@ -145,7 +145,7 @@ export const Carousel: React.FC<{
     const targetScrollLeft = Math.min(carouselRef.current.scrollLeft + scrollAmount, maxScrollLeft);
 
     // Force animation on arrow click
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 300, true);
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 1000, true);
   };
 
   const drag = useRef<{ isDown: boolean; startX: number; scrollLeft: number; isMove: boolean }>({
