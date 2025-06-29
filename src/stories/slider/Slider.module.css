@@ -47,6 +47,10 @@
     pointer-events: none;
     align-items: center;
     height: 100%;
+
+     @media (max-width: 767.98px) {
+      display: none;
+    }
   }
 
   .najwer23morselsSliderContainer:hover .najwer23morselsBtnControl {

@@ -41,10 +41,33 @@ export const Slider: React.FC<SliderProps> = ({
   const [isAnimating, setIsAnimating] = useState(false);
   const [slideWidth, setSlideWidth] = useState(0);
   const [wrapperWidth, setWrapperWidth] = useState(0);
-
   const slideWrapperRef = useRef<HTMLDivElement>(null);
   const slideWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const resizeTimeout = useRef<number | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchDeltaX, setTouchDeltaX] = useState<number>(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      setTouchStartX(e.touches[0].clientX);
+      setTouchDeltaX(0);
+    }
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX !== null) {
+      setTouchDeltaX(e.touches[0].clientX - touchStartX);
+    }
+  };
+  const handleTouchEnd = () => {
+    const SWIPE_THRESHOLD = 50;
+    if (touchDeltaX > SWIPE_THRESHOLD) {
+      prevSlide();
+    } else if (touchDeltaX < -SWIPE_THRESHOLD) {
+      nextSlide();
+    }
+    setTouchStartX(null);
+    setTouchDeltaX(0);
+  };
 
   const slides =
     isCircular && childSlides.length >= 2
@@ -204,7 +227,11 @@ export const Slider: React.FC<SliderProps> = ({
   return (
     <div
       className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
-      style={{ height: loading ? 'calc(100% - 2px)' : showCounter ? 'calc(100% - 35px)' : '100%' }}>
+      style={{ height: loading ? 'calc(100% - 2px)' : showCounter ? 'calc(100% - 35px)' : '100%' }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
