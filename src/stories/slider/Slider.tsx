@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback, ReactElement, ReactNode } from 'react';
+import React, { useRef, useEffect, useState, useCallback, ReactElement, ReactNode, useLayoutEffect } from 'react';
 import styles from './Slider.module.css';
 import { TextBox } from '../textbox';
 import { Loader } from '../loader';
@@ -102,7 +102,7 @@ export const Slider: React.FC<SliderProps> = ({
     setWrapperWidth(wrapper.offsetWidth);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     updateDimensions();
 
     const handleResize = () => {
