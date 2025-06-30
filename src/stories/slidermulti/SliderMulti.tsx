@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState, useCallback, ReactElement, ReactNode } from 'react';
-import styles from './Slider.module.css';
+import React, { useRef, useEffect, useState, ReactElement, ReactNode } from 'react';
+import styles from './SliderMulti.module.css';
 import { TextBox } from '../textbox';
 import { Loader } from '../loader';
 import { IconArrowLeft, IconArrowRight } from '../icons';
@@ -13,163 +13,129 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   showControls?: boolean;
   loading?: boolean;
   loaderColor?: string;
+  slidesPerView?: number;
+  slideSpacingPx?: number;
+  slidesToScroll?: number;
 }
 
-const SLIDE_WIDTH = 325; // px
-const SLIDE_SPACING = 10; // px
-const SLIDES_TO_SCROLL = 2;
+const DEFAULT_SLIDES_PER_VIEW = 4;
+const DEFAULT_SLIDE_SPACING = 10;
+const DEFAULT_SLIDES_TO_SCROLL = 4;
 
-const cloneSlides = (slides: SlideElement[], count: number, fromStart = false): SlideElement[] =>
+const cloneSlides = (slides: SlideElement[], count: number, fromStart = false, id:number): SlideElement[] =>
   (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
     React.cloneElement(el, {
-      key: `${fromStart ? 'clone-first' : 'clone-last'}-${i}`,
+      key: `${fromStart ? 'clone-first' : 'clone-last'}-${i} ${id}`,
       className: el.props.className,
     }),
   );
 
-export const Slider: React.FC<SliderProps> = ({
-  isCircular = true,
+export const SliderMulti: React.FC<SliderProps> = ({
+  isCircular = false,
   children,
   className,
   showControls = true,
   loading = false,
   loaderColor = 'black',
+  slidesPerView = DEFAULT_SLIDES_PER_VIEW,
+  slideSpacingPx = DEFAULT_SLIDE_SPACING,
+  slidesToScroll = DEFAULT_SLIDES_TO_SCROLL,
 }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
 
-  // State for current slide, animation, and dimensions
-  const [currSlide, setCurrSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [wrapperWidth, setWrapperWidth] = useState(0);
-  const [slidesPerView, setSlidesPerView] = useState(1);
   const slideWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const update = () => {
+      if (slideWrapperRef.current) setWrapperWidth(slideWrapperRef.current.offsetWidth);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, [loading]);
+
+  const slideWidth =
+    slidesPerView > 0
+      ? (wrapperWidth - slideSpacingPx * (slidesPerView - 1)) / slidesPerView
+      : 0;
+
+  let slides = isCircular
+    ? [
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, false,1),
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, false,2),
+        ...childSlides,
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, true,3),
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, true,4),
+      ]
+    : childSlides;    
+
+  const [currSlide, setCurrSlide] = useState(isCircular ? React.Children.toArray(children).length * 2 : 0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const slideWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const resizeTimeout = useRef<number | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchDeltaX, setTouchDeltaX] = useState<number>(0);
 
-  // Calculate slides per view on mount and resize
-  const updateDimensions = useCallback(() => {
-    const wrapper = slideWrapperRef.current;
-    if (!wrapper) return;
-    setWrapperWidth(wrapper.offsetWidth);
-    setSlidesPerView(Math.max(1, Math.floor(wrapper.offsetWidth / (SLIDE_WIDTH + SLIDE_SPACING))));
-  }, []);
-
   useEffect(() => {
-    updateDimensions();
-    const handleResize = () => {
-      if (resizeTimeout.current !== null) clearTimeout(resizeTimeout.current);
-      resizeTimeout.current = window.setTimeout(() => {
-        updateDimensions();
-        setIsAnimating(true);
-      }, 150);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (resizeTimeout.current !== null) clearTimeout(resizeTimeout.current);
-    };
-  }, [updateDimensions, loading]);
+    setCurrSlide(isCircular ? React.Children.toArray(children).length * 2 : 0);
+  }, [isCircular, slidesPerView, childSlides.length, loading]);
 
-  // Clone slides for infinite/circular mode
-  const slides =
-    isCircular && childSlides.length > 1
-      ? [
-          ...cloneSlides(childSlides, slidesPerView + 2, false),
-          ...childSlides.map((el, i) =>
-            React.cloneElement(el, {
-              key: el.key ?? i,
-              className: el.props.className,
-            }),
-          ),
-          ...cloneSlides(childSlides, slidesPerView + 2, true),
-        ]
-      : childSlides.map((el, i) =>
-          React.cloneElement(el, {
-            key: el.key ?? i,
-            className: el.props.className,
-          }),
-        );
-
-  // Set initial slide index to first real slide (after clones)
-  useEffect(() => {
-    setCurrSlide(isCircular && childSlides.length > 1 ? slidesPerView : 0);
-  }, [isCircular, childSlides.length, slidesPerView, loading]);
-
-  // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       setTouchStartX(e.touches[0].clientX);
       setTouchDeltaX(0);
     }
   };
+
   const handleTouchMove = (e: React.TouchEvent) => {
     if (touchStartX !== null) {
       setTouchDeltaX(e.touches[0].clientX - touchStartX);
     }
   };
+
   const handleTouchEnd = () => {
     const SWIPE_THRESHOLD = 50;
-    if (touchDeltaX > SWIPE_THRESHOLD) {
-      prevSlide();
-    } else if (touchDeltaX < -SWIPE_THRESHOLD) {
-      nextSlide();
-    }
+    if (touchDeltaX > SWIPE_THRESHOLD) prevSlide();
+    else if (touchDeltaX < -SWIPE_THRESHOLD) nextSlide();
     setTouchStartX(null);
     setTouchDeltaX(0);
   };
 
-  // Move slides with transform
   useEffect(() => {
-    const slideFullWidth = SLIDE_WIDTH + SLIDE_SPACING;
     slideWrapperRefs.current.forEach((slideWrapper, idx) => {
       if (!slideWrapper) return;
-      const offset = (idx - currSlide) * slideFullWidth + (wrapperWidth - SLIDE_WIDTH * slidesPerView - SLIDE_SPACING * (slidesPerView - 1)) / 2;
+      const offset =
+        (idx - currSlide) * (slideWidth + slideSpacingPx) +
+        (wrapperWidth - slideWidth * slidesPerView - slideSpacingPx * (slidesPerView - 1)) / 2;
       slideWrapper.style.transition = isAnimating ? 'transform 0.4s cubic-bezier(.4,0,.2,1)' : 'none';
       slideWrapper.style.transform = `translateX(${offset}px)`;
       slideWrapper.style.left = '';
     });
-  }, [currSlide, wrapperWidth, isAnimating, slides.length, slidesPerView, loading]);
+  }, [currSlide, wrapperWidth, isAnimating, slides.length, slidesPerView, slideWidth, slideSpacingPx, loading]);
 
-  // Infinite/circular transition reset
   useEffect(() => {
-    if (!isAnimating || !isCircular) return;
-
-    const totalSlides = slides.length;
+    if (!isAnimating) return;
     let timeoutId: number;
-
-    // Listen for transition end on any slide
     const handleTransitionEnd = () => {
       let newIndex = currSlide;
-      if (currSlide < slidesPerView) {
-        // If moved to clones at the start, jump to real slides at the end
-        newIndex = currSlide + childSlides.length;
-      } else if (currSlide >= childSlides.length + slidesPerView) {
-        // If moved to clones at the end, jump to real slides at the start
-        newIndex = currSlide - childSlides.length;
-      }
-      if (newIndex !== currSlide) {
-        setCurrSlide(newIndex);
-      }
+      if (currSlide < slidesPerView && isCircular) newIndex = currSlide + childSlides.length;
+      else if (currSlide >= childSlides.length + slidesPerView && isCircular) newIndex = currSlide - childSlides.length;
+      if (newIndex !== currSlide && isCircular) setCurrSlide(newIndex);
       setIsAnimating(false);
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
       clearTimeout(timeoutId);
     };
-
     slideWrapperRefs.current.forEach((slide) => {
       if (slide) slide.addEventListener('transitionend', handleTransitionEnd);
     });
-
     timeoutId = window.setTimeout(() => {
       setIsAnimating(false);
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
     }, 500);
-
     return () => {
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
@@ -178,30 +144,17 @@ export const Slider: React.FC<SliderProps> = ({
     };
   }, [currSlide, isCircular, isAnimating, childSlides.length, slidesPerView, slides.length, loading]);
 
-  // Navigation: move by 2 slides
   const nextSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrSlide((prev) => prev + SLIDES_TO_SCROLL);
+    setCurrSlide((prev) => prev + slidesToScroll);
   };
-
   const prevSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrSlide((prev) => prev - SLIDES_TO_SCROLL);
+    setCurrSlide((prev) => prev - slidesToScroll);
   };
 
-  // Calculate visible slide index for display
-  const getVisualIndex = () => {
-    if (!isCircular) return currSlide;
-    const total = childSlides.length;
-    if (total < 1) return 0;
-    let idx = (currSlide - slidesPerView + total) % total;
-    if (idx < 0) idx += total;
-    return idx;
-  };
-
-  // Ensure refs array matches slides
   if (slideWrapperRefs.current.length !== slides.length) {
     slideWrapperRefs.current = Array(slides.length).fill(null);
   }
@@ -212,7 +165,7 @@ export const Slider: React.FC<SliderProps> = ({
       style={{
         height: loading
           ? 'calc(100% - 2px)'
-          : showControls && childSlides.length > 1
+          : showControls
           ? 'calc(100% - 60px)'
           : '100%',
       }}
@@ -229,7 +182,7 @@ export const Slider: React.FC<SliderProps> = ({
               ref={slideWrapperRef}
               style={{
                 display: 'flex',
-                gap: `${SLIDE_SPACING}px`,
+                gap: `${slideSpacingPx}px`,
                 overflow: 'hidden',
                 width: '100%',
               }}
@@ -237,13 +190,11 @@ export const Slider: React.FC<SliderProps> = ({
               {slides.map((slide, i) => (
                 <div
                   key={slide.key ?? i}
-                  ref={(el) => {
-                    slideWrapperRefs.current[i] = el;
-                  }}
+                  ref={el => { slideWrapperRefs.current[i] = el; }}
                   className={styles.najwer23morselsSlide}
                   style={{
-                    width: `${SLIDE_WIDTH}px`,
-                    flex: `0 0 ${SLIDE_WIDTH}px`,
+                    width: `${slideWidth}px`,
+                    flex: `0 0 ${slideWidth}px`,
                   }}
                   aria-hidden={i < currSlide || i >= currSlide + slidesPerView}
                 >
@@ -252,15 +203,8 @@ export const Slider: React.FC<SliderProps> = ({
               ))}
             </div>
           </div>
-          {showControls && childSlides.length > slidesPerView && (
+          {showControls && (
             <div className={[styles.najwer23morselsSliderControls, 'MorselsSliderControls'].join(' ')}>
-              <div className={[styles.najwer23morselsSliderCounter, 'MorselsSliderCounter'].join(' ')}>
-                <TextBox mobileSize={16} desktopSize={16} color="black">
-                  {!isCircular
-                    ? `${currSlide + 1}–${Math.min(currSlide + slidesPerView, childSlides.length)} / ${childSlides.length}`
-                    : `${getVisualIndex() + 1}–${Math.min(getVisualIndex() + slidesPerView, childSlides.length)} / ${childSlides.length}`}
-                </TextBox>
-              </div>
               <div className={[styles.najwer23morselsSliderControlsButtons, 'MorselsSliderControlsButtons'].join(' ')}>
                 <Button
                   height={'50px'}
@@ -271,7 +215,7 @@ export const Slider: React.FC<SliderProps> = ({
                   onClick={prevSlide}
                   borderColor="black"
                   backgroundColorDisabled="#F2F0EF"
-                  disabled={isAnimating}
+                  disabled={isAnimating || (!isCircular && currSlide === 0)}
                 >
                   <IconArrowLeft width={24} height={24} />
                 </Button>
@@ -284,7 +228,7 @@ export const Slider: React.FC<SliderProps> = ({
                   borderColor="black"
                   backgroundColorDisabled="#F2F0EF"
                   onClick={nextSlide}
-                  disabled={isAnimating}
+                  disabled={isAnimating || (!isCircular && currSlide + slidesPerView >= childSlides.length)}
                 >
                   <IconArrowRight width={24} height={24} />
                 </Button>
@@ -297,4 +241,4 @@ export const Slider: React.FC<SliderProps> = ({
   );
 };
 
-Slider.displayName = 'Slider';
+SliderMulti.displayName = 'Slider';
