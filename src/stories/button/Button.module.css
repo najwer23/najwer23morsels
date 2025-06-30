@@ -10,7 +10,7 @@
     border: unset;
     letter-spacing: normal;
     border-radius: 8px;
-    
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -52,7 +52,7 @@
     }
 
     &:active::before {
-      filter: brightness(0.80);
+      filter: brightness(0.8);
     }
 
     &:active {
@@ -61,7 +61,7 @@
 
     &:focus-visible::before {
       outline: none;
-      filter: brightness(0.80);
+      filter: brightness(0.8);
     }
 
     &:focus-visible {
@@ -75,6 +75,4 @@
       background-color: var(--najwer23morselsButtonBgDisabled, var(--button-bgDisabled));
     }
   }
-
-  
 }

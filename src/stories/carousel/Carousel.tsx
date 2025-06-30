@@ -22,12 +22,7 @@ export const Carousel: React.FC<{
     if (!carouselRef.current || !carouselRef.current.childNodes[1]) return 0;
     const child = carouselRef.current.childNodes[1] as HTMLElement;
     const style = getComputedStyle(child);
-    return (
-      parseInt(style.marginLeft) +
-      parseInt(style.marginRight) +
-      child.offsetWidth +
-      Number(gap.slice(0, -2))
-    );
+    return parseInt(style.marginLeft) + parseInt(style.marginRight) + child.offsetWidth + Number(gap.slice(0, -2));
   };
 
   useEffect(() => {
@@ -78,7 +73,7 @@ export const Carousel: React.FC<{
     element: HTMLElement,
     target: number,
     duration: number = 400,
-    forceAnimate: boolean = false
+    forceAnimate: boolean = false,
   ) => {
     if (isUserScrolling.current && !forceAnimate) {
       // User is scrolling manually, jump immediately
@@ -91,8 +86,7 @@ export const Carousel: React.FC<{
     const change = target - start;
     const startTime = performance.now();
 
-    const easeInOutCubic = (t: number) =>
-  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
     const animateScroll = (currentTime: number) => {
       if (isUserScrolling.current && !forceAnimate) {
@@ -215,8 +209,7 @@ export const Carousel: React.FC<{
         {
           '--gap': gap,
         } as React.CSSProperties
-      }
-    >
+      }>
       <div
         className={styles.carousel}
         ref={carouselRef}
@@ -226,8 +219,7 @@ export const Carousel: React.FC<{
         onMouseLeave={onMouseUp}
         onMouseUp={onMouseUp}
         onMouseMove={onMouseMove}
-        onTouchMove={onTouchMove}
-      >
+        onTouchMove={onTouchMove}>
         <div className={[styles.arrowLeft, showArrowLeft && styles.arrowShow].join(' ')}>
           <Button type={'button'} onClick={slideLeft} height={'40px'} width={'40px'}>
             {!arrowLeftIcon ? <div className={[styles.buttonArrowLeft].join(' ')}></div> : arrowLeftIcon}

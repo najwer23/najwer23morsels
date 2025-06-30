@@ -84,11 +84,10 @@ export const DuttonDisabled: Story = {
   render: (args) => (
     <div>
       <Button onClick={action('button-click')} {...args} disabled>
-        <TextBox mobileSize={25} desktopSize={25} margin={0} color='white'>
+        <TextBox mobileSize={25} desktopSize={25} margin={0} color="white">
           Halo
         </TextBox>
       </Button>
     </div>
   ),
 };
-
