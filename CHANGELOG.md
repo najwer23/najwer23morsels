@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.7.2
+
+### Patch Changes
+
+- Icons as SVG component
+
 ## 0.7.1
 
 ### Patch Changes
