@@ -9,6 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: string;
   loading?: boolean;
   backgroundColorDisabled?: string;
+  borderColor?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -19,6 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   loading,
   height,
   width,
+  borderColor,
   backgroundColorDisabled,
   ...props
 }) => {
@@ -38,6 +40,7 @@ export const Button: React.FC<ButtonProps> = ({
               '--button-height': height,
               '--button-width': width,
               '--button-bgDisabled': backgroundColorDisabled,
+              '--button-borderColor': borderColor,
             } as React.CSSProperties
           }
           className={[styles.najwer23morselsButtonContainer, 'MorselsButton'].filter(Boolean).join(' ')}

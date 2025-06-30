@@ -3,16 +3,14 @@ import styles from './Slider.module.css';
 import { TextBox } from '../textbox';
 import { Loader } from '../loader';
 import { IconArrowLeft, IconArrowRight } from '../icons';
+import { Button } from '../button';
 
 type SlideElement = ReactElement<{ className?: string }>;
 
 interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   isCircular?: boolean;
   children: ReactNode;
-  arrowsColor?: string;
-  arrowsColorBackground?: string;
-  arrowsColorBorder?: string;
-  showCounter?: boolean;
+  showControls?: boolean;
   loading?: boolean;
   loaderColor?: string;
 }
@@ -29,10 +27,7 @@ export const Slider: React.FC<SliderProps> = ({
   isCircular = false,
   children,
   className,
-  arrowsColor,
-  arrowsColorBackground,
-  arrowsColorBorder,
-  showCounter = true,
+  showControls = true,
   loading = false,
   loaderColor = 'black',
 }) => {
@@ -225,49 +220,25 @@ export const Slider: React.FC<SliderProps> = ({
     return (currSlide - 2 + total) % total;
   };
 
+  {
+    showControls;
+  }
+
   return (
     <div
       className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
-      style={{ height: loading ? 'calc(100% - 2px)' : showCounter ? 'calc(100% - 35px)' : '100%' }}
+      style={{
+        height: loading ? 'calc(100% - 2px)' : showControls && childSlides.length > 1 ? 'calc(100% - 60px)' : '100%',
+      }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}>
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
-          <div
-            className={[styles.najwer23morselsSliderContainerSlider].filter(Boolean).join(' ')}
-            style={
-              {
-                '--slider-ac': arrowsColor,
-                '--slider-acbg': arrowsColorBackground,
-                '--slider-acb': arrowsColorBorder,
-              } as React.CSSProperties
-            }>
+          <div className={[styles.najwer23morselsSliderContainerSlider].filter(Boolean).join(' ')}>
             <div
-              className={[styles.najwer23morselsBtnControl, 'MorselsSliderControl', className].join(' ')}
-              style={{
-                justifyContent: !isCircular
-                  ? currSlide === 0
-                    ? 'flex-end'
-                    : currSlide === childSlides.length - 1
-                      ? 'flex-start'
-                      : 'space-between'
-                  : 'space-between',
-              }}>
-              {((isCircular && childSlides.length > 1) || currSlide !== 0) && (
-                <button title="Prev" className={styles.najwer23morselsBtn} onClick={prevSlide} disabled={isAnimating}>
-                  <IconArrowLeft width={24} height={24} />
-                </button>
-              )}
-              {((isCircular && childSlides.length > 1) || currSlide !== childSlides.length - 1) && (
-                <button title="Next" className={styles.najwer23morselsBtn} onClick={nextSlide} disabled={isAnimating}>
-                  <IconArrowRight width={24} height={24} />
-                </button>
-              )}
-            </div>
-            <div
-              className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper', className].join(' ')}
+              className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper'].join(' ')}
               ref={slideWrapperRef}>
               {slides.map((slide, i) => (
                 <div
@@ -285,13 +256,43 @@ export const Slider: React.FC<SliderProps> = ({
               ))}
             </div>
           </div>
-          {showCounter && (
-            <div className={[styles.najwer23morselsSliderCounter, 'MorselsSliderCounter', className].join(' ')}>
-              <TextBox mobileSize={16} desktopSize={16} color="black">
-                {!isCircular
-                  ? `${currSlide + 1} / ${childSlides.length}`
-                  : `${getVisualIndex() + 1} / ${childSlides.length}`}
-              </TextBox>
+          {showControls && childSlides.length > 1 && (
+            <div className={[styles.najwer23morselsSliderControls, 'MorselsSliderControls'].join(' ')}>
+              <div className={[styles.najwer23morselsSliderCounter, 'MorselsSliderCounter'].join(' ')}>
+                <TextBox mobileSize={16} desktopSize={16} color="black">
+                  {!isCircular
+                    ? `${currSlide + 1} / ${childSlides.length}`
+                    : `${getVisualIndex() + 1} / ${childSlides.length}`}
+                </TextBox>
+              </div>
+
+              <div className={[styles.najwer23morselsSliderControlsButtons, 'MorselsSliderControlsButtons'].join(' ')}>
+                <Button
+                  height={'50px'}
+                  width={'50px'}
+                  backgroundColor="#F2F0EF"
+                  padding={0}
+                  title="Prev"
+                  onClick={prevSlide}
+                  borderColor="black"
+                  backgroundColorDisabled="#F2F0EF"
+                  disabled={isAnimating || (!isCircular && currSlide === 0)}>
+                  <IconArrowLeft width={24} height={24} />
+                </Button>
+
+                <Button
+                  height={'50px'}
+                  width={'50px'}
+                  backgroundColor="#F2F0EF"
+                  padding={0}
+                  title="Next"
+                  borderColor="black"
+                  backgroundColorDisabled="#F2F0EF"
+                  onClick={nextSlide}
+                  disabled={isAnimating || (!isCircular && currSlide == childSlides.length - 1)}>
+                  <IconArrowRight width={24} height={24} />
+                </Button>
+              </div>
             </div>
           )}
         </>

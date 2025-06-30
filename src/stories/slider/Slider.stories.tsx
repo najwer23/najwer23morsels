@@ -49,12 +49,12 @@ export const Default: Story = {
   ),
 };
 
-export const SliderCircular: Story = {
-  args: { isCircular: true },
+export const Slider1Slide: Story = {
+  args: {},
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
-        {slides.map(({ color, label, action }, i) => (
+        {oneSlide.map(({ color, label, action }, i) => (
           <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
@@ -79,12 +79,12 @@ export const Slider2Slides: Story = {
   ),
 };
 
-export const SliderCircular2Slides: Story = {
+export const SliderCircular: Story = {
   args: { isCircular: true },
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
-        {twoSlides.map(({ color, label, action }, i) => (
+        {slides.map(({ color, label, action }, i) => (
           <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
@@ -109,42 +109,8 @@ export const SliderCircular1Slide: Story = {
   ),
 };
 
-export const Slider1Slide: Story = {
-  args: {},
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <Slider {...args}>
-        {oneSlide.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
-        ))}
-      </Slider>
-    </div>
-  ),
-};
-
-export const SliderArrowsStyle: Story = {
-  args: {
-    arrowsColorBackground: 'yellow',
-    arrowsColor: 'blue',
-    arrowsColorBorder: 'blue',
-  },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <Slider {...args}>
-        {slides.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
-        ))}
-      </Slider>
-    </div>
-  ),
-};
-
-export const SliderWithoutCounter: Story = {
-  args: { showCounter: false },
+export const SliderCircular2Slides: Story = {
+  args: { isCircular: true },
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>

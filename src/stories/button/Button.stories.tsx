@@ -72,7 +72,7 @@ export const ButtonLoading: Story = {
   },
 };
 
-export const DuttonDisabled: Story = {
+export const ButtonDisabled: Story = {
   args: {
     type: 'button',
     backgroundColor: 'yellow',
