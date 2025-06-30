@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.7.1
+
+### Patch Changes
+
+- Slider swipe events on mobile
+
 ## 0.7.0
 
 ### Minor Changes
