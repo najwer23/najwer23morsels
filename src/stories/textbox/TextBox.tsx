@@ -51,7 +51,7 @@ export const TextBox: React.FC<TextBoxProps> = ({
           ...(margin !== undefined && margin !== null ? { '--textbox-m': margin } : {}),
         } as React.CSSProperties
       }
-      className={[styles.najwer23morselsTextBox, 'MorselsTextBox', className].filter(Boolean).join(' ')}
+      className={[styles.n23mTextBox, 'MorselsTextBox', className].filter(Boolean).join(' ')}
       {...props}>
       {href && (
         <a className={'MorselsTextBoxLink'} href={href} target={target} rel={rel}>

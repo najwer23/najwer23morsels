@@ -158,7 +158,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
 
   return (
     <div
-      className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
+      className={[styles.n23mSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
       style={{
         height: loading ? 'calc(100% - 2px)' : showControls ? 'calc(100% - 60px)' : '100%',
       }}
@@ -168,9 +168,9 @@ export const SliderMulti: React.FC<SliderProps> = ({
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
-          <div className={[styles.najwer23morselsSliderContainerSlider].filter(Boolean).join(' ')}>
+          <div className={[styles.n23mSliderContainerSlider].filter(Boolean).join(' ')}>
             <div
-              className={[styles.najwer23morselsSlideWrapper, 'MorselsSliderWrapper'].join(' ')}
+              className={[styles.n23mSlideWrapper, 'MorselsSliderWrapper'].join(' ')}
               ref={slideWrapperRef}
               style={{
                 display: 'flex',
@@ -184,7 +184,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   ref={(el) => {
                     slideWrapperRefs.current[i] = el;
                   }}
-                  className={styles.najwer23morselsSlide}
+                  className={styles.n23mSlide}
                   style={{
                     width: `${slideWidth}px`,
                     flex: `0 0 ${slideWidth}px`,
@@ -196,8 +196,8 @@ export const SliderMulti: React.FC<SliderProps> = ({
             </div>
           </div>
           {showControls && (
-            <div className={[styles.najwer23morselsSliderControls, 'MorselsSliderControls'].join(' ')}>
-              <div className={[styles.najwer23morselsSliderControlsButtons, 'MorselsSliderControlsButtons'].join(' ')}>
+            <div className={[styles.n23mSliderControls, 'MorselsSliderControls'].join(' ')}>
+              <div className={[styles.n23mSliderControlsButtons, 'MorselsSliderControlsButtons'].join(' ')}>
                 <Button
                   height={'50px'}
                   width={'50px'}

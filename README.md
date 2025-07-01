@@ -40,25 +40,20 @@ export const Example = () => {
 ```CSS
 :root {
     /* Main */
-    --najwer23morselsFontFamily:  --fontFamily, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
+    --n23mFontFamily:  --fontFamily, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
       Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
 
     /* MorselsTextBox  */
-    --najwer23morselsTextBoxMargin: 20px;
-    --najwer23morselsTextBoxColor: red;
-    --najwer23morselsTextBoxColorHover: orange;
-    --najwer23morselsTextBoxLineHeight: 1.42857;
-    --najwer23morselsTextBoxFontWeight: 400;
-    --najwer23morselsTextBoxFontWeightHover: 800;
-
-    /* MorselsSlider */
-    --najwer23morselsSliderArrowsColorBackground: white;
-    --najwer23morselsSliderArrowsColorBorder: black;
-    --najwer23morselsSliderArrowsColor: black;
+    --n23mTextBoxMargin: 20px;
+    --n23mTextBoxColor: red;
+    --n23mTextBoxColorHover: orange;
+    --n23mTextBoxLineHeight: 1.42857;
+    --n23mTextBoxFontWeight: 400;
+    --n23mTextBoxFontWeightHover: 800;
 
     /* MorselsButton */
-    --najwer23morselsButtonBg: black;
-    --najwer23morselsButtonBgDisabled: black;
+    --n23mButtonBg: black;
+    --n23mButtonBgDisabled: black;
 }
 ```
 

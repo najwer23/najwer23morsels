@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
               '--button-borderColor': borderColor,
             } as React.CSSProperties
           }
-          className={[styles.najwer23morselsButtonContainer, 'MorselsButton'].filter(Boolean).join(' ')}
+          className={[styles.n23mButtonContainer, 'MorselsButton'].filter(Boolean).join(' ')}
           {...props}>
           <span>{children}</span>
         </button>

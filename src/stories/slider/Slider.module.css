@@ -1,9 +1,9 @@
-@layer najwer23morselsSlider {
-  .najwer23morselsSliderContainer {
+@layer n23mSlider {
+  .n23mSliderContainer {
     width: 100%;
   }
 
-  .najwer23morselsSliderContainerSlider {
+  .n23mSliderContainerSlider {
     width: 100%;
     height: 100%;
     position: relative;
@@ -13,7 +13,7 @@
     user-select: none;
   }
 
-  .najwer23morselsSlideWrapper {
+  .n23mSlideWrapper {
     width: 100%;
     height: 100%;
     position: relative;
@@ -21,7 +21,7 @@
     will-change: transform;
   }
 
-  .najwer23morselsSlide {
+  .n23mSlide {
     height: 100%;
     overflow: hidden;
     position: absolute;
@@ -34,7 +34,7 @@
     }
   }
 
-  .najwer23morselsSliderControls {
+  .n23mSliderControls {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,13 +42,13 @@
     margin-right: 20px;
   }
 
-  .najwer23morselsSliderControlsButtons {
+  .n23mSliderControlsButtons {
     display: flex;
     gap: 10px;
     margin-top: 10px;
   }
 
-  .najwer23morselsSliderCounter {
+  .n23mSliderCounter {
     display: flex;
     justify-content: center;
     align-items: center;

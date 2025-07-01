@@ -17,14 +17,14 @@
 */
 
 
-@layer najwer23morselsCodeParser {
+@layer n23mCodeParser {
 
 @font-face {
   font-family: 'Monaspace';
   src: url('https://assets.codepen.io/2585/MonaspaceKrypton-SyntaxHighlighter-Regular.woff2') format('woff2');
 }
 
-@font-palette-values --najwer23morselsCodeParserPalette {
+@font-palette-values --n23mCodeParserPalette {
   font-family: 'Monaspace';
   override-colors:
     0 hsl(220 25% 18%),
@@ -37,14 +37,14 @@
     7 hsl(200 90% 60%);
 }
 
-.najwer23morselsCodeParserContainer code {
+.n23mCodeParserContainer code {
   font-family: 'Monaspace', monospace;
-  font-palette: --najwer23morselsCodeParserPalette;
+  font-palette: --n23mCodeParserPalette;
   font-size: 16px;
   white-space: pre-wrap;
 }
 
-.najwer23morselsCodeParserContainer pre {
+.n23mCodeParserContainer pre {
   padding: 20px;
   overflow-x: auto;
   background: #f5f7fa;

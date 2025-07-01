@@ -1,5 +1,5 @@
-@layer najwer23morsels{{name}} {
-	.najwer23morsels{{name}}Container {
+@layer n23m{{name}} {
+	.n23m{{name}}Container {
 		color:red;
 	}
 }
