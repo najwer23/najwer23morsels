@@ -22,7 +22,7 @@ const DEFAULT_SLIDES_PER_VIEW = 4;
 const DEFAULT_SLIDE_SPACING = 10;
 const DEFAULT_SLIDES_TO_SCROLL = 4;
 
-const cloneSlides = (slides: SlideElement[], count: number, fromStart = false, id:number): SlideElement[] =>
+const cloneSlides = (slides: SlideElement[], count: number, fromStart = false, id: number): SlideElement[] =>
   (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
     React.cloneElement(el, {
       key: `${fromStart ? 'clone-first' : 'clone-last'}-${i} ${id}`,
@@ -55,20 +55,17 @@ export const SliderMulti: React.FC<SliderProps> = ({
     return () => window.removeEventListener('resize', update);
   }, [loading]);
 
-  const slideWidth =
-    slidesPerView > 0
-      ? (wrapperWidth - slideSpacingPx * (slidesPerView - 1)) / slidesPerView
-      : 0;
+  const slideWidth = slidesPerView > 0 ? (wrapperWidth - slideSpacingPx * (slidesPerView - 1)) / slidesPerView : 0;
 
   let slides = isCircular
     ? [
-        ...cloneSlides(childSlides, React.Children.toArray(children).length, false,1),
-        ...cloneSlides(childSlides, React.Children.toArray(children).length, false,2),
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, false, 1),
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, false, 2),
         ...childSlides,
-        ...cloneSlides(childSlides, React.Children.toArray(children).length, true,3),
-        ...cloneSlides(childSlides, React.Children.toArray(children).length, true,4),
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, true, 3),
+        ...cloneSlides(childSlides, React.Children.toArray(children).length, true, 4),
       ]
-    : childSlides;    
+    : childSlides;
 
   const [currSlide, setCurrSlide] = useState(isCircular ? React.Children.toArray(children).length * 2 : 0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -163,16 +160,11 @@ export const SliderMulti: React.FC<SliderProps> = ({
     <div
       className={[styles.najwer23morselsSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
       style={{
-        height: loading
-          ? 'calc(100% - 2px)'
-          : showControls
-          ? 'calc(100% - 60px)'
-          : '100%',
+        height: loading ? 'calc(100% - 2px)' : showControls ? 'calc(100% - 60px)' : '100%',
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+      onTouchEnd={handleTouchEnd}>
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
@@ -185,19 +177,19 @@ export const SliderMulti: React.FC<SliderProps> = ({
                 gap: `${slideSpacingPx}px`,
                 overflow: 'hidden',
                 width: '100%',
-              }}
-            >
+              }}>
               {slides.map((slide, i) => (
                 <div
                   key={slide.key ?? i}
-                  ref={el => { slideWrapperRefs.current[i] = el; }}
+                  ref={(el) => {
+                    slideWrapperRefs.current[i] = el;
+                  }}
                   className={styles.najwer23morselsSlide}
                   style={{
                     width: `${slideWidth}px`,
                     flex: `0 0 ${slideWidth}px`,
                   }}
-                  aria-hidden={i < currSlide || i >= currSlide + slidesPerView}
-                >
+                  aria-hidden={i < currSlide || i >= currSlide + slidesPerView}>
                   {slide}
                 </div>
               ))}
@@ -215,8 +207,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   onClick={prevSlide}
                   borderColor="black"
                   backgroundColorDisabled="#F2F0EF"
-                  disabled={isAnimating || (!isCircular && currSlide === 0)}
-                >
+                  disabled={isAnimating || (!isCircular && currSlide === 0)}>
                   <IconArrowLeft width={24} height={24} />
                 </Button>
                 <Button
@@ -228,8 +219,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   borderColor="black"
                   backgroundColorDisabled="#F2F0EF"
                   onClick={nextSlide}
-                  disabled={isAnimating || (!isCircular && currSlide + slidesPerView >= childSlides.length)}
-                >
+                  disabled={isAnimating || (!isCircular && currSlide + slidesPerView >= childSlides.length)}>
                   <IconArrowRight width={24} height={24} />
                 </Button>
               </div>

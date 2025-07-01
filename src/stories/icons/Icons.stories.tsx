@@ -15,8 +15,8 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   render: () => (
     <div style={{ color: 'black', display: 'flex', gap: '10px' }}>
-      <IconArrowRight width={20} height={20}/>
-      <IconArrowLeft width={20} height={20}/>
+      <IconArrowRight width={20} height={20} />
+      <IconArrowLeft width={20} height={20} />
     </div>
   ),
 };
