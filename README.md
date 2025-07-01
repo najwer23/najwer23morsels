@@ -55,6 +55,7 @@ export const Example = () => {
 
     /* MorselsButton */
     --n23mButtonBg: black;
+    --n23mButtonBorderColor: black;
     --n23mButtonBgDisabled: black;
 }
 ```
