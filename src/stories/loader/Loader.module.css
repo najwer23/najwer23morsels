@@ -1,5 +1,5 @@
 @layer n23mLoader {
-  .n23mContainer {
+  .n23mLoader {
     display: flex;
     width: 100%;
     justify-content: center;

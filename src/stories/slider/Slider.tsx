@@ -226,7 +226,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   return (
     <div
-      className={[styles.n23mSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
+      className={[styles.n23mSlider, 'n23mSlider', className].filter(Boolean).join(' ')}
       style={{
         height: loading ? 'calc(100% - 2px)' : showControls && childSlides.length > 1 ? 'calc(100% - 60px)' : '100%',
       }}
@@ -236,9 +236,9 @@ export const Slider: React.FC<SliderProps> = ({
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
-          <div className={[styles.n23mSliderContainerSlider].filter(Boolean).join(' ')}>
+          <div className={[styles.n23mSliderContainerSlider, 'n23mSliderContainerSlider'].filter(Boolean).join(' ')}>
             <div
-              className={[styles.n23mSlideWrapper, 'MorselsSliderWrapper'].join(' ')}
+              className={[styles.n23mSliderSlideWrapper, 'n23mSliderSlideWrapper'].join(' ')}
               ref={slideWrapperRef}>
               {slides.map((slide, i) => (
                 <div
@@ -246,7 +246,7 @@ export const Slider: React.FC<SliderProps> = ({
                   ref={(el) => {
                     slideWrapperRefs.current[i] = el;
                   }}
-                  className={`${styles.n23mSlide}`}
+                  className={`${styles.n23mSliderSlide}`}
                   style={{
                     width: childSlides.length > 1 ? 'calc(100% - 40px)' : '100%',
                   }}
@@ -257,8 +257,8 @@ export const Slider: React.FC<SliderProps> = ({
             </div>
           </div>
           {showControls && childSlides.length > 1 && (
-            <div className={[styles.n23mSliderControls, 'MorselsSliderControls'].join(' ')}>
-              <div className={[styles.n23mSliderCounter, 'MorselsSliderCounter'].join(' ')}>
+            <div className={[styles.n23mSliderControls, 'n23mSliderControls'].join(' ')}>
+              <div className={[styles.n23mSliderCounter, 'n23mSliderCounter'].join(' ')}>
                 <TextBox mobileSize={16} desktopSize={16} color="black">
                   {!isCircular
                     ? `${currSlide + 1} / ${childSlides.length}`
@@ -266,7 +266,7 @@ export const Slider: React.FC<SliderProps> = ({
                 </TextBox>
               </div>
 
-              <div className={[styles.n23mSliderControlsButtons, 'MorselsSliderControlsButtons'].join(' ')}>
+              <div className={[styles.n23mSliderControlsButtons, 'n23mSliderControlsButtons'].join(' ')}>
                 <Button
                   height={'50px'}
                   width={'50px'}

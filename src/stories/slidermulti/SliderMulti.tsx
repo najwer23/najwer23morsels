@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState, ReactElement, ReactNode } from 'react';
 import styles from './SliderMulti.module.css';
-import { TextBox } from '../textbox';
 import { Loader } from '../loader';
 import { IconArrowLeft, IconArrowRight } from '../icons';
 import { Button } from '../button';
@@ -158,7 +157,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
 
   return (
     <div
-      className={[styles.n23mSliderContainer, 'MorselsSlider', className].filter(Boolean).join(' ')}
+      className={[styles.n23mSliderMulti, 'n23mSliderMulti', className].filter(Boolean).join(' ')}
       style={{
         height: loading ? 'calc(100% - 2px)' : showControls ? 'calc(100% - 60px)' : '100%',
       }}
@@ -168,9 +167,9 @@ export const SliderMulti: React.FC<SliderProps> = ({
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
-          <div className={[styles.n23mSliderContainerSlider].filter(Boolean).join(' ')}>
+          <div className={[styles.n23mSliderMultiContainerSlider].filter(Boolean).join(' ')}>
             <div
-              className={[styles.n23mSlideWrapper, 'MorselsSliderWrapper'].join(' ')}
+              className={[styles.n23mSliderMultiSlideWrapper, 'n23mSliderMultiSlideWrapper'].join(' ')}
               ref={slideWrapperRef}
               style={{
                 display: 'flex',
@@ -184,7 +183,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   ref={(el) => {
                     slideWrapperRefs.current[i] = el;
                   }}
-                  className={styles.n23mSlide}
+                  className={styles.n23mSliderMultiSlide}
                   style={{
                     width: `${slideWidth}px`,
                     flex: `0 0 ${slideWidth}px`,
@@ -196,8 +195,8 @@ export const SliderMulti: React.FC<SliderProps> = ({
             </div>
           </div>
           {showControls && (
-            <div className={[styles.n23mSliderControls, 'MorselsSliderControls'].join(' ')}>
-              <div className={[styles.n23mSliderControlsButtons, 'MorselsSliderControlsButtons'].join(' ')}>
+            <div className={[styles.n23mSliderMultiControls, 'n23mSliderMultiControls'].join(' ')}>
+              <div className={[styles.n23mSliderMultiControlsButtons, 'n23mSliderMultiControlsButtons'].join(' ')}>
                 <Button
                   height={'50px'}
                   width={'50px'}

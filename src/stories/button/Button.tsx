@@ -25,7 +25,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   return (
-    <div className={['MorselsButtonWrapper', className].filter(Boolean).join(' ')}>
+    <div className={['n23mButton', className].filter(Boolean).join(' ')}>
       {loading && (
         <div style={{ width: width, height: height }}>
           <Loader />
@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
               '--button-borderColor': borderColor,
             } as React.CSSProperties
           }
-          className={[styles.n23mButtonContainer, 'MorselsButton'].filter(Boolean).join(' ')}
+          className={[styles.n23mButtonButton, 'n23mButtonButton'].filter(Boolean).join(' ')}
           {...props}>
           <span>{children}</span>
         </button>

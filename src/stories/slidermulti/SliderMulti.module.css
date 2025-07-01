@@ -1,9 +1,9 @@
-@layer n23mSlider {
-  .n23mSliderContainer {
+@layer n23mSliderMulti {
+  .n23mSliderMulti {
     width: 100%;
   }
 
-  .n23mSliderContainerSlider {
+  .n23mSliderMultiContainerSlider {
     width: 100%;
     height: 100%;
     position: relative;
@@ -13,7 +13,7 @@
     user-select: none;
   }
 
-  .n23mSlideWrapper {
+  .n23mSliderMultiSlideWrapper {
     width: 100%;
     height: 100%;
     position: relative;
@@ -21,7 +21,7 @@
     will-change: transform;
   }
 
-  .n23mSlide {
+  .n23mSliderMultiSlide {
     height: 100%;
     overflow: hidden;
     position: absolute;
@@ -34,7 +34,7 @@
     }
   }
 
-  .n23mSliderControls {
+  .n23mSliderMultiControls {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -42,7 +42,7 @@
     margin-right: 20px;
   }
 
-  .n23mSliderControlsButtons {
+  .n23mSliderMultiControlsButtons {
     display: flex;
     gap: 10px;
     margin-top: 10px;

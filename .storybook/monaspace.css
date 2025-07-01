@@ -34,19 +34,19 @@
     7 hsl(200 90% 60%);
 }
 
-.MorselsCodeParser code {
-  font-family: 'Monaspace', monospace;
-  font-palette: --n23mCodeParserPalette;
-  font-size: 16px;
-  white-space: pre-wrap;
+.n23mCodeParser {
+  code {
+    font-family: 'Monaspace', monospace;
+    font-palette: --n23mCodeParserPalette;
+    font-size: 16px;
+    white-space: pre-wrap;
+  }
+
+  pre {
+    padding: 20px;
+    overflow-x: auto;
+    background: #f5f7fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 }
-
-.MorselsCodeParser pre {
-  padding: 20px;
-  overflow-x: auto;
-  background: #f5f7fa;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-

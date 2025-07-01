@@ -44,7 +44,7 @@ export const Grid: React.FC<GridProps> = ({
   if (layout === 'container') {
     return (
       <div
-        className={[styles.n23mGridContainer, 'MorselsGridContainer', className].filter(Boolean).join(' ')}
+        className={[styles.n23mGridContainer, 'n23mGridContainer', className].filter(Boolean).join(' ')}
         style={
           {
             '--grid-mh': `${minHeight}px`,
@@ -68,7 +68,7 @@ export const Grid: React.FC<GridProps> = ({
 
   return (
     <div
-      className={[styles.n23mGridColumns, 'MorselsGridColumns', className].filter(Boolean).join(' ')}
+      className={[styles.n23mGridColumns, 'n23mGridColumns', className].filter(Boolean).join(' ')}
       style={
         {
           '--grid-col-mobile': col.mobile.toString(),

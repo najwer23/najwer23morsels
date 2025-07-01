@@ -9,7 +9,7 @@ interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColor }) => {
   return (
     <div
-      className={[styles.n23mContainer, 'MorselsLoader', className].filter(Boolean).join(' ')}
+      className={[styles.n23mLoader, 'n23mLoader', className].filter(Boolean).join(' ')}
       style={
         {
           '--loader-lc': loaderColor,
