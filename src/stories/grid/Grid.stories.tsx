@@ -23,38 +23,17 @@ export const GridContainerWidthMax600: Story = {
   args: {
     layout: 'container',
     widthMax: 600,
-    padding: '0 10px 0 10px',
+    gap: { col: '20px', row: '20px' },
+    padding: '10px',
   },
   render: (args) => (
-    <div style={{ width: '100vw' }}>
+    <div style={{ width: '100vw', backgroundColor: '#f0f0f0' }}>
       <Grid {...args}>
-        <TextBox mobileSize={12} desktopSize={12}>
-          max-width: 600px
-        </TextBox>
-        <TextBox mobileSize={12} desktopSize={12}>
-          Padding: 0 10px 0 10px;
-        </TextBox>
-      </Grid>
-    </div>
-  ),
-};
-
-export const GridContainerMinHeight600: Story = {
-  args: {
-    layout: 'container',
-    widthMax: 600,
-    padding: '0 10px 0 10px',
-    minHeight: 600,
-  },
-  render: (args) => (
-    <div style={{ width: '100vw' }}>
-      <Grid {...args}>
-        <TextBox mobileSize={12} desktopSize={12}>
-          max-width: 600px
-        </TextBox>
-        <TextBox mobileSize={12} desktopSize={12}>
-          Padding: 0 10px 0 10px;
-        </TextBox>
+        <div style={{ border: '1px solid black', backgroundColor: '#f0f0f0' }}>
+          <TextBox mobileSize={12} desktopSize={12}>
+             Padding: 10px; max-width: 600px
+          </TextBox>
+        </div>
       </Grid>
     </div>
   ),
