@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.8.0
+
+### Minor Changes
+
+- CodeParser
+
 ## 0.7.2
 
 ### Patch Changes
