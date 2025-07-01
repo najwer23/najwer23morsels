@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'Monaspace';
-  src: url('../public/Monaspace.woff2') format('woff2');
+  src: url('/Monaspace.woff2') format('woff2');
 }
 
 @font-palette-values --n23mCodeParserPalette {
