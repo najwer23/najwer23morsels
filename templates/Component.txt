@@ -6,7 +6,7 @@ interface {{name}}Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export const {{name}}: React.FC<{{name}}Props> = ({ children, className, ...props }) => {
   return (
-    <div className={[styles.n23m{{name}}Container, 'Morsels{{name}}', className].filter(Boolean).join(' ')} {...props}>
+    <div className={[styles.n23m{{name}}, 'n23m{{name}}', className].filter(Boolean).join(' ')} {...props}>
       {children ?? 'Hello!'}
     </div>
   );

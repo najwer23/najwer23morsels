@@ -7,9 +7,7 @@ interface CodeParserProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const CodeParser: React.FC<CodeParserProps> = ({ children, className, ...props }) => {
   return (
-    <div
-      className={[styles.n23mCodeParser, 'n23mCodeParser', className].filter(Boolean).join(' ')}
-      {...props}>
+    <div className={[styles.n23mCodeParser, 'n23mCodeParser', className].filter(Boolean).join(' ')} {...props}>
       <pre>
         <code>{children}</code>
       </pre>

@@ -82,7 +82,7 @@ export const SliderLoading: Story = {
         <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
           <SliderMulti loading={loading}>
             {slides.map(({ color, label, action }, i) => (
-              <div key={i+100} style={{ background: color, ...slideStyle }} onClick={action}>
+              <div key={i + 100} style={{ background: color, ...slideStyle }} onClick={action}>
                 {label}
               </div>
             ))}

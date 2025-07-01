@@ -1,5 +1,5 @@
 @layer n23m{{name}} {
-	.n23m{{name}}Container {
+	.n23m{{name}} {
 		color:red;
 	}
 }

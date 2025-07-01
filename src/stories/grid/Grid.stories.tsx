@@ -31,7 +31,7 @@ export const GridContainerWidthMax600: Story = {
       <Grid {...args}>
         <div style={{ border: '1px solid black', backgroundColor: '#f0f0f0' }}>
           <TextBox mobileSize={12} desktopSize={12}>
-             Padding: 10px; max-width: 600px
+            Padding: 10px; max-width: 600px
           </TextBox>
         </div>
       </Grid>

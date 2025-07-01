@@ -27,8 +27,8 @@ const preview: Preview = {
        * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#options-parameter
        * to learn more about the available options.
        */
-      options: {}
-    }
+      options: {},
+    },
   },
 };
 

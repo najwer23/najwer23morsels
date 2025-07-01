@@ -237,9 +237,7 @@ export const Slider: React.FC<SliderProps> = ({
       {!loading && (
         <>
           <div className={[styles.n23mSliderContainerSlider, 'n23mSliderContainerSlider'].filter(Boolean).join(' ')}>
-            <div
-              className={[styles.n23mSliderSlideWrapper, 'n23mSliderSlideWrapper'].join(' ')}
-              ref={slideWrapperRef}>
+            <div className={[styles.n23mSliderSlideWrapper, 'n23mSliderSlideWrapper'].join(' ')} ref={slideWrapperRef}>
               {slides.map((slide, i) => (
                 <div
                   key={slide.key ?? i}
