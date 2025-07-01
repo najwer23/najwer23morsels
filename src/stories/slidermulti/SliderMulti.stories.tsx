@@ -73,7 +73,7 @@ export const SliderLoading: Story = {
       useEffect(() => {
         const interval = setInterval(() => {
           setLoading((prev) => !prev);
-        }, 5000);
+        }, 3000);
 
         return () => clearInterval(interval);
       }, []);

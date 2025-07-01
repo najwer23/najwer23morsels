@@ -43,7 +43,7 @@ export const GridContainerLoading: Story = {
   args: {
     layout: 'container',
     widthMax: 600,
-    padding: '0 10px 0 10px',
+    padding: '10px',
     minHeight: 400,
   },
   render: (args) => {
@@ -53,20 +53,22 @@ export const GridContainerLoading: Story = {
       useEffect(() => {
         const interval = setInterval(() => {
           setLoading((prev) => !prev);
-        }, 5000);
+        }, 3000);
 
         return () => clearInterval(interval);
       }, []);
 
       return (
-        <div style={{ width: '100vw' }}>
+        <div style={{ width: '100vw', backgroundColor: '#f0f0f0' }}>
           <Grid {...args} loading={loading}>
-            <TextBox mobileSize={12} desktopSize={12}>
-              max-width: 600px
-            </TextBox>
-            <TextBox mobileSize={12} desktopSize={12}>
-              Padding: 0 10px 0 10px;
-            </TextBox>
+            <div style={{ minHeight: '400px', backgroundColor: '#f0f0f0' }}>
+              <TextBox mobileSize={12} desktopSize={12}>
+                max-width: 600px
+              </TextBox>
+              <TextBox mobileSize={12} desktopSize={12}>
+                Padding: 10px; minHeight: 400px
+              </TextBox>
+            </div>
           </Grid>
         </div>
       );
@@ -92,7 +94,7 @@ export const GridColumns: Story = {
       <Grid {...args}>
         {Array.from({ length: 9 }, (_, i) => (
           <div key={i}>
-            <TextBox mobileSize={12} desktopSize={12}>
+            <TextBox mobileSize={16} desktopSize={16}>
               {testText}
             </TextBox>
           </div>
@@ -119,7 +121,7 @@ export const GridContainerWithColumns: Story = {
         <Grid {...args}>
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i}>
-              <TextBox mobileSize={12} desktopSize={12}>
+              <TextBox mobileSize={16} desktopSize={16}>
                 {testText}
               </TextBox>
             </div>

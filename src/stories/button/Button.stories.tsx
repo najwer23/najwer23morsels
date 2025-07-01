@@ -25,6 +25,7 @@ export const Default: Story = {
     width: '300px',
     height: '90px',
     padding: 0,
+    borderColor: 'black',
   },
   render: (args) => (
     <div>
@@ -44,6 +45,7 @@ export const ButtonLoading: Story = {
     width: '300px',
     height: '90px',
     padding: 0,
+    borderColor: 'black',
   },
   render: (args) => {
     const LoadingToggle = () => {
@@ -52,7 +54,7 @@ export const ButtonLoading: Story = {
       useEffect(() => {
         const interval = setInterval(() => {
           setLoading((prev) => !prev);
-        }, 5000);
+        }, 3000);
 
         return () => clearInterval(interval);
       }, []);
@@ -80,6 +82,7 @@ export const ButtonDisabled: Story = {
     height: '90px',
     padding: 0,
     backgroundColorDisabled: 'gray',
+    borderColor: 'black',
   },
   render: (args) => (
     <div>
