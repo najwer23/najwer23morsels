@@ -59,6 +59,28 @@ export const Link: Story = {
   ),
 };
 
+export const InlineLink: Story = {
+  args: {
+    color: 'green',
+    colorHover: 'orange',
+    mobileSize: 20,
+    desktopSize: 20,
+    href: '/ksdjdkdj',
+    children: " "+defaultText + " ",
+    tag: 'a',
+  },
+  render: (args) => (
+    <div>
+      <TextBox mobileSize={20} desktopSize={20} tag="span">
+        {defaultText}
+      </TextBox><TextBox {...args} />
+      <TextBox mobileSize={20} desktopSize={20} tag="span">
+        {defaultText}
+      </TextBox>
+    </div>
+  ),
+};
+
 export const FluidMobile20Desktop40: Story = {
   args: {
     color: 'red',

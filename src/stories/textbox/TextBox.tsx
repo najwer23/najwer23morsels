@@ -1,8 +1,8 @@
 import styles from './TextBox.module.css';
 
-export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'p' | 'div';
+export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'p' | 'div' | 'span' | 'a';
 
-interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement> {
+interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorElement> {
   children: React.ReactNode;
   tag?: TextBoxTag;
   mobileSize: number;

@@ -33,7 +33,7 @@
     & a {
       color: var(--n23mTextBoxColor, var(--textbox-c));
       text-decoration: unset;
-      transition: color 0.3s ease-in-out;
+      transition: all 0.15s ease-in-out;
       font-weight: var(--n23mTextBoxFontWeight, var(--textbox-fw));
 
       &:hover,
