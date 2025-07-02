@@ -4,8 +4,6 @@ This design system leverages native CSS features, primarily global CSS variables
 
 By following native CSS conventions, the package provides a flexible and efficient way to adapt the design system to different branding requirements or design preferences while keeping the styling logic clear and easy to manage. Using React props for styling alongside CSS variable overrides offers a powerful combination for both dynamic and static style customization.
 
-
-
 # najwer23morsels
 
 [![Storybook](https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://najwer23.github.io/najwer23morsels) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/najwer23/najwer23morsels) [![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/search?q=najwer23morsels) [![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)

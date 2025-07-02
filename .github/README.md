@@ -1,10 +1,12 @@
-![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels)
+The najwer23morsels npm package offers React user interface components designed for flexible and customizable styling. It supports styling through configurable parameters passed as React props, allowing you to easily adjust the appearance of components within your React code. Additionally, you can apply custom CSS classes for more granular control.
 
-The npm package najwer23morsels allows you to style its React UI components using native CSS logic, primarily through global CSS variables, enabling full customization without relying on additional styling libraries. This approach means you can control component appearance by simply overriding CSS variables or applying your own CSS rules, maintaining straightforward and native styling workflows. It supports styling flexibility by leveraging standard CSS practices, making it easy to adapt the design system to your own needs while keeping the styling logic simple and native to the web platform.
+This design system leverages native CSS features, primarily global CSS variables, to enable comprehensive customization of component styles. Instead of relying on external styling libraries, you can override these CSS variables or add your own CSS rules to control the look and feel. This approach ensures that styling remains straightforward, maintainable, and fully compatible with standard web technologies.
+
+By following native CSS conventions, the package provides a flexible and efficient way to adapt the design system to different branding requirements or design preferences while keeping the styling logic clear and easy to manage. Using React props for styling alongside CSS variable overrides offers a powerful combination for both dynamic and static style customization.
 
 # najwer23morsels
 
-[![Storybook](https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://najwer23.github.io/najwer23morsels) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/najwer23/najwer23morsels) [![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/search?q=najwer23morsels)
+[![Storybook](https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://najwer23.github.io/najwer23morsels) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/najwer23/najwer23morsels) [![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/search?q=najwer23morsels) [![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)
 
 
 ### Self Update
@@ -58,9 +60,9 @@ git log --pretty=oneline
 
 # Let's connect!
 
-[![dev.to badge](https://img.shields.io/badge/-Portfolio-%239F2B68?style=flat&logo=GoogleChrome&logoColor=white)](https://najwer23.github.io/)
-[![dev.to badge](https://img.shields.io/badge/-Résumé-%23017745?style=flat&logo=AdobeAcrobatReader&logoColor=white)](https://najwer23.github.io/resume/)
-[![twitter badge](https://img.shields.io/badge/-najwer23-%231FA1F1?style=flat&logo=x&logoColor=white)](https://twitter.com/najwer23)
-[![dev.to badge](https://img.shields.io/badge/-najwer23-%230177B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/najwer23)
-[![dev.to badge](https://img.shields.io/badge/-najwer23-%23ffffff?style=flat&logo=Leetcode)](https://leetcode.com/najwer23/)
-[![dev.to badge](https://img.shields.io/badge/-najwer23-%23cb3837?style=flat&logo=Npm)](https://www.npmjs.com/~najwer23)
+[![Portfolio](https://img.shields.io/badge/Portfolio-9F2B68?style=for-the-badge&logo=paintbrush&logoColor=white)](https://najwer23.github.io/)
+[![Résumé](https://img.shields.io/badge/Résumé-017745?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)](https://najwer23.github.io/resume/)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://twitter.com/najwer23)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/najwer23)
+[![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/najwer23/)
+[![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/~najwer23)
