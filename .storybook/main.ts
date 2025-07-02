@@ -9,6 +9,6 @@ const config: StorybookConfig = {
     options: {},
   },
 
-  addons: ['@storybook/addon-a11y'],
+  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
 };
 export default config;
