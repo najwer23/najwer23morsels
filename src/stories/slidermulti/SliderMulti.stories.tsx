@@ -6,8 +6,20 @@ import { useEffect, useState } from 'react';
 const meta: Meta<typeof SliderMulti> = {
   title: 'Slider/SliderMulti',
   component: SliderMulti,
-  parameters: {
+   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a multi-slide slider component that can be used to display multiple items in a carousel format. It supports various properties such as circular navigation, loading states, and more.
+
+You can import the SliderMulti component from the library and use it in your application as follows:
+\`\`\`tsx
+import { SliderMulti } from 'najwer23morsels/lib/SliderMulti';
+\`\`\`
+      `,
+      },
+    },
   },
   tags: ['autodocs'],
 };

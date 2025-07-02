@@ -7,6 +7,18 @@ const meta: Meta<typeof CodeParser> = {
   component: CodeParser,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a CodeParser component that can be used to display code snippets with syntax highlighting. It supports various properties such as language, theme, and more.
+
+You can import the CodeParser component from the library and use it in your application as follows:
+\`\`\`tsx
+import { CodeParser } from 'najwer23morsels/lib/CodeParser';
+\`\`\`
+      `,
+      },
+    },
   },
   tags: ['autodocs'],
 };

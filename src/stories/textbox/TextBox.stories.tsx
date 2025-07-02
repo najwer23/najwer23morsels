@@ -7,6 +7,18 @@ const meta: Meta<typeof TextBox> = {
   component: TextBox,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a TextBox component that can be used to display text with various styles. It supports properties such as color, size, and link functionality. You can use it to create links or display static text.
+
+You can import the TextBox component from the library and use it in your application as follows:
+\`\`\`tsx
+import { TextBox } from 'najwer23morsels/lib/TextBox';
+\`\`\`
+      `,
+      },
+    },
   },
   tags: ['autodocs'],
 };

@@ -6,6 +6,19 @@ const meta: Meta<typeof IconArrowRight> = {
   title: 'Icons/Icons',
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a collection of icon components that can be used in your application. The icons are designed to be simple and easy to use, with customizable properties such as width and height.
+
+You can import the Icons component from the library and use it in your application as follows:
+\`\`\`tsx
+import { IconArrowRight } from 'najwer23morsels/lib/IconArrowRight';
+import { IconArrowLeft } from 'najwer23morsels/lib/IconArrowLeft';
+\`\`\`
+      `,
+      },
+    },
   },
   tags: ['autodocs'],
 };
@@ -13,10 +26,14 @@ const meta: Meta<typeof IconArrowRight> = {
 export default meta;
 
 export const Default: StoryObj<typeof meta> = {
-  render: () => (
+  args: {
+    width: 20,
+    height: 20,
+  },
+  render: (args) => (
     <div style={{ color: 'black', display: 'flex', gap: '10px' }}>
-      <IconArrowRight width={20} height={20} />
-      <IconArrowLeft width={20} height={20} />
+      <IconArrowRight {...args}/>
+      <IconArrowLeft  {...args} />
     </div>
   ),
 };

@@ -8,6 +8,18 @@ const meta: Meta<typeof Grid> = {
   component: Grid,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a grid component that can be used to create responsive layouts. It supports various properties such as layout type, column configuration, gap, padding, and more. You can use it to create both container-based and column-based layouts.
+
+You can import the Grid component from the library and use it in your application as follows:
+\`\`\`tsx
+import { Grid } from 'najwer23morsels/lib/Grid';
+\`\`\`
+      `,
+      },
+    },
   },
   tags: ['autodocs'],
 };
@@ -17,7 +29,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const testText =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
 export const GridContainerWidthMax600: Story = {
   args: {
@@ -47,34 +59,30 @@ export const GridContainerLoading: Story = {
     minHeight: 400,
   },
   render: (args) => {
-    const LoadingToggle = () => {
-      const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-      useEffect(() => {
-        const interval = setInterval(() => {
-          setLoading((prev) => !prev);
-        }, 3000);
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setLoading((prev) => !prev);
+      }, 3000);
 
-        return () => clearInterval(interval);
-      }, []);
+      return () => clearInterval(interval);
+    }, []);
 
-      return (
-        <div style={{ width: '100vw', backgroundColor: '#f0f0f0' }}>
-          <Grid {...args} loading={loading}>
-            <div style={{ minHeight: '400px', backgroundColor: '#f0f0f0' }}>
-              <TextBox mobileSize={12} desktopSize={12}>
-                max-width: 600px
-              </TextBox>
-              <TextBox mobileSize={12} desktopSize={12}>
-                Padding: 10px; minHeight: 400px
-              </TextBox>
-            </div>
-          </Grid>
-        </div>
-      );
-    };
-
-    return <LoadingToggle />;
+    return (
+      <div style={{ width: '100vw', backgroundColor: '#f0f0f0' }}>
+        <Grid {...args} loading={loading}>
+          <div style={{ minHeight: '400px', backgroundColor: '#f0f0f0', border: '1px solid black' }}>
+            <TextBox mobileSize={12} desktopSize={12}>
+              max-width: 600px
+            </TextBox>
+            <TextBox mobileSize={12} desktopSize={12}>
+              Padding: 10px; minHeight: 400px
+            </TextBox>
+          </div>
+        </Grid>
+      </div>
+    );
   },
 };
 
@@ -90,7 +98,7 @@ export const GridColumns: Story = {
     },
   },
   render: (args) => (
-    <div style={{ width: '100vw' }}>
+    <div style={{ width: '600px' }}>
       <Grid {...args}>
         {Array.from({ length: 9 }, (_, i) => (
           <div key={i}>
@@ -117,7 +125,7 @@ export const GridContainerWithColumns: Story = {
   },
   render: (args) => (
     <div style={{ width: '100vw' }}>
-      <Grid layout="container" widthMax={800} padding="0 10px 0 10px">
+      <Grid layout="container" widthMax={400} padding="0 10px 0 10px">
         <Grid {...args}>
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i}>

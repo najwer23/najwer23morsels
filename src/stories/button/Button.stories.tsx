@@ -23,7 +23,6 @@ import { Button } from 'najwer23morsels/lib/Button';
       },
     },
   },
-
   tags: ['autodocs'],
 };
 

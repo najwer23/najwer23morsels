@@ -8,6 +8,18 @@ const meta: Meta<typeof Slider> = {
   component: Slider,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a slider component that allows you to display multiple slides with various properties. It supports circular navigation, loading states, and can handle different numbers of slides.
+
+You can import the Slider component from the library and use it in your application as follows:
+\`\`\`tsx
+import { Slider } from 'najwer23morsels/lib/Slider';
+\`\`\`
+      `,
+      },
+    },
   },
   tags: ['autodocs'],
 };

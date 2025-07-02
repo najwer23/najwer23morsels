@@ -3,10 +3,24 @@ import type { StoryObj } from '@storybook/react';
 import { Carousel as CarouselSnack } from './Carousel';
 
 const meta = {
-  title: 'Carousel/Carousel ',
+  title: 'Carousel/Carousel',
   component: CarouselSnack,
   tags: ['autodocs'],
-  argTypes: {},
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: `
+This is a carousel component that can be used to display a series of images or other content in a scrollable format. It supports various properties such as the number of items to show, the number of items to scroll, and more.
+
+You can import the Carousel component from the library and use it in your application as follows:
+\`\`\`tsx
+import { Carousel } from 'najwer23morsels/lib/Carousel';
+\`\`\`
+      `,
+      },
+    },
+  },
 };
 
 export default meta;
