@@ -1,6 +1,6 @@
-The najwer23morsels npm package allows you to style React UI components using native CSS logic, primarily through global CSS variables. This enables full customization without relying on additional styling libraries. With this approach, you can control the appearance of a component simply by overriding CSS variables or applying your own CSS rules, keeping styling workflows simple and native. It supports styling flexibility by leveraging standard CSS practices, making it easy to customize the design system to your needs while maintaining styling logic that is straightforward and native to the web platform.
+The najwer23morsels npm package offers React user interface components that support styling through configurable parameters or by applying custom CSS classes. This design system uses native CSS features, mainly global CSS variables, to enable comprehensive customization of component appearance. Instead of relying on external styling libraries, you can control the look and feel by overriding these CSS variables or by adding your own CSS rules. This method ensures that styling remains straightforward, maintainable, and fully compatible with standard web technologies. By following native CSS conventions, the package provides a flexible and efficient way to adapt the design system to different branding requirements or design preferences while keeping the styling logic clear and easy to manage.
 
-![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels)
+[![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)
 
 # najwer23morsels
 
@@ -39,7 +39,7 @@ export const Example = () => {
 
 ### Global css variables available
 
-```CSS
+```css
 :root {
     /* Main */
     --n23mFontFamily:  --fontFamily, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
@@ -62,9 +62,13 @@ export const Example = () => {
 
 # Let's connect!
 
-[![dev.to badge](https://img.shields.io/badge/-Portfolio-%239F2B68?style=flat&logo=GoogleChrome&logoColor=white)](https://najwer23.github.io/)
-[![dev.to badge](https://img.shields.io/badge/-Résumé-%23017745?style=flat&logo=AdobeAcrobatReader&logoColor=white)](https://najwer23.github.io/resume/)
-[![twitter badge](https://img.shields.io/badge/-najwer23-%231FA1F1?style=flat&logo=x&logoColor=white)](https://twitter.com/najwer23)
-[![dev.to badge](https://img.shields.io/badge/-najwer23-%230177B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/najwer23)
-[![dev.to badge](https://img.shields.io/badge/-najwer23-%23ffffff?style=flat&logo=Leetcode)](https://leetcode.com/najwer23/)
-[![dev.to badge](https://img.shields.io/badge/-najwer23-%23cb3837?style=flat&logo=Npm)](https://www.npmjs.com/~najwer23)
+[![Portfolio](https://img.shields.io/badge/Portfolio-9F2B68?style=for-the-badge&logo=paintbrush&logoColor=white)](https://najwer23.github.io/)
+[![Résumé](https://img.shields.io/badge/Résumé-017745?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)](https://najwer23.github.io/resume/)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://twitter.com/najwer23)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/najwer23)
+[![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/najwer23/)
+[![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/~najwer23)
+
+
+
+

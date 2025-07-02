@@ -9,6 +9,12 @@ const config: StorybookConfig = {
     options: {},
   },
 
-  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
+  addons: [
+    '@storybook/addon-a11y',
+    {
+      name: '@storybook/addon-docs',
+      options: { transcludeMarkdown: true },
+    },
+  ],
 };
 export default config;
