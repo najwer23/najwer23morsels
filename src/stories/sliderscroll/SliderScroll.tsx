@@ -1,20 +1,22 @@
-import { useEffect, useRef, useState, MouseEvent, TouchEvent } from 'react';
+import { useEffect, useRef, useState, MouseEvent, TouchEvent, ReactNode } from 'react';
 import { Button } from '../button';
-import styles from './Carousel.module.css';
+import styles from './SliderScroll.module.css';
 import { useWindowSize } from '../hooks';
+import { IconArrowLeft, IconArrowRight } from '../icons';
 
-export const Carousel: React.FC<{
-  children: React.ReactNode;
-  arrowLeftIcon?: React.ReactNode;
-  arrowRightIcon?: React.ReactNode;
+interface SliderScrollProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  arrowLeftIcon?: ReactNode;
+  arrowRightIcon?: ReactNode;
   gap?: string;
-}> = ({ children, arrowLeftIcon, arrowRightIcon, gap = '5px' }) => {
+}
+
+export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className, gap = '5px' }) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const [showArrowLeft, setShowArrowLeft] = useState<boolean>(false);
   const [showArrowRight, setShowArrowRight] = useState<boolean>(false);
   const { width } = useWindowSize();
 
-  // Ref to track if user is manually scrolling or dragging
   const isUserScrolling = useRef(false);
   const userScrollTimeout = useRef<number | null>(null);
 
@@ -33,7 +35,6 @@ export const Carousel: React.FC<{
     return () => clearTimeout(timerId);
   }, [width]);
 
-  // Mark user is scrolling and reset after 150ms inactivity
   const markUserScrolling = () => {
     isUserScrolling.current = true;
     if (userScrollTimeout.current) {
@@ -47,7 +48,6 @@ export const Carousel: React.FC<{
   const handleScroll = () => {
     if (!carouselRef.current) return;
 
-    // Mark user scroll interaction
     markUserScrolling();
 
     const scrollLeft = carouselRef.current.scrollLeft;
@@ -65,10 +65,6 @@ export const Carousel: React.FC<{
     }
   };
 
-  /**
-   * Smooth scroll animation with optional forceAnimate flag.
-   * If forceAnimate=true, animation runs even if user is scrolling.
-   */
   const smoothScrollTo = (
     element: HTMLElement,
     target: number,
@@ -76,7 +72,6 @@ export const Carousel: React.FC<{
     forceAnimate: boolean = false,
   ) => {
     if (isUserScrolling.current && !forceAnimate) {
-      // User is scrolling manually, jump immediately
       element.scrollLeft = target;
       handleScroll();
       return;
@@ -90,7 +85,6 @@ export const Carousel: React.FC<{
 
     const animateScroll = (currentTime: number) => {
       if (isUserScrolling.current && !forceAnimate) {
-        // Cancel animation if user scrolls during animation
         element.scrollLeft = target;
         handleScroll();
         return;
@@ -122,7 +116,6 @@ export const Carousel: React.FC<{
 
     const targetScrollLeft = Math.max(carouselRef.current.scrollLeft - scrollAmount, 0);
 
-    // Force animation on arrow click
     smoothScrollTo(carouselRef.current, targetScrollLeft, 900, true);
   };
 
@@ -138,7 +131,6 @@ export const Carousel: React.FC<{
     const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
     const targetScrollLeft = Math.min(carouselRef.current.scrollLeft + scrollAmount, maxScrollLeft);
 
-    // Force animation on arrow click
     smoothScrollTo(carouselRef.current, targetScrollLeft, 900, true);
   };
 
@@ -197,21 +189,20 @@ export const Carousel: React.FC<{
     }
   };
 
-  // Mark user scrolling on touch move to cover touch drag
   const onTouchMove = (e: TouchEvent) => {
     markUserScrolling();
   };
 
   return (
     <div
-      className={styles.carouselWrapper}
+      className={[styles.n23mSliderScroll, 'n23mSliderScroll', className].filter(Boolean).join(' ')}
       style={
         {
-          '--gap': gap,
+          '--sliderscroll-gap': gap,
         } as React.CSSProperties
       }>
       <div
-        className={styles.carousel}
+        className={styles.n23mSliderScrollTrack}
         ref={carouselRef}
         onClick={onClick}
         onScroll={handleScroll}
@@ -220,15 +211,33 @@ export const Carousel: React.FC<{
         onMouseUp={onMouseUp}
         onMouseMove={onMouseMove}
         onTouchMove={onTouchMove}>
-        <div className={[styles.arrowLeft, showArrowLeft && styles.arrowShow].join(' ')}>
-          <Button type={'button'} onClick={slideLeft} height={'40px'} width={'40px'}>
-            {!arrowLeftIcon ? <div className={[styles.buttonArrowLeft].join(' ')}></div> : arrowLeftIcon}
-          </Button>
-        </div>
         {children}
-        <div className={[styles.arrowRight, showArrowRight && styles.arrowShow].join(' ')}>
-          <Button type={'button'} onClick={slideRight} height={'40px'} width={'40px'}>
-            {!arrowRightIcon ? <div className={[styles.buttonArrowRight].join(' ')}></div> : arrowRightIcon}
+      </div>
+      <div className={[styles.n23mSliderScrollControls, 'n23mSliderScrollControls'].join(' ')}>
+        <div className={[styles.n23mSliderScrollControlsButtons, 'n23mSliderScrollControlsButtons'].join(' ')}>
+          <Button
+            height={'50px'}
+            width={'50px'}
+            backgroundColor="#F2F0EF"
+            padding={0}
+            title="Prev"
+            onClick={slideLeft}
+            borderColor="black"
+            backgroundColorDisabled="#F2F0EF"
+            disabled={!showArrowLeft}>
+            <IconArrowLeft width={24} height={24} />
+          </Button>
+          <Button
+            height={'50px'}
+            width={'50px'}
+            backgroundColor="#F2F0EF"
+            padding={0}
+            title="Next"
+            borderColor="black"
+            backgroundColorDisabled="#F2F0EF"
+            onClick={slideRight}
+            disabled={!showArrowRight}>
+            <IconArrowRight width={24} height={24} />
           </Button>
         </div>
       </div>
@@ -236,4 +245,4 @@ export const Carousel: React.FC<{
   );
 };
 
-Carousel.displayName = 'Carousel';
+SliderScroll.displayName = 'SliderScroll';

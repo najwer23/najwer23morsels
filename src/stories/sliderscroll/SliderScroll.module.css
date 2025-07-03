@@ -1,0 +1,40 @@
+@layer n23mSliderScroll {
+  .n23mSliderScroll {
+    display: grid;
+    position: relative;
+  }
+
+  .n23mSliderScrollTrack {
+    display: flex;
+    gap: var(--sliderscroll-gap);
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    will-change: scroll-position;
+
+    /* hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    & > * {
+      flex-shrink: 0;
+    }
+  }
+
+  .n23mSliderScrollControls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .n23mSliderScrollControlsButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+}
