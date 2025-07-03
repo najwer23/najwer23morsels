@@ -1,8 +1,4 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"./index-B9EP_9OJ.js";import{b as r,c as a}from"./blocks-BEZ5sp8V.js";import"./iframe-Coq-l01h.js";import"./index-DdUKltmZ.js";const i=`The najwer23morsels npm package offers React user interface components designed for flexible and customizable styling. It supports styling through configurable parameters passed as React props, allowing you to easily adjust the appearance of components within your React code. Additionally, you can apply custom CSS classes for more granular control.
-
-This design system leverages native CSS features, primarily global CSS variables, to enable comprehensive customization of component styles. Instead of relying on external styling libraries, you can override these CSS variables or add your own CSS rules to control the look and feel. This approach ensures that styling remains straightforward, maintainable, and fully compatible with standard web technologies.
-
-By following native CSS conventions, the package provides a flexible and efficient way to adapt the design system to different branding requirements or design preferences while keeping the styling logic clear and easy to manage. Using React props for styling alongside CSS variable overrides offers a powerful combination for both dynamic and static style customization.
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"./index-DMqPnmh7.js";import{b as i,c as r}from"./blocks-BD3brTuc.js";import"./iframe-C7ophRcH.js";import"./index-B9YZSRYe.js";const l=`The najwer23morsels npm package provides React UI components with flexible styling via configurable props and custom CSS classes. It uses native CSS features, mainly global CSS variables, allowing easy customization without external libraries. This approach ensures maintainable, clear styling that adapts efficiently to different branding and design needs.
 
 # najwer23morsels
 
@@ -66,5 +62,5 @@ export const Example = () => {
 
 
 
-`;function t(o){return e.jsxs(e.Fragment,{children:[e.jsx(r,{title:"Documentation/README"}),`
-`,e.jsx(a,{children:i})]})}function p(o={}){const{wrapper:n}={...s(),...o.components};return n?e.jsx(n,{...o,children:e.jsx(t,{...o})}):t()}export{p as default};
+`;function t(o){return e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Documentation/README"}),`
+`,e.jsx(r,{children:l})]})}function p(o={}){const{wrapper:n}={...s(),...o.components};return n?e.jsx(n,{...o,children:e.jsx(t,{...o})}):t()}export{p as default};
