@@ -3,6 +3,7 @@ import styles from './SliderMulti.module.css';
 import { Loader } from '../loader';
 import { IconArrowLeft, IconArrowRight } from '../icons';
 import { Button } from '../button';
+import { useWindowSize } from '../hooks';
 
 type SlideElement = ReactElement<{ className?: string }>;
 
@@ -41,6 +42,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
   slidesToScroll = DEFAULT_SLIDES_TO_SCROLL,
 }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
+  const { width } = useWindowSize();
 
   const [wrapperWidth, setWrapperWidth] = useState(0);
   const slideWrapperRef = useRef<HTMLDivElement>(null);
@@ -54,7 +56,25 @@ export const SliderMulti: React.FC<SliderProps> = ({
     return () => window.removeEventListener('resize', update);
   }, [loading]);
 
-  const slideWidth = slidesPerView > 0 ? (wrapperWidth - slideSpacingPx * (slidesPerView - 1)) / slidesPerView : 0;
+  let slidePerViewDynamic = slidesPerView;
+  let slidesToScrollDynamic = slidesToScroll;
+  let slideAnimation = 'transform 1.05s cubic-bezier(0.645, 0.045, 0.355, 1)';
+  let slideAnimationDelay = 1150;
+
+  if (width < 767.98) {
+    slidePerViewDynamic = 1;
+    slidesToScrollDynamic = 1;
+    slideAnimation = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
+    slideAnimationDelay = 500;
+  } else if (width < 1199.98) {
+    slidePerViewDynamic = 2;
+    slidesToScrollDynamic = 2;
+    slideAnimation = 'transform 0.95s cubic-bezier(0.645, 0.045, 0.355, 1)';
+    slideAnimationDelay = 1050;
+  }
+
+  const slideWidth =
+    slidePerViewDynamic > 0 ? (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic : 0;
 
   let slides = isCircular
     ? [
@@ -74,7 +94,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
 
   useEffect(() => {
     setCurrSlide(isCircular ? React.Children.toArray(children).length * 2 : 0);
-  }, [isCircular, slidesPerView, childSlides.length, loading]);
+  }, [isCircular, slidePerViewDynamic, childSlides.length, loading]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 1) {
@@ -102,20 +122,21 @@ export const SliderMulti: React.FC<SliderProps> = ({
       if (!slideWrapper) return;
       const offset =
         (idx - currSlide) * (slideWidth + slideSpacingPx) +
-        (wrapperWidth - slideWidth * slidesPerView - slideSpacingPx * (slidesPerView - 1)) / 2;
-      slideWrapper.style.transition = isAnimating ? 'transform 1.05s cubic-bezier(0.645, 0.045, 0.355, 1)' : 'none';
+        (wrapperWidth - slideWidth * slidePerViewDynamic - slideSpacingPx * (slidePerViewDynamic - 1)) / 2;
+      slideWrapper.style.transition = isAnimating ? slideAnimation : 'none';
       slideWrapper.style.transform = `translateX(${offset}px)`;
       slideWrapper.style.left = '';
     });
-  }, [currSlide, wrapperWidth, isAnimating, slides.length, slidesPerView, slideWidth, slideSpacingPx, loading]);
+  }, [currSlide, wrapperWidth, isAnimating, slides.length, slidePerViewDynamic, slideWidth, slideSpacingPx, loading]);
 
   useEffect(() => {
     if (!isAnimating) return;
     let timeoutId: number;
     const handleTransitionEnd = () => {
       let newIndex = currSlide;
-      if (currSlide < slidesPerView && isCircular) newIndex = currSlide + childSlides.length;
-      else if (currSlide >= childSlides.length + slidesPerView && isCircular) newIndex = currSlide - childSlides.length;
+      if (currSlide < slidePerViewDynamic && isCircular) newIndex = currSlide + childSlides.length;
+      else if (currSlide >= childSlides.length + slidePerViewDynamic && isCircular)
+        newIndex = currSlide - childSlides.length;
       if (newIndex !== currSlide && isCircular) setCurrSlide(newIndex);
       setIsAnimating(false);
       slideWrapperRefs.current.forEach((slide) => {
@@ -131,24 +152,24 @@ export const SliderMulti: React.FC<SliderProps> = ({
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
-    }, 1150);
+    }, slideAnimationDelay);
     return () => {
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
       clearTimeout(timeoutId);
     };
-  }, [currSlide, isCircular, isAnimating, childSlides.length, slidesPerView, slides.length, loading]);
+  }, [currSlide, isCircular, isAnimating, childSlides.length, slidePerViewDynamic, slides.length, loading]);
 
   const nextSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrSlide((prev) => prev + slidesToScroll);
+    setCurrSlide((prev) => prev + slidesToScrollDynamic);
   };
   const prevSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrSlide((prev) => prev - slidesToScroll);
+    setCurrSlide((prev) => prev - slidesToScrollDynamic);
   };
 
   if (slideWrapperRefs.current.length !== slides.length) {
@@ -188,7 +209,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                     width: `${slideWidth}px`,
                     flex: `0 0 ${slideWidth}px`,
                   }}
-                  aria-hidden={i < currSlide || i >= currSlide + slidesPerView}>
+                  aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}>
                   {slide}
                 </div>
               ))}
@@ -218,7 +239,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   borderColor="black"
                   backgroundColorDisabled="#F2F0EF"
                   onClick={nextSlide}
-                  disabled={isAnimating || (!isCircular && currSlide + slidesPerView >= childSlides.length)}>
+                  disabled={isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length)}>
                   <IconArrowRight width={24} height={24} />
                 </Button>
               </div>
