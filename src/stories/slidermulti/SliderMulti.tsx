@@ -54,18 +54,23 @@ export const SliderMulti: React.FC<SliderProps> = ({
   const [touchDeltaX, setTouchDeltaX] = useState<number>(0);
 
   useEffect(() => {
+    let timeoutId: number;
     const update = () => {
       if (slideWrapperRef.current) setWrapperWidth(slideWrapperRef.current.offsetWidth);
-      setCurrSlide(0)
+       setCurrSlide(isCircular ? childSlides.length * 2 : 0);
+    };
+    const onResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(update, 150);
     };
     update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, [loading]);
+    window.addEventListener('resize', onResize);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [loading, isCircular, slidesPerView, childSlides.length]);
 
-  useEffect(() => {
-    setCurrSlide(isCircular ? childSlides.length * 2 : 0);
-  }, [isCircular, slidesPerView, childSlides.length, loading]);
 
   let slidePerViewDynamic = slidesPerView;
   let slidesToScrollDynamic = slidesToScroll;
@@ -85,9 +90,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
   }
 
   const slideWidth =
-    slidePerViewDynamic > 0
-      ? (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic
-      : 0;
+    slidePerViewDynamic > 0 ? (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic : 0;
 
   let slides = isCircular
     ? [
@@ -123,13 +126,26 @@ export const SliderMulti: React.FC<SliderProps> = ({
   useEffect(() => {
     slideWrapperRefs.current.forEach((slideWrapper, idx) => {
       if (!slideWrapper) return;
+
+      let leftPad = 0;
+      let rightPad = 0;
+
+      if (slidePerViewDynamic == 2) {
+        leftPad = 20;
+        rightPad = 20;
+      } else if (slidePerViewDynamic == 4) {
+        leftPad = 10;
+        rightPad = 10;
+      }
+
+      console.log(leftPad, rightPad, isAnimating);
+
       const offset =
-        (idx - currSlide) * (slideWidth + slideSpacingPx) +
-        (wrapperWidth - slideWidth * slidePerViewDynamic - slideSpacingPx * (slidePerViewDynamic - 1)) / 2;
+        (idx - currSlide) * (slideWidth + slideSpacingPx - rightPad) +
+        (wrapperWidth - (slideWidth - leftPad) * slidePerViewDynamic - slideSpacingPx * (slidePerViewDynamic - 1)) / 2;
 
       slideWrapper.style.transition = isAnimating ? slideAnimation : 'none';
       slideWrapper.style.transform = `translateX(${offset}px)`;
-      slideWrapper.style.left = '';
     });
   }, [currSlide, wrapperWidth, isAnimating, slides.length, slidePerViewDynamic, slideWidth, slideSpacingPx, loading]);
 
@@ -181,7 +197,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
   }
 
   if (width < 767.98) {
-    return <Slider children={children} isCircular={isCircular} loading={loading}/>;
+    return <Slider children={children} isCircular={isCircular} loading={loading} />;
   }
 
   return (
@@ -215,8 +231,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   }}
                   className={styles.n23mSliderMultiSlide}
                   style={{
-                    width: `${slideWidth}px`,
-                    flex: `0 0 ${slideWidth}px`,
+                    width: slidePerViewDynamic == 2 ? `calc(${slideWidth}px - 20px)` : `calc(${slideWidth}px - 10px)`,
                   }}
                   aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}>
                   {slide}
