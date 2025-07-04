@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{S as o}from"./Slider-Cvg0DtQm.js";import{r as v}from"./iframe-CNewWGwA.js";import"./TextBox-DhZTsRfC.js";import"./Loader-CdV_WFc2.js";import"./IconArrowRight-DaV6Kolw.js";import"./Button-B3Klu473.js";const{action:c}=__STORYBOOK_MODULE_ACTIONS__,_={title:"Slider/Slider",component:o,parameters:{layout:"centered",docs:{description:{component:`
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{S as o}from"./Slider-X2fPnE-G.js";import{r as v}from"./iframe-COcSbE7G.js";import"./TextBox-DhZTsRfC.js";import"./Loader-CdV_WFc2.js";import"./IconArrowRight-DaV6Kolw.js";import"./Button-B3Klu473.js";const{action:c}=__STORYBOOK_MODULE_ACTIONS__,_={title:"Slider/Slider",component:o,parameters:{layout:"centered",docs:{description:{component:`
 This is a slider component that allows you to display multiple slides with various properties. It supports circular navigation, loading states, and can handle different numbers of slides.
 
 You can import the Slider component from the library and use it in your application as follows:
