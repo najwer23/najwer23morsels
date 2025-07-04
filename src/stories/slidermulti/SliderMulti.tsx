@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, ReactElement, ReactNode } from 'react';
+import React, { useRef, useEffect, useState, ReactElement, ReactNode, useLayoutEffect } from 'react';
 import styles from './SliderMulti.module.css';
 import { Loader } from '../loader';
 import { IconArrowLeft, IconArrowRight } from '../icons';
@@ -53,11 +53,11 @@ export const SliderMulti: React.FC<SliderProps> = ({
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchDeltaX, setTouchDeltaX] = useState<number>(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let timeoutId: number;
     const update = () => {
       if (slideWrapperRef.current) setWrapperWidth(slideWrapperRef.current.offsetWidth);
-       setCurrSlide(isCircular ? childSlides.length * 2 : 0);
+      setCurrSlide(isCircular ? childSlides.length * 2 : 0);
     };
     const onResize = () => {
       clearTimeout(timeoutId);
@@ -71,7 +71,6 @@ export const SliderMulti: React.FC<SliderProps> = ({
     };
   }, [loading, isCircular, slidesPerView, childSlides.length]);
 
-
   let slidePerViewDynamic = slidesPerView;
   let slidesToScrollDynamic = slidesToScroll;
   let slideAnimation = 'transform 1.00s cubic-bezier(0.645, 0.045, 0.355, 1)';
@@ -81,12 +80,12 @@ export const SliderMulti: React.FC<SliderProps> = ({
     slidePerViewDynamic = 1;
     slidesToScrollDynamic = 1;
     slideAnimation = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
-    slideAnimationDelay = 500;
+    slideAnimationDelay = 450;
   } else if (width < 1199.98) {
     slidePerViewDynamic = 2;
     slidesToScrollDynamic = 2;
     slideAnimation = 'transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1)';
-    slideAnimationDelay = 950;
+    slideAnimationDelay = 900;
   }
 
   const slideWidth =
@@ -123,7 +122,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
     setTouchDeltaX(0);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     slideWrapperRefs.current.forEach((slideWrapper, idx) => {
       if (!slideWrapper) return;
 
@@ -147,30 +146,41 @@ export const SliderMulti: React.FC<SliderProps> = ({
     });
   }, [currSlide, wrapperWidth, isAnimating, slides.length, slidePerViewDynamic, slideWidth, slideSpacingPx, loading]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isAnimating) return;
+
     let timeoutId: number;
+
     const handleTransitionEnd = () => {
       let newIndex = currSlide;
-      if (currSlide < slidePerViewDynamic && isCircular) newIndex = currSlide + childSlides.length;
-      else if (currSlide >= childSlides.length + slidePerViewDynamic && isCircular)
-        newIndex = currSlide - childSlides.length;
-      if (newIndex !== currSlide && isCircular) setCurrSlide(newIndex);
+
+      if (currSlide < slidePerViewDynamic * 2 && isCircular) {
+        newIndex = currSlide + childSlides.length * 2;
+      } else if (currSlide >= childSlides.length * 2 + slidePerViewDynamic && isCircular) {
+        newIndex = currSlide - childSlides.length * 2;
+      }
+
+      if (newIndex !== currSlide && isCircular) {
+        setCurrSlide(newIndex);
+      }
       setIsAnimating(false);
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
       clearTimeout(timeoutId);
     };
+
     slideWrapperRefs.current.forEach((slide) => {
       if (slide) slide.addEventListener('transitionend', handleTransitionEnd);
     });
+
     timeoutId = window.setTimeout(() => {
       setIsAnimating(false);
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
     }, slideAnimationDelay);
+
     return () => {
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
