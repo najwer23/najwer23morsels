@@ -138,8 +138,6 @@ export const SliderMulti: React.FC<SliderProps> = ({
         rightPad = 10;
       }
 
-      console.log(leftPad, rightPad, isAnimating);
-
       const offset =
         (idx - currSlide) * (slideWidth + slideSpacingPx - rightPad) +
         (wrapperWidth - (slideWidth - leftPad) * slidePerViewDynamic - slideSpacingPx * (slidePerViewDynamic - 1)) / 2;
