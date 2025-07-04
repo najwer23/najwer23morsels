@@ -21,7 +21,7 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const DEFAULT_SLIDES_PER_VIEW = 4;
 const DEFAULT_SLIDE_SPACING = 10;
-const DEFAULT_SLIDES_TO_SCROLL = 4;
+const DEFAULT_SLIDES_TO_SCROLL = 3;
 
 const cloneSlides = (slides: SlideElement[], count: number, fromStart = false, id: number): SlideElement[] =>
   (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
@@ -136,6 +136,10 @@ export const SliderMulti: React.FC<SliderProps> = ({
         leftPad = 10;
         rightPad = 10;
       }
+     else if (slidePerViewDynamic == 3) {
+        leftPad = 15;
+        rightPad = 15;
+      }
 
       const offset =
         (idx - currSlide) * (slideWidth + slideSpacingPx - rightPad) +
@@ -239,7 +243,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   }}
                   className={styles.n23mSliderMultiSlide}
                   style={{
-                    width: slidePerViewDynamic == 2 ? `calc(${slideWidth}px - 20px)` : `calc(${slideWidth}px - 10px)`,
+                    width: slidePerViewDynamic == 2 ? `calc(${slideWidth}px - 20px)` : slidePerViewDynamic == 3 ? `calc(${slideWidth}px - 15px)` :  `calc(${slideWidth}px - 10px)`,
                   }}
                   aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}>
                   {slide}
