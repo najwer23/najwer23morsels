@@ -1,4 +1,4 @@
-import{j as o}from"./jsx-runtime-D_zvdyIk.js";import{B as a}from"./Button-B3Klu473.js";import{T as i}from"./TextBox-DhZTsRfC.js";import{r as d}from"./iframe-C8q0pwly.js";import"./Loader-CdV_WFc2.js";const{action:s}=__STORYBOOK_MODULE_ACTIONS__,k={title:"Button/Button",component:a,parameters:{layout:"centered",docs:{description:{component:`
+import{j as o}from"./jsx-runtime-D_zvdyIk.js";import{B as a}from"./Button-B3Klu473.js";import{T as i}from"./TextBox-DhZTsRfC.js";import{r as d}from"./iframe-CNewWGwA.js";import"./Loader-CdV_WFc2.js";const{action:s}=__STORYBOOK_MODULE_ACTIONS__,k={title:"Button/Button",component:a,parameters:{layout:"centered",docs:{description:{component:`
 This is a button component that can be used to trigger actions. It supports various properties such as background color, width, height, and more. You can also use it with loading states and disabled states.
 
 You can import the Button component from the library and use it in your application as follows:
