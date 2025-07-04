@@ -69,8 +69,8 @@ export const SliderMulti: React.FC<SliderProps> = ({
 
   let slidePerViewDynamic = slidesPerView;
   let slidesToScrollDynamic = slidesToScroll;
-  let slideAnimation = 'transform 1.05s cubic-bezier(0.645, 0.045, 0.355, 1)';
-  let slideAnimationDelay = 1150;
+  let slideAnimation = 'transform 1.00s cubic-bezier(0.645, 0.045, 0.355, 1)';
+  let slideAnimationDelay = 1100;
 
   if (width < 767.98) {
     slidePerViewDynamic = 1;
@@ -80,17 +80,13 @@ export const SliderMulti: React.FC<SliderProps> = ({
   } else if (width < 1199.98) {
     slidePerViewDynamic = 2;
     slidesToScrollDynamic = 2;
-    slideAnimation = 'transform 0.95s cubic-bezier(0.645, 0.045, 0.355, 1)';
-    slideAnimationDelay = 1050;
+    slideAnimation = 'transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1)';
+    slideAnimationDelay = 950;
   }
-
-  // Peek 10px on both sides only if one slide per view
-  const PEEK_WIDTH = slidePerViewDynamic === 1 ? 10 : 0;
-  const totalPeek = PEEK_WIDTH * 2;
 
   const slideWidth =
     slidePerViewDynamic > 0
-      ? (wrapperWidth - totalPeek - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic
+      ? (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic
       : 0;
 
   let slides = isCircular
@@ -131,10 +127,8 @@ export const SliderMulti: React.FC<SliderProps> = ({
         (idx - currSlide) * (slideWidth + slideSpacingPx) +
         (wrapperWidth - slideWidth * slidePerViewDynamic - slideSpacingPx * (slidePerViewDynamic - 1)) / 2;
 
-      const peekOffset = slidePerViewDynamic === 1 ? PEEK_WIDTH : 0;
-
       slideWrapper.style.transition = isAnimating ? slideAnimation : 'none';
-      slideWrapper.style.transform = `translateX(${offset + peekOffset}px)`;
+      slideWrapper.style.transform = `translateX(${offset}px)`;
       slideWrapper.style.left = '';
     });
   }, [currSlide, wrapperWidth, isAnimating, slides.length, slidePerViewDynamic, slideWidth, slideSpacingPx, loading]);
@@ -211,7 +205,6 @@ export const SliderMulti: React.FC<SliderProps> = ({
                 gap: `${slideSpacingPx}px`,
                 overflow: 'hidden',
                 width: '100%',
-                padding: slidePerViewDynamic === 1 ? `0 ${PEEK_WIDTH}px` : undefined,
                 boxSizing: 'border-box',
               }}>
               {slides.map((slide, i) => (
