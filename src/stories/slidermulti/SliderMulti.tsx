@@ -19,10 +19,6 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   slidesToScroll?: number;
 }
 
-const DEFAULT_SLIDES_PER_VIEW = 4;
-const DEFAULT_SLIDE_SPACING = 10;
-const DEFAULT_SLIDES_TO_SCROLL = 3;
-
 const cloneSlides = (slides: SlideElement[], count: number, fromStart = false, id: number): SlideElement[] =>
   (fromStart ? slides.slice(0, count) : slides.slice(-count)).map((el, i) =>
     React.cloneElement(el, {
@@ -38,9 +34,9 @@ export const SliderMulti: React.FC<SliderProps> = ({
   showControls = true,
   loading = false,
   loaderColor = 'black',
-  slidesPerView = DEFAULT_SLIDES_PER_VIEW,
-  slideSpacingPx = DEFAULT_SLIDE_SPACING,
-  slidesToScroll = DEFAULT_SLIDES_TO_SCROLL,
+  slidesPerView = 4,
+  slideSpacingPx = 10,
+  slidesToScroll = 4,
 }) => {
   const childSlides = React.Children.toArray(children).filter(React.isValidElement) as SlideElement[];
   const { width } = useWindowSize();
@@ -135,8 +131,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
       } else if (slidePerViewDynamic == 4) {
         leftPad = 10;
         rightPad = 10;
-      }
-     else if (slidePerViewDynamic == 3) {
+      } else if (slidePerViewDynamic == 3) {
         leftPad = 15;
         rightPad = 15;
       }
@@ -243,7 +238,14 @@ export const SliderMulti: React.FC<SliderProps> = ({
                   }}
                   className={styles.n23mSliderMultiSlide}
                   style={{
-                    width: slidePerViewDynamic == 2 ? `calc(${slideWidth}px - 20px)` : slidePerViewDynamic == 3 ? `calc(${slideWidth}px - 15px)` :  `calc(${slideWidth}px - 10px)`,
+                    width:
+                      slidePerViewDynamic == 2
+                        ? `calc(${slideWidth}px - 20px)`
+                        : slidePerViewDynamic == 3
+                          ? `calc(${slideWidth}px - 15px)`
+                          : slidePerViewDynamic == 4
+                            ? `calc(${slideWidth}px - 10px)`
+                            : `${slideWidth}px`,
                   }}
                   aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}>
                   {slide}
