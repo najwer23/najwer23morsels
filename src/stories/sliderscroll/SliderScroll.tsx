@@ -68,7 +68,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
   const smoothScrollTo = (
     element: HTMLElement,
     target: number,
-    duration: number = 400,
+    duration: number = 10,
     forceAnimate: boolean = false,
   ) => {
     if (isUserScrolling.current && !forceAnimate) {
@@ -81,7 +81,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     const change = target - start;
     const startTime = performance.now();
 
-    const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const easeInOutCubic = (t: number = 20) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
     const animateScroll = (currentTime: number) => {
       if (isUserScrolling.current && !forceAnimate) {
@@ -195,23 +195,27 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
 
   return (
     <div
-      className={[styles.n23mSliderScroll, 'n23mSliderScroll', className].filter(Boolean).join(' ')}
+      className={['n23mSliderScroll', className].filter(Boolean).join(' ')}
       style={
         {
           '--sliderscroll-gap': gap,
+          height: 'calc(100% - 60px)',
         } as React.CSSProperties
       }>
       <div
-        className={styles.n23mSliderScrollTrack}
-        ref={carouselRef}
-        onClick={onClick}
-        onScroll={handleScroll}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseUp}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
-        onTouchMove={onTouchMove}>
-        {children}
+        className={[styles.n23mSliderScrollWrapper, 'n23mSliderScrollWrapper'].join(' ')}>
+        <div
+          className={styles.n23mSliderScrollTrack}
+          ref={carouselRef}
+          onClick={onClick}
+          onScroll={handleScroll}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseUp}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          onTouchMove={onTouchMove}>
+          {children}
+        </div>
       </div>
       <div className={[styles.n23mSliderScrollControls, 'n23mSliderScrollControls'].join(' ')}>
         <div className={[styles.n23mSliderScrollControlsButtons, 'n23mSliderScrollControlsButtons'].join(' ')}>

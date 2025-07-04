@@ -1,5 +1,5 @@
 @layer n23mSliderScroll {
-  .n23mSliderScroll {
+  .n23mSliderScrollWrapper {
     display: grid;
     position: relative;
   }

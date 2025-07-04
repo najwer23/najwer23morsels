@@ -103,7 +103,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
       const offset =
         (idx - currSlide) * (slideWidth + slideSpacingPx) +
         (wrapperWidth - slideWidth * slidesPerView - slideSpacingPx * (slidesPerView - 1)) / 2;
-      slideWrapper.style.transition = isAnimating ? 'transform 0.4s cubic-bezier(.4,0,.2,1)' : 'none';
+      slideWrapper.style.transition = isAnimating ? 'transform 1.05s cubic-bezier(0.645, 0.045, 0.355, 1)' : 'none';
       slideWrapper.style.transform = `translateX(${offset}px)`;
       slideWrapper.style.left = '';
     });
@@ -131,7 +131,7 @@ export const SliderMulti: React.FC<SliderProps> = ({
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
-    }, 500);
+    }, 1150);
     return () => {
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);

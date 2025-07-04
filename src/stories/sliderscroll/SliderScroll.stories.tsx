@@ -48,7 +48,7 @@ export const Default: Story = {
             key={i}
             style={{
               width: '200px',
-              height: '400px',
+              height: '340px',
               background: slides[i].color,
               display: 'flex',
               justifyContent: 'center',
@@ -78,7 +78,7 @@ export const SliderScrollWithLinksAsItem: Story = {
             key={i}
             style={{
               width: '200px',
-              height: '400px',
+              height: '340px',
               background: slides[i].color,
               display: 'flex',
               justifyContent: 'center',
@@ -108,13 +108,13 @@ export const SliderScrollWithImgLinksAsItem: Story = {
             key={i}
             style={{
               width: '300px',
-              height: '400px',
+              height: '340px',
             }}>
             <img
               draggable="false"
               src="https://picsum.photos/300/400"
               alt=""
-              height="400px"
+              height="340px"
               width="300px"
               style={{ height: '100%', width: 'auto', display: 'block' }}
             />
