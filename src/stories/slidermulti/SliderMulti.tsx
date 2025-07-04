@@ -289,4 +289,4 @@ export const SliderMulti: React.FC<SliderProps> = ({
   );
 };
 
-SliderMulti.displayName = 'Slider';
+SliderMulti.displayName = 'SliderMulti';
