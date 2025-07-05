@@ -84,13 +84,13 @@ export const Slider: React.FC<SliderProps> = ({
   } else if (width < 1199.98) {
     slidePerViewDynamic = slidesConfig.tablet.items;
     slidesToScrollDynamic = slidesConfig.tablet.slidesToScroll;
-    slideAnimation = 'transform 0.65s cubic-bezier(0.645, 0.045, 0.355, 1)';
-    slideAnimationDelay = 700;
+    slideAnimation = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
+    slideAnimationDelay = 450;
   } else {
     slidePerViewDynamic = slidesConfig.desktop.items;
     slidesToScrollDynamic = slidesConfig.desktop.slidesToScroll;
-    slideAnimation = 'transform 0.65s cubic-bezier(0.645, 0.045, 0.355, 1)';
-    slideAnimationDelay = 700;
+    slideAnimation = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
+    slideAnimationDelay = 450;
   }
 
   useLayoutEffect(() => {
@@ -101,7 +101,7 @@ export const Slider: React.FC<SliderProps> = ({
     };
     const onResize = () => {
       clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(update, 150);
+      timeoutId = window.setTimeout(update, 0);
       setIsAnimating(false);
     };
     update();
@@ -112,8 +112,7 @@ export const Slider: React.FC<SliderProps> = ({
     };
   }, [loading, isCircular, slidePerViewDynamic, childSlides.length]);
 
-  const slideWidth =
-    slidePerViewDynamic > 0 ? (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic : 0;
+  const slideWidth = (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic;
 
   let slides = isCircular
     ? [
@@ -194,8 +193,6 @@ export const Slider: React.FC<SliderProps> = ({
         newIndex = currSlide - childSlides.length;
       }
 
-      console.log(newIndex)
-
       if (newIndex !== currSlide && isCircular) {
         setCurrSlide(newIndex);
       }
@@ -235,10 +232,6 @@ export const Slider: React.FC<SliderProps> = ({
     setIsAnimating(true);
     setCurrSlide((prev) => prev - slidesToScrollDynamic);
   };
-
-  if (slideWrapperRefs.current.length !== slides.length) {
-    slideWrapperRefs.current = Array(slides.length).fill(null);
-  }
 
   const getVisualIndex = () => {
     if (!isCircular) return currSlide;
