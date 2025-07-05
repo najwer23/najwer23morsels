@@ -145,7 +145,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
       targetScrollLeft = Math.max(targetScrollLeft, 0);
     }
 
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 600);
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
   };
 
   const slideRight = () => {
@@ -164,7 +164,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
       targetScrollLeft = Math.min(targetScrollLeft, maxScrollLeft);
     }
 
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 600);
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
   };
 
   const drag = useRef<{
