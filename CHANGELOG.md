@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.10.0
+
+### Minor Changes
+
+- Ininifty Slider Scroll and Multi items Slider
+
 ## 0.9.0
 
 ### Minor Changes
