@@ -102,7 +102,7 @@ export const Slider: React.FC<SliderProps> = ({
     const onResize = () => {
       clearTimeout(timeoutId);
       timeoutId = window.setTimeout(update, 150);
-      setIsAnimating(true);
+      setIsAnimating(false);
     };
     update();
     window.addEventListener('resize', onResize);
