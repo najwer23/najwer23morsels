@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"./index-CWFevSzs.js";import{b as i,c as r}from"./blocks-VhsLFQ9o.js";import"./iframe-BDR-Hysn.js";import"./index-CvBSoSQu.js";const l=`The najwer23morsels npm package provides React UI components with flexible styling via configurable props and custom CSS classes. It uses native CSS features, mainly global CSS variables, allowing easy customization without external libraries. This approach ensures maintainable, clear styling that adapts efficiently to different branding and design needs.
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"./index-0RLmJWFg.js";import{b as i,c as r}from"./blocks-D3zThVLw.js";import"./iframe-CbUKplcQ.js";import"./index-JBKJczVw.js";const l=`The najwer23morsels npm package provides React UI components with flexible styling via configurable props and custom CSS classes. It uses native CSS features, mainly global CSS variables, allowing easy customization without external libraries. This approach ensures maintainable, clear styling that adapts efficiently to different branding and design needs.
 
 # najwer23morsels
 
