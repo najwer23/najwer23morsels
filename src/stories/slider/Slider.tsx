@@ -102,6 +102,7 @@ export const Slider: React.FC<SliderProps> = ({
     const onResize = () => {
       clearTimeout(timeoutId);
       timeoutId = window.setTimeout(update, 150);
+      setIsAnimating(true);
     };
     update();
     window.addEventListener('resize', onResize);
@@ -140,7 +141,11 @@ export const Slider: React.FC<SliderProps> = ({
   const handleTouchEnd = () => {
     const SWIPE_THRESHOLD = 50;
     if (touchDeltaX > SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide === 0))) prevSlide();
-    else if (touchDeltaX < -SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length))) nextSlide();
+    else if (
+      touchDeltaX < -SWIPE_THRESHOLD &&
+      !(isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length))
+    )
+      nextSlide();
     setTouchStartX(null);
     setTouchDeltaX(0);
   };
@@ -289,8 +294,9 @@ export const Slider: React.FC<SliderProps> = ({
             </div>
           </div>
 
-          <div className={[styles.n23mSliderControls, 'n23mSliderControls'].join(' ')}
-          style={{justifyContent: slidePerViewDynamic == 1 ? "space-between" : "flex-end"}}>
+          <div
+            className={[styles.n23mSliderControls, 'n23mSliderControls'].join(' ')}
+            style={{ justifyContent: slidePerViewDynamic == 1 ? 'space-between' : 'flex-end' }}>
             {slidePerViewDynamic == 1 && childSlides.length > 1 && (
               <div className={[styles.n23mSliderCounter, 'n23mSliderCounter'].join(' ')}>
                 <TextBox mobileSize={16} desktopSize={16} color="black">
