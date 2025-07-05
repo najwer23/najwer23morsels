@@ -74,7 +74,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     if (isCircular) {
       const childWidth = getChildWidth();
       if (carouselRef.current && childWidth) {
-        carouselRef.current.scrollLeft = childWidth * cloneCount;
+        carouselRef.current.scrollLeft = childWidth * cloneCount - 20;
       }
     }
     updateControls();
