@@ -248,8 +248,6 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     setButtonsDisabled(false);
   }, []);
 
-  console.log(222)
-
   return (
     <div
       className={['n23mSliderScroll', className].filter(Boolean).join(' ')}
