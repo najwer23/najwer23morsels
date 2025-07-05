@@ -20,11 +20,19 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
   const isUserScrolling = useRef(false);
   const userScrollTimeout = useRef<number | null>(null);
 
+  // New state to track dragging for cursor update
+  const [isDragging, setIsDragging] = useState(false);
+
   const getChildWidth = () => {
     if (!carouselRef.current || !carouselRef.current.childNodes[1]) return 0;
     const child = carouselRef.current.childNodes[1] as HTMLElement;
     const style = getComputedStyle(child);
-    return parseInt(style.marginLeft) + parseInt(style.marginRight) + child.offsetWidth + Number(gap.slice(0, -2));
+    return (
+      parseInt(style.marginLeft) +
+      parseInt(style.marginRight) +
+      child.offsetWidth +
+      Number(gap.slice(0, -2))
+    );
   };
 
   useEffect(() => {
@@ -81,7 +89,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     const change = target - start;
     const startTime = performance.now();
 
-    const easeInOutCubic = (t: number = 20) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const easeInOutCubic = (t: number = 20) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
     const animateScroll = (currentTime: number) => {
       if (isUserScrolling.current && !forceAnimate) {
@@ -154,6 +163,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     drag.current.isDown = true;
     drag.current.startX = e.pageX - (carouselRef.current?.offsetLeft || 0);
     drag.current.scrollLeft = carouselRef.current?.scrollLeft || 0;
+    setIsDragging(true); // Start dragging cursor
   };
 
   const onClick = (e: MouseEvent) => {
@@ -165,6 +175,14 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
 
   const onMouseUp = () => {
     drag.current.isDown = false;
+    setIsDragging(false); // Stop dragging cursor
+  };
+
+  const onMouseLeave = () => {
+    if (drag.current.isDown) {
+      drag.current.isDown = false;
+      setIsDragging(false); // Stop dragging cursor if mouse leaves
+    }
   };
 
   const onMouseMove = (e: MouseEvent) => {
@@ -202,15 +220,17 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
           height: 'calc(100% - 60px)',
         } as React.CSSProperties
       }>
-      <div
-        className={[styles.n23mSliderScrollWrapper, 'n23mSliderScrollWrapper'].join(' ')}>
+      <div className={[styles.n23mSliderScrollWrapper, 'n23mSliderScrollWrapper'].join(' ')}>
         <div
-          className={styles.n23mSliderScrollTrack}
+          className={[
+            styles.n23mSliderScrollTrack,
+            isDragging ? styles.dragging : '',
+          ].join(' ')}
           ref={carouselRef}
           onClick={onClick}
           onScroll={handleScroll}
           onMouseDown={onMouseDown}
-          onMouseLeave={onMouseUp}
+          onMouseLeave={onMouseLeave}
           onMouseUp={onMouseUp}
           onMouseMove={onMouseMove}
           onTouchMove={onTouchMove}>

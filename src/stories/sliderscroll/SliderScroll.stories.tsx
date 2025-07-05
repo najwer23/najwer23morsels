@@ -112,10 +112,10 @@ export const SliderScrollWithImgLinksAsItem: Story = {
             }}>
             <img
               draggable="false"
-              src="https://picsum.photos/300/400"
+              src="https://picsum.photos/300/340"
               alt=""
-              height="340px"
               width="300px"
+              height="340px"
               style={{ height: '100%', width: 'auto', display: 'block' }}
             />
           </a>
