@@ -191,8 +191,10 @@ export const Slider: React.FC<SliderProps> = ({
       if (currSlide < slidePerViewDynamic * 2 && isCircular) {
         newIndex = currSlide + childSlides.length * 2;
       } else if (currSlide >= childSlides.length * 2 + slidePerViewDynamic && isCircular) {
-        newIndex = currSlide - childSlides.length * 2;
+        newIndex = currSlide - childSlides.length;
       }
+
+      console.log(newIndex)
 
       if (newIndex !== currSlide && isCircular) {
         setCurrSlide(newIndex);
