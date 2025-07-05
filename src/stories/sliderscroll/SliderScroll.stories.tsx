@@ -64,6 +64,35 @@ export const Default: Story = {
   ),
 };
 
+export const SliderScrollCircular: Story = {
+  args: {
+    gap: '10px',
+    isCircular: true
+  },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <SliderScroll {...args}>
+        {slides.map(({ label }, i) => (
+          <div
+            key={i}
+            style={{
+              width: '200px',
+              height: '340px',
+              background: slides[i].color,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: 'white',
+              fontSize: '40px',
+            }}>
+            {label}
+          </div>
+        ))}
+      </SliderScroll>
+    </div>
+  ),
+};
+
 export const SliderScrollWithLinksAsItem: Story = {
   args: {
     gap: '10px',
