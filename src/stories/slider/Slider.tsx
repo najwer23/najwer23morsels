@@ -84,13 +84,13 @@ export const Slider: React.FC<SliderProps> = ({
   } else if (width < 1199.98) {
     slidePerViewDynamic = slidesConfig.tablet.items;
     slidesToScrollDynamic = slidesConfig.tablet.slidesToScroll;
-    slideAnimation = 'transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1)';
-    slideAnimationDelay = 900;
+    slideAnimation = 'transform 0.65s cubic-bezier(0.645, 0.045, 0.355, 1)';
+    slideAnimationDelay = 700;
   } else {
     slidePerViewDynamic = slidesConfig.desktop.items;
     slidesToScrollDynamic = slidesConfig.desktop.slidesToScroll;
-    slideAnimation = 'transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1)';
-    slideAnimationDelay = 900;
+    slideAnimation = 'transform 0.65s cubic-bezier(0.645, 0.045, 0.355, 1)';
+    slideAnimationDelay = 700;
   }
 
   useLayoutEffect(() => {
@@ -158,8 +158,8 @@ export const Slider: React.FC<SliderProps> = ({
       let rightPad = 0;
 
       if (slidePerViewDynamic == 1 && childSlides.length != 1) {
-        leftPad = 35;
-        rightPad = 35;
+        leftPad = 40;
+        rightPad = 40;
       } else if (slidePerViewDynamic == 2) {
         leftPad = 20;
         rightPad = 20;
@@ -167,8 +167,8 @@ export const Slider: React.FC<SliderProps> = ({
         leftPad = 10;
         rightPad = 10;
       } else if (slidePerViewDynamic == 3) {
-        leftPad = 15;
-        rightPad = 15;
+        leftPad = 12.5;
+        rightPad = 12.5;
       }
 
       const offset =
@@ -280,11 +280,11 @@ export const Slider: React.FC<SliderProps> = ({
                       slidePerViewDynamic == 1 && childSlides.length == 1
                         ? '100%'
                         : slidePerViewDynamic == 1
-                          ? `calc(${slideWidth}px - 35px)`
+                          ? `calc(${slideWidth}px - 40px)`
                           : slidePerViewDynamic == 2
                             ? `calc(${slideWidth}px - 20px)`
                             : slidePerViewDynamic == 3
-                              ? `calc(${slideWidth}px - 15px)`
+                              ? `calc(${slideWidth}px - 12.5px)`
                               : slidePerViewDynamic == 4
                                 ? `calc(${slideWidth}px - 10px)`
                                 : `${slideWidth}px`,
