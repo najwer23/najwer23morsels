@@ -1,5 +1,5 @@
 @layer n23mSlider {
-  .n23mSliderContainer {
+  .n23mSlider {
     width: 100%;
   }
 
@@ -36,7 +36,6 @@
 
   .n23mSliderControls {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-left: 20px;
     margin-right: 20px;

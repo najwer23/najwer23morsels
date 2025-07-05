@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 const meta: Meta<typeof Slider> = {
   title: 'Slider/Slider',
   component: Slider,
-  parameters: {
+   parameters: {
     layout: 'centered',
     docs: {
       description: {
         component: `
-This is a slider component that allows you to display multiple slides with various properties. It supports circular navigation, loading states, and can handle different numbers of slides.
+This is a multi-slide slider component that can be used to display multiple items in a carousel format. It supports various properties such as circular navigation, loading states, and more.
 
 You can import the Slider component from the library and use it in your application as follows:
 \`\`\`tsx
@@ -41,10 +41,8 @@ const slides = [
   { color: 'blue', label: '2', action: action('on-click-2') },
   { color: 'orange', label: '3', action: action('on-click-3') },
   { color: 'green', label: '4', action: action('on-click-4') },
+  { color: 'pink', label: '5', action: action('on-click-5') },
 ];
-
-const twoSlides = slides.slice(0, 2);
-const oneSlide = slides.slice(0, 1);
 
 export const Default: Story = {
   args: {},
@@ -61,72 +59,14 @@ export const Default: Story = {
   ),
 };
 
-export const Slider1Slide: Story = {
-  args: {},
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <Slider {...args}>
-        {oneSlide.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
-        ))}
-      </Slider>
-    </div>
-  ),
-};
-
-export const Slider2Slides: Story = {
-  args: {},
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <Slider {...args}>
-        {twoSlides.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
-        ))}
-      </Slider>
-    </div>
-  ),
-};
-
 export const SliderCircular: Story = {
-  args: { isCircular: true },
+  args: {
+    isCircular: true,
+  },
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
         {slides.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
-        ))}
-      </Slider>
-    </div>
-  ),
-};
-
-export const SliderCircular1Slide: Story = {
-  args: { isCircular: true },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <Slider {...args}>
-        {oneSlide.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
-        ))}
-      </Slider>
-    </div>
-  ),
-};
-
-export const SliderCircular2Slides: Story = {
-  args: { isCircular: true },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <Slider {...args}>
-        {twoSlides.map(({ color, label, action }, i) => (
           <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
             {label}
           </div>
@@ -153,12 +93,11 @@ export const SliderLoading: Story = {
       return (
         <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
           <Slider loading={loading}>
-            <div style={{ background: 'red', ...slideStyle }} onClick={action('on-click-1')}>
-              1
-            </div>
-            <div style={{ background: 'green', ...slideStyle }} onClick={action('on-click-2')}>
-              2
-            </div>
+            {slides.map(({ color, label, action }, i) => (
+              <div key={i + 100} style={{ background: color, ...slideStyle }} onClick={action}>
+                {label}
+              </div>
+            ))}
           </Slider>
         </div>
       );
