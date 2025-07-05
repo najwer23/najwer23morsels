@@ -157,7 +157,7 @@ export const Slider: React.FC<SliderProps> = ({
       let leftPad = 0;
       let rightPad = 0;
 
-      if (slidePerViewDynamic == 1) {
+      if (slidePerViewDynamic == 1 && childSlides.length != 1) {
         leftPad = 35;
         rightPad = 35;
       } else if (slidePerViewDynamic == 2) {
@@ -277,15 +277,17 @@ export const Slider: React.FC<SliderProps> = ({
                   className={styles.n23mSliderSlide}
                   style={{
                     width:
-                      slidePerViewDynamic == 1
-                        ? `calc(${slideWidth}px - 35px)`
-                        : slidePerViewDynamic == 2
-                          ? `calc(${slideWidth}px - 20px)`
-                          : slidePerViewDynamic == 3
-                            ? `calc(${slideWidth}px - 15px)`
-                            : slidePerViewDynamic == 4
-                              ? `calc(${slideWidth}px - 10px)`
-                              : `${slideWidth}px`,
+                      slidePerViewDynamic == 1 && childSlides.length == 1
+                        ? '100%'
+                        : slidePerViewDynamic == 1
+                          ? `calc(${slideWidth}px - 35px)`
+                          : slidePerViewDynamic == 2
+                            ? `calc(${slideWidth}px - 20px)`
+                            : slidePerViewDynamic == 3
+                              ? `calc(${slideWidth}px - 15px)`
+                              : slidePerViewDynamic == 4
+                                ? `calc(${slideWidth}px - 10px)`
+                                : `${slideWidth}px`,
                   }}
                   aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}>
                   {slide}
@@ -297,7 +299,7 @@ export const Slider: React.FC<SliderProps> = ({
           <div
             className={[styles.n23mSliderControls, 'n23mSliderControls'].join(' ')}
             style={{ justifyContent: slidePerViewDynamic == 1 ? 'space-between' : 'flex-end' }}>
-            {slidePerViewDynamic == 1 && childSlides.length > 1 && (
+            {slidePerViewDynamic == 1 && (
               <div className={[styles.n23mSliderCounter, 'n23mSliderCounter'].join(' ')}>
                 <TextBox mobileSize={16} desktopSize={16} color="black">
                   {!isCircular

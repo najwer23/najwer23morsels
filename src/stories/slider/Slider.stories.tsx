@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 const meta: Meta<typeof Slider> = {
   title: 'Slider/Slider',
   component: Slider,
-   parameters: {
+  parameters: {
     layout: 'centered',
     docs: {
       description: {
@@ -105,4 +105,65 @@ export const SliderLoading: Story = {
 
     return <LoadingToggle />;
   },
+};
+
+export const Slider1Slide: Story = {
+  args: {
+    isCircular: false,
+    slidesConfig: {
+    mobile: {
+      items: 1,
+      slidesToScroll: 1,
+    },
+    tablet: {
+      items: 1,
+      slidesToScroll: 1,
+    },
+    desktop: {
+      items: 1,
+      slidesToScroll: 1,
+    },
+  }
+  },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        <div style={{ background: slides[0].color, ...slideStyle }} onClick={slides[0].action}>
+          {slides[0].label}
+        </div>
+      </Slider>
+    </div>
+  ),
+};
+
+export const Slider2Slides: Story = {
+  args: {
+    isCircular: true,
+    slidesConfig: {
+    mobile: {
+      items: 1,
+      slidesToScroll: 1,
+    },
+    tablet: {
+      items: 2,
+      slidesToScroll: 2,
+    },
+    desktop: {
+      items: 2,
+      slidesToScroll: 2,
+    },
+  }
+  },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <Slider {...args}>
+        <div style={{ background: slides[0].color, ...slideStyle }} onClick={slides[0].action}>
+          {slides[0].label}
+        </div>
+        <div style={{ background: slides[1].color, ...slideStyle }} onClick={slides[1].action}>
+          {slides[1].label}
+        </div>
+      </Slider>
+    </div>
+  ),
 };
