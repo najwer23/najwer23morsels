@@ -44,18 +44,15 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
 
   const updateControls = () => {
     if (!carouselRef.current) return;
-
     if (isCircular) {
       showArrowLeftRef.current = true;
       showArrowRightRef.current = true;
     } else {
       const scrollLeft = carouselRef.current.scrollLeft;
       const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-
       showArrowLeftRef.current = scrollLeft > 0;
       showArrowRightRef.current = scrollLeft < maxScrollLeft;
     }
-
     setButtonsDisabled(isSliding.current);
   };
 
@@ -82,15 +79,12 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
 
   const onScroll = () => {
     if (!carouselRef.current) return;
-
     if (isCircular) {
       const childWidth = getChildWidth();
       if (!childWidth) return;
-
       const maxScrollLeft = childWidth * (cloneCount + childrenArray.length);
       const minScrollLeft = childWidth * cloneCount;
       const scrollLeft = carouselRef.current.scrollLeft;
-
       if (scrollLeft < minScrollLeft - childWidth / 2) {
         carouselRef.current.scrollLeft = scrollLeft + childWidth * childrenArray.length;
       } else if (scrollLeft > maxScrollLeft + childWidth / 2) {
@@ -102,22 +96,16 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
 
   const smoothScrollTo = (element: HTMLElement, target: number, duration: number = 300) => {
     if (isSliding.current) return;
-
     isSliding.current = true;
     setButtonsDisabled(true);
-
     const start = element.scrollLeft;
     const change = target - start;
     const startTime = performance.now();
-
     const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
     const animateScroll = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-
       element.scrollLeft = start + change * easeInOutCubic(progress);
-
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
       } else {
@@ -126,45 +114,78 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
         updateControls();
       }
     };
-
     requestAnimationFrame(animateScroll);
   };
 
-  const slideLeft = () => {
+  const scrollToIndex = (index: number) => {
     if (!carouselRef.current) return;
-
     const childWidth = getChildWidth();
-    if (childWidth === 0) return;
+    const targetScrollLeft = (index * childWidth) - 20;
+    smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
+  };
 
-    const visibleCount = Math.floor(carouselRef.current.offsetWidth / childWidth);
-    const scrollAmount = visibleCount * childWidth;
-
-    let targetScrollLeft = carouselRef.current.scrollLeft - scrollAmount;
-
-    if (!isCircular) {
-      targetScrollLeft = Math.max(targetScrollLeft, 0);
-    }
-
+  const scrollToIndexRightAlign = (index: number) => {
+    if (!carouselRef.current) return;
+    const childWidth = getChildWidth();
+    const viewportWidth = carouselRef.current.offsetWidth;
+    const targetScrollLeft = Math.max(0, (index + 1) * childWidth - viewportWidth + 10);
     smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
   };
 
   const slideRight = () => {
     if (!carouselRef.current) return;
-
     const childWidth = getChildWidth();
-    if (childWidth === 0) return;
+    if (!childWidth) return;
 
-    const visibleCount = Math.floor(carouselRef.current.offsetWidth / childWidth);
-    const scrollAmount = visibleCount * childWidth;
+    const track = carouselRef.current;
+    const viewportWidth = track.offsetWidth;
+    const visibleCount = Math.floor(viewportWidth / childWidth);
 
-    let targetScrollLeft = carouselRef.current.scrollLeft + scrollAmount;
+    const currentScroll = track.scrollLeft;
+    const firstVisibleIndex = Math.round(currentScroll / childWidth);
 
-    if (!isCircular) {
-      const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-      targetScrollLeft = Math.min(targetScrollLeft, maxScrollLeft);
+    const lastFullyVisibleIndex = firstVisibleIndex + visibleCount - 1;
+    const lastItemRightEdge = (lastFullyVisibleIndex + 1) * childWidth;
+    const viewportRightEdge = currentScroll + viewportWidth;
+
+    let nextFirstIndex;
+
+    if (lastItemRightEdge > viewportRightEdge + 1) {
+      nextFirstIndex = lastFullyVisibleIndex;
+    } else {
+      nextFirstIndex = firstVisibleIndex + visibleCount;
     }
+    if (!isCircular) {
+      nextFirstIndex = Math.min(childrenArray.length - visibleCount, nextFirstIndex);
+    }
+    scrollToIndex(nextFirstIndex);
+  };
 
-    smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
+  const slideLeft = () => {
+    if (!carouselRef.current) return;
+    const childWidth = getChildWidth();
+    if (!childWidth) return;
+
+    const track = carouselRef.current;
+    const viewportWidth = track.offsetWidth;
+    const visibleCount = Math.floor(viewportWidth / childWidth);
+
+    const currentScroll = track.scrollLeft;
+    const approxFirstVisibleIndex = currentScroll / childWidth;
+    const fractional = approxFirstVisibleIndex % 1;
+
+    let newLastIndex;
+
+    if (fractional > 0.01) {
+      newLastIndex = Math.floor(approxFirstVisibleIndex);
+    } else {
+      newLastIndex = Math.floor(approxFirstVisibleIndex) - 1;
+      newLastIndex = Math.max(visibleCount - 1, newLastIndex);
+    }
+    if (!isCircular) {
+      newLastIndex = Math.max(visibleCount - 1, newLastIndex);
+    }
+    scrollToIndexRightAlign(newLastIndex);
   };
 
   const drag = useRef<{
@@ -212,16 +233,12 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
       drag.current.isMove = false;
       return;
     }
-
     e.preventDefault();
-
     const x = getEventX(e) - (carouselRef.current?.offsetLeft || 0);
     const walk = x - drag.current.startX;
-
     if (Math.abs(walk) > 5) {
       drag.current.isMove = true;
     }
-
     if (carouselRef.current) {
       carouselRef.current.scrollLeft = drag.current.scrollLeft - walk;
       updateControls();
