@@ -71,7 +71,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     if (isCircular) {
       const childWidth = getChildWidth();
       if (carouselRef.current && childWidth) {
-        carouselRef.current.scrollLeft = childWidth * cloneCount - 20;
+        carouselRef.current.scrollLeft = childWidth * cloneCount - (parseInt(gap, 10) + 10);
       }
     }
     updateControls();
@@ -120,7 +120,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
   const scrollToIndex = (index: number) => {
     if (!carouselRef.current) return;
     const childWidth = getChildWidth();
-    const targetScrollLeft = (index * childWidth) - 20;
+    const targetScrollLeft = (index * childWidth) - (parseInt(gap, 10) + 10);
     smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
   };
 
