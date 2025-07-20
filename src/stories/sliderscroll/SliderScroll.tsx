@@ -19,7 +19,6 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
   const showArrowLeftRef = useRef(false);
   const showArrowRightRef = useRef(false);
   const isSliding = useRef(false);
-  const isDragging = useRef(false);
 
   const childrenArray = Children.toArray(children);
   const cloneCount = childrenArray.length;
@@ -229,11 +228,13 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     startX: number;
     scrollLeft: number;
     isMove: boolean;
+    isDragging: boolean;
   }>({
     isDown: false,
     startX: 0,
     scrollLeft: 0,
     isMove: false,
+    isDragging: false,
   });
 
   const getEventX = (event: MouseEvent | TouchEvent) => {
@@ -246,20 +247,20 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     drag.current.isDown = true;
     drag.current.startX = e.pageX - (carouselRef.current?.offsetLeft || 0);
     drag.current.scrollLeft = carouselRef.current?.scrollLeft || 0;
-    isDragging.current = true;
+    drag.current.isDragging = true;
     updateTrackDraggingClass();
   };
 
   const onMouseUp = () => {
     drag.current.isDown = false;
-    isDragging.current = false;
+    drag.current.isDragging = false;
     updateTrackDraggingClass();
   };
 
   const onMouseLeave = () => {
     if (drag.current.isDown) {
       drag.current.isDown = false;
-      isDragging.current = false;
+      drag.current.isDragging = false;
       updateTrackDraggingClass();
     }
   };
@@ -290,7 +291,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
 
   const updateTrackDraggingClass = () => {
     if (!carouselRef.current) return;
-    if (isDragging.current) {
+    if (drag.current.isDragging) {
       carouselRef.current.classList.add(styles.dragging);
     } else {
       carouselRef.current.classList.remove(styles.dragging);
