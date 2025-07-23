@@ -170,6 +170,7 @@ export const SliderScrollWithImgLinksAsItem: Story = {
             href="/jkg"
             key={i}
             style={{
+              display: 'block',
               width: '300px',
               height: '340px',
             }}>
