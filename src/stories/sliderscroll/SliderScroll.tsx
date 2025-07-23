@@ -1,4 +1,15 @@
-import { useEffect, useRef, useState, useMemo, MouseEvent, TouchEvent, ReactNode, Children, cloneElement } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+  MouseEvent,
+  TouchEvent,
+  ReactNode,
+  Children,
+  cloneElement,
+} from 'react';
 import { Button } from '../button';
 import styles from './SliderScroll.module.css';
 import { useWindowSize } from '../hooks';
@@ -10,24 +21,35 @@ interface SliderScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   arrowRightIcon?: ReactNode;
   gap?: string;
   isCircular?: boolean;
+  autoPlay?: boolean;
+  autoPlaySpeed?: number;
 }
 
-export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className, gap = '5px', isCircular = false }) => {
+export const SliderScroll: React.FC<SliderScrollProps> = ({
+  children,
+  className,
+  gap = '5px',
+  isCircular = false,
+  autoPlay = false,
+  autoPlaySpeed = 0.5,
+}) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const buttonLeftRef = useRef<HTMLButtonElement | null>(null);
   const buttonRightRef = useRef<HTMLButtonElement | null>(null);
   const showArrowLeftRef = useRef(false);
   const showArrowRightRef = useRef(false);
   const isSliding = useRef(false);
+  const animationFrameId = useRef<number | null>(null);
+  const isHovered = useRef(false);
 
   const childrenArray = Children.toArray(children);
   const cloneCount = childrenArray.length;
 
   const clonesBefore = isCircular
-    ? childrenArray.map((child, i) => cloneElement(child as React.ReactElement, { key: `clone-before-${i}` }))
+    ? childrenArray.map((child, i) => cloneElement(child as React.ReactElement, { key: `cb-${i}` }))
     : [];
   const clonesAfter = isCircular
-    ? childrenArray.map((child, i) => cloneElement(child as React.ReactElement, { key: `clone-after-${i}` }))
+    ? childrenArray.map((child, i) => cloneElement(child as React.ReactElement, { key: `ca-${i}` }))
     : [];
 
   const childRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -129,7 +151,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     requestAnimationFrame(animateScroll);
   };
 
-  const slideRight = () => {
+  const slideRight = useCallback(() => {
     if (!carouselRef.current) return;
     if (!cumulativeOffsets.length || !childWidths.length) return;
 
@@ -166,10 +188,6 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
       nextFirstIndex = firstVisibleIndex + visibleCount;
     }
 
-    if (!isCircular) {
-      nextFirstIndex = Math.min(childrenArray.length - visibleCount, nextFirstIndex);
-    }
-
     let targetScrollLeft = cumulativeOffsets[nextFirstIndex] - Number(gap.slice(0, -2)) * 2;
     if (targetScrollLeft < 0) targetScrollLeft = 0;
 
@@ -179,9 +197,9 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     }
 
     smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
-  };
+  }, [cumulativeOffsets, childWidths, gap, cloneCount, isCircular, childrenArray.length]);
 
-  const slideLeft = () => {
+  const slideLeft = useCallback(() => {
     if (!carouselRef.current) return;
     if (!cumulativeOffsets.length || !childWidths.length) return;
 
@@ -221,7 +239,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     }
 
     smoothScrollTo(carouselRef.current, targetScrollLeft, 400);
-  };
+  }, [cumulativeOffsets, childWidths, gap, cloneCount, isCircular]);
 
   const drag = useRef<{
     isDown: boolean;
@@ -302,6 +320,62 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
     setButtonsDisabled(false);
   }, []);
 
+  const onMouseEnter = () => {
+    isHovered.current = true;
+  };
+
+  const onMouseLeaveHandler = () => {
+    isHovered.current = false;
+  };
+
+  useEffect(() => {
+    if (!isCircular) return;
+
+    if (!autoPlay) {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+        animationFrameId.current = null;
+      }
+      return;
+    }
+
+    const step = () => {
+      if (!carouselRef.current) return;
+
+      if (isSliding.current || isHovered.current) {
+        animationFrameId.current = requestAnimationFrame(step);
+        return;
+      }
+
+      const track = carouselRef.current;
+      let newScrollLeft = track.scrollLeft + autoPlaySpeed;
+
+      if (isCircular && cumulativeOffsets.length && childWidths.length) {
+        const totalLength =
+          cumulativeOffsets[cumulativeOffsets.length - 1] + (childWidths[childWidths.length - 1] || 0);
+        const leftBoundary = cumulativeOffsets[cloneCount] || 0;
+        const rightBoundary = cumulativeOffsets[cloneCount + childrenArray.length] || totalLength;
+
+        if (newScrollLeft > rightBoundary + childWidths[0] / 2) {
+          newScrollLeft = newScrollLeft - (rightBoundary - leftBoundary);
+        }
+      }
+
+      track.scrollLeft = newScrollLeft;
+      updateControls();
+      animationFrameId.current = requestAnimationFrame(step);
+    };
+
+    animationFrameId.current = requestAnimationFrame(step);
+
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+        animationFrameId.current = null;
+      }
+    };
+  }, [autoPlay, autoPlaySpeed, isCircular, cumulativeOffsets, childWidths, cloneCount, childrenArray.length]);
+
   return (
     <div
       className={['n23mSliderScroll', className].filter(Boolean).join(' ')}
@@ -310,7 +384,9 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({ children, className,
           '--sliderscroll-gap': gap,
           height: 'calc(100% - 60px)',
         } as React.CSSProperties
-      }>
+      }
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeaveHandler}>
       <div className={[styles.n23mSliderScrollWrapper, 'n23mSliderScrollWrapper'].join(' ')}>
         <div
           className={styles.n23mSliderScrollTrack}

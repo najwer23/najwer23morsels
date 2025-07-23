@@ -127,6 +127,43 @@ export const SliderScrollCircularDifferentSizes: Story = {
   ),
 };
 
+export const SliderScrollCircularDifferentSizesAutoplay: Story = {
+  args: {
+    gap: '10px',
+    isCircular: true,
+    autoPlay: true,
+    autoPlaySpeed: 0.5
+  },
+  render: (args) => (
+    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
+      <SliderScroll {...args}>
+        {slides.map(({ label, color }, i) => {
+          // Random width between 180 and 320 px, rounded to nearest 10px
+          const randomWidth = `${Math.round(180 + Math.random() * 140)}px`;
+
+          return (
+            <div
+              key={i}
+              style={{
+                width: randomWidth,
+                height: '340px',
+                background: color,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: 'white',
+                fontSize: '40px',
+              }}>
+              {label}
+            </div>
+          );
+        })}
+      </SliderScroll>
+    </div>
+  ),
+};
+
+
 export const SliderScrollWithLinksAsItem: Story = {
   args: {
     gap: '10px',

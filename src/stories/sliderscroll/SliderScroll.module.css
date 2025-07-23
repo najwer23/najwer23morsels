@@ -29,7 +29,8 @@
       flex-shrink: 0;
     }
 
-  &.dragging, &.dragging a {
+    &.dragging,
+    &.dragging a {
       cursor: grabbing;
     }
   }
