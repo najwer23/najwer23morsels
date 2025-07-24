@@ -339,6 +339,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       return;
     }
 
+    let timeoutId: NodeJS.Timeout;
+
     const step = () => {
       if (!carouselRef.current) return;
 
@@ -366,9 +368,12 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       animationFrameId.current = requestAnimationFrame(step);
     };
 
-    animationFrameId.current = requestAnimationFrame(step);
+    timeoutId = setTimeout(() => {
+      animationFrameId.current = requestAnimationFrame(step);
+    }, 500);
 
     return () => {
+      if (timeoutId) clearTimeout(timeoutId);
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
         animationFrameId.current = null;
