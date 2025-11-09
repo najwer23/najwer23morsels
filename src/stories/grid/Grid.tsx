@@ -61,6 +61,8 @@ export const Grid: React.FC<GridProps> = ({
             '--grid-p': padding,
             '--grid-m': margin,
             '--grid-jc': justifyContent,
+            '--grid-col-gap': gap?.col || '0px',
+            '--grid-row-gap': gap?.row || '0px',
           } as React.CSSProperties
         }
         {...props}>

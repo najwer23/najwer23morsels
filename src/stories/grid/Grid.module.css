@@ -12,6 +12,8 @@
   .n23mGridFlex {
     display: flex;
     justify-content: var(--grid-jc, space-between);
+    column-gap: var(--grid-col-gap);
+    row-gap: var(--grid-row-gap);
   }
 
   .n23mGridColumns {
