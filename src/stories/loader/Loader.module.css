@@ -6,7 +6,7 @@
     align-items: center;
     box-sizing: border-box;
     height: var(--loader-mh, 100%);
-    color: var(--n23mTextBoxColor, var(--loader-lc, black));
-    border: dashed 1px var(--n23mTextBoxColor, var(--loader-lc, black));
+    color: var(--loader-lc, var(--n23mTextBoxColor, black));
+    border: dashed 1px var(--loader-lc, var(--n23mTextBoxColor , black));
   }
 }
