@@ -24,25 +24,25 @@
       calc(var(--cmx) / 16 * 1rem)
     );
 
-    line-height: var(--n23mTextBoxLineHeight, var(--textbox-lh, 1.42857));
+    line-height: var(--textbox-lh, var(--n23mTextBoxLineHeight, 1.42857));
     font-family: var(--n23mFontFamily, var(--tff));
-    margin: var(--n23mTextBoxMargin, var(--textbox-m));
-    color: var(--n23mTextBoxColor, var(--textbox-c));
-    font-weight: var(--n23mTextBoxFontWeight, var(--textbox-fw));
+    margin: var(--textbox-m, var(--n23mTextBoxMargin));
+    color: var(--textbox-c, var(--n23mTextBoxColor));
+    font-weight: var(--textbox-fw, var(--n23mTextBoxFontWeight));
   }
 
   .n23mTextBoxLink {
-    color: var(--n23mTextBoxColor, var(--textbox-c));
+    color: var(--textbox-c, var(--n23mTextBoxColor));
     text-decoration: unset;
     transition: all 0.15s ease-in-out;
-    font-weight: var(--n23mTextBoxFontWeight, var(--textbox-fw));
+    font-weight: var(--textbox-fw , var(--n23mTextBoxFontWeight));
 
     &:hover,
     &:focus-visible,
     &:active {
       text-decoration: underline;
-      color: var(--n23mTextBoxColorHover, var(--textbox-fw, var(--textbox-ch)));
-      font-weight: var(--n23mTextBoxFontWeightHover, var(--textbox-fwh, var(--textbox-fw)));
+      color: var(--textbox-ch, var(--n23mTextBoxColorHover));
+      font-weight: var(--textbox-fwh, var(--n23mTextBoxFontWeightHover, var(--textbox-fw)));
     }
   }
 }
