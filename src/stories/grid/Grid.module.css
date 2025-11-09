@@ -1,11 +1,17 @@
 @layer n23mGrid {
+  .n23mGridFlex,
   .n23mGridContainer {
     max-width: var(--grid-wMax);
     min-width: var(--grid-wMin);
-    min-height: var(--grid-mh);
+    min-height: var(--grid-mh, auto);
     padding: var(--grid-p);
     margin: var(--grid-m);
     box-sizing: border-box;
+  }
+
+  .n23mGridFlex {
+    display: flex;
+    justify-content: var(--grid-jc, space-between);
   }
 
   .n23mGridColumns {

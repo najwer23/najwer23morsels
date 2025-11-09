@@ -56,7 +56,7 @@ export const GridContainerLoading: Story = {
     layout: 'container',
     widthMax: 600,
     padding: '10px',
-    minHeight: 400,
+    minHeight: 402,
   },
   render: (args) => {
     const [loading, setLoading] = useState(true);
