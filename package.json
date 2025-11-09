@@ -1,6 +1,6 @@
 {
   "name": "najwer23morsels",
-  "version": "0.10.8",
+  "version": "0.10.9",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
@@ -21,32 +21,32 @@
     "release": "yarn build && yarn && changeset && changeset version && changeset publish && rimraf ./lib && rimraf ./.yarn/cache"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.5",
-    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@changesets/cli": "^2.29.7",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "0.4.4",
-    "@storybook/addon-a11y": "^9.0.15",
-    "@storybook/addon-docs": "^9.0.15",
-    "@storybook/react-vite": "^9.0.15",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
+    "@storybook/addon-a11y": "^10.0.6",
+    "@storybook/addon-docs": "^10.0.6",
+    "@storybook/react-vite": "^10.0.6",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
     "gh-pages": "^6.3.0",
-    "plop": "^4.0.1",
+    "plop": "^4.0.4",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "rimraf": "^6.0.1",
-    "rollup": "^4.44.1",
-    "rollup-plugin-dts": "6.2.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "rimraf": "^6.1.0",
+    "rollup": "^4.53.1",
+    "rollup-plugin-dts": "6.2.3",
     "rollup-plugin-output-size": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "0.36.0",
-    "storybook": "^9.0.15",
+    "storybook": "^10.0.6",
     "storybook-css-modules-preset": "^1.1.1",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.0"
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2"
   },
   "peerDependencies": {
     "react": "^19.1.0",
@@ -56,7 +56,7 @@
     "react",
     "react 19",
     "storybook",
-    "storybook 9",
+    "storybook 10",
     "design-system",
     "gh-pages",
     "typescript",
@@ -71,5 +71,5 @@
     "url": "git+https://github.com/najwer23/najwer23morsels.git"
   },
   "license": "MIT",
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.11.0"
 }
