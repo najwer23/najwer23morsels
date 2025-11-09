@@ -1,4 +1,4 @@
-import{j as r}from"./jsx-runtime-D_zvdyIk.js";import{I as t,a as s}from"./IconArrowRight-DaV6Kolw.js";const i={title:"Icons/Icons",parameters:{layout:"centered",docs:{description:{component:`
+import{j as r}from"./jsx-runtime-u17CrQMm.js";import{I as t,a as s}from"./IconArrowRight--vpQEYqS.js";const i={title:"Icons/Icons",parameters:{layout:"centered",docs:{description:{component:`
 This is a collection of icon components that can be used in your application. The icons are designed to be simple and easy to use, with customizable properties such as width and height.
 
 You can import the Icons component from the library and use it in your application as follows:
