@@ -35,7 +35,11 @@ export const TextBox: React.FC<TextBoxProps> = ({
   fontWeightHover,
   ...props
 }) => {
-  const Tag = tag;
+  let Tag = tag;
+
+  if (href) {
+    Tag = 'a';
+  }
 
   return (
     <Tag
@@ -51,14 +55,17 @@ export const TextBox: React.FC<TextBoxProps> = ({
           ...(margin !== undefined && margin !== null ? { '--textbox-m': margin } : {}),
         } as React.CSSProperties
       }
-      className={[styles.n23mTextBox, 'n23mTextBox', className].filter(Boolean).join(' ')}
+      className={[
+        styles.n23mTextBox,
+        'n23mTextBox',
+        `${href ? `${styles.n23mTextBoxLink} n23mTextBoxLink` : ''}`,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      {...(href ? { href, target, rel } : {})}
       {...props}>
-      {href && (
-        <a className={'n23mTextBoxLink'} href={href} target={target} rel={rel}>
-          {children}
-        </a>
-      )}
-      {!href && children}
+      {children}
     </Tag>
   );
 };

@@ -67,7 +67,6 @@ export const InlineLink: Story = {
     desktopSize: 20,
     href: '/ksdjdkdj',
     children: " "+defaultText + " ",
-    tag: 'a',
   },
   render: (args) => (
     <div>

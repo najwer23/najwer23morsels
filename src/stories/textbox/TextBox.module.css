@@ -29,20 +29,20 @@
     margin: var(--n23mTextBoxMargin, var(--textbox-m));
     color: var(--n23mTextBoxColor, var(--textbox-c));
     font-weight: var(--n23mTextBoxFontWeight, var(--textbox-fw));
+  }
 
-    & a {
-      color: var(--n23mTextBoxColor, var(--textbox-c));
-      text-decoration: unset;
-      transition: all 0.15s ease-in-out;
-      font-weight: var(--n23mTextBoxFontWeight, var(--textbox-fw));
+  .n23mTextBoxLink {
+    color: var(--n23mTextBoxColor, var(--textbox-c));
+    text-decoration: unset;
+    transition: all 0.15s ease-in-out;
+    font-weight: var(--n23mTextBoxFontWeight, var(--textbox-fw));
 
-      &:hover,
-      &:focus-visible,
-      &:active {
-        text-decoration: underline;
-        color: var(--n23mTextBoxColorHover, var(--textbox-fw, var(--textbox-ch)));
-        font-weight: var(--n23mTextBoxFontWeightHover, var(--textbox-fwh, var(--textbox-fw)));
-      }
+    &:hover,
+    &:focus-visible,
+    &:active {
+      text-decoration: underline;
+      color: var(--n23mTextBoxColorHover, var(--textbox-fw, var(--textbox-ch)));
+      font-weight: var(--n23mTextBoxFontWeightHover, var(--textbox-fwh, var(--textbox-fw)));
     }
   }
 }
