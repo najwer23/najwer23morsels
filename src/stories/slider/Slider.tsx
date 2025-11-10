@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, ReactElement, ReactNode, useLayoutEffect } from 'react';
-import styles from './Slider.module.css';
-import { Loader } from '../loader';
-import { IconArrowLeft, IconArrowRight } from '../icons';
+import React, { ReactElement, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '../button';
 import { useWindowSize } from '../hooks';
+import { IconArrowLeft, IconArrowRight } from '../icons';
+import { Loader } from '../loader';
 import { TextBox } from '../textbox';
+import styles from './Slider.module.css';
 
 type SlideElement = ReactElement<{ className?: string }>;
 
@@ -248,7 +248,8 @@ export const Slider: React.FC<SliderProps> = ({
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}>
+      onTouchEnd={handleTouchEnd}
+    >
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
@@ -262,7 +263,8 @@ export const Slider: React.FC<SliderProps> = ({
                 overflow: 'hidden',
                 width: '100%',
                 boxSizing: 'border-box',
-              }}>
+              }}
+            >
               {slides.map((slide, i) => (
                 <div
                   key={slide.key ?? i}
@@ -284,7 +286,8 @@ export const Slider: React.FC<SliderProps> = ({
                                 ? `calc(${slideWidth}px - 10px)`
                                 : `${slideWidth}px`,
                   }}
-                  aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}>
+                  aria-hidden={i < currSlide || i >= currSlide + slidePerViewDynamic}
+                >
                   {slide}
                 </div>
               ))}
@@ -293,7 +296,8 @@ export const Slider: React.FC<SliderProps> = ({
 
           <div
             className={[styles.n23mSliderControls, 'n23mSliderControls'].join(' ')}
-            style={{ justifyContent: slidePerViewDynamic == 1 ? 'space-between' : 'flex-end' }}>
+            style={{ justifyContent: slidePerViewDynamic == 1 ? 'space-between' : 'flex-end' }}
+          >
             {slidePerViewDynamic == 1 && (
               <div className={[styles.n23mSliderCounter, 'n23mSliderCounter'].join(' ')}>
                 <TextBox mobileSize={16} desktopSize={16} color="black">
@@ -314,7 +318,8 @@ export const Slider: React.FC<SliderProps> = ({
                 onClick={prevSlide}
                 borderColor="black"
                 backgroundColorDisabled="#F2F0EF"
-                disabled={isAnimating || (!isCircular && currSlide === 0)}>
+                disabled={isAnimating || (!isCircular && currSlide === 0)}
+              >
                 <IconArrowLeft width={24} height={24} />
               </Button>
               <Button
@@ -326,7 +331,8 @@ export const Slider: React.FC<SliderProps> = ({
                 borderColor="black"
                 backgroundColorDisabled="#F2F0EF"
                 onClick={nextSlide}
-                disabled={isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length)}>
+                disabled={isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length)}
+              >
                 <IconArrowRight width={24} height={24} />
               </Button>
             </div>

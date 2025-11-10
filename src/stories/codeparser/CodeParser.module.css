@@ -16,12 +16,12 @@
 
 @layer n23mCodeParser {
   @font-face {
-    font-family: 'Monaspace';
-    src: url('https://najwer23.github.io/najwer23morsels/Monaspace.woff2') format('woff2');
+    font-family: "Monaspace";
+    src: url("https://najwer23.github.io/najwer23morsels/Monaspace.woff2") format("woff2");
   }
 
   @font-palette-values --n23mCodeParserPalette {
-    font-family: 'Monaspace';
+    font-family: "Monaspace";
     override-colors:
       0 hsl(220 25% 18%),
       1 hsl(210 15% 38%),
@@ -35,7 +35,7 @@
 
   .n23mCodeParser {
     code {
-      font-family: 'Monaspace', monospace;
+      font-family: "Monaspace", monospace;
       font-palette: --n23mCodeParserPalette;
       font-size: 16px;
       white-space: pre-wrap;

@@ -50,7 +50,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               } as React.CSSProperties
             }
             className={[styles.n23mButtonButton, 'n23mButtonButton'].filter(Boolean).join(' ')}
-            {...props}>
+            {...props}
+          >
             <span>{children}</span>
           </button>
         )}

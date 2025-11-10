@@ -55,7 +55,8 @@ export const Default: Story = {
               alignItems: 'center',
               color: 'white',
               fontSize: '40px',
-            }}>
+            }}
+          >
             {label}
           </div>
         ))}
@@ -84,7 +85,8 @@ export const SliderScrollCircular: Story = {
               alignItems: 'center',
               color: 'white',
               fontSize: '40px',
-            }}>
+            }}
+          >
             {label}
           </div>
         ))}
@@ -117,7 +119,8 @@ export const SliderScrollCircularDifferentSizes: Story = {
                 alignItems: 'center',
                 color: 'white',
                 fontSize: '40px',
-              }}>
+              }}
+            >
               {label}
             </div>
           );
@@ -132,7 +135,7 @@ export const SliderScrollCircularDifferentSizesAutoplay: Story = {
     gap: '10px',
     isCircular: true,
     autoPlay: true,
-    autoPlaySpeed: 0.5
+    autoPlaySpeed: 0.5,
   },
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
@@ -153,7 +156,8 @@ export const SliderScrollCircularDifferentSizesAutoplay: Story = {
                 alignItems: 'center',
                 color: 'white',
                 fontSize: '40px',
-              }}>
+              }}
+            >
               {label}
             </div>
           );
@@ -162,7 +166,6 @@ export const SliderScrollCircularDifferentSizesAutoplay: Story = {
     </div>
   ),
 };
-
 
 export const SliderScrollWithLinksAsItem: Story = {
   args: {
@@ -185,7 +188,8 @@ export const SliderScrollWithLinksAsItem: Story = {
               alignItems: 'center',
               color: 'white',
               fontSize: '40px',
-            }}>
+            }}
+          >
             {label}
           </a>
         ))}
@@ -210,7 +214,8 @@ export const SliderScrollWithImgLinksAsItem: Story = {
               display: 'block',
               width: '300px',
               height: '340px',
-            }}>
+            }}
+          >
             <img
               draggable="false"
               src="https://picsum.photos/300/340"

@@ -66,13 +66,14 @@ export const InlineLink: Story = {
     mobileSize: 20,
     desktopSize: 20,
     href: '/ksdjdkdj',
-    children: " "+defaultText + " ",
+    children: ' ' + defaultText + ' ',
   },
   render: (args) => (
     <div>
       <TextBox mobileSize={20} desktopSize={20} tag="span">
         {defaultText}
-      </TextBox><TextBox {...args} />
+      </TextBox>
+      <TextBox {...args} />
       <TextBox mobileSize={20} desktopSize={20} tag="span">
         {defaultText}
       </TextBox>

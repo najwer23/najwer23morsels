@@ -7,6 +7,6 @@
     box-sizing: border-box;
     height: var(--loader-mh, 100%);
     color: var(--loader-lc, var(--n23mTextBoxColor, black));
-    border: dashed 1px var(--loader-lc, var(--n23mTextBoxColor , black));
+    border: dashed 1px var(--loader-lc, var(--n23mTextBoxColor, black));
   }
 }

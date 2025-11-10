@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
-import { Button } from '.';
-import { TextBox } from '../textbox';
-import { action } from 'storybook/actions';
 import { useEffect, useState } from 'react';
+import { action } from 'storybook/actions';
+import { TextBox } from '../textbox';
+import { Button } from '.';
 
 const meta: Meta<typeof Button> = {
   title: 'Button/Button',

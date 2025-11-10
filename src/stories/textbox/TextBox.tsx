@@ -64,7 +64,8 @@ export const TextBox: React.FC<TextBoxProps> = ({
         .filter(Boolean)
         .join(' ')}
       {...(href ? { href, target, rel } : {})}
-      {...props}>
+      {...props}
+    >
       {children}
     </Tag>
   );

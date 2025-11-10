@@ -1,19 +1,19 @@
 import {
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-  MouseEvent,
-  TouchEvent,
-  ReactNode,
   Children,
   cloneElement,
+  MouseEvent,
+  ReactNode,
+  TouchEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from 'react';
 import { Button } from '../button';
-import styles from './SliderScroll.module.css';
 import { useWindowSize } from '../hooks';
 import { IconArrowLeft, IconArrowRight } from '../icons';
+import styles from './SliderScroll.module.css';
 
 interface SliderScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -402,7 +402,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
         } as React.CSSProperties
       }
       onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeaveHandler}>
+      onMouseLeave={onMouseLeaveHandler}
+    >
       <div className={[styles.n23mSliderScrollWrapper, 'n23mSliderScrollWrapper'].join(' ')}>
         <div
           className={styles.n23mSliderScrollTrack}
@@ -413,14 +414,16 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
           onMouseLeave={onMouseLeave}
           onMouseUp={onMouseUp}
           onMouseMove={onMouseMove}
-          style={{ whiteSpace: 'nowrap' }}>
+          style={{ whiteSpace: 'nowrap' }}
+        >
           {allSlides.map((child, index) => (
             <div
               key={(child as React.ReactElement).key || index}
               ref={(el) => {
                 refs.childRefs.current[index] = el;
               }}
-              style={{ display: 'inline-block' }}>
+              style={{ display: 'inline-block' }}
+            >
               {child}
             </div>
           ))}
@@ -437,7 +440,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
             title="Prev"
             onClick={slideLeft}
             borderColor="black"
-            backgroundColorDisabled="#F2F0EF">
+            backgroundColorDisabled="#F2F0EF"
+          >
             <IconArrowLeft width={24} height={24} />
           </Button>
           <Button
@@ -449,7 +453,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
             title="Next"
             onClick={slideRight}
             borderColor="black"
-            backgroundColorDisabled="#F2F0EF">
+            backgroundColorDisabled="#F2F0EF"
+          >
             <IconArrowRight width={24} height={24} />
           </Button>
         </div>

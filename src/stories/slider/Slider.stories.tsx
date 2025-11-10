@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 import { action } from 'storybook/actions';
 import { Slider } from '.';
-import { useEffect, useState } from 'react';
 
 const meta: Meta<typeof Slider> = {
   title: 'Slider/Slider',
@@ -111,19 +111,19 @@ export const Slider1Slide: Story = {
   args: {
     isCircular: false,
     slidesConfig: {
-    mobile: {
-      items: 1,
-      slidesToScroll: 1,
+      mobile: {
+        items: 1,
+        slidesToScroll: 1,
+      },
+      tablet: {
+        items: 1,
+        slidesToScroll: 1,
+      },
+      desktop: {
+        items: 1,
+        slidesToScroll: 1,
+      },
     },
-    tablet: {
-      items: 1,
-      slidesToScroll: 1,
-    },
-    desktop: {
-      items: 1,
-      slidesToScroll: 1,
-    },
-  }
   },
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
@@ -140,19 +140,19 @@ export const Slider2Slides: Story = {
   args: {
     isCircular: true,
     slidesConfig: {
-    mobile: {
-      items: 1,
-      slidesToScroll: 1,
+      mobile: {
+        items: 1,
+        slidesToScroll: 1,
+      },
+      tablet: {
+        items: 2,
+        slidesToScroll: 2,
+      },
+      desktop: {
+        items: 2,
+        slidesToScroll: 2,
+      },
     },
-    tablet: {
-      items: 2,
-      slidesToScroll: 2,
-    },
-    desktop: {
-      items: 2,
-      slidesToScroll: 2,
-    },
-  }
   },
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>

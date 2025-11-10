@@ -1,11 +1,11 @@
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript2';
-import postcss from 'rollup-plugin-postcss';
 import terser from '@rollup/plugin-terser';
-import outputSize, { summarize, format } from 'rollup-plugin-output-size';
 import fs from 'fs';
 import path from 'path';
+import outputSize, { format, summarize } from 'rollup-plugin-output-size';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import postcss from 'rollup-plugin-postcss';
+import typescript from 'rollup-plugin-typescript2';
 
 /**
  * Recursively retrieves files from a directory that match a specific query.

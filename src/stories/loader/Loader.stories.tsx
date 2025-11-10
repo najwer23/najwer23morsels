@@ -30,12 +30,12 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     loaderColor: 'black',
-    minHeight: 400
+    minHeight: 400,
   },
   render: (args) => (
     <div>
       <div style={{ width: 'min(700px,calc(100vw - 50px)', height: '400px' }}>
-        <Loader {...args}/>
+        <Loader {...args} />
       </div>
     </div>
   ),

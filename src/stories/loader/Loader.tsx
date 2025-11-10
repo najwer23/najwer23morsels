@@ -15,7 +15,8 @@ export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColo
           '--loader-lc': loaderColor,
           ...(minHeight !== undefined && minHeight !== null ? { '--loader-mh': `${minHeight}px` } : {}),
         } as React.CSSProperties
-      }>
+      }
+    >
       <TextBox mobileSize={16} desktopSize={16} color={loaderColor}>
         Loading...
       </TextBox>

@@ -32,8 +32,8 @@ export const Default: StoryObj<typeof meta> = {
   },
   render: (args) => (
     <div style={{ color: 'black', display: 'flex', gap: '10px' }}>
-      <IconArrowRight {...args}/>
-      <IconArrowLeft  {...args} />
+      <IconArrowRight {...args} />
+      <IconArrowLeft {...args} />
     </div>
   ),
 };

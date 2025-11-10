@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Grid.module.css';
 import { Loader } from '../loader';
+import styles from './Grid.module.css';
 
 interface Gap {
   col: string;
@@ -65,7 +65,8 @@ export const Grid: React.FC<GridProps> = ({
             '--grid-row-gap': gap?.row || '0px',
           } as React.CSSProperties
         }
-        {...props}>
+        {...props}
+      >
         {!loading && children}
         {loading && <Loader minHeight={minHeight} />}
       </div>
@@ -90,7 +91,8 @@ export const Grid: React.FC<GridProps> = ({
           '--grid-row-gap': gap.row,
         } as React.CSSProperties
       }
-      {...props}>
+      {...props}
+    >
       {children}
     </div>
   );

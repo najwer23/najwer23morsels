@@ -17,10 +17,11 @@
     "publish:major": "yarn build && npm version major --force && npm publish && rimraf ./lib && rimraf ./.yarn/cache",
     "god": "yarn publish:patch",
     "plop": "plop && yarn format && yarn start",
-    "format": "prettier --write \"**/*.{json,mdx,ts,tsx,md,css,mjs}\"",
+    "format": "yarn exec biome check --write",
     "release": "yarn build && yarn && changeset && changeset version && changeset publish && rimraf ./lib && rimraf ./.yarn/cache"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.4",
     "@changesets/cli": "^2.29.7",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "0.4.4",
