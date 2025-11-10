@@ -414,7 +414,6 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
           onMouseLeave={onMouseLeave}
           onMouseUp={onMouseUp}
           onMouseMove={onMouseMove}
-          style={{ whiteSpace: 'nowrap' }}
         >
           {allSlides.map((child, index) => (
             <div
