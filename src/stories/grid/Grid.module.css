@@ -14,6 +14,7 @@
     justify-content: var(--grid-jc, space-between);
     column-gap: var(--grid-col-gap);
     row-gap: var(--grid-row-gap);
+    align-items: var(--grid-align-items, center);
   }
 
   .n23mGridColumns {

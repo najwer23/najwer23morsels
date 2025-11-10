@@ -26,6 +26,7 @@ interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   col?: Col;
   layout: 'columns' | 'container' | 'flex';
   justifyContent?: string;
+  alignItems?: string;
 }
 
 export const Grid: React.FC<GridProps> = ({
@@ -39,6 +40,7 @@ export const Grid: React.FC<GridProps> = ({
   col,
   loading = false,
   justifyContent,
+  alignItems,
   minHeight,
   className,
   ...props
@@ -63,6 +65,7 @@ export const Grid: React.FC<GridProps> = ({
             '--grid-jc': justifyContent,
             '--grid-col-gap': gap?.col || '0px',
             '--grid-row-gap': gap?.row || '0px',
+            '--grid-align-items': alignItems,
           } as React.CSSProperties
         }
         {...props}
