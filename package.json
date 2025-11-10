@@ -38,7 +38,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "rimraf": "^6.1.0",
-    "rollup": "^4.53.1",
+    "rollup": "^4.53.2",
     "rollup-plugin-dts": "6.2.3",
     "rollup-plugin-output-size": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
