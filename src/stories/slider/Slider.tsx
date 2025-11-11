@@ -77,23 +77,9 @@ export const Slider: React.FC<SliderProps> = ({
   }
 
   useLayoutEffect(() => {
-    let timeoutId: number;
-    const update = () => {
-      if (slideWrapperRef.current) setWrapperWidth(slideWrapperRef.current.offsetWidth);
-      setCurrSlide(isCircular ? childSlides.length * 2 : 0);
-    };
-    const onResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(update, 0);
-      setIsAnimating(false);
-    };
-    update();
-    window.addEventListener('resize', onResize);
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', onResize);
-    };
-  }, [loading, isCircular, slidePerViewDynamic, childSlides.length]);
+    if (slideWrapperRef.current) setWrapperWidth(slideWrapperRef.current.offsetWidth);
+    setCurrSlide(isCircular ? childSlides.length * 2 : 0);
+  }, [loading, isCircular, slidePerViewDynamic, childSlides.length, width]);
 
   const slideWidth = (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic;
 
