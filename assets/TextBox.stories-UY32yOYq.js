@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-u17CrQMm.js";import{T as r}from"./TextBox-WNdqLhBX.js";const p={title:"TextBox/TextBox",component:r,parameters:{layout:"centered",docs:{description:{component:`
+import{j as e}from"./jsx-runtime-u17CrQMm.js";import{T as r}from"./TextBox-8nHxQ-pk.js";const p={title:"TextBox/TextBox",component:r,parameters:{layout:"centered",docs:{description:{component:`
 This is a TextBox component that can be used to display text with various styles. It supports properties such as color, size, and link functionality. You can use it to create links or display static text.
 
 You can import the TextBox component from the library and use it in your application as follows:
@@ -34,12 +34,13 @@ import { TextBox } from 'najwer23morsels/lib/TextBox';
     mobileSize: 20,
     desktopSize: 20,
     href: '/ksdjdkdj',
-    children: " " + defaultText + " "
+    children: ' ' + defaultText + ' '
   },
   render: args => <div>
       <TextBox mobileSize={20} desktopSize={20} tag="span">
         {defaultText}
-      </TextBox><TextBox {...args} />
+      </TextBox>
+      <TextBox {...args} />
       <TextBox mobileSize={20} desktopSize={20} tag="span">
         {defaultText}
       </TextBox>
