@@ -1,6 +1,11 @@
 @layer n23mSlider {
   .n23mSlider {
     width: 100%;
+
+    &.dragging,
+    &.dragging a {
+      cursor: grabbing;
+    }
   }
 
   .n23mSliderContainerSlider {

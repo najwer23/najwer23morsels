@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '../button';
 import { useWindowSize } from '../hooks';
 import { IconArrowLeft, IconArrowRight } from '../icons';
@@ -14,18 +14,9 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   loading?: boolean;
   loaderColor?: string;
   slidesConfig?: {
-    mobile: {
-      items: number;
-      slidesToScroll: number;
-    };
-    tablet: {
-      items: number;
-      slidesToScroll: number;
-    };
-    desktop: {
-      items: number;
-      slidesToScroll: number;
-    };
+    mobile: { items: number; slidesToScroll: number };
+    tablet: { items: number; slidesToScroll: number };
+    desktop: { items: number; slidesToScroll: number };
   };
   slideSpacingPx?: number;
 }
@@ -45,18 +36,9 @@ export const Slider: React.FC<SliderProps> = ({
   loading = false,
   loaderColor = 'black',
   slidesConfig = {
-    mobile: {
-      items: 1,
-      slidesToScroll: 1,
-    },
-    tablet: {
-      items: 2,
-      slidesToScroll: 2,
-    },
-    desktop: {
-      items: 3,
-      slidesToScroll: 3,
-    },
+    mobile: { items: 1, slidesToScroll: 1 },
+    tablet: { items: 2, slidesToScroll: 2 },
+    desktop: { items: 3, slidesToScroll: 3 },
   },
   slideSpacingPx = 10,
 }) => {
@@ -65,17 +47,18 @@ export const Slider: React.FC<SliderProps> = ({
 
   const [wrapperWidth, setWrapperWidth] = useState(0);
   const slideWrapperRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
   const [currSlide, setCurrSlide] = useState(isCircular ? childSlides.length * 2 : 0);
   const [isAnimating, setIsAnimating] = useState(false);
   const slideWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const [touchDeltaX, setTouchDeltaX] = useState<number>(0);
+  const [touchDeltaX, setTouchDeltaX] = useState(0);
+  const isDragging = useRef(false);
 
   let slidePerViewDynamic;
   let slidesToScrollDynamic;
   let slideAnimation;
   let slideAnimationDelay;
-
   if (width < 767.98) {
     slidePerViewDynamic = slidesConfig.mobile.items;
     slidesToScrollDynamic = slidesConfig.mobile.slidesToScroll;
@@ -124,10 +107,14 @@ export const Slider: React.FC<SliderProps> = ({
       ]
     : childSlides;
 
+  // Touch events
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       setTouchStartX(e.touches[0].clientX);
       setTouchDeltaX(0);
+
+      isDragging.current = true;
+      if (sliderRef.current) sliderRef.current.classList.add(styles.dragging);
     }
   };
 
@@ -145,8 +132,42 @@ export const Slider: React.FC<SliderProps> = ({
       !(isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length))
     )
       nextSlide();
+
     setTouchStartX(null);
     setTouchDeltaX(0);
+
+    isDragging.current = false;
+    if (sliderRef.current) sliderRef.current.classList.remove(styles.dragging);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setTouchStartX(e.clientX);
+    setTouchDeltaX(0);
+
+    isDragging.current = true;
+    if (sliderRef.current) sliderRef.current.classList.add(styles.dragging);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (touchStartX !== null) {
+      setTouchDeltaX(e.clientX - touchStartX);
+    }
+  };
+
+  const handleMouseUp = () => {
+    const SWIPE_THRESHOLD = 50;
+    if (touchDeltaX > SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide === 0))) prevSlide();
+    else if (
+      touchDeltaX < -SWIPE_THRESHOLD &&
+      !(isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length))
+    )
+      nextSlide();
+
+    setTouchStartX(null);
+    setTouchDeltaX(0);
+
+    isDragging.current = false;
+    if (sliderRef.current) sliderRef.current.classList.remove(styles.dragging);
   };
 
   useLayoutEffect(() => {
@@ -156,16 +177,16 @@ export const Slider: React.FC<SliderProps> = ({
       let leftPad = 0;
       let rightPad = 0;
 
-      if (slidePerViewDynamic == 1 && childSlides.length != 1) {
+      if (slidePerViewDynamic === 1 && childSlides.length !== 1) {
         leftPad = 40;
         rightPad = 40;
-      } else if (slidePerViewDynamic == 2) {
+      } else if (slidePerViewDynamic === 2) {
         leftPad = 20;
         rightPad = 20;
-      } else if (slidePerViewDynamic == 4) {
+      } else if (slidePerViewDynamic === 4) {
         leftPad = 10;
         rightPad = 10;
-      } else if (slidePerViewDynamic == 3) {
+      } else if (slidePerViewDynamic === 3) {
         leftPad = 12.5;
         rightPad = 12.5;
       }
@@ -181,7 +202,6 @@ export const Slider: React.FC<SliderProps> = ({
 
   useLayoutEffect(() => {
     if (!isAnimating) return;
-
     let timeoutId: number;
 
     const handleTransitionEnd = () => {
@@ -227,6 +247,7 @@ export const Slider: React.FC<SliderProps> = ({
     setIsAnimating(true);
     setCurrSlide((prev) => prev + slidesToScrollDynamic);
   };
+
   const prevSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
@@ -242,18 +263,24 @@ export const Slider: React.FC<SliderProps> = ({
 
   return (
     <div
+      ref={sliderRef}
       className={[styles.n23mSlider, 'n23mSlider', className].filter(Boolean).join(' ')}
       style={{
         height: loading ? 'calc(100% - 2px)' : 'calc(100% - 60px)',
       }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     >
       {loading && <Loader loaderColor={loaderColor} />}
       {!loading && (
         <>
-          <div className={[styles.n23mSliderContainerSlider].filter(Boolean).join(' ')}>
+          <div
+            className={[styles.n23mSliderContainerSlider].filter(Boolean).join(' ')}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+          >
             <div
               className={[styles.n23mSliderSlideWrapper, 'n23mSliderSlideWrapper'].join(' ')}
               ref={slideWrapperRef}
@@ -274,15 +301,15 @@ export const Slider: React.FC<SliderProps> = ({
                   className={styles.n23mSliderSlide}
                   style={{
                     width:
-                      slidePerViewDynamic == 1 && childSlides.length == 1
+                      slidePerViewDynamic === 1 && childSlides.length === 1
                         ? '100%'
-                        : slidePerViewDynamic == 1
+                        : slidePerViewDynamic === 1
                           ? `calc(${slideWidth}px - 40px)`
-                          : slidePerViewDynamic == 2
+                          : slidePerViewDynamic === 2
                             ? `calc(${slideWidth}px - 20px)`
-                            : slidePerViewDynamic == 3
+                            : slidePerViewDynamic === 3
                               ? `calc(${slideWidth}px - 12.5px)`
-                              : slidePerViewDynamic == 4
+                              : slidePerViewDynamic === 4
                                 ? `calc(${slideWidth}px - 10px)`
                                 : `${slideWidth}px`,
                   }}
@@ -296,9 +323,9 @@ export const Slider: React.FC<SliderProps> = ({
 
           <div
             className={[styles.n23mSliderControls, 'n23mSliderControls'].join(' ')}
-            style={{ justifyContent: slidePerViewDynamic == 1 ? 'space-between' : 'flex-end' }}
+            style={{ justifyContent: slidePerViewDynamic === 1 ? 'space-between' : 'flex-end' }}
           >
-            {slidePerViewDynamic == 1 && (
+            {slidePerViewDynamic === 1 && (
               <div className={[styles.n23mSliderCounter, 'n23mSliderCounter'].join(' ')}>
                 <TextBox mobileSize={16} desktopSize={16} color="black">
                   {!isCircular
