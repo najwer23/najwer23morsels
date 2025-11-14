@@ -27,6 +27,7 @@ interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   layout: 'columns' | 'container' | 'flex';
   justifyContent?: string;
   alignItems?: string;
+  flexWrap?: string;
 }
 
 export const Grid: React.FC<GridProps> = ({
@@ -42,6 +43,7 @@ export const Grid: React.FC<GridProps> = ({
   justifyContent,
   alignItems,
   minHeight,
+  flexWrap,
   className,
   ...props
 }) => {
@@ -57,15 +59,16 @@ export const Grid: React.FC<GridProps> = ({
           .join(' ')}
         style={
           {
-            '--grid-mh': `${minHeight}px`,
-            '--grid-wMin': `${widthMin}px`,
-            '--grid-wMax': `${widthMax}px`,
+            ...(minHeight !== undefined && { '--grid-mh': `${minHeight}px` }),
+            ...(widthMin !== undefined && { '--grid-wMin': `${widthMin}px` }),
+            ...(widthMax !== undefined && { '--grid-wMax': `${widthMax}px` }),
             '--grid-p': padding,
             '--grid-m': margin,
             '--grid-jc': justifyContent,
             '--grid-col-gap': gap?.col || '0px',
             '--grid-row-gap': gap?.row || '0px',
             '--grid-align-items': alignItems,
+            '--grid-fw': flexWrap,
           } as React.CSSProperties
         }
         {...props}
