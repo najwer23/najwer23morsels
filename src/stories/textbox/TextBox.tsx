@@ -1,9 +1,10 @@
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './TextBox.module.css';
 
 export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'p' | 'div' | 'span' | 'a';
 
 interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorElement> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   tag?: TextBoxTag;
   mobileSize: number;
   desktopSize: number;
@@ -16,6 +17,9 @@ interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorE
   margin?: string | 0;
   fontWeight?: number;
   fontWeightHover?: number;
+  textAlign?: string;
+  textWrap?: string;
+  style?: React.CSSProperties;
 }
 
 export const TextBox: React.FC<TextBoxProps> = ({
@@ -33,6 +37,9 @@ export const TextBox: React.FC<TextBoxProps> = ({
   margin,
   fontWeight,
   fontWeightHover,
+  textAlign,
+  textWrap,
+  style,
   ...props
 }) => {
   let Tag = tag;
@@ -45,14 +52,19 @@ export const TextBox: React.FC<TextBoxProps> = ({
     <Tag
       style={
         {
-          '--textbox-fw': fontWeight,
-          '--textbox-fwh': fontWeightHover,
-          '--textbox-ch': colorHover,
-          '--textbox-c': color,
-          '--textbox-ms': mobileSize,
-          '--textbox-ds': desktopSize,
-          '--textbox-lh': lineHeight,
-          ...(margin !== undefined && margin !== null ? { '--textbox-m': margin } : {}),
+          ...getCssVariableStyle({
+            '--textbox-fw': fontWeight,
+            '--textbox-fwh': fontWeightHover,
+            '--textbox-ch': colorHover,
+            '--textbox-c': color,
+            '--textbox-ms': mobileSize,
+            '--textbox-ds': desktopSize,
+            '--textbox-lh': lineHeight,
+            '--textbox-a': textAlign,
+            '--textbox-w': textWrap,
+            '--textbox-m': margin,
+          }),
+          ...style,
         } as React.CSSProperties
       }
       className={[

@@ -13,6 +13,7 @@ import {
 import { Button } from '../button';
 import { useWindowSize } from '../hooks';
 import { IconArrowLeft, IconArrowRight } from '../icons';
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './SliderScroll.module.css';
 
 interface SliderScrollProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,6 +24,7 @@ interface SliderScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   isCircular?: boolean;
   autoPlay?: boolean;
   autoPlaySpeed?: number;
+  style?: React.CSSProperties;
 }
 
 export const SliderScroll: React.FC<SliderScrollProps> = ({
@@ -32,6 +34,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   isCircular = false,
   autoPlay = false,
   autoPlaySpeed = 0.5,
+  style,
 }) => {
   const refs = {
     carousel: useRef<HTMLDivElement | null>(null),
@@ -397,8 +400,11 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       className={['n23mSliderScroll', className].filter(Boolean).join(' ')}
       style={
         {
-          '--sliderscroll-gap': gap,
-          height: 'calc(100% - 60px)',
+          ...getCssVariableStyle({
+            '--sliderscroll-gap': gap,
+            height: 'calc(100% - 60px)',
+          }),
+          ...style,
         } as React.CSSProperties
       }
       onMouseEnter={onMouseEnter}

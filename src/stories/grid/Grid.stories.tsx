@@ -34,7 +34,7 @@ const testText =
 export const GridContainerWidthMax600: Story = {
   args: {
     layout: 'container',
-    widthMax: 600,
+    widthMax: '600px',
     gap: { col: '20px', row: '20px' },
     padding: '10px',
   },
@@ -54,9 +54,9 @@ export const GridContainerWidthMax600: Story = {
 export const GridContainerLoading: Story = {
   args: {
     layout: 'container',
-    widthMax: 600,
+    widthMax: '600px',
     padding: '10px',
-    minHeight: 402,
+    minHeight: '402px',
   },
   render: (args) => {
     const [loading, setLoading] = useState(true);
@@ -125,7 +125,7 @@ export const GridContainerWithColumns: Story = {
   },
   render: (args) => (
     <div style={{ width: '100vw' }}>
-      <Grid layout="container" widthMax={400} padding="0 10px 0 10px">
+      <Grid layout="container" widthMax={'400px'} padding="0 10px 0 10px">
         <Grid {...args}>
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i}>

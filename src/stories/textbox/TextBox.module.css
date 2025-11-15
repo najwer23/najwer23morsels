@@ -29,9 +29,12 @@
     margin: var(--textbox-m, var(--n23mTextBoxMargin));
     color: var(--textbox-c, var(--n23mTextBoxColor));
     font-weight: var(--textbox-fw, var(--n23mTextBoxFontWeight));
+    text-align: var(--textbox-a);
+    text-wrap: var(--textbox-w);
   }
 
   .n23mTextBoxLink {
+    text-align: var(--text-a, left);
     color: var(--textbox-c, var(--n23mTextBoxColor));
     text-decoration: unset;
     transition: all 0.15s ease-in-out;

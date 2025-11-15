@@ -13,21 +13,21 @@
   .n23mGridFlex {
     display: flex;
     justify-content: var(--grid-jc, space-between);
-    column-gap: var(--grid-col-gap);
+    column-gap: var(--grid-col-gap, 0px);
     row-gap: var(--grid-row-gap);
     align-items: var(--grid-align-items, center);
   }
 
   .n23mGridColumns {
     display: flex;
-    column-gap: var(--grid-col-gap);
+    column-gap: var(--grid-col-gap, 0px);
     row-gap: var(--grid-row-gap);
     flex-wrap: wrap;
     width: 100%;
   }
 
   .n23mGridColumns > div {
-    width: calc((100% / var(--gfc)) - (((var(--gfc) - 1) / var(--gfc)) * var(--grid-col-gap)));
+    width: calc((100% / var(--gfc)) - (((var(--gfc) - 1) / var(--gfc)) * var(--grid-col-gap, 0px)));
   }
 
   /* breakpoints */

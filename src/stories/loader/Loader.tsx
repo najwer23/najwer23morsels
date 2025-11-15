@@ -1,19 +1,24 @@
 import { TextBox } from '../textbox';
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Loader.module.css';
 
 interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
   loaderColor?: string;
-  minHeight?: number;
+  minHeight?: string;
+  style?: React.CSSProperties;
 }
 
-export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColor }) => {
+export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColor, style }) => {
   return (
     <div
       className={[styles.n23mLoader, 'n23mLoader', className].filter(Boolean).join(' ')}
       style={
         {
-          '--loader-lc': loaderColor,
-          ...(minHeight !== undefined && minHeight !== null ? { '--loader-mh': `${minHeight}px` } : {}),
+          ...getCssVariableStyle({
+            '--loader-lc': loaderColor,
+            '--loader-mh': `${minHeight}`,
+          }),
+          ...style,
         } as React.CSSProperties
       }
     >

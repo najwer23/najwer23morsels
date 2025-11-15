@@ -271,11 +271,7 @@ export const Slider: React.FC<SliderProps> = ({
               className={[styles.n23mSliderSlideWrapper, 'n23mSliderSlideWrapper'].join(' ')}
               ref={slideWrapperRef}
               style={{
-                display: 'flex',
                 gap: `${slideSpacingPx}px`,
-                overflow: 'hidden',
-                width: '100%',
-                boxSizing: 'border-box',
               }}
             >
               {slides.map((slide, i) => (

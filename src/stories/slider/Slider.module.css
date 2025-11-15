@@ -24,6 +24,8 @@
     position: relative;
     overflow: hidden;
     will-change: transform;
+    box-sizing: border-box;
+    display: flex;
   }
 
   .n23mSliderSlide {

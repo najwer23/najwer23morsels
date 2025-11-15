@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     loaderColor: 'black',
-    minHeight: 400,
+    minHeight: '400px',
   },
   render: (args) => (
     <div>

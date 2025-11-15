@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loader } from '../loader';
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Grid.module.css';
 
 interface Gap {
@@ -16,11 +17,11 @@ interface Col {
 
 interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
-  widthMin?: number;
-  widthMax?: number;
+  widthMin?: string;
+  widthMax?: string;
   padding?: string | 0;
   margin?: string | 0;
-  minHeight?: number;
+  minHeight?: string;
   loading?: boolean;
   gap?: Gap;
   col?: Col;
@@ -28,6 +29,7 @@ interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   justifyContent?: string;
   alignItems?: string;
   flexWrap?: string;
+  style?: React.CSSProperties;
 }
 
 export const Grid: React.FC<GridProps> = ({
@@ -45,6 +47,7 @@ export const Grid: React.FC<GridProps> = ({
   minHeight,
   flexWrap,
   className,
+  style,
   ...props
 }) => {
   if (layout === 'container' || layout === 'flex') {
@@ -59,22 +62,25 @@ export const Grid: React.FC<GridProps> = ({
           .join(' ')}
         style={
           {
-            ...(minHeight !== undefined && { '--grid-mh': `${minHeight}px` }),
-            ...(widthMin !== undefined && { '--grid-wMin': `${widthMin}px` }),
-            ...(widthMax !== undefined && { '--grid-wMax': `${widthMax}px` }),
-            '--grid-p': padding,
-            '--grid-m': margin,
-            '--grid-jc': justifyContent,
-            '--grid-col-gap': gap?.col || '0px',
-            '--grid-row-gap': gap?.row || '0px',
-            '--grid-align-items': alignItems,
-            '--grid-fw': flexWrap,
+            ...getCssVariableStyle({
+              '--grid-p': padding,
+              '--grid-m': margin,
+              '--grid-jc': justifyContent,
+              '--grid-col-gap': gap?.col,
+              '--grid-row-gap': gap?.row,
+              '--grid-align-items': alignItems,
+              '--grid-fw': flexWrap,
+              '--grid-mh': minHeight,
+              '--grid-wMin': widthMin,
+              '--grid-wMax': widthMax,
+            }),
+            ...style,
           } as React.CSSProperties
         }
         {...props}
       >
         {!loading && children}
-        {loading && <Loader minHeight={minHeight} />}
+        {loading && <Loader minHeight={`${minHeight}`} />}
       </div>
     );
   }
