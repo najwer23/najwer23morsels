@@ -15,6 +15,8 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   sizes?: string;
   srcset?: string;
   loading?: 'eager' | 'lazy';
+  mobileSrc?: string;
+  desktopSrc?: string;
 }
 
 export const Picture: React.FC<PictureProps> = ({
@@ -24,6 +26,8 @@ export const Picture: React.FC<PictureProps> = ({
   draggable = false,
   alt,
   src,
+  desktopSrc,
+  mobileSrc,
   ar,
   border = false,
   borderColor = 'black',
@@ -51,12 +55,14 @@ export const Picture: React.FC<PictureProps> = ({
         } as React.CSSProperties
       }
     >
+      {desktopSrc && <source media="(min-width: 768px)" srcSet={desktopSrc} />}
+      {mobileSrc && <source media="(max-width: 767.98px)" srcSet={mobileSrc} />}
       <img
         sizes={sizes}
         srcSet={srcset}
         width={ar}
         height={1}
-        src={src}
+        src={desktopSrc || mobileSrc || src || ''}
         alt={alt}
         loading={loading}
         onLoad={() => setLoaded(true)}
