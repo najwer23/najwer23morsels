@@ -6,7 +6,7 @@ import styles from './Picture.module.css';
 interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
-  src: string;
+  src?: string;
   alt: string;
   ar?: number;
   arDesktop?: number;
