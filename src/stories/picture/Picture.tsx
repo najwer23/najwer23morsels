@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useWindowSize } from '../hooks';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Picture.module.css';
 
@@ -8,10 +9,14 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   src: string;
   alt: string;
   ar?: number;
+  arDesktop?: number;
+  arMobile?: number;
   draggable?: boolean;
   border?: boolean;
   borderColor?: string;
   maxHeight?: string;
+  maxHeightMobile?: string;
+  maxHeightDesktop?: string;
   sizes?: string;
   srcset?: string;
   loading?: 'eager' | 'lazy';
@@ -29,15 +34,28 @@ export const Picture: React.FC<PictureProps> = ({
   srcDesktop,
   srcMobile,
   ar,
+  arMobile,
+  arDesktop,
   border = false,
   borderColor = 'black',
   loading = 'lazy',
   maxHeight,
   sizes,
+  maxHeightMobile,
+  maxHeightDesktop,
   srcset,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
+  const { width } = useWindowSize();
+
+  const calculatedAr = arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar;
+  const calculatedMaxHeight =
+    maxHeightDesktop || maxHeightMobile
+      ? maxHeightMobile && width < 767.98
+        ? maxHeightMobile
+        : maxHeightDesktop || maxHeightMobile
+      : maxHeight;
 
   return (
     <picture
@@ -49,7 +67,7 @@ export const Picture: React.FC<PictureProps> = ({
         {
           ...getCssVariableStyle({
             '--picture-bc': borderColor,
-            '--picture-mh': maxHeight,
+            '--picture-mh': calculatedMaxHeight,
           }),
           ...style,
         } as React.CSSProperties
@@ -60,7 +78,7 @@ export const Picture: React.FC<PictureProps> = ({
       <img
         sizes={sizes}
         srcSet={srcset}
-        width={ar}
+        width={calculatedAr}
         height={1}
         src={srcDesktop || srcMobile || src || ''}
         alt={alt}
