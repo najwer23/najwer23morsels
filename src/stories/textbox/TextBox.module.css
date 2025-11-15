@@ -35,6 +35,7 @@
 
   .n23mTextBoxLink {
     text-align: var(--text-a, left);
+    text-wrap: var(--textbox-w);
     color: var(--textbox-c, var(--n23mTextBoxColor));
     text-decoration: unset;
     transition: all 0.15s ease-in-out;

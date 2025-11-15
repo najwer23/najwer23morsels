@@ -43,13 +43,27 @@ export const Default: Story = {
   ),
 };
 
-export const Link: Story = {
+export const TextWrapBalance: Story = {
   args: {
     color: 'green',
     colorHover: 'orange',
     mobileSize: 20,
     desktopSize: 20,
-    href: '/ksdjdkdj',
+    children: defaultText,
+    textWrap: 'balance',
+  },
+  render: (args) => (
+    <div>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const Link: Story = {
+  args: {
+    color: 'green',
+    mobileSize: 20,
+    desktopSize: 20,
     children: defaultText,
   },
   render: (args) => (
