@@ -7,6 +7,17 @@ const meta: Meta<typeof {{name}}> = {
 	component: {{name}},
 	parameters: {
 		layout: "centered",
+		docs: {
+      description: {
+        component: `
+Test Test
+
+\`\`\`tsx
+import { {{name}} } from 'najwer23morsels/lib/{{lowerCase name}}';
+\`\`\`
+      `,
+      },
+    },
 	},
 	tags: ["autodocs"],
 };

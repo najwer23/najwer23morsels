@@ -1,12 +1,21 @@
 import styles from './{{name}}.module.css';
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 
 interface {{name}}Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
-export const {{name}}: React.FC<{{name}}Props> = ({ children, className, ...props }) => {
+export const {{name}}: React.FC<{{name}}Props> = ({ children, className, style, ...props }) => {
   return (
-    <div className={[styles.n23m{{name}}, 'n23m{{name}}', className].filter(Boolean).join(' ')} {...props}>
+    <div className={[styles.n23m{{name}}, 'n23m{{name}}', className].filter(Boolean).join(' ')} {...props} style={
+        {
+          ...getCssVariableStyle({
+            '--{{lowerCase name}}': "test",
+          }),
+          ...style,
+        } as React.CSSProperties
+      }>
       {children ?? 'Hello!'}
     </div>
   );
