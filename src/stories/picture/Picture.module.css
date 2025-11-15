@@ -1,0 +1,22 @@
+@layer n23mPicture {
+  .n23mPicture {
+    display: block;
+
+    /* &.border {
+        border: 2px solid var(--borderColor);
+        box-sizing: border-box;
+      } */
+
+    & img {
+      opacity: 0;
+      transition: opacity 250ms ease-in-out;
+      display: grid;
+      width: 100%;
+      height: auto;
+    }
+
+    &.loaded img {
+      opacity: 1;
+    }
+  }
+}

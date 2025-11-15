@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.12.0
+
+### Minor Changes
+
+- Picture
+
 ## 0.10.0
 
 ### Minor Changes
