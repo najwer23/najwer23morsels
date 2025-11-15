@@ -1,0 +1,10 @@
+import{j as e}from"./jsx-runtime-u17CrQMm.js";import{r as E}from"./iframe-DJmEROPL.js";import{u as C}from"./useWindowSize-CrBD6K1T.js";import{g as L}from"./getCssVariableStyle-DXeVW4yL.js";import"./preload-helper-PPVm8Dsz.js";const N="_n23mPicture_zb5xs_2",T="_border_zb5xs_6",A="_loaded_zb5xs_20",d={n23mPicture:N,border:T,loaded:A},c=({children:l,className:m,style:p,draggable:f=!1,alt:h,src:x,srcDesktop:a,srcMobile:o,ar:_,arMobile:r,arDesktop:u,border:P=!1,borderColor:g="black",loading:j="lazy",maxHeight:w,sizes:b,maxHeightMobile:t,maxHeightDesktop:n,srcset:v,...y})=>{const[S,z]=E.useState(!1),{width:i}=C(),V=u||r?r&&i<767.98?r:u||r:_,q=n||t?t&&i<767.98?t:n||t:w;return e.jsxs("picture",{className:[d.n23mPicture,"n23mPicture",P&&d.border,S&&d.loaded,m].filter(Boolean).join(" "),...y,style:{...L({"--picture-bc":g,"--picture-mh":q}),...p},children:[a&&e.jsx("source",{media:"(min-width: 768px)",srcSet:a}),o&&e.jsx("source",{media:"(max-width: 767.98px)",srcSet:o}),e.jsx("img",{sizes:b,srcSet:v,width:V,height:1,src:a||o||x||"",alt:h,loading:j,onLoad:()=>z(!0),draggable:f})]})};c.__docgenInfo={description:"",methods:[],displayName:"Picture",props:{draggable:{defaultValue:{value:"false",computed:!1},required:!1},border:{defaultValue:{value:"false",computed:!1},required:!1},borderColor:{defaultValue:{value:"'black'",computed:!1},required:!1},loading:{defaultValue:{value:"'lazy'",computed:!1},required:!1}}};const F={title:"Picture/Picture",component:c,parameters:{layout:"centered",docs:{description:{component:"\nTest Test\n\n```tsx\nimport { Picture } from 'najwer23morsels/lib/picture';\n```\n      "}}},tags:["autodocs"]},s={args:{src:"https://picsum.photos/300/400",alt:"",ar:3/4},render:l=>e.jsx("div",{children:e.jsx(c,{...l,children:"hello world!"})})};s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+  args: {
+    src: 'https://picsum.photos/300/400',
+    alt: '',
+    ar: 3 / 4
+  },
+  render: args => <div>
+      <Picture {...args}>hello world!</Picture>
+    </div>
+}`,...s.parameters?.docs?.source}}};const G=["Default"];export{s as Default,G as __namedExportsOrder,F as default};
