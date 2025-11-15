@@ -2,10 +2,11 @@
   .n23mPicture {
     display: block;
 
-    /* &.border {
-        border: 2px solid var(--borderColor);
-        box-sizing: border-box;
-      } */
+    &.border {
+      padding: 5px;
+      border: 2px solid var(--picture-bc);
+      box-sizing: border-box;
+    }
 
     & img {
       opacity: 0;
