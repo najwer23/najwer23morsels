@@ -12,6 +12,8 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   border?: boolean;
   borderColor?: string;
   maxHeight?: string;
+  sizes?: string;
+  srcset?: string;
   loading?: 'eager' | 'lazy';
 }
 
@@ -27,6 +29,8 @@ export const Picture: React.FC<PictureProps> = ({
   borderColor = 'black',
   loading = 'lazy',
   maxHeight,
+  sizes,
+  srcset,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -48,6 +52,8 @@ export const Picture: React.FC<PictureProps> = ({
       }
     >
       <img
+        sizes={sizes}
+        srcSet={srcset}
         width={ar}
         height={1}
         src={src}
