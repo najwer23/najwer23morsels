@@ -34,9 +34,9 @@ interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Grid: React.FC<GridProps> = ({
   children,
-  widthMin = 0,
-  widthMax = 1920,
-  padding = '0',
+  widthMin = '0px',
+  widthMax = '1920px',
+  padding = '0px',
   margin = 'auto',
   layout,
   gap,
