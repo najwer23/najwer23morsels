@@ -12,6 +12,7 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   border?: boolean;
   borderColor?: string;
   maxHeight?: string;
+  loading?: 'eager' | 'lazy';
 }
 
 export const Picture: React.FC<PictureProps> = ({
@@ -24,6 +25,7 @@ export const Picture: React.FC<PictureProps> = ({
   ar,
   border = false,
   borderColor = 'black',
+  loading = 'lazy',
   maxHeight,
   ...props
 }) => {
@@ -50,7 +52,7 @@ export const Picture: React.FC<PictureProps> = ({
         height={1}
         src={src}
         alt={alt}
-        loading="lazy"
+        loading={loading}
         onLoad={() => setLoaded(true)}
         draggable={draggable}
       />
