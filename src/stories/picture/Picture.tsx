@@ -11,6 +11,7 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   draggable?: boolean;
   border?: boolean;
   borderColor?: string;
+  maxHeight?: string;
 }
 
 export const Picture: React.FC<PictureProps> = ({
@@ -23,6 +24,7 @@ export const Picture: React.FC<PictureProps> = ({
   ar,
   border = false,
   borderColor = 'black',
+  maxHeight,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -37,6 +39,7 @@ export const Picture: React.FC<PictureProps> = ({
         {
           ...getCssVariableStyle({
             '--picture-bc': borderColor,
+            '--picture-mh': maxHeight,
           }),
           ...style,
         } as React.CSSProperties
