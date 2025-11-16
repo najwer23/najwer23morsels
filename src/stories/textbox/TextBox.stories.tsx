@@ -79,17 +79,18 @@ export const InlineLink: Story = {
     colorHover: 'orange',
     mobileSize: 20,
     desktopSize: 20,
+    tag: 'a',
     href: '/ksdjdkdj',
-    children: ' ' + defaultText + ' ',
+    children: defaultText,
   },
   render: (args) => (
     <div>
       <TextBox mobileSize={20} desktopSize={20} tag="span">
-        {defaultText}
+        {defaultText + ' '}
       </TextBox>
       <TextBox {...args} />
       <TextBox mobileSize={20} desktopSize={20} tag="span">
-        {defaultText}
+        {' ' + defaultText}
       </TextBox>
     </div>
   ),
