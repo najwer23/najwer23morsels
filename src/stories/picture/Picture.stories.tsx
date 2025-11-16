@@ -54,3 +54,20 @@ export const PictureBorder: Story = {
     </div>
   ),
 };
+
+export const PictureFigcaption: Story = {
+  args: {
+    src: 'https://picsum.photos/300/400',
+    alt: '',
+    ar: 3 / 4,
+    border: true,
+    loading: 'eager',
+    figcaption: 'what a view!',
+    figcaptionColor: 'red',
+  },
+  render: (args) => (
+    <div style={{ width: '300px', height: '400px' }}>
+      <Picture {...args}>hello world!</Picture>
+    </div>
+  ),
+};
