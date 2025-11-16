@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useWindowSize } from '../hooks';
+import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Picture.module.css';
 
@@ -22,6 +23,8 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   loading?: 'eager' | 'lazy';
   srcMobile?: string;
   srcDesktop?: string;
+  figcaption?: string;
+  figcaptionColor?: string;
 }
 
 export const Picture: React.FC<PictureProps> = ({
@@ -39,23 +42,17 @@ export const Picture: React.FC<PictureProps> = ({
   border = false,
   borderColor = 'black',
   loading = 'lazy',
-  maxHeight,
+  srcset,
   sizes,
+  maxHeight,
   maxHeightMobile,
   maxHeightDesktop,
-  srcset,
+  figcaption,
+  figcaptionColor,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
   const { width } = useWindowSize();
-
-  const calculatedAr = arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar;
-  const calculatedMaxHeight =
-    maxHeightDesktop || maxHeightMobile
-      ? maxHeightMobile && width < 767.98
-        ? maxHeightMobile
-        : maxHeightDesktop || maxHeightMobile
-      : maxHeight;
 
   return (
     <picture
@@ -67,7 +64,12 @@ export const Picture: React.FC<PictureProps> = ({
         {
           ...getCssVariableStyle({
             '--picture-bc': borderColor,
-            '--picture-mh': calculatedMaxHeight,
+            '--picture-mh':
+              maxHeightDesktop || maxHeightMobile
+                ? maxHeightMobile && width < 767.98
+                  ? maxHeightMobile
+                  : maxHeightDesktop || maxHeightMobile
+                : maxHeight,
           }),
           ...style,
         } as React.CSSProperties
@@ -78,7 +80,7 @@ export const Picture: React.FC<PictureProps> = ({
       <img
         sizes={sizes}
         srcSet={srcset}
-        width={calculatedAr}
+        width={arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar}
         height={1}
         src={srcDesktop || srcMobile || src || ''}
         alt={alt}
@@ -86,6 +88,13 @@ export const Picture: React.FC<PictureProps> = ({
         onLoad={() => setLoaded(true)}
         draggable={draggable}
       />
+      {figcaption && (
+        <figcaption>
+          <TextBox tag="p" desktopSize={12} mobileSize={12} color={figcaptionColor} margin={'3px 0 3px 0'}>
+            {figcaption}
+          </TextBox>
+        </figcaption>
+      )}
     </picture>
   );
 };
