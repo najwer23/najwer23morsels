@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.13.0
+
+### Minor Changes
+
+- Masonry
+
 ## 0.12.0
 
 ### Minor Changes
