@@ -55,39 +55,41 @@ export const Picture: React.FC<PictureProps> = ({
   const { width } = useWindowSize();
 
   return (
-    <picture
-      className={[styles.n23mPicture, 'n23mPicture', border && styles.border, loaded && styles.loaded, className]
-        .filter(Boolean)
-        .join(' ')}
-      {...props}
-      style={
-        {
-          ...getCssVariableStyle({
-            '--picture-bc': borderColor,
-            '--picture-mh':
-              maxHeightDesktop || maxHeightMobile
-                ? maxHeightMobile && width < 767.98
-                  ? maxHeightMobile
-                  : maxHeightDesktop || maxHeightMobile
-                : maxHeight,
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
-    >
-      {srcDesktop && <source media="(min-width: 768px)" srcSet={srcDesktop} />}
-      {srcMobile && <source media="(max-width: 767.98px)" srcSet={srcMobile} />}
-      <img
-        sizes={sizes}
-        srcSet={srcset}
-        width={arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar}
-        height={1}
-        src={srcDesktop || srcMobile || src || ''}
-        alt={alt}
-        loading={loading}
-        onLoad={() => setLoaded(true)}
-        draggable={draggable}
-      />
+    <figure className={styles.n23mPictureFigure}>
+      <picture
+        className={[styles.n23mPicture, 'n23mPicture', border && styles.border, loaded && styles.loaded, className]
+          .filter(Boolean)
+          .join(' ')}
+        {...props}
+        style={
+          {
+            ...getCssVariableStyle({
+              '--picture-bc': borderColor,
+              '--picture-mh':
+                maxHeightDesktop || maxHeightMobile
+                  ? maxHeightMobile && width < 767.98
+                    ? maxHeightMobile
+                    : maxHeightDesktop || maxHeightMobile
+                  : maxHeight,
+            }),
+            ...style,
+          } as React.CSSProperties
+        }
+      >
+        {srcDesktop && <source media="(min-width: 768px)" srcSet={srcDesktop} />}
+        {srcMobile && <source media="(max-width: 767.98px)" srcSet={srcMobile} />}
+        <img
+          sizes={sizes}
+          srcSet={srcset}
+          width={arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar}
+          height={1}
+          src={srcDesktop || srcMobile || src || ''}
+          alt={alt}
+          loading={loading}
+          onLoad={() => setLoaded(true)}
+          draggable={draggable}
+        />
+      </picture>
       {figcaption && (
         <figcaption>
           <TextBox tag="p" desktopSize={12} mobileSize={12} color={figcaptionColor} margin={'3px 0 3px 0'}>
@@ -95,6 +97,6 @@ export const Picture: React.FC<PictureProps> = ({
           </TextBox>
         </figcaption>
       )}
-    </picture>
+    </figure>
   );
 };

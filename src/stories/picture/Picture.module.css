@@ -1,4 +1,11 @@
 @layer n23mPicture {
+  .n23mPictureFigure {
+    figure {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   .n23mPicture {
     display: block;
     box-sizing: border-box;
