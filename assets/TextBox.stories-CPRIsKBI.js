@@ -5,7 +5,7 @@ You can import the TextBox component from the library and use it in your applica
 \`\`\`tsx
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 \`\`\`
-      `}}},tags:["autodocs"]},s="It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.",n={args:{color:"grey",mobileSize:20,desktopSize:20,children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},t={args:{color:"green",colorHover:"orange",mobileSize:20,desktopSize:20,children:s,textWrap:"balance"},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},a={args:{color:"green",mobileSize:20,desktopSize:20,children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},i={args:{color:"green",colorHover:"orange",mobileSize:20,desktopSize:20,href:"/ksdjdkdj",children:" "+s+" "},render:r=>e.jsxs("div",{children:[e.jsx(o,{mobileSize:20,desktopSize:20,tag:"span",children:s}),e.jsx(o,{...r}),e.jsx(o,{mobileSize:20,desktopSize:20,tag:"span",children:s})]})},d={args:{color:"red",colorHover:"orange",mobileSize:20,desktopSize:40,href:"/ksdjdkdj",children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},c={args:{color:"red",colorHover:"orange",mobileSize:40,desktopSize:20,href:"/ksdjdkdj",children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
+      `}}},tags:["autodocs"]},s="It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.",n={args:{color:"grey",mobileSize:20,desktopSize:20,children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},t={args:{color:"green",colorHover:"orange",mobileSize:20,desktopSize:20,children:s,textWrap:"balance"},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},a={args:{color:"green",mobileSize:20,desktopSize:20,children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},i={args:{color:"green",colorHover:"orange",mobileSize:20,desktopSize:20,tag:"a",href:"/ksdjdkdj",children:s},render:r=>e.jsxs("div",{children:[e.jsx(o,{mobileSize:20,desktopSize:20,tag:"span",children:s+" "}),e.jsx(o,{...r}),e.jsx(o,{mobileSize:20,desktopSize:20,tag:"span",children:" "+s})]})},d={args:{color:"red",colorHover:"orange",mobileSize:20,desktopSize:40,href:"/ksdjdkdj",children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},c={args:{color:"red",colorHover:"orange",mobileSize:40,desktopSize:20,href:"/ksdjdkdj",children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
   args: {
     color: 'grey',
     mobileSize: 20,
@@ -43,16 +43,17 @@ import { TextBox } from 'najwer23morsels/lib/TextBox';
     colorHover: 'orange',
     mobileSize: 20,
     desktopSize: 20,
+    tag: 'a',
     href: '/ksdjdkdj',
-    children: ' ' + defaultText + ' '
+    children: defaultText
   },
   render: args => <div>
       <TextBox mobileSize={20} desktopSize={20} tag="span">
-        {defaultText}
+        {defaultText + ' '}
       </TextBox>
       <TextBox {...args} />
       <TextBox mobileSize={20} desktopSize={20} tag="span">
-        {defaultText}
+        {' ' + defaultText}
       </TextBox>
     </div>
 }`,...i.parameters?.docs?.source}}};d.parameters={...d.parameters,docs:{...d.parameters?.docs,source:{originalSource:`{
