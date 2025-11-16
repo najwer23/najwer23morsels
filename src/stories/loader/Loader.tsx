@@ -16,7 +16,7 @@ export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColo
         {
           ...getCssVariableStyle({
             '--loader-lc': loaderColor,
-            '--loader-mh': `${minHeight}`,
+            '--loader-mh': minHeight,
           }),
           ...style,
         } as React.CSSProperties
