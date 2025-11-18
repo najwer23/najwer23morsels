@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useWindowSize } from '../hooks';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Masonry.module.css';
@@ -39,6 +39,10 @@ export const Masonry: React.FC<MasonryProps> = ({
 }) => {
   const [itemCnt, setItemCnt] = useState<number>(0);
   const { width } = useWindowSize();
+
+  const isFirstMount = useRef(true);
+
+  const getInitDelay = () => (isFirstMount.current ? 0 : delay);
 
   const getNumberOfColumns = (width: number) => {
     if (width < 767.98) {
@@ -96,12 +100,13 @@ export const Masonry: React.FC<MasonryProps> = ({
   };
 
   useEffect(() => {
-    // too fast to see changes, so lets do small delay
     const timeoutId = setTimeout(() => {
-      if (getNumberOfColumns(width) != numberOfColumns) {
+      const cols = getNumberOfColumns(width);
+
+      if (cols !== numberOfColumns) {
         setItemCnt(0);
-        setNumberOfColumns(getNumberOfColumns(width));
-        setChildrenMasonry(initChildrenMasonry(getNumberOfColumns(width)));
+        setNumberOfColumns(cols);
+        setChildrenMasonry(initChildrenMasonry(cols));
       }
     }, 100);
 
@@ -113,6 +118,8 @@ export const Masonry: React.FC<MasonryProps> = ({
   }, [childrenMasonry]);
 
   useEffect(() => {
+    const delayMs = getInitDelay();
+
     const timeoutId = setTimeout(() => {
       if (itemCnt < children.length) {
         const childNameWithMinHeight = getChildNameWithMinHeight(childrenMasonry);
@@ -126,18 +133,22 @@ export const Masonry: React.FC<MasonryProps> = ({
               : value;
           }),
         );
-        setItemCnt((itemCnt) => itemCnt + 1);
+        setItemCnt((cnt) => cnt + 1);
 
-        if (itemCnt == children.length - 1) {
+        if (itemCnt === children.length - 1) {
           if (onGridMasonryLoadEnd) {
             onGridMasonryLoadEnd(true);
           }
         }
       }
-    }, delay); // could be 0, but with 40 there is cool loading animation
+    }, delayMs);
 
     return () => clearTimeout(timeoutId);
   }, [heightsKey]);
+
+  useEffect(() => {
+    isFirstMount.current = false;
+  }, []);
 
   return (
     <div
