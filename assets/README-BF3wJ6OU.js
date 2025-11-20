@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as s}from"./index-DGvKby-d.js";import{a as i,b as r}from"./WithTooltip-SK46ZJ2J-GsoDiuPl.js";import"./iframe-BpuQCVTh.js";import"./preload-helper-PPVm8Dsz.js";import"./index-wm3yVTM6.js";const a=`The najwer23morsels npm package provides React UI components with flexible styling via configurable props and custom CSS classes. It uses native CSS features, mainly global CSS variables, allowing easy customization without external libraries. This approach ensures maintainable, clear styling that adapts efficiently to different branding and design needs.
+import{j as e}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as s}from"./index-D8wM-8YZ.js";import{a as i,b as r}from"./WithTooltip-SK46ZJ2J-CigdedKb.js";import"./iframe-D9sBYOmq.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CbgRbRNk.js";const l=`The najwer23morsels npm package provides React UI components with flexible styling via configurable props and custom CSS classes. It uses native CSS features, mainly global CSS variables, allowing easy customization without external libraries. This approach ensures maintainable, clear styling that adapts efficiently to different branding and design needs.
 
 # najwer23morsels
 
@@ -63,4 +63,4 @@ export const Example = () => {
 
 
 `;function t(o){return e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Documentation/README"}),`
-`,e.jsx(r,{children:a})]})}function b(o={}){const{wrapper:n}={...s(),...o.components};return n?e.jsx(n,{...o,children:e.jsx(t,{...o})}):t()}export{b as default};
+`,e.jsx("div",{style:{minHeight:"800px"},children:e.jsx(r,{children:l})})]})}function b(o={}){const{wrapper:n}={...s(),...o.components};return n?e.jsx(n,{...o,children:e.jsx(t,{...o})}):t()}export{b as default};

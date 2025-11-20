@@ -3,7 +3,7 @@ This is a TextBox component that can be used to display text with various styles
 
 You can import the TextBox component from the library and use it in your application as follows:
 \`\`\`tsx
-import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { TextBox } from 'najwer23morsels/lib/textbox';
 \`\`\`
       `}}},tags:["autodocs"]},s="It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.",n={args:{color:"grey",mobileSize:20,desktopSize:20,children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},t={args:{color:"green",colorHover:"orange",mobileSize:20,desktopSize:20,children:s,textWrap:"balance"},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},a={args:{color:"green",mobileSize:20,desktopSize:20,children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},i={args:{color:"green",colorHover:"orange",mobileSize:20,desktopSize:20,tag:"a",href:"/ksdjdkdj",children:s},render:r=>e.jsxs("div",{children:[e.jsx(o,{mobileSize:20,desktopSize:20,tag:"span",children:s+" "}),e.jsx(o,{...r}),e.jsx(o,{mobileSize:20,desktopSize:20,tag:"span",children:" "+s})]})},d={args:{color:"red",colorHover:"orange",mobileSize:20,desktopSize:40,href:"/ksdjdkdj",children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})},c={args:{color:"red",colorHover:"orange",mobileSize:40,desktopSize:20,href:"/ksdjdkdj",children:s},render:r=>e.jsx("div",{children:e.jsx(o,{...r})})};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
   args: {

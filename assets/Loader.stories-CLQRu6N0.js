@@ -3,7 +3,7 @@ This is a loader component that can be used to indicate loading states in your a
 
 You can import the Button component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Loader } from 'najwer23morsels/lib/Loader';
+import { Loader } from 'najwer23morsels/lib/loader';
 \`\`\`
       `}}},tags:["autodocs"]},o={args:{loaderColor:"black",minHeight:"400px"},render:t=>e.jsx("div",{children:e.jsx("div",{style:{width:"min(700px,calc(100vw - 50px)",height:"400px"},children:e.jsx(r,{...t})})})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
   args: {
