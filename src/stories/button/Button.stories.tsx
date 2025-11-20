@@ -16,7 +16,7 @@ This is a button component that can be used to trigger actions. It supports vari
 
 You can import the Button component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Button } from 'najwer23morsels/lib/Button';
+import { Button } from 'najwer23morsels/lib/button';
 \`\`\`
       `,
       },

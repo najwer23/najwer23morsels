@@ -13,8 +13,8 @@ This is a collection of icon components that can be used in your application. Th
 
 You can import the Icons component from the library and use it in your application as follows:
 \`\`\`tsx
-import { IconArrowRight } from 'najwer23morsels/lib/IconArrowRight';
-import { IconArrowLeft } from 'najwer23morsels/lib/IconArrowLeft';
+import { IconArrowRight } from 'najwer23morsels/lib/icons';
+import { IconArrowLeft } from 'najwer23morsels/lib/icons';
 \`\`\`
       `,
       },

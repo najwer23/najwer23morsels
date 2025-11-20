@@ -14,7 +14,7 @@ This is a SliderScroll component that can be used to display a series of images 
 
 You can import the SliderScroll component from the library and use it in your application as follows:
 \`\`\`tsx
-import { SliderScroll } from 'najwer23morsels/lib/SliderScroll';
+import { SliderScroll } from 'najwer23morsels/lib/Sliderscroll';
 \`\`\`
       `,
       },

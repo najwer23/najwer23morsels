@@ -14,7 +14,7 @@ This is a TextBox component that can be used to display text with various styles
 
 You can import the TextBox component from the library and use it in your application as follows:
 \`\`\`tsx
-import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { TextBox } from 'najwer23morsels/lib/textbox';
 \`\`\`
       `,
       },

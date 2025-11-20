@@ -15,7 +15,7 @@ This is a grid component that can be used to create responsive layouts. It suppo
 
 You can import the Grid component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Grid } from 'najwer23morsels/lib/Grid';
+import { Grid } from 'najwer23morsels/lib/grid';
 \`\`\`
       `,
       },

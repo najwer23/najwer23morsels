@@ -15,7 +15,7 @@ This is a multi-slide slider component that can be used to display multiple item
 
 You can import the Slider component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Slider } from 'najwer23morsels/lib/Slider';
+import { Slider } from 'najwer23morsels/lib/slider';
 \`\`\`
       `,
       },

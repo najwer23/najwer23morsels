@@ -14,7 +14,7 @@ This is a loader component that can be used to indicate loading states in your a
 
 You can import the Button component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Loader } from 'najwer23morsels/lib/Loader';
+import { Loader } from 'najwer23morsels/lib/loader';
 \`\`\`
       `,
       },
