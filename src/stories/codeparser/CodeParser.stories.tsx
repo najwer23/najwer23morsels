@@ -14,7 +14,7 @@ This is a CodeParser component that can be used to display code snippets with sy
 
 You can import the CodeParser component from the library and use it in your application as follows:
 \`\`\`tsx
-import { CodeParser } from 'najwer23morsels/lib/CodeParser';
+import { CodeParser } from 'najwer23morsels/lib/codeparser';
 \`\`\`
       `,
       },
