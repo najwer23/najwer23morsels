@@ -66,13 +66,13 @@ export const Grid: React.FC<GridProps> = ({
               '--grid-p': padding,
               '--grid-m': margin,
               '--grid-jc': justifyContent,
-              '--grid-col-gap': gap?.col,
-              '--grid-row-gap': gap?.row,
-              '--grid-align-items': alignItems,
+              '--grid-cg': gap?.col,
+              '--grid-rg': gap?.row,
+              '--grid-ai': alignItems,
               '--grid-fw': flexWrap,
               '--grid-mh': minHeight,
-              '--grid-wMin': widthMin,
-              '--grid-wMax': widthMax,
+              '--grid-wn': widthMin,
+              '--grid-wx': widthMax,
             }),
             ...style,
           } as React.CSSProperties
@@ -95,12 +95,12 @@ export const Grid: React.FC<GridProps> = ({
       className={[styles.n23mGridColumns, 'n23mGridColumns', className].filter(Boolean).join(' ')}
       style={
         {
-          '--grid-col-mobile': col.mobile.toString(),
-          '--grid-col-tablet': col.tablet.toString(),
-          '--grid-col-small-desktop': col.smallDesktop.toString(),
-          '--grid-col-desktop': col.desktop.toString(),
-          '--grid-col-gap': gap.col,
-          '--grid-row-gap': gap.row,
+          '--grid-cm': col.mobile.toString(),
+          '--grid-ct': col.tablet.toString(),
+          '--grid-csd': col.smallDesktop.toString(),
+          '--grid-cd': col.desktop.toString(),
+          '--grid-cg': gap.col,
+          '--grid-rg': gap.row,
         } as React.CSSProperties
       }
       {...props}

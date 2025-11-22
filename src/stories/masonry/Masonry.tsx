@@ -157,12 +157,12 @@ export const Masonry: React.FC<MasonryProps> = ({
       style={
         {
           ...getCssVariableStyle({
-            '--masonry-col-mobile': col.mobile,
-            '--masonry-col-tablet': col.tablet,
-            '--masonry-col-small-desktop': col.smallDesktop,
-            '--masonry-col-desktop': col.desktop,
-            '--masonry-col-gap': gap.col,
-            '--masonry-row-gap': gap.row,
+            '--masonry-cm': col.mobile,
+            '--masonry-ct': col.tablet,
+            '--masonry-csd': col.smallDesktop,
+            '--masonry-cd': col.desktop,
+            '--masonry-cg': gap.col,
+            '--masonry-rg': gap.row,
           }),
           ...style,
         } as React.CSSProperties

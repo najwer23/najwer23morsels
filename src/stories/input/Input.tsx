@@ -109,8 +109,8 @@ export const Input: React.FC<InputProps> = ({
 
       <TextBox
         ref={errorRef}
-        mobileSize={10}
-        desktopSize={10}
+        mobileSize={12}
+        desktopSize={12}
         tag="p"
         fontWeight={400}
         color={'#ff3333'}

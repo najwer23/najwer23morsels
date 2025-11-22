@@ -48,12 +48,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               {
                 ...getCssVariableStyle({
                   '--button-bg': backgroundColor,
-                  '--button-height': height,
-                  '--button-width': width,
-                  '--button-bgDisabled': backgroundColorDisabled,
-                  '--button-borderColor': borderColor,
-                  '--button-padding': padding,
-                  '--button-margin': margin,
+                  '--button-h': height,
+                  '--button-w': width,
+                  '--button-bgd': backgroundColorDisabled,
+                  '--button-bc': borderColor,
+                  '--button-p': padding,
+                  '--button-m': margin,
                 }),
                 ...style,
               } as React.CSSProperties
@@ -61,7 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             className={[styles.n23mButtonButton, 'n23mButtonButton'].filter(Boolean).join(' ')}
             {...props}
           >
-            <span>{children}</span>
+            {children}
           </button>
         )}
       </div>

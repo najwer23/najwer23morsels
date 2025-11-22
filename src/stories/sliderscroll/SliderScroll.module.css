@@ -6,7 +6,7 @@
 
   .n23mSliderScrollTrack {
     display: flex;
-    gap: var(--sliderscroll-gap);
+    gap: var(--sliderscroll-g);
     flex-wrap: nowrap;
     overflow-x: scroll;
     will-change: scroll-position;

@@ -42,7 +42,7 @@ export const Default: Story = {
     <div>
       <Button onClick={action('button-click')} {...args}>
         <TextBox mobileSize={25} desktopSize={25} margin={0}>
-          Hello!
+          Button!
         </TextBox>
       </Button>
     </div>
@@ -73,7 +73,7 @@ export const ButtonLoading: Story = {
       <div>
         <Button onClick={action('button-click')} {...args} loading={loading}>
           <TextBox mobileSize={25} desktopSize={25} margin={0}>
-            Hello!
+            Button!
           </TextBox>
         </Button>
       </div>
@@ -95,7 +95,7 @@ export const ButtonDisabled: Story = {
     <div>
       <Button onClick={action('button-click')} {...args} disabled>
         <TextBox mobileSize={25} desktopSize={25} margin={0} color="white">
-          Hello!
+          Button!
         </TextBox>
       </Button>
     </div>

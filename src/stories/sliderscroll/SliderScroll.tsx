@@ -401,7 +401,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       style={
         {
           ...getCssVariableStyle({
-            '--sliderscroll-gap': gap,
+            '--sliderscroll-g': gap,
             height: 'calc(100% - 60px)',
           }),
           ...style,
