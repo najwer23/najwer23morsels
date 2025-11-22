@@ -56,9 +56,6 @@ export const Form: React.FC<FormProps> = ({ children, onSubmit, className, style
       {...props}
       style={
         {
-          ...getCssVariableStyle({
-            '--form': 'test',
-          }),
           ...style,
         } as React.CSSProperties
       }
