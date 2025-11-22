@@ -86,8 +86,8 @@ export const Slider: React.FC<SliderProps> = ({
   let slides = isCircular
     ? [
         ...cloneSlides(childSlides, childSlides.length, false, 1),
-        ...cloneSlides(childSlides, childSlides.length, false, 2),
         ...childSlides,
+        ...cloneSlides(childSlides, childSlides.length, false, 2),
         ...cloneSlides(childSlides, childSlides.length, true, 3),
         ...cloneSlides(childSlides, childSlides.length, true, 4),
       ]
