@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-u17CrQMm.js";import{T as o}from"./TextBox-C3BrBoH-.js";import"./getCssVariableStyle-DXeVW4yL.js";const m={title:"TextBox/TextBox",component:o,parameters:{layout:"centered",docs:{description:{component:`
+import{j as e}from"./jsx-runtime-u17CrQMm.js";import{T as o}from"./TextBox-CGYf23cG.js";import"./getCssVariableStyle-DXeVW4yL.js";const m={title:"TextBox/TextBox",component:o,parameters:{layout:"centered",docs:{description:{component:`
 This is a TextBox component that can be used to display text with various styles. It supports properties such as color, size, and link functionality. You can use it to create links or display static text.
 
 You can import the TextBox component from the library and use it in your application as follows:
