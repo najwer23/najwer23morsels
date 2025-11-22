@@ -5,6 +5,7 @@
     padding: var(--button-padding, 10px 17px);
     height: var(--button-height, auto);
     width: var(--button-width, auto);
+    margin: var(--button-margin, 0);
 
     cursor: pointer;
     border: 1px solid var(--n23mButtonBorderColor, var(--button-borderColor, unset));

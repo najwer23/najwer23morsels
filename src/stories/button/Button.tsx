@@ -7,6 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   backgroundColor?: string;
   padding?: string | 0;
+  margin?: string | 0;
   height: string;
   width: string;
   loading?: boolean;
@@ -18,6 +19,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
+      margin,
       children,
       className,
       backgroundColor,
@@ -51,6 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                   '--button-bgDisabled': backgroundColorDisabled,
                   '--button-borderColor': borderColor,
                   '--button-padding': padding,
+                  '--button-margin': margin,
                 }),
                 ...style,
               } as React.CSSProperties
