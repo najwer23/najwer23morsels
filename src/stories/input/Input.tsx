@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
+import { type ValidatorOptions, validator } from '../validator';
 import styles from './Input.module.css';
 
 interface InputProps extends React.HTMLAttributes<HTMLElement> {
@@ -14,6 +16,7 @@ interface InputProps extends React.HTMLAttributes<HTMLElement> {
   inputColor?: string;
   defaultValue?: string;
   disabled?: boolean;
+  validatorOptions?: ValidatorOptions;
   kind?: 'input' | 'textarea';
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
@@ -32,11 +35,28 @@ export const Input: React.FC<InputProps> = ({
   inputColorBorder,
   defaultValue,
   disabled,
+  validatorOptions,
   onBlur,
   ...props
 }) => {
+  const errorRef = useRef<HTMLDivElement | null>(null);
+
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+
+    if (document.activeElement !== target) {
+      if (errorRef.current) errorRef.current.textContent = '';
+
+      if (validatorOptions) {
+        const validatorResult = validator(target.value, validatorOptions);
+        if (validatorResult.length > 0) {
+          errorRef.current!.textContent = validatorResult[0];
+          target.classList.add('error');
+        } else {
+          target.classList.remove('error');
+        }
+      }
+    }
 
     if (typeof onBlur === 'function') {
       onBlur(e);
@@ -57,7 +77,7 @@ export const Input: React.FC<InputProps> = ({
         } as React.CSSProperties
       }
     >
-      <TextBox mobileSize={14} desktopSize={14} tag="label" fontWeight={300} color={labelColor} htmlFor={name}>
+      <TextBox mobileSize={14} desktopSize={14} tag="label" fontWeight={400} color={labelColor} htmlFor={name}>
         {label}
       </TextBox>
 
@@ -86,6 +106,17 @@ export const Input: React.FC<InputProps> = ({
           ></textarea>
         )}
       </div>
+
+      <TextBox
+        ref={errorRef}
+        mobileSize={10}
+        desktopSize={10}
+        tag="p"
+        fontWeight={400}
+        color={'#ff3333'}
+        lineHeight={'14px'}
+        margin={'2px 0 2px'}
+      ></TextBox>
     </div>
   );
 };

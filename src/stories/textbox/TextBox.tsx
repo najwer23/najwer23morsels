@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './TextBox.module.css';
 
@@ -23,67 +24,73 @@ interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorE
   htmlFor?: string;
 }
 
-export const TextBox: React.FC<TextBoxProps> = ({
-  tag = 'div',
-  children,
-  className,
-  target,
-  rel,
-  mobileSize,
-  desktopSize,
-  lineHeight,
-  color,
-  href,
-  colorHover,
-  margin,
-  fontWeight,
-  fontWeightHover,
-  textAlign,
-  textWrap,
-  style,
-  htmlFor,
-  ...props
-}) => {
-  let Tag = tag;
+export const TextBox = forwardRef<any, TextBoxProps>(
+  (
+    {
+      tag = 'div',
+      children,
+      className,
+      target,
+      rel,
+      mobileSize,
+      desktopSize,
+      lineHeight,
+      color,
+      href,
+      colorHover,
+      margin,
+      fontWeight,
+      fontWeightHover,
+      textAlign,
+      textWrap,
+      style,
+      htmlFor,
+      ...props
+    },
+    ref,
+  ) => {
+    let Tag = tag;
 
-  if (href) {
-    Tag = 'a';
-  }
+    if (href) {
+      Tag = 'a';
+    }
 
-  return (
-    <Tag
-      style={
-        {
-          ...getCssVariableStyle({
-            '--textbox-fw': fontWeight,
-            '--textbox-fwh': fontWeightHover,
-            '--textbox-ch': colorHover,
-            '--textbox-c': color,
-            '--textbox-ms': mobileSize,
-            '--textbox-ds': desktopSize,
-            '--textbox-lh': lineHeight,
-            '--textbox-a': textAlign,
-            '--textbox-w': textWrap,
-            '--textbox-m': margin,
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
-      className={[
-        styles.n23mTextBox,
-        'n23mTextBox',
-        `${href ? `${styles.n23mTextBoxLink} n23mTextBoxLink` : ''}`,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      {...(href ? { href, target, rel } : {})}
-      {...(htmlFor ? { htmlFor } : {})}
-      {...props}
-    >
-      {children}
-    </Tag>
-  );
-};
+    return (
+      <Tag
+        ref={ref}
+        style={
+          {
+            ...getCssVariableStyle({
+              '--textbox-fw': fontWeight,
+              '--textbox-fwh': fontWeightHover,
+              '--textbox-ch': colorHover,
+              '--textbox-c': color,
+              '--textbox-ms': mobileSize,
+              '--textbox-ds': desktopSize,
+              '--textbox-lh': lineHeight,
+              '--textbox-a': textAlign,
+              '--textbox-w': textWrap,
+              '--textbox-m': margin,
+            }),
+            ...style,
+          } as React.CSSProperties
+        }
+        className={[
+          styles.n23mTextBox,
+          'n23mTextBox',
+          `${href ? `${styles.n23mTextBoxLink} n23mTextBoxLink` : ''}`,
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        {...(href ? { href, target, rel } : {})}
+        {...(htmlFor ? { htmlFor } : {})}
+        {...props}
+      >
+        {children}
+      </Tag>
+    );
+  },
+);
 
 TextBox.displayName = 'TextBox';

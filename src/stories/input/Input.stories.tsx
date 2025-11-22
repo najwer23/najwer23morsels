@@ -39,6 +39,21 @@ export const Default: Story = {
   ),
 };
 
+export const Validator: Story = {
+  args: {
+    label: 'Label',
+    name: 'input',
+    placeholder: 'Type..',
+    validatorOptions: [{ type: 'empty' }],
+  },
+  render: (args) => (
+    <div>
+      <Input {...args} />
+      <Input {...args} />
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     label: 'Label',

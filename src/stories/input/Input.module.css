@@ -1,7 +1,7 @@
 @layer n23mInput {
   .n23mInput {
     margin-top: 0px;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
     --iff:
       -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu,
       roboto, noto, arial, sans-serif;
@@ -39,6 +39,15 @@
         filter: brightness(125%);
         font-weight: 300;
       }
+    }
+
+    .n23mInputError {
+      font-size: var(--najwer23snacks-input-error-font-size);
+      font-family: var(--najwer23snacks-input-error-font-family);
+      font-weight: var(--najwer23snacks-input-error-font-weight);
+      line-height: 1;
+      margin: 2px;
+      color: var(--najwer23snacks-input-error-font-color);
     }
   }
 }
