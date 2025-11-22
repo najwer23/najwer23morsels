@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-u17CrQMm.js";import{T as o}from"./TextBox-CGYf23cG.js";import"./getCssVariableStyle-DXeVW4yL.js";const m={title:"TextBox/TextBox",component:o,parameters:{layout:"centered",docs:{description:{component:`
+import{j as e}from"./jsx-runtime-u17CrQMm.js";import{T as o}from"./TextBox-C6kT2mjf.js";import"./iframe-DZALNTGB.js";import"./preload-helper-PPVm8Dsz.js";import"./getCssVariableStyle-DXeVW4yL.js";const u={title:"TextBox/TextBox",component:o,parameters:{layout:"centered",docs:{description:{component:`
 This is a TextBox component that can be used to display text with various styles. It supports properties such as color, size, and link functionality. You can use it to create links or display static text.
 
 You can import the TextBox component from the library and use it in your application as follows:
@@ -80,4 +80,4 @@ import { TextBox } from 'najwer23morsels/lib/textbox';
   render: args => <div>
       <TextBox {...args} />
     </div>
-}`,...c.parameters?.docs?.source}}};const g=["Default","TextWrapBalance","Link","InlineLink","FluidMobile20Desktop40","FluidMobile40Desktop20"];export{n as Default,d as FluidMobile20Desktop40,c as FluidMobile40Desktop20,i as InlineLink,a as Link,t as TextWrapBalance,g as __namedExportsOrder,m as default};
+}`,...c.parameters?.docs?.source}}};const k=["Default","TextWrapBalance","Link","InlineLink","FluidMobile20Desktop40","FluidMobile40Desktop20"];export{n as Default,d as FluidMobile20Desktop40,c as FluidMobile40Desktop20,i as InlineLink,a as Link,t as TextWrapBalance,k as __namedExportsOrder,u as default};
