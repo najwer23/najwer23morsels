@@ -1,9 +1,9 @@
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './TextBox.module.css';
 
-export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'p' | 'div' | 'span' | 'a';
+export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'p' | 'div' | 'span' | 'a' | 'label';
 
-interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorElement> {
+interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorElement | HTMLLabelElement> {
   children?: React.ReactNode;
   tag?: TextBoxTag;
   mobileSize: number;
@@ -20,6 +20,7 @@ interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorE
   textAlign?: string;
   textWrap?: string;
   style?: React.CSSProperties;
+  htmlFor?: string;
 }
 
 export const TextBox: React.FC<TextBoxProps> = ({
@@ -40,6 +41,7 @@ export const TextBox: React.FC<TextBoxProps> = ({
   textAlign,
   textWrap,
   style,
+  htmlFor,
   ...props
 }) => {
   let Tag = tag;
@@ -76,6 +78,7 @@ export const TextBox: React.FC<TextBoxProps> = ({
         .filter(Boolean)
         .join(' ')}
       {...(href ? { href, target, rel } : {})}
+      {...(htmlFor ? { htmlFor } : {})}
       {...props}
     >
       {children}
