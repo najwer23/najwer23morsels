@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useWindowSize } from '../hooks';
 import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
@@ -53,10 +53,12 @@ export const Picture: React.FC<PictureProps> = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const { width } = useWindowSize();
+  const complete = useRef(false);
 
+  // check if cached
   const img = new Image();
   img.src = srcDesktop || srcMobile || src || '';
-  const complete = img.complete;
+  complete.current = img.complete;
   img.src = '';
 
   return (
@@ -67,7 +69,7 @@ export const Picture: React.FC<PictureProps> = ({
           'n23mPicture',
           border && styles.border,
           loaded && styles.loaded,
-          complete && styles.cacheLoaded,
+          complete.current && styles.cacheLoaded,
           className,
         ]
           .filter(Boolean)
@@ -100,7 +102,7 @@ export const Picture: React.FC<PictureProps> = ({
           loading={loading}
           onLoad={() =>
             setLoaded(() => {
-              if (complete) return false;
+              if (complete.current) return false;
               return true;
             })
           }
