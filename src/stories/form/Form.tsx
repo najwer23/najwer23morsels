@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { getCssVariableStyle } from '../utils/getCssVariableStyle';
+import { TextBox } from '../textbox';
 
 export interface FormType {
   [k: string]: {
@@ -13,9 +13,25 @@ interface FormProps {
   children?: React.ReactNode;
   onSubmit: (formData: FormType) => void;
   style?: React.CSSProperties;
+  isError: boolean;
+  isPending: boolean;
+  isSuccess: boolean;
+  errorMsg: string;
+  successMsg: string;
 }
 
-export const Form: React.FC<FormProps> = ({ children, onSubmit, className, style, ...props }) => {
+export const Form: React.FC<FormProps> = ({
+  children,
+  onSubmit,
+  className,
+  isError,
+  isPending,
+  isSuccess,
+  errorMsg,
+  successMsg,
+  style,
+  ...props
+}) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -62,6 +78,22 @@ export const Form: React.FC<FormProps> = ({ children, onSubmit, className, style
       onSubmit={handleSubmit}
     >
       {children}
+
+      {isError && (
+        <TextBox tag="p" color="#ff3333" mobileSize={12} desktopSize={12} margin={'15px 0 10px 0'} fontWeight={400}>
+          {errorMsg}
+        </TextBox>
+      )}
+      {isPending && (
+        <TextBox tag="p" color="grey" mobileSize={12} desktopSize={12} margin={'15px 0 10px 0'} fontWeight={400}>
+          Loading..
+        </TextBox>
+      )}
+      {isSuccess && (
+        <TextBox tag="p" color="#4BB543" mobileSize={12} desktopSize={12} margin={'15px 0 10px 0'} fontWeight={400}>
+          {successMsg}
+        </TextBox>
+      )}
     </form>
   );
 };
