@@ -1,5 +1,6 @@
-import { useInsertionEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useWindowSize } from '../hooks';
+import { useCachedImageCheck } from '../hooks/useCachedImageCheck';
 import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Picture.module.css';
@@ -52,29 +53,11 @@ export const Picture: React.FC<PictureProps> = ({
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
-  const [fromCache, setFromCache] = useState(false);
   const { width } = useWindowSize();
 
-  useLayoutEffect(() => {
-    const img = new Image();
-    const srcToLoad = srcDesktop || srcMobile || src || '';
-    img.src = srcToLoad;
+  const imageSrcToCheck = srcDesktop && width >= 768 ? srcDesktop : srcMobile && width < 768 ? srcMobile : src || '';
 
-    if (img.complete) {
-      setLoaded(true);
-      setFromCache(true);
-    } else {
-      setFromCache(false);
-      img.onload = () => {
-        setLoaded(true);
-        setFromCache(false);
-      };
-    }
-
-    return () => {
-      img.onload = null;
-    };
-  }, [srcDesktop, srcMobile, src]);
+  const cached = useCachedImageCheck(imageSrcToCheck, 25);
 
   return (
     <figure className={styles.n23mPictureFigure}>
@@ -83,8 +66,8 @@ export const Picture: React.FC<PictureProps> = ({
           'n23mPicture',
           styles.n23mPicture,
           border && styles.border,
-          loaded && !fromCache && styles.loaded,
-          fromCache && styles.cacheLoaded,
+          loaded && !cached && styles.loaded,
+          cached && styles.cacheLoaded,
           className,
         ]
           .filter(Boolean)
@@ -112,9 +95,10 @@ export const Picture: React.FC<PictureProps> = ({
           srcSet={srcset}
           width={arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar}
           height={1}
-          src={srcDesktop || srcMobile || src || ''}
+          src={imageSrcToCheck}
           alt={alt}
           loading={loading}
+          onLoad={() => setLoaded(true)}
           draggable={draggable}
         />
       </picture>

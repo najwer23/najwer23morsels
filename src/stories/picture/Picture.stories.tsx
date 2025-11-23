@@ -40,6 +40,19 @@ export const Default: Story = {
   ),
 };
 
+// export const BigSize: Story = {
+//   args: {
+//     src: 'https://www.miaartgallery.com/files/artists/2022/12/MIA-dokumentacja-26-03-22-fot-jerzywypych-1199.jpg',
+//     alt: '',
+//     ar: 1127 / 1500,
+//   },
+//   render: (args) => (
+//     <div>
+//       <Picture {...args}>hello world!</Picture>
+//     </div>
+//   ),
+// };
+
 export const PictureBorder: Story = {
   args: {
     src: 'https://picsum.photos/300/400',
