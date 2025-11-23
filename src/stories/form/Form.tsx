@@ -16,8 +16,8 @@ interface FormProps {
   isError: boolean;
   isPending: boolean;
   isSuccess: boolean;
-  errorMsg: string;
-  successMsg: string;
+  errorMsg: string | null | undefined;
+  successMsg: string | null | undefined;
 }
 
 export const Form: React.FC<FormProps> = ({
