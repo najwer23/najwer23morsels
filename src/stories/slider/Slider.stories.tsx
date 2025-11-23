@@ -163,6 +163,12 @@ export const Slider2Slides: Story = {
         <div style={{ background: slides[1].color, ...slideStyle }} onClick={slides[1].action}>
           {slides[1].label}
         </div>
+        <div style={{ background: slides[0].color, ...slideStyle }} onClick={slides[0].action}>
+          {slides[0].label}
+        </div>
+        <div style={{ background: slides[1].color, ...slideStyle }} onClick={slides[1].action}>
+          {slides[1].label}
+        </div>
       </Slider>
     </div>
   ),
