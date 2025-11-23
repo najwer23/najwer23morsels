@@ -54,10 +54,22 @@ export const Picture: React.FC<PictureProps> = ({
   const [loaded, setLoaded] = useState(false);
   const { width } = useWindowSize();
 
+  const img = new Image();
+  img.src = srcDesktop || srcMobile || src || '';
+  const complete = img.complete;
+  img.src = '';
+
   return (
     <figure className={styles.n23mPictureFigure}>
       <picture
-        className={[styles.n23mPicture, 'n23mPicture', border && styles.border, loaded && styles.loaded, className]
+        className={[
+          styles.n23mPicture,
+          'n23mPicture',
+          border && styles.border,
+          loaded && styles.loaded,
+          complete && styles.cacheLoaded,
+          className,
+        ]
           .filter(Boolean)
           .join(' ')}
         {...props}
@@ -86,7 +98,12 @@ export const Picture: React.FC<PictureProps> = ({
           src={srcDesktop || srcMobile || src || ''}
           alt={alt}
           loading={loading}
-          onLoad={() => setLoaded(true)}
+          onLoad={() =>
+            setLoaded(() => {
+              if (complete) return false;
+              return true;
+            })
+          }
           draggable={draggable}
         />
       </picture>

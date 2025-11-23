@@ -15,7 +15,7 @@
 
     & img {
       opacity: 0;
-      transition: opacity 250ms ease-in-out;
+
       display: grid;
       width: 100%;
       height: auto;
@@ -23,6 +23,11 @@
     }
 
     &.loaded img {
+      opacity: 1;
+      transition: opacity 250ms ease-in-out;
+    }
+
+    &.cacheLoaded img {
       opacity: 1;
     }
   }
