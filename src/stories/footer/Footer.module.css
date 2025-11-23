@@ -1,14 +1,14 @@
 @layer n23mFooter {
+  html {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    position: relative;
+  }
+
   .n23mFooter {
-    html {
-      height: 100%;
-    }
-
-    body {
-      min-height: 100%;
-      position: relative;
-    }
-
     .footerPush {
       /* footerContent + 75px */
       padding-bottom: 100px;
