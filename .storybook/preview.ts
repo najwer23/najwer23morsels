@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
+import './main.css';
 import './monaspace.css';
 
 const preview: Preview = {

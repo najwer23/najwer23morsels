@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.16.0
+
+### Minor Changes
+
+- Footer
+
 ## 0.15.0
 
 ### Minor Changes
