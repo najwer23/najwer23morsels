@@ -1,3 +1,5 @@
 import { IconArrowLeft } from './IconArrowLeft';
 import { IconArrowRight } from './IconArrowRight';
-export { IconArrowRight, IconArrowLeft };
+import { IconLocate } from './IconLocate';
+
+export { IconArrowRight, IconArrowLeft, IconLocate };

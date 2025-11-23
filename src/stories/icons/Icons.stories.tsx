@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { IconArrowLeft, IconArrowRight } from '.';
+import { IconLocate } from './IconLocate';
 
 const meta: Meta<typeof IconArrowRight> = {
   title: 'Icons/Icons',
@@ -29,11 +30,13 @@ export const Default: StoryObj<typeof meta> = {
   args: {
     width: 20,
     height: 20,
+    color: 'black',
   },
   render: (args) => (
     <div style={{ color: 'black', display: 'flex', gap: '10px' }}>
       <IconArrowRight {...args} />
       <IconArrowLeft {...args} />
+      <IconLocate {...args} color="red" />
     </div>
   ),
 };
