@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useInsertionEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useWindowSize } from '../hooks';
 import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
@@ -52,24 +52,39 @@ export const Picture: React.FC<PictureProps> = ({
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
+  const [fromCache, setFromCache] = useState(false);
   const { width } = useWindowSize();
-  const complete = useRef(false);
 
-  // check if cached
-  const img = new Image();
-  img.src = srcDesktop || srcMobile || src || '';
-  complete.current = img.complete;
-  img.src = '';
+  useLayoutEffect(() => {
+    const img = new Image();
+    const srcToLoad = srcDesktop || srcMobile || src || '';
+    img.src = srcToLoad;
+
+    if (img.complete) {
+      setLoaded(true);
+      setFromCache(true);
+    } else {
+      setFromCache(false);
+      img.onload = () => {
+        setLoaded(true);
+        setFromCache(false);
+      };
+    }
+
+    return () => {
+      img.onload = null;
+    };
+  }, [srcDesktop, srcMobile, src]);
 
   return (
     <figure className={styles.n23mPictureFigure}>
       <picture
         className={[
-          styles.n23mPicture,
           'n23mPicture',
+          styles.n23mPicture,
           border && styles.border,
-          loaded && styles.loaded,
-          complete.current && styles.cacheLoaded,
+          loaded && !fromCache && styles.loaded,
+          fromCache && styles.cacheLoaded,
           className,
         ]
           .filter(Boolean)
@@ -100,12 +115,6 @@ export const Picture: React.FC<PictureProps> = ({
           src={srcDesktop || srcMobile || src || ''}
           alt={alt}
           loading={loading}
-          onLoad={() =>
-            setLoaded(() => {
-              if (complete.current) return false;
-              return true;
-            })
-          }
           draggable={draggable}
         />
       </picture>
