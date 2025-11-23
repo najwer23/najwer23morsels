@@ -70,7 +70,7 @@ export const Default: Story = {
           errorMsg={'Form has errors'}
           successMsg={'Form submitted'}
         >
-          {/* <Input label="Email" type="text" name="name" validatorOptions={[{ type: 'empty' }, { type: 'email' }]} /> */}
+          <Input label="Email" type="text" name="name" validatorOptions={[{ type: 'empty' }, { type: 'email' }]} />
 
           <Input label="Password" type="password" name="pass" validatorOptions={[{ type: 'empty' }]} />
 
