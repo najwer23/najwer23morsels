@@ -22,8 +22,8 @@ export const Footer: React.FC<FooterProps> = ({ children, className, style, ...p
         } as React.CSSProperties
       }
     >
-      <div className={styles.footerPush}></div>
-      <div className={styles.footerContainer}>
+      <div className={styles.n23mFooterPush}></div>
+      <div className={styles.n23mFooterContainer}>
         <Grid layout="container" widthMax={'1600px'}>
           <Grid layout="flex" widthMax={'1400px'} padding={'20px 0 0'} justifyContent="center">
             <TextBox mobileSize={22} desktopSize={22} color="black" tag="p">
