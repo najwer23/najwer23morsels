@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-u17CrQMm.js";import{r as p}from"./iframe-Ddywmo87.js";import{T as t}from"./TextBox-BK4fO7eD.js";import{G as r}from"./Grid-0Z687cFo.js";import"./preload-helper-PPVm8Dsz.js";import"./getCssVariableStyle-DXeVW4yL.js";import"./Loader-CXtjIfhu.js";const k={title:"Grid/Grid",component:r,parameters:{layout:"centered",docs:{description:{component:`
+import{j as e}from"./jsx-runtime-u17CrQMm.js";import{r as p}from"./iframe-EUDpX_OH.js";import{T as t}from"./TextBox-B-3qtFF2.js";import{G as r}from"./Grid-Chi3QCsR.js";import"./preload-helper-PPVm8Dsz.js";import"./getCssVariableStyle-DXeVW4yL.js";import"./Loader-DkftY4kt.js";const k={title:"Grid/Grid",component:r,parameters:{layout:"centered",docs:{description:{component:`
 This is a grid component that can be used to create responsive layouts. It supports various properties such as layout type, column configuration, gap, padding, and more. You can use it to create both container-based and column-based layouts.
 
 You can import the Grid component from the library and use it in your application as follows:
