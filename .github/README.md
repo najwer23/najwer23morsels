@@ -1,8 +1,4 @@
-The najwer23morsels npm package offers React user interface components designed for flexible and customizable styling. It supports styling through configurable parameters passed as React props, allowing you to easily adjust the appearance of components within your React code. Additionally, you can apply custom CSS classes for more granular control.
-
-This design system leverages native CSS features, primarily global CSS variables, to enable comprehensive customization of component styles. Instead of relying on external styling libraries, you can override these CSS variables or add your own CSS rules to control the look and feel. This approach ensures that styling remains straightforward, maintainable, and fully compatible with standard web technologies.
-
-By following native CSS conventions, the package provides a flexible and efficient way to adapt the design system to different branding requirements or design preferences while keeping the styling logic clear and easy to manage. Using React props for styling alongside CSS variable overrides offers a powerful combination for both dynamic and static style customization.
+A comprehensive collection of React components for building consistent, scalable applications.
 
 # najwer23morsels
 
