@@ -1,5 +1,17 @@
 # najwer23morsels
 
+## 0.17.1
+
+### Patch Changes
+
+- Test
+
+## 0.17.0
+
+### Minor Changes
+
+- CopyButton
+
 ## 0.16.0
 
 ### Minor Changes
