@@ -21,37 +21,37 @@
     "release": "yarn build && yarn && changeset && changeset version && changeset publish && rimraf ./lib && rimraf ./.yarn/cache"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.4",
-    "@changesets/cli": "^2.29.7",
+    "@biomejs/biome": "2.3.15",
+    "@changesets/cli": "^2.29.8",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "0.4.4",
-    "@storybook/addon-a11y": "^10.0.6",
-    "@storybook/addon-docs": "^10.0.6",
-    "@storybook/react-vite": "^10.0.6",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "@vitejs/plugin-react": "^5.1.0",
+    "@storybook/addon-a11y": "^10.2.8",
+    "@storybook/addon-docs": "^10.2.8",
+    "@storybook/react-vite": "^10.2.8",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
     "gh-pages": "^6.3.0",
-    "plop": "^4.0.4",
+    "plop": "^4.0.5",
     "postcss": "^8.5.6",
-    "prettier": "^3.6.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "rimraf": "^6.1.0",
-    "rollup": "^4.53.2",
-    "rollup-plugin-dts": "6.2.3",
+    "prettier": "^3.8.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rimraf": "^6.1.2",
+    "rollup": "^4.57.1",
+    "rollup-plugin-dts": "6.3.0",
     "rollup-plugin-output-size": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "0.36.0",
-    "storybook": "^10.0.6",
+    "storybook": "^10.2.8",
     "storybook-css-modules-preset": "^1.1.1",
     "typescript": "^5.9.3",
-    "vite": "^7.2.2"
+    "vite": "^7.3.1"
   },
   "peerDependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "keywords": [
     "react",
@@ -72,5 +72,5 @@
     "url": "git+https://github.com/najwer23/najwer23morsels.git"
   },
   "license": "MIT",
-  "packageManager": "yarn@4.11.0"
+  "packageManager": "yarn@4.12.0"
 }
