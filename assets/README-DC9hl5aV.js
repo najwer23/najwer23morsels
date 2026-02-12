@@ -1,4 +1,4 @@
-import{j as o}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as s}from"./index-DHVrZkj-.js";import{c as i,e as r}from"./blocks-8jndIxY8.js";import"./iframe-2h5s4yBs.js";import"./preload-helper-PPVm8Dsz.js";import"./index-BX4Ej19o.js";const l=`A comprehensive collection of React components for building consistent, scalable applications.
+import{j as o}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as s}from"./index-wl8s9CBx.js";import{c as i,e as r}from"./blocks-JlhKxNVO.js";import"./iframe-Bm98HxZr.js";import"./preload-helper-PPVm8Dsz.js";import"./index-DnlGb0L1.js";const l=`A comprehensive collection of React components for building consistent, scalable applications.
 
 # najwer23morsels
 
