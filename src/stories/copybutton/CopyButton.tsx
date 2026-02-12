@@ -7,7 +7,7 @@ import styles from './CopyButton.module.css';
 interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
-  backgroundColor: string;
+  backgroundColor?: string;
   textToCopy: string;
 }
 
