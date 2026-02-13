@@ -1,4 +1,4 @@
-import{j as r}from"./jsx-runtime-u17CrQMm.js";import{L as e}from"./Loader-D2kYlJNU.js";import"./TextBox-CfoxP1Ub.js";import"./iframe-Bm98HxZr.js";import"./preload-helper-PPVm8Dsz.js";import"./getCssVariableStyle-DXeVW4yL.js";const c={title:"Loader/Loader",component:e,parameters:{layout:"centered",docs:{description:{component:`
+import{j as r}from"./jsx-runtime-u17CrQMm.js";import{L as e}from"./Loader-CVTQfNKJ.js";import"./TextBox-BOH54psF.js";import"./iframe-P96EDUSH.js";import"./preload-helper-PPVm8Dsz.js";import"./getCssVariableStyle-DXeVW4yL.js";const c={title:"Loader/Loader",component:e,parameters:{layout:"centered",docs:{description:{component:`
 This is a loader component that can be used to indicate loading states in your application. It supports various properties such as size, color, and more.
 
 You can import the Button component from the library and use it in your application as follows:
