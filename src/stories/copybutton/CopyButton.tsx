@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { color } from 'storybook/theming';
 import { Button } from '../button';
 import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
@@ -8,6 +9,7 @@ interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   backgroundColor?: string;
+  color?: string;
   textToCopy: string;
 }
 
@@ -16,6 +18,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   className,
   style,
   textToCopy,
+  color = 'white',
   backgroundColor = 'orangered',
   ...props
 }) => {
@@ -55,7 +58,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
         onClick={handleCopy}
       >
         {children ?? (
-          <TextBox mobileSize={8} desktopSize={8} fontWeight={600} lineHeight={'17px'}>
+          <TextBox mobileSize={8} desktopSize={8} fontWeight={600} lineHeight={'17px'} color={color}>
             Copy
           </TextBox>
         )}
