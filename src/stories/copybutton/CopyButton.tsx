@@ -24,7 +24,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
 }) => {
   const [isCopied, setIsCopied] = useState(false);
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleCopy = useCallback(() => {
     if (timeoutRef.current) {

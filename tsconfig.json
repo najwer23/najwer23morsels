@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": "./src/stories",
     "target": "ES2020",
     "outDir": "lib",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -19,7 +20,7 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "lib"],
+  "exclude": ["src/docs/**/*", "**/*.stories.*", "node_modules", "lib"],
   "references": [
     {
       "path": "./tsconfig.node.json"

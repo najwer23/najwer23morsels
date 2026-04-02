@@ -124,7 +124,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       return;
     }
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const step = () => {
       if (!refs.carousel.current) return;
