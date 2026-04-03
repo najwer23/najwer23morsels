@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.19.5
+
+### Minor Changes
+
+- Removed CodeParser
+
 ## 0.17.1
 
 ### Patch Changes
