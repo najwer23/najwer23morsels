@@ -20,8 +20,13 @@ export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColo
         ...style,
       }}
     >
-      <TextBox mobileSize={16} desktopSize={16} color={loaderColor}>
-        Loading...
+      <TextBox mobileSize={16} desktopSize={16} color={loaderColor} role="status" aria-label="Loading">
+        Loading
+        <span className={styles.dots} aria-hidden="true">
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </span>
       </TextBox>
     </div>
   );
