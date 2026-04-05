@@ -18,3 +18,4 @@ vite.config.ts
 lib/**/*.stories.d.ts
 .github/*
 .changeset
+biome.json
