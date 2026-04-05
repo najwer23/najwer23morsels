@@ -71,5 +71,5 @@
     "url": "git+https://github.com/najwer23/najwer23morsels.git"
   },
   "license": "MIT",
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.13.0"
 }
