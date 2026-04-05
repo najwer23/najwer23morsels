@@ -12,15 +12,13 @@ export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColo
   return (
     <div
       className={[styles.n23mLoader, 'n23mLoader', className].filter(Boolean).join(' ')}
-      style={
-        {
-          ...getCssVariableStyle({
-            '--loader-lc': loaderColor,
-            '--loader-mh': minHeight,
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
+      style={{
+        ...getCssVariableStyle({
+          '--loader-lc': loaderColor,
+          '--loader-mh': minHeight,
+        }),
+        ...style,
+      }}
     >
       <TextBox mobileSize={16} desktopSize={16} color={loaderColor}>
         Loading...

@@ -67,15 +67,13 @@ export const Input: React.FC<InputProps> = ({
     <div
       className={[styles.n23mInput, 'n23mInput', className].filter(Boolean).join(' ')}
       {...props}
-      style={
-        {
-          ...getCssVariableStyle({
-            '--input-c': inputColor,
-            '--input-cb': inputColorBorder,
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
+      style={{
+        ...getCssVariableStyle({
+          '--input-c': inputColor,
+          '--input-cb': inputColorBorder,
+        }),
+        ...style,
+      }}
     >
       <TextBox mobileSize={14} desktopSize={14} tag="label" fontWeight={400} color={labelColor} htmlFor={name}>
         {label}

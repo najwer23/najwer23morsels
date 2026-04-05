@@ -60,23 +60,21 @@ export const Grid: React.FC<GridProps> = ({
         ]
           .filter(Boolean)
           .join(' ')}
-        style={
-          {
-            ...getCssVariableStyle({
-              '--grid-p': padding,
-              '--grid-m': margin,
-              '--grid-jc': justifyContent,
-              '--grid-cg': gap?.col,
-              '--grid-rg': gap?.row,
-              '--grid-ai': alignItems,
-              '--grid-fw': flexWrap,
-              '--grid-mh': minHeight,
-              '--grid-wn': widthMin,
-              '--grid-wx': widthMax,
-            }),
-            ...style,
-          } as React.CSSProperties
-        }
+        style={{
+          ...getCssVariableStyle({
+            '--grid-p': padding,
+            '--grid-m': margin,
+            '--grid-jc': justifyContent,
+            '--grid-cg': gap?.col,
+            '--grid-rg': gap?.row,
+            '--grid-ai': alignItems,
+            '--grid-fw': flexWrap,
+            '--grid-mh': minHeight,
+            '--grid-wn': widthMin,
+            '--grid-wx': widthMax,
+          }),
+          ...style,
+        }}
         {...props}
       >
         {!loading && children}

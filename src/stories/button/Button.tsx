@@ -44,20 +44,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {!loading && (
           <button
             ref={ref}
-            style={
-              {
-                ...getCssVariableStyle({
-                  '--button-bg': backgroundColor,
-                  '--button-h': height,
-                  '--button-w': width,
-                  '--button-bgd': backgroundColorDisabled,
-                  '--button-bc': borderColor,
-                  '--button-p': padding,
-                  '--button-m': margin,
-                }),
-                ...style,
-              } as React.CSSProperties
-            }
+            style={{
+              ...getCssVariableStyle({
+                '--button-bg': backgroundColor,
+                '--button-h': height,
+                '--button-w': width,
+                '--button-bgd': backgroundColorDisabled,
+                '--button-bc': borderColor,
+                '--button-p': padding,
+                '--button-m': margin,
+              }),
+              ...style,
+            }}
             className={[styles.n23mButtonButton, 'n23mButtonButton'].filter(Boolean).join(' ')}
             {...props}
           >

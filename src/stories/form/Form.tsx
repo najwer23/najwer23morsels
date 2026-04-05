@@ -32,7 +32,7 @@ export const Form: React.FC<FormProps> = ({
   style,
   ...props
 }) => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: { preventDefault: () => void; currentTarget: HTMLFormElement }) => {
     e.preventDefault();
 
     // Assert that e.currentTarget is an HTMLFormElement

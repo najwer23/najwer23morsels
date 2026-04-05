@@ -58,23 +58,21 @@ export const TextBox = forwardRef<any, TextBoxProps>(
     return (
       <Tag
         ref={ref}
-        style={
-          {
-            ...getCssVariableStyle({
-              '--textbox-fw': fontWeight,
-              '--textbox-fwh': fontWeightHover,
-              '--textbox-ch': colorHover,
-              '--textbox-c': color,
-              '--textbox-ms': mobileSize,
-              '--textbox-ds': desktopSize,
-              '--textbox-lh': lineHeight,
-              '--textbox-a': textAlign,
-              '--textbox-w': textWrap,
-              '--textbox-m': margin,
-            }),
-            ...style,
-          } as React.CSSProperties
-        }
+        style={{
+          ...getCssVariableStyle({
+            '--textbox-fw': fontWeight,
+            '--textbox-fwh': fontWeightHover,
+            '--textbox-ch': colorHover,
+            '--textbox-c': color,
+            '--textbox-ms': mobileSize,
+            '--textbox-ds': desktopSize,
+            '--textbox-lh': lineHeight,
+            '--textbox-a': textAlign,
+            '--textbox-w': textWrap,
+            '--textbox-m': margin,
+          }),
+          ...style,
+        }}
         className={[
           styles.n23mTextBox,
           'n23mTextBox',

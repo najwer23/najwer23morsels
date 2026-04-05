@@ -154,19 +154,17 @@ export const Masonry: React.FC<MasonryProps> = ({
     <div
       className={[styles.n23mMasonry, 'n23mMasonry', className].filter(Boolean).join(' ')}
       {...props}
-      style={
-        {
-          ...getCssVariableStyle({
-            '--masonry-cm': col.mobile,
-            '--masonry-ct': col.tablet,
-            '--masonry-csd': col.smallDesktop,
-            '--masonry-cd': col.desktop,
-            '--masonry-cg': gap.col,
-            '--masonry-rg': gap.row,
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
+      style={{
+        ...getCssVariableStyle({
+          '--masonry-cm': col.mobile,
+          '--masonry-ct': col.tablet,
+          '--masonry-csd': col.smallDesktop,
+          '--masonry-cd': col.desktop,
+          '--masonry-cg': gap.col,
+          '--masonry-rg': gap.row,
+        }),
+        ...style,
+      }}
     >
       {childrenMasonry.map(({ arrWithElm, name }) => (
         <MasonryColumn

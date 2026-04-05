@@ -398,15 +398,13 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   return (
     <div
       className={['n23mSliderScroll', className].filter(Boolean).join(' ')}
-      style={
-        {
-          ...getCssVariableStyle({
-            '--sliderscroll-g': gap,
-            height: 'calc(100% - 60px)',
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
+      style={{
+        ...getCssVariableStyle({
+          '--sliderscroll-g': gap,
+          height: 'calc(100% - 60px)',
+        }),
+        ...style,
+      }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeaveHandler}
     >

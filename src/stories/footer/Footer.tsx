@@ -13,14 +13,12 @@ export const Footer: React.FC<FooterProps> = ({ children, className, style, ...p
     <footer
       className={[styles.n23mFooter, 'n23mFooter', className].filter(Boolean).join(' ')}
       {...props}
-      style={
-        {
-          ...getCssVariableStyle({
-            '--footer': 'test',
-          }),
-          ...style,
-        } as React.CSSProperties
-      }
+      style={{
+        ...getCssVariableStyle({
+          '--footer': 'test',
+        }),
+        ...style,
+      }}
     >
       <div className={styles.n23mFooterPush}></div>
       <div className={styles.n23mFooterContainer}>

@@ -73,20 +73,18 @@ export const Picture: React.FC<PictureProps> = ({
           .filter(Boolean)
           .join(' ')}
         {...props}
-        style={
-          {
-            ...getCssVariableStyle({
-              '--picture-bc': borderColor,
-              '--picture-mh':
-                maxHeightDesktop || maxHeightMobile
-                  ? maxHeightMobile && width < 767.98
-                    ? maxHeightMobile
-                    : maxHeightDesktop || maxHeightMobile
-                  : maxHeight,
-            }),
-            ...style,
-          } as React.CSSProperties
-        }
+        style={{
+          ...getCssVariableStyle({
+            '--picture-bc': borderColor,
+            '--picture-mh':
+              maxHeightDesktop || maxHeightMobile
+                ? maxHeightMobile && width < 767.98
+                  ? maxHeightMobile
+                  : maxHeightDesktop || maxHeightMobile
+                : maxHeight,
+          }),
+          ...style,
+        }}
       >
         {srcDesktop && <source media="(min-width: 768px)" srcSet={srcDesktop} />}
         {srcMobile && <source media="(max-width: 767.98px)" srcSet={srcMobile} />}
