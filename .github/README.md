@@ -4,7 +4,7 @@ A comprehensive collection of React components for building consistent, scalable
 
  [![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)
 
-**Storybook:** https://najwer23.github.io/najwer23morsels
+**Storybook:** https://najwer23.github.io/najwer23morsels   
 **NPM:** https://www.npmjs.com/search?q=najwer23morsels
 
 ### Self Update
