@@ -9,7 +9,7 @@ const meta: Meta<typeof Footer> = {
     docs: {
       description: {
         component: `
-Test Test
+Footer displayed at the bottom of the app.
 
 \`\`\`tsx
 import { Footer } from 'najwer23morsels/lib/footer';

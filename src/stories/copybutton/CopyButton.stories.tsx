@@ -10,7 +10,7 @@ const meta: Meta<typeof CopyButton> = {
     docs: {
       description: {
         component: `
-Test Test
+A button that copies text to the clipboard.
 
 \`\`\`tsx
 import { CopyButton } from 'najwer23morsels/lib/copybutton';
