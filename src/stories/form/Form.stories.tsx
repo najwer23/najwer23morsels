@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { action } from 'storybook/actions';
 import { Button } from '../button';
 import { Input } from '../input';
+import { Select } from '../select';
 import { TextBox } from '../textbox';
 import { Form } from '.';
 import { FormType } from './Form';
@@ -75,6 +76,8 @@ export const Default: Story = {
           <Input label="Password" type="password" name="pass" validatorOptions={[{ type: 'empty' }]} />
 
           <Input kind="textarea" label="Msg" type="text" name="msg" validatorOptions={[{ type: 'empty' }]} />
+
+          <Select label="Select" name="select" defaultValue={'6767676'} validatorOptions={[{ type: 'empty' }]}></Select>
 
           <Button type="submit" backgroundColor="yellow" borderColor="black" height="40px" padding={0} width="300px">
             <TextBox mobileSize={18} desktopSize={18}>

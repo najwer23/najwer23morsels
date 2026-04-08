@@ -42,9 +42,9 @@ export const Form: React.FC<FormProps> = ({
       // Trigger change and blur events on all form elements
       Array.from(form.elements).forEach((element) => {
         if (
-          element instanceof HTMLInputElement ||
-          element instanceof HTMLTextAreaElement ||
-          element instanceof HTMLSelectElement
+          (element instanceof HTMLInputElement && element.name !== '') ||
+          (element instanceof HTMLTextAreaElement && element.name !== '') ||
+          (element instanceof HTMLSelectElement && element.name !== '')
         ) {
           element.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
         }
@@ -55,8 +55,8 @@ export const Form: React.FC<FormProps> = ({
       Array.from(form.elements)
         .filter((element): element is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement => {
           return (
-            element instanceof HTMLInputElement ||
-            element instanceof HTMLTextAreaElement ||
+            (element instanceof HTMLInputElement && element.name !== '') ||
+            (element instanceof HTMLTextAreaElement && element.name !== '') ||
             (element instanceof HTMLSelectElement && element.name !== '')
           );
         })

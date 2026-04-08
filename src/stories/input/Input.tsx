@@ -4,9 +4,8 @@ import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { type ValidatorOptions, validator } from '../validator';
 import styles from './Input.module.css';
 
-interface InputProps extends React.HTMLAttributes<HTMLElement> {
+interface InputBase extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
-  name: string;
   label?: string;
   type?: string;
   placeholder?: string;
@@ -17,11 +16,21 @@ interface InputProps extends React.HTMLAttributes<HTMLElement> {
   defaultValue?: string;
   disabled?: boolean;
   validatorOptions?: ValidatorOptions;
-  kind?: 'input' | 'textarea';
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-export const Input: React.FC<InputProps> = ({
+type InputProps = InputBase & {
+  kind?: 'input' | 'textarea';
+  name: string;
+};
+
+type SelectProps = InputBase & {
+  kind: 'select';
+  name?: never;
+};
+
+export const Input: React.FC<InputProps | SelectProps> = ({
   className,
   style,
   name,
@@ -37,6 +46,7 @@ export const Input: React.FC<InputProps> = ({
   disabled,
   validatorOptions,
   onBlur,
+  onChange,
   ...props
 }) => {
   const errorRef = useRef<HTMLDivElement | null>(null);
@@ -60,6 +70,12 @@ export const Input: React.FC<InputProps> = ({
 
     if (typeof onBlur === 'function') {
       onBlur(e);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (typeof onChange === 'function') {
+      onChange(e);
     }
   };
 
@@ -87,6 +103,7 @@ export const Input: React.FC<InputProps> = ({
             name={name}
             type={type}
             onBlur={handleBlur}
+            onChange={handleChange}
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
@@ -97,11 +114,24 @@ export const Input: React.FC<InputProps> = ({
             id={name}
             name={name}
             onBlur={handleBlur}
+            onChange={handleChange}
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
             ref={inputRef as React.RefObject<HTMLTextAreaElement | null>}
           ></textarea>
+        )}
+        {kind == 'select' && (
+          <input
+            ref={inputRef as React.RefObject<HTMLInputElement | null>}
+            id={name}
+            type={type}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder={placeholder}
+            defaultValue={defaultValue}
+            disabled={disabled}
+          />
         )}
       </div>
 
