@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { TextBox } from '../textbox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { type ValidatorOptions, validator } from '../validator';
@@ -18,6 +18,7 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   validatorOptions?: ValidatorOptions;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  value?: string;
 }
 
 type InputProps = InputBase & {
@@ -28,6 +29,7 @@ type InputProps = InputBase & {
 type SelectProps = InputBase & {
   kind: 'select';
   name?: never;
+  id: string;
 };
 
 export const Input: React.FC<InputProps | SelectProps> = ({
@@ -45,6 +47,8 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   defaultValue,
   disabled,
   validatorOptions,
+  value,
+  id,
   onBlur,
   onChange,
   ...props
@@ -60,7 +64,9 @@ export const Input: React.FC<InputProps | SelectProps> = ({
       if (validatorOptions) {
         const validatorResult = validator(target.value, validatorOptions);
         if (validatorResult.length > 0) {
-          errorRef.current!.textContent = validatorResult[0];
+          if (errorRef.current) {
+            errorRef.current.textContent = validatorResult[0];
+          }
           target.classList.add('error');
         } else {
           target.classList.remove('error');
@@ -68,15 +74,11 @@ export const Input: React.FC<InputProps | SelectProps> = ({
       }
     }
 
-    if (typeof onBlur === 'function') {
-      onBlur(e);
-    }
+    onBlur?.(e);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (typeof onChange === 'function') {
-      onChange(e);
-    }
+    onChange?.(e);
   };
 
   return (
@@ -91,12 +93,21 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         ...style,
       }}
     >
-      <TextBox mobileSize={14} desktopSize={14} tag="label" fontWeight={400} color={labelColor} htmlFor={name}>
-        {label}
-      </TextBox>
+      {type !== 'hidden' && (
+        <TextBox
+          mobileSize={14}
+          desktopSize={14}
+          tag="label"
+          fontWeight={400}
+          color={labelColor}
+          htmlFor={kind == 'select' ? id : name}
+        >
+          {label}
+        </TextBox>
+      )}
 
       <div className={styles.n23mInputInput}>
-        {kind == 'input' && (
+        {kind === 'input' && (
           <input
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             id={name}
@@ -107,9 +118,11 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
+            value={value}
           />
         )}
-        {kind == 'textarea' && (
+
+        {kind === 'textarea' && (
           <textarea
             id={name}
             name={name}
@@ -119,32 +132,37 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             defaultValue={defaultValue}
             disabled={disabled}
             ref={inputRef as React.RefObject<HTMLTextAreaElement | null>}
-          ></textarea>
+          />
         )}
-        {kind == 'select' && (
+
+        {kind === 'select' && (
           <input
+            id={id}
+            autoComplete="off"
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
-            id={name}
             type={type}
             onBlur={handleBlur}
             onChange={handleChange}
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
+            value={value}
           />
         )}
       </div>
 
-      <TextBox
-        ref={errorRef}
-        mobileSize={12}
-        desktopSize={12}
-        tag="p"
-        fontWeight={400}
-        color={'#ff3333'}
-        lineHeight={'14px'}
-        margin={'2px 0 2px'}
-      ></TextBox>
+      {type !== 'hidden' && (
+        <TextBox
+          ref={errorRef}
+          mobileSize={12}
+          desktopSize={12}
+          tag="p"
+          fontWeight={400}
+          color={'#ff3333'}
+          lineHeight={'14px'}
+          margin={'2px 0 2px'}
+        />
+      )}
     </div>
   );
 };

@@ -75,9 +75,17 @@ export const Default: Story = {
 
           <Input label="Password" type="password" name="pass" validatorOptions={[{ type: 'empty' }]} />
 
-          <Input kind="textarea" label="Msg" type="text" name="msg" validatorOptions={[{ type: 'empty' }]} />
+          <Select
+            options={[
+              { value: '1', label: 'Test1' },
+              { value: '2', label: 'Test2' },
+            ]}
+            label="Select"
+            name="select"
+            validatorOptions={[{ type: 'empty' }]}
+          ></Select>
 
-          <Select label="Select" name="select" defaultValue={'6767676'} validatorOptions={[{ type: 'empty' }]}></Select>
+          <Input kind="textarea" label="Msg" type="text" name="msg" validatorOptions={[{ type: 'empty' }]} />
 
           <Button type="submit" backgroundColor="yellow" borderColor="black" height="40px" padding={0} width="300px">
             <TextBox mobileSize={18} desktopSize={18}>

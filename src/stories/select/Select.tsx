@@ -1,55 +1,120 @@
-import { useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Input } from '../input';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { ValidatorOptions } from '../validator';
 import styles from './Select.module.css';
 
-interface SelectProps extends React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode;
+type Option = {
+  value: string;
+  label: string;
+};
+
+interface SelectProps extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
   name: string;
-  defaultValue?: string;
+  options: Option[];
+  initialValue?: Option;
   validatorOptions?: ValidatorOptions;
   label?: string;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export const Select: React.FC<SelectProps> = ({
-  children,
   className,
   name,
   style,
-  defaultValue,
+  options,
+  initialValue,
   validatorOptions,
-  label,
+  onBlur,
+  label = 'Select',
   ...props
 }) => {
-  const [value, setValue] = useState(defaultValue);
+  const [selectedOptionLabel, setSelectedOptionLabel] = useState<string>(initialValue?.label ?? '');
+  const [selectedOptionValue, setSelectedOptionValue] = useState<string>(initialValue?.value ?? '');
+  const [isOpen, setIsOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const id = useId();
+
+  const filteredOptions = useMemo(() => {
+    return options.filter((option) => option.label.toLowerCase().includes(selectedOptionLabel.toLowerCase()));
+  }, [options, selectedOptionLabel]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const value = e.currentTarget.value;
-    setValue(value);
+    const nextValue = e.currentTarget.value;
+    setSelectedOptionLabel(nextValue);
+    setSelectedOptionValue('');
+    setIsOpen(true);
+  };
+
+  const handleFocus = () => {
+    setIsOpen((prev) => !prev);
+    setSelectedOptionLabel('');
+    setSelectedOptionValue('');
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setIsOpen(false);
+    onBlur?.(e);
+  };
+
+  const handleSelect = (option: Option) => {
+    setSelectedOptionValue(option.value);
+    setSelectedOptionLabel(option.label);
+    setIsOpen(false);
   };
 
   return (
     <div
       className={[styles.n23mSelect, 'n23mSelect', className].filter(Boolean).join(' ')}
       {...props}
-      style={{
-        ...getCssVariableStyle({
-          '--select': 'test',
-        }),
-        ...style,
-      }}
+      style={{ ...style }}
     >
-      <input name={name} type="hidden" value={value} />
+      <div
+        className={[styles.icon, isOpen ? styles.iconRotate : ''].join(' ')}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          inputRef.current?.focus();
+          setIsOpen((prev) => !prev);
+        }}
+      ></div>
+
+      <Input name={name} type="hidden" kind={'input'} validatorOptions={validatorOptions} value={selectedOptionValue} />
+
       <Input
+        id={id}
+        inputRef={inputRef}
         label={label}
         type="text"
         kind="select"
-        defaultValue={value}
+        value={selectedOptionLabel}
         onChange={handleChange}
+        onClick={handleFocus}
+        onBlur={handleBlur}
         validatorOptions={validatorOptions}
+        aria-autocomplete="list"
+        aria-expanded={isOpen}
+        aria-controls={`${name}-listbox`}
+        role="combobox"
       />
+
+      <div className={[styles.dropdownWrapper, isOpen ? styles.open : ''].join(' ')}>
+        <div className={[styles.dropdown].join(' ')}>
+          {filteredOptions.map((option) => (
+            <div
+              className={styles.dropdownItem}
+              key={option.value}
+              onMouseDown={(e) => {
+                // keep focus when selected
+                // e.preventDefault();
+                handleSelect(option);
+              }}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

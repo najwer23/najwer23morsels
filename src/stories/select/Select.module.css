@@ -1,5 +1,103 @@
 @layer n23mSelect {
   .n23mSelect {
-    color: red;
+    --iff:
+      -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu,
+      roboto, noto, arial, sans-serif;
+
+    position: relative;
+
+    & input {
+      cursor: pointer;
+      padding-right: 40px;
+    }
+
+    .icon {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve"><defs></defs><g style="stroke: none; stroke-width: 1px;  fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" ><path d="M 90 24.25 c 0 -0.896 -0.342 -1.792 -1.025 -2.475 c -1.366 -1.367 -3.583 -1.367 -4.949 0 L 45 60.8 L 5.975 21.775 c -1.367 -1.367 -3.583 -1.367 -4.95 0 c -1.366 1.367 -1.366 3.583 0 4.95 l 41.5 41.5 c 1.366 1.367 3.583 1.367 4.949 0 l 41.5 -41.5 C 89.658 26.042 90 25.146 90 24.25 z" style="stroke: none; stroke-width: 1;"/></g></svg>')
+        no-repeat right;
+      background-size: 18px;
+      background-position: calc(100% - 10px) 50%;
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: 22px;
+      right: 2px;
+      display: inline-block;
+      cursor: pointer;
+
+      transform: rotate(0deg);
+      transition: transform 0.1s ease-in-out;
+
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+      &.iconRotate {
+        transform: rotate(180deg);
+        transition: transform 0.1s ease-in-out;
+      }
+    }
+
+    .dropdownWrapper {
+      position: absolute;
+      z-index: 3;
+      margin-top: 65px;
+      top: 0px;
+      width: 100%;
+      background-color: white;
+      border-radius: 5px;
+      display: none;
+
+      &.open {
+        display: block;
+      }
+
+      .dropdown {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid var(--input-cb, black);
+        cursor: pointer;
+        box-shadow:
+          0 4px 8px 0 rgba(0, 0, 0, 0.24),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+        background: white;
+
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        .dropdownItem {
+          box-sizing: border-box;
+          padding: 10px 10px;
+          color: var(--input-c, black);
+          font-family: var(--n23mFontFamily, var(--iff));
+          font-weight: 500;
+          font-size: 16px;
+          width: 100%;
+          border-bottom: 1px solid var(--input-cb, black);
+          background: white;
+
+          &:hover {
+            background-color: whitesmoke;
+          }
+
+          &:not(:first-child) {
+            border-top: none;
+          }
+
+          &:last-child {
+            border-bottom: unset;
+          }
+        }
+      }
+    }
   }
 }
