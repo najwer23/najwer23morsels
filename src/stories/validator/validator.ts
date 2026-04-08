@@ -2,7 +2,17 @@ type ValidatorOption =
   | { type: 'empty' }
   | { type: 'email' }
   | { type: 'numberInRange'; options?: { min?: number; max?: number } }
-  | { type: 'date' };
+  | { type: 'date' }
+  | {
+      type: 'existsInOptions';
+      options: {
+        options: {
+          value: string;
+          label: string;
+        }[];
+        matchBy?: 'value' | 'label';
+      };
+    };
 
 export type ValidatorOptions = ValidatorOption[];
 
@@ -50,6 +60,24 @@ const validators: Record<string, ValidatorFn> = {
     }
 
     return null;
+  },
+
+  existsInOptions: (
+    value: string,
+    options?: {
+      options: {
+        value: string;
+        label: string;
+      }[];
+      matchBy?: 'value' | 'label';
+    },
+  ): string | null => {
+    const list = options?.options ?? [];
+    const matchBy = options?.matchBy ?? 'value';
+
+    const exists = list.some((option) => (matchBy === 'value' ? option.value === value : option.label === value));
+
+    return exists ? null : 'Please select a value from the list.';
   },
 };
 

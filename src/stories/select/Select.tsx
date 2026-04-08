@@ -16,16 +16,20 @@ interface SelectProps extends React.HTMLAttributes<HTMLElement> {
   initialValue?: Option;
   validatorOptions?: ValidatorOptions;
   label?: string;
+  placeholder?: string;
+  disabled?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export const Select: React.FC<SelectProps> = ({
   className,
   name,
+  disabled,
   style,
   options,
   initialValue,
   validatorOptions,
+  placeholder,
   onBlur,
   label = 'Select',
   ...props
@@ -79,7 +83,22 @@ export const Select: React.FC<SelectProps> = ({
         }}
       ></div>
 
-      <Input name={name} type="hidden" kind={'input'} validatorOptions={validatorOptions} value={selectedOptionValue} />
+      <Input
+        name={name}
+        type="hidden"
+        kind={'input'}
+        validatorOptions={[
+          ...(validatorOptions ?? []),
+          {
+            type: 'existsInOptions',
+            options: {
+              options,
+              matchBy: 'value',
+            },
+          },
+        ]}
+        value={selectedOptionValue}
+      />
 
       <Input
         id={id}
@@ -87,11 +106,22 @@ export const Select: React.FC<SelectProps> = ({
         label={label}
         type="text"
         kind="select"
+        disabled={disabled}
+        placeholder={placeholder}
         value={selectedOptionLabel}
         onChange={handleChange}
         onClick={handleFocus}
         onBlur={handleBlur}
-        validatorOptions={validatorOptions}
+        validatorOptions={[
+          ...(validatorOptions ?? []),
+          {
+            type: 'existsInOptions',
+            options: {
+              options,
+              matchBy: 'label',
+            },
+          },
+        ]}
         aria-autocomplete="list"
         aria-expanded={isOpen}
         aria-controls={`${name}-listbox`}

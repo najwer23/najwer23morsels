@@ -58,7 +58,7 @@
       .dropdown {
         max-height: 200px;
         overflow-y: auto;
-        border: 1px solid var(--input-cb, black);
+
         cursor: pointer;
         box-shadow:
           0 4px 8px 0 rgba(0, 0, 0, 0.24),
@@ -73,6 +73,10 @@
         -ms-user-select: none;
         user-select: none;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        &:has(.dropdownItem) {
+          border: 1px solid var(--input-cb, black);
+        }
 
         .dropdownItem {
           box-sizing: border-box;

@@ -34,6 +34,7 @@ export const Default: Story = {
     ],
     label: 'Select',
     name: 'select',
+    placeholder: 'Select',
     validatorOptions: [{ type: 'empty' }],
   },
   render: (args) => (
