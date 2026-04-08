@@ -87,6 +87,8 @@ export const Select: React.FC<SelectProps> = ({
           e.preventDefault();
           inputRef.current?.focus();
           setIsOpen((prev) => !prev);
+          setSelectedOptionLabel('');
+          setSelectedOptionValue('');
         }}
       ></div>
 
