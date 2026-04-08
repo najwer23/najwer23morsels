@@ -576,7 +576,7 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">1/13 prop type error</a><a class="filter-pill info" data-k="infos" href="#filter-infos">13/13 infos</a><span class="filter-pill ok" aria-disabled="true">39 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">1 doc ok</a></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">1/14 prop type error</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">40 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">1 doc ok</a></div>
   </div>
 </header>
 <main>
@@ -964,7 +964,7 @@ color?: any = &#39;white&#39;</code></pre>
                 <div class="row">
                   <span class="ex-name">Imports</span>
                 </div>
-                <pre><code>import { Button, Form, Input, TextBox } from "najwer23morsels";</code></pre>
+                <pre><code>import { Button, Form, Input, Select, TextBox } from "najwer23morsels";</code></pre>
               </div>
           
           
@@ -1012,6 +1012,16 @@ color?: any = &#39;white&#39;</code></pre>
         &lt;Input label=&quot;Email&quot; type=&quot;text&quot; name=&quot;name&quot; validatorOptions={[{ type: &#39;empty&#39; }, { type: &#39;email&#39; }]} /&gt;
 
         &lt;Input label=&quot;Password&quot; type=&quot;password&quot; name=&quot;pass&quot; validatorOptions={[{ type: &#39;empty&#39; }]} /&gt;
+
+        &lt;Select
+          options={[
+            { value: &#39;1&#39;, label: &#39;Test1&#39; },
+            { value: &#39;2&#39;, label: &#39;Test2&#39; },
+          ]}
+          label=&quot;Select&quot;
+          name=&quot;select&quot;
+          validatorOptions={[{ type: &#39;empty&#39; }]}
+        &gt;&lt;/Select&gt;
 
         &lt;Input kind=&quot;textarea&quot; label=&quot;Msg&quot; type=&quot;text&quot; name=&quot;msg&quot; validatorOptions={[{ type: &#39;empty&#39; }]} /&gt;
 
@@ -1825,14 +1835,130 @@ loading?: any = &#39;lazy&#39;</code></pre>
   no-story-error
   no-doc-error"
   role="listitem"
+  aria-label="Select">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Select</h2>
+      <div class="badges">
+        <label for="c-10-input-select-props" class="badge ok as-toggle">10 prop types</label>
+        <label for="c-10-input-select-info" class="badge info as-toggle">1 info</label>
+        <label for="c-10-input-select-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/select/Select.stories.tsx">input-select · ./src/stories/select/Select.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-10-input-select-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-10-input-select-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  <input id="c-10-input-select-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">10 prop types</span>
+            </div>
+            <pre><code>Component: src/stories/select/Select.tsx::Select</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>disabled?: boolean
+
+initialValue?: {
+  value: string;
+  label: string;
+}
+
+inputRef?: React.RefObject&lt;HTMLInputElement | null&gt;
+
+label?: string = &#39;Select&#39;
+
+name: string
+
+onBlur?: (
+  e: React.FocusEvent&lt;HTMLInputElement | HTMLTextAreaElement&gt;,
+  data: { value: string; label: string },
+) =&gt; void
+
+options: Option[]
+
+placeholder?: string
+
+style?: React.CSSProperties
+
+validatorOptions?: ValidatorOption[]</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Select } from "najwer23morsels";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;div&gt;
+    &lt;Select
+        options={[
+          { value: &#39;1&#39;, label: &#39;Test1&#39; },
+          { value: &#39;2&#39;, label: &#39;Test2&#39; },
+        ]}
+        label=&quot;Select&quot;
+        name=&quot;select&quot;
+        placeholder=&quot;Select&quot;
+        validatorOptions={[{ type: &#39;empty&#39; }]}
+        onBlur={(e, data) =&gt; {
+          action(`Blurred ${(e.currentTarget.value, JSON.stringify(data))}`)();
+        }}&gt;hello world!&lt;/Select&gt;
+&lt;/div&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
   aria-label="Slider">
   <div class="head">
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Slider</h2>
       <div class="badges">
-        <label for="c-10-slider-slider-props" class="badge ok as-toggle">6 prop types</label>
-        <label for="c-10-slider-slider-info" class="badge info as-toggle">1 info</label>
-        <label for="c-10-slider-slider-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-11-slider-slider-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-11-slider-slider-info" class="badge info as-toggle">1 info</label>
+        <label for="c-11-slider-slider-stories" class="badge ok as-toggle">5 stories</label>
         
       </div>
     </div>
@@ -1844,10 +1970,10 @@ loading?: any = &#39;lazy&#39;</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-10-slider-slider-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-10-slider-slider-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-11-slider-slider-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-11-slider-slider-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-10-slider-slider-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-11-slider-slider-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2066,9 +2192,9 @@ slideSpacingPx?: number = 10</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> SliderScroll</h2>
       <div class="badges">
-        <label for="c-11-slider-sliderscroll-props" class="badge ok as-toggle">4 prop types</label>
-        <label for="c-11-slider-sliderscroll-info" class="badge info as-toggle">1 info</label>
-        <label for="c-11-slider-sliderscroll-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-12-slider-sliderscroll-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-12-slider-sliderscroll-info" class="badge info as-toggle">1 info</label>
+        <label for="c-12-slider-sliderscroll-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
@@ -2080,10 +2206,10 @@ slideSpacingPx?: number = 10</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-11-slider-sliderscroll-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-11-slider-sliderscroll-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-12-slider-sliderscroll-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-12-slider-sliderscroll-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-11-slider-sliderscroll-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-12-slider-sliderscroll-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2332,9 +2458,9 @@ isCircular?: any = false</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TextBox</h2>
       <div class="badges">
-        <label for="c-12-textbox-textbox-props" class="badge ok as-toggle">17 prop types</label>
-        <label for="c-12-textbox-textbox-info" class="badge info as-toggle">1 info</label>
-        <label for="c-12-textbox-textbox-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-13-textbox-textbox-props" class="badge ok as-toggle">17 prop types</label>
+        <label for="c-13-textbox-textbox-info" class="badge info as-toggle">1 info</label>
+        <label for="c-13-textbox-textbox-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
@@ -2346,10 +2472,10 @@ isCircular?: any = false</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-12-textbox-textbox-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-12-textbox-textbox-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-13-textbox-textbox-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-13-textbox-textbox-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-12-textbox-textbox-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-13-textbox-textbox-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
