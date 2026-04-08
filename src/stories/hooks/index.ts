@@ -3,4 +3,4 @@ import { useIsMounted } from './useIsMounted';
 import { useResizeObserver } from './useResizeObserver';
 import { useWindowSize } from './useWindowSize';
 
-export { useWindowSize, useCachedImageCheck, useResizeObserver, useIsMounted };
+export { useCachedImageCheck, useIsMounted, useResizeObserver, useWindowSize };
