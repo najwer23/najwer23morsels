@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
+import { action } from 'storybook/actions';
 import { Select } from '.';
 
 const meta: Meta<typeof Select> = {
@@ -36,6 +36,9 @@ export const Default: Story = {
     name: 'select',
     placeholder: 'Select',
     validatorOptions: [{ type: 'empty' }],
+    onBlur: (e, data) => {
+      action(`Blurred ${(e.currentTarget.value, JSON.stringify(data))}`)();
+    },
   },
   render: (args) => (
     <div>

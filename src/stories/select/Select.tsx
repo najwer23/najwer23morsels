@@ -9,16 +9,20 @@ type Option = {
   label: string;
 };
 
-interface SelectProps extends React.HTMLAttributes<HTMLElement> {
+interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur'> {
   style?: React.CSSProperties;
   name: string;
   options: Option[];
+  inputRef?: React.RefObject<HTMLInputElement | null>;
   initialValue?: Option;
   validatorOptions?: ValidatorOptions;
   label?: string;
   placeholder?: string;
   disabled?: boolean;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onBlur?: (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+    data: { value: string; label: string },
+  ) => void;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -59,9 +63,11 @@ export const Select: React.FC<SelectProps> = ({
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setIsOpen(false);
-    onBlur?.(e);
+    onBlur?.(e, {
+      value: selectedOptionValue,
+      label: selectedOptionLabel,
+    });
   };
-
   const handleSelect = (option: Option) => {
     setSelectedOptionValue(option.value);
     setSelectedOptionLabel(option.label);
