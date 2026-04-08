@@ -68,6 +68,7 @@ export const Select: React.FC<SelectProps> = ({
       label: selectedOptionLabel,
     });
   };
+
   const handleSelect = (option: Option) => {
     setSelectedOptionValue(option.value);
     setSelectedOptionLabel(option.label);
