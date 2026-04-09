@@ -20,7 +20,7 @@
       width: 100%;
 
       /* others */
-      background-image: linear-gradient(to bottom, #dcdada, #eee);
+      background-color: var(--bc);
       height: 100px;
     }
   }
