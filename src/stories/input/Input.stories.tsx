@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Input } from '.';
+import { InputProps, SelectProps } from './Input';
+
+type InputStory = StoryObj<InputProps>;
+type InputSelectStory = StoryObj<SelectProps>;
 
 const meta: Meta<typeof Input> = {
   title: 'Input/Input',
@@ -26,7 +30,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default: InputStory = {
   args: {
     label: 'Label',
     name: 'input',
@@ -39,7 +43,7 @@ export const Default: Story = {
   ),
 };
 
-export const Validator: Story = {
+export const Validator: InputStory = {
   args: {
     label: 'Label',
     name: 'input',
@@ -54,7 +58,7 @@ export const Validator: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Disabled: InputStory = {
   args: {
     label: 'Label',
     name: 'disabled',
@@ -68,7 +72,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const InputColors: Story = {
+export const InputColors: InputStory = {
   args: {
     label: 'Label',
     name: 'inputColors',
@@ -84,7 +88,7 @@ export const InputColors: Story = {
   ),
 };
 
-export const DefaultValue: Story = {
+export const DefaultValue: InputStory = {
   args: {
     label: 'Label',
     name: 'defaultValue',
@@ -98,7 +102,7 @@ export const DefaultValue: Story = {
   ),
 };
 
-export const Textarea: Story = {
+export const Textarea: InputStory = {
   args: {
     label: 'Label',
     name: 'textarea',

@@ -15,24 +15,46 @@ interface Col {
   desktop: number;
 }
 
-interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode;
-  widthMin?: string;
-  widthMax?: string;
-  padding?: string | 0;
-  margin?: string | 0;
-  minHeight?: string;
-  loading?: boolean;
-  gap?: Gap;
-  col?: Col;
-  layout: 'columns' | 'container' | 'flex';
-  justifyContent?: string;
-  alignItems?: string;
-  flexWrap?: string;
-  style?: React.CSSProperties;
-}
+type GridBase = React.PropsWithChildren<
+  React.HTMLAttributes<HTMLDivElement> & {
+    widthMin?: string;
+    widthMax?: string;
+    padding?: string;
+    margin?: string;
+    minHeight?: string;
+    loading?: boolean;
+    style?: React.CSSProperties;
+  }
+>;
 
-export const Grid: React.FC<GridProps> = ({
+export type GridContainerProps = GridBase & {
+  layout: 'container';
+  gap?: Gap;
+  justifyContent?: never;
+  alignItems?: never;
+  flexWrap?: never;
+  col?: never;
+};
+
+export type GridFlexProps = GridBase & {
+  layout: 'flex';
+  gap?: Gap;
+  justifyContent?: React.CSSProperties['justifyContent'];
+  alignItems?: React.CSSProperties['alignItems'];
+  flexWrap?: React.CSSProperties['flexWrap'];
+  col?: never;
+};
+
+export type GridColumnsProps = GridBase & {
+  layout: 'columns';
+  gap: Gap;
+  col: Col;
+  justifyContent?: never;
+  alignItems?: never;
+  flexWrap?: never;
+};
+
+export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProps> = ({
   children,
   widthMin = '0px',
   widthMax = '1920px',
@@ -81,11 +103,6 @@ export const Grid: React.FC<GridProps> = ({
         {loading && <Loader minHeight={`${minHeight}`} />}
       </div>
     );
-  }
-
-  // layout === 'columns'
-  if (!gap || !col) {
-    throw new Error('When layout="columns", gap and col props are required');
   }
 
   return (

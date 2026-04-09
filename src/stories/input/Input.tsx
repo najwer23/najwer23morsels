@@ -21,12 +21,12 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   value?: string;
 }
 
-type InputProps = InputBase & {
+export type InputProps = InputBase & {
   kind?: 'input' | 'textarea';
   name: string;
 };
 
-type SelectProps = InputBase & {
+export type SelectProps = InputBase & {
   kind: 'select';
   name?: never;
   id: string;

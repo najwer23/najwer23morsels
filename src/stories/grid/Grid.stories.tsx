@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { TextBox } from '../textbox';
-import { Grid } from './Grid';
+import { Grid, GridColumnsProps, GridContainerProps } from './Grid';
+
+type GridContainerStory = StoryObj<GridContainerProps>;
+type GridColumnsStory = StoryObj<GridColumnsProps>;
 
 const meta: Meta<typeof Grid> = {
   title: 'Grid/Grid',
@@ -31,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 const testText =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
-export const GridContainerWidthMax600: Story = {
+export const GridContainerWidthMax600: GridContainerStory = {
   args: {
     layout: 'container',
     widthMax: '600px',
@@ -51,7 +54,7 @@ export const GridContainerWidthMax600: Story = {
   ),
 };
 
-export const GridContainerLoading: Story = {
+export const GridContainerLoading: GridContainerStory = {
   args: {
     layout: 'container',
     widthMax: '600px',
@@ -86,7 +89,7 @@ export const GridContainerLoading: Story = {
   },
 };
 
-export const GridColumns: Story = {
+export const GridColumns: GridColumnsStory = {
   args: {
     layout: 'columns',
     gap: { col: '20px', row: '20px' },
@@ -112,7 +115,7 @@ export const GridColumns: Story = {
   ),
 };
 
-export const GridContainerWithColumns: Story = {
+export const GridContainerWithColumns: GridColumnsStory = {
   args: {
     layout: 'columns',
     gap: { col: '20px', row: '20px' },
