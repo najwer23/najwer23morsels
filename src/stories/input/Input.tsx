@@ -10,9 +10,9 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   type?: string;
   placeholder?: string;
   inputRef?: React.RefObject<HTMLInputElement | null>;
-  labelColor?: string;
-  inputColorBorder?: string;
-  inputColor?: string;
+  labelColor?: React.CSSProperties['color'];
+  inputColorBorder?: React.CSSProperties['color'];
+  inputColor?: React.CSSProperties['color'];
   defaultValue?: string;
   disabled?: boolean;
   validatorOptions?: ValidatorOptions;

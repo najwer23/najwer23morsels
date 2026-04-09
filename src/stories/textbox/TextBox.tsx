@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './TextBox.module.css';
 
-export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'p' | 'div' | 'span' | 'a' | 'label';
+export type TextBoxTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span' | 'a' | 'label';
 
 interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorElement | HTMLLabelElement> {
   children?: React.ReactNode;
@@ -13,13 +13,13 @@ interface TextBoxProps extends React.HTMLAttributes<HTMLDivElement | HTMLAnchorE
   target?: string;
   rel?: string;
   href?: string;
-  color?: string;
-  colorHover?: string;
-  margin?: string | 0;
-  fontWeight?: number;
-  fontWeightHover?: number;
-  textAlign?: string;
-  textWrap?: string;
+  color?: React.CSSProperties['color'];
+  colorHover?: React.CSSProperties['color'];
+  margin?: React.CSSProperties['margin'];
+  fontWeight?: React.CSSProperties['fontWeight'];
+  fontWeightHover?: React.CSSProperties['fontWeight'];
+  textAlign?: React.CSSProperties['textAlign'];
+  textWrap?: React.CSSProperties['textWrap'];
   style?: React.CSSProperties;
   htmlFor?: string;
 }

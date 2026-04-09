@@ -8,8 +8,8 @@ interface FooterProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   author?: string;
   initialYear?: number;
-  color: string;
-  backgroundColor?: string;
+  color: React.CSSProperties['color'];
+  backgroundColor?: React.CSSProperties['color'];
 }
 
 export const Footer: React.FC<FooterProps> = ({

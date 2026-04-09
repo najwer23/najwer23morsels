@@ -5,14 +5,14 @@ import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
-  backgroundColor?: string;
-  padding?: string | 0;
-  margin?: string | 0;
-  height: string;
-  width: string;
+  backgroundColor?: React.CSSProperties['color'];
+  padding?: React.CSSProperties['padding'];
+  margin?: React.CSSProperties['margin'];
+  height: React.CSSProperties['height'];
+  width: React.CSSProperties['width'];
   loading?: boolean;
-  backgroundColorDisabled?: string;
-  borderColor?: string;
+  backgroundColorDisabled?: React.CSSProperties['color'];
+  borderColor?: React.CSSProperties['color'];
   style?: React.CSSProperties;
 }
 
