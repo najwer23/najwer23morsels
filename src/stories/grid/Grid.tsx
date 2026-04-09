@@ -17,11 +17,11 @@ interface Col {
 
 type GridBase = React.PropsWithChildren<
   React.HTMLAttributes<HTMLDivElement> & {
-    widthMin?: string;
-    widthMax?: string;
-    padding?: string;
-    margin?: string;
-    minHeight?: string;
+    widthMin?: React.CSSProperties['width'];
+    widthMax?: React.CSSProperties['width'];
+    padding?: React.CSSProperties['padding'];
+    margin?: React.CSSProperties['margin'];
+    minHeight?: React.CSSProperties['minHeight'];
     loading?: boolean;
     style?: React.CSSProperties;
   }
