@@ -14,7 +14,7 @@ interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
   arDesktop?: number;
   arMobile?: number;
   draggable?: boolean;
-  border?: React.CSSProperties['color'];
+  border?: boolean;
   borderColor?: React.CSSProperties['color'];
   maxHeight?: React.CSSProperties['maxHeight'];
   maxHeightMobile?: React.CSSProperties['maxHeight'];
