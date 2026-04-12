@@ -20,6 +20,7 @@ interface CalendarProps extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
   name: string;
   label: string;
+  placeholder: string;
   validatorOptions?: ValidatorOptions;
   initialValue?: '' | `${number}-${number}-${number}`;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -28,6 +29,7 @@ interface CalendarProps extends React.HTMLAttributes<HTMLElement> {
 export const Calendar: React.FC<CalendarProps> = ({
   children,
   name,
+  placeholder,
   label = 'Calendar',
   initialValue,
   onBlur,
@@ -143,6 +145,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         type="text"
         kind="input"
         name={name}
+        placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
         onClick={handleFocus}

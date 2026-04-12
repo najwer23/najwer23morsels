@@ -30,6 +30,7 @@ export const Default: Story = {
   args: {
     name: 'Calendar',
     label: 'Calendar',
+    placeholder: 'Your perfect date',
   },
   render: (args) => (
     <div>
