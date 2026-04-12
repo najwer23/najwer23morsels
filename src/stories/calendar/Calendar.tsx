@@ -53,6 +53,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   const handleFocus = () => {
     setCalendarState((prevState) => ({
       ...prevState,
+      value: '',
       open: true,
       dropDwonState: 'days',
     }));
@@ -133,6 +134,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           inputRef.current?.focus();
           setCalendarState((prevState) => ({
             ...prevState,
+            value: '',
             open: !prevState.open,
             dropDwonState: 'days',
           }));
