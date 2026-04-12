@@ -42,7 +42,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div>
-      <Select {...args}>hello world!</Select>
+      <Select {...args} />
     </div>
   ),
 };

@@ -33,7 +33,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div>
-      <Calendar {...args}>hello world!</Calendar>
+      <Calendar {...args} />
     </div>
   ),
 };
