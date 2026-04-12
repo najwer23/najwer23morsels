@@ -1,4 +1,4 @@
-import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./calendar-DJ148Z3_.js";var i,a,o,s;e((()=>{r(),i=t(),a={title:`Input/Calendar`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./calendar-CneEmF8e.js";var i,a,o,s;e((()=>{r(),i=t(),a={title:`Input/Calendar`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
 A simple calendar component for selecting and displaying dates.
 
 \`\`\`tsx
