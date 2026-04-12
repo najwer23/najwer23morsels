@@ -10,7 +10,7 @@ const meta: Meta<typeof Calendar> = {
     docs: {
       description: {
         component: `
-Test Test
+A simple calendar component for selecting and displaying dates.
 
 \`\`\`tsx
 import { Calendar } from 'najwer23morsels/lib/calendar';
@@ -27,7 +27,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    name: 'Calendar',
+    label: 'Calendar',
+  },
   render: (args) => (
     <div>
       <Calendar {...args}>hello world!</Calendar>
