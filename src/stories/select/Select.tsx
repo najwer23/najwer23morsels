@@ -86,9 +86,7 @@ export const Select: React.FC<SelectProps> = ({
         onMouseDown={(e) => {
           e.preventDefault();
           inputRef.current?.focus();
-          setIsOpen((prev) => !prev);
-          setSelectedOptionLabel('');
-          setSelectedOptionValue('');
+          handleFocus();
         }}
       ></div>
 
