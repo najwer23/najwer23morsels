@@ -4,7 +4,7 @@ Custom select/autocomplete input with a hidden submitted value.
 \`\`\`tsx
 import { Select } from 'najwer23morsels/lib/select';
 \`\`\`
-      `}}},tags:[`autodocs`]},s={args:{options:[{value:`1`,label:`Test1`},{value:`2`,label:`Test2`}],label:`Select`,name:`select`,placeholder:`Select`,validatorOptions:[{type:`empty`}],onBlur:(e,t)=>{a(`Blurred ${e.currentTarget.value,JSON.stringify(t)}`)()}},render:e=>(0,i.jsx)(`div`,{children:(0,i.jsx)(n,{...e,children:`hello world!`})})},s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+      `}}},tags:[`autodocs`]},s={args:{options:[{value:`1`,label:`Test1`},{value:`2`,label:`Test2`}],label:`Select`,name:`select`,placeholder:`Select`,validatorOptions:[{type:`empty`}],onBlur:(e,t)=>{a(`Blurred ${e.currentTarget.value,JSON.stringify(t)}`)()}},render:e=>(0,i.jsx)(`div`,{children:(0,i.jsx)(n,{...e})})},s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
   args: {
     options: [{
       value: '1',
@@ -24,6 +24,6 @@ import { Select } from 'najwer23morsels/lib/select';
     }
   },
   render: args => <div>
-      <Select {...args}>hello world!</Select>
+      <Select {...args} />
     </div>
 }`,...s.parameters?.docs?.source}}},c=[`Default`]}))();export{s as Default,c as __namedExportsOrder,o as default};
