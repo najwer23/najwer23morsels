@@ -56,6 +56,8 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   const errorRef = useRef<HTMLDivElement | null>(null);
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    onBlur?.(e);
+
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
 
     if (document.activeElement !== target) {
@@ -73,8 +75,6 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         }
       }
     }
-
-    onBlur?.(e);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

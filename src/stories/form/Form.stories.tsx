@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { action } from 'storybook/actions';
 import { Button } from '../button';
+import { Calendar } from '../calendar';
 import { Input } from '../input';
 import { Select } from '../select';
 import { TextBox } from '../textbox';
@@ -84,6 +85,8 @@ export const Default: Story = {
             name="select"
             validatorOptions={[{ type: 'empty' }]}
           ></Select>
+
+          <Calendar name={'calendar'} label={'Calendar'} initialValue="2020-03-03" />
 
           <Input kind="textarea" label="Msg" type="text" name="msg" validatorOptions={[{ type: 'empty' }]} />
 

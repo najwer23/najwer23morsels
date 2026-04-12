@@ -1,3 +1,5 @@
+import { isYYYYMMDD } from '../calendar/Calendar.utils';
+
 type ValidatorOption =
   | { type: 'empty' }
   | { type: 'email' }
@@ -42,23 +44,9 @@ const validators: Record<string, ValidatorFn> = {
   },
 
   date: (value: string): string | null => {
-    const checkIfDateIsCorrect = (inputDate: string) => {
-      const date = typeof inputDate === 'string' ? new Date(inputDate) : inputDate;
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const day = date.getDate();
-
-      let monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-      if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLength[1] = 29;
-
-      return day > 0 && day <= monthLength[month];
-    };
-
-    if (!checkIfDateIsCorrect(value)) {
+    if (!isYYYYMMDD(value)) {
       return `The date is invalid.`;
     }
-
     return null;
   },
 
