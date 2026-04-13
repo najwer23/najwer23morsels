@@ -1,4 +1,4 @@
-import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./select-SCxWfXtV.js";var i,a,o,s,c;e((()=>{r(),i=t(),{action:a}=__STORYBOOK_MODULE_ACTIONS__,o={title:`Input/Select`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./select-DUEJucW8.js";var i,a,o,s,c;e((()=>{r(),i=t(),{action:a}=__STORYBOOK_MODULE_ACTIONS__,o={title:`Input/Select`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
 Custom select/autocomplete input with a hidden submitted value.
 
 \`\`\`tsx
