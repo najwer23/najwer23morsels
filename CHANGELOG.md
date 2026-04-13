@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 0.22.0
+
+### Minor Changes
+
+- Dialog
+
 ## 0.21.0
 
 ### Minor Changes

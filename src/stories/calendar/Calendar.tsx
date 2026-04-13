@@ -20,7 +20,7 @@ interface CalendarProps extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
   name: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   validatorOptions?: ValidatorOptions;
   initialValue?: '' | `${number}-${number}-${number}`;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;

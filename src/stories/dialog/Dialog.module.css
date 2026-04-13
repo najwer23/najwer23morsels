@@ -1,0 +1,38 @@
+@layer n23mDialog {
+  .n23mDialog {
+    background-color: white;
+
+    .dialog {
+      position: relative;
+      min-height: 100px;
+      overscroll-behavior: none;
+
+      box-sizing: border-box;
+      max-inline-size: min(calc(100vw - 20px), var(--dialog-mw, 95%));
+      max-block-size: calc(100dvb - 50px);
+
+      padding: 0;
+      border: 1px solid black;
+
+      & .dialogCloseButton {
+        position: absolute !important;
+        right: 10px;
+        top: 10px;
+      }
+
+      article {
+        margin-top: 55px;
+      }
+
+      &::backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(5px);
+      }
+    }
+  }
+}
