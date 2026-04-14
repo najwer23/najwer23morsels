@@ -61,11 +61,6 @@ export const Dialog: React.FC<DialogProps> = ({
         modal-mode="mega"
         ref={ref}
         onCancel={onCancel}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            onCancel();
-          }
-        }}
       >
         <div className={styles.dialogCloseButton} style={{ display: open ? 'block' : 'none' }}>
           <Button
