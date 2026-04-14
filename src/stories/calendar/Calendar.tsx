@@ -50,15 +50,6 @@ export const Calendar: React.FC<CalendarProps> = ({
     dropDwonState: 'days',
   });
 
-  const handleFocus = () => {
-    setCalendarState((prevState) => ({
-      ...prevState,
-      value: '',
-      open: true,
-      dropDwonState: 'days',
-    }));
-  };
-
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setCalendarState((prev) => ({
       ...prev,
@@ -151,7 +142,14 @@ export const Calendar: React.FC<CalendarProps> = ({
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
-        onClick={handleFocus}
+        onClick={() =>
+          setCalendarState((prevState) => ({
+            ...prevState,
+            value: '',
+            open: true,
+            dropDwonState: 'days',
+          }))
+        }
         value={calendarState.value}
         validatorOptions={[
           ...(validatorOptions ?? []),
@@ -160,6 +158,8 @@ export const Calendar: React.FC<CalendarProps> = ({
           },
         ]}
         className={styles.arrowUp}
+        aria-expanded={calendarState.open}
+        role="combobox"
       />
 
       <div className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}>
@@ -351,7 +351,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                       v.cssClass == 'active' && styles.daysActive,
                       v.cssClass == 'clickable' && styles.daysClickable,
                     ].join(' ')}
-                    onClick={() => {
+                    onMouseDown={() => {
                       if (v.day > 0) {
                         changeDayOfMonth(v.day);
                       }
@@ -359,6 +359,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                         ...prev,
                         open: false,
                       }));
+                      setTimeout(() => {
+                        inputRef.current?.blur();
+                      });
                     }}
                   >
                     {v.day <= 0 || v.day > getDaysInMonth(calendarState.value) ? ' ' : v.day}

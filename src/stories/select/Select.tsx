@@ -1,6 +1,5 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, { useId, useMemo, useRef, useState } from 'react';
 import { Input } from '../input';
-import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { ValidatorOptions } from '../validator';
 import styles from './Select.module.css';
 
@@ -141,7 +140,7 @@ export const Select: React.FC<SelectProps> = ({
             <div
               className={styles.dropdownItem}
               key={option.value}
-              onMouseDown={(e) => {
+              onMouseDown={() => {
                 // keep focus when selected
                 // e.preventDefault();
                 handleSelect(option);
