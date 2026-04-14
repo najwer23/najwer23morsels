@@ -27,7 +27,6 @@
     }
 
     .dropdownWrapper {
-      background: white;
       position: absolute;
       z-index: 3;
       margin-top: 65px;
@@ -35,12 +34,14 @@
       width: 318px;
       display: none;
       padding-bottom: 40px;
+      background-color: transparent;
 
       &.open {
         display: block;
       }
 
       .dropdown {
+        background: white;
         overflow-y: auto;
         box-sizing: border-box;
         padding: 20px 20px 20px 20px;

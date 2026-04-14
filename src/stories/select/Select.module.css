@@ -47,10 +47,10 @@
       margin-top: 65px;
       top: 0px;
       width: 100%;
-      background-color: white;
       border-radius: 5px;
       display: none;
       padding-bottom: 40px;
+      background: transparent;
 
       &.open {
         display: block;
@@ -59,7 +59,7 @@
       .dropdown {
         max-height: 200px;
         overflow-y: auto;
-
+        overscroll-behavior: none;
         cursor: pointer;
         box-shadow:
           0 4px 8px 0 rgba(0, 0, 0, 0.24),

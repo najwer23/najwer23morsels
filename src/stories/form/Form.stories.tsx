@@ -80,6 +80,15 @@ export const Default: Story = {
             options={[
               { value: '1', label: 'Test1' },
               { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
+              { value: '2', label: 'Test2' },
             ]}
             label="Select"
             name="select"
