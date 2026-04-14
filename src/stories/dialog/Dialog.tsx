@@ -63,7 +63,7 @@ export const Dialog: React.FC<DialogProps> = ({
         onCancel={onCancel}
       >
         <div className={styles.dialogCloseButton} style={{ display: open ? 'block' : 'none' }}>
-          <Button onClick={onCancel} aria-label="close dialog" height={'25px'} width={'60px'} backgroundColor="#9b0000">
+          <Button onClick={onCancel} aria-label="close dialog" height={'25px'} width={'60px'} backgroundColor="#F21D2F">
             <TextBox tag="h2" mobileSize={14} desktopSize={14} color="white">
               Close
             </TextBox>
