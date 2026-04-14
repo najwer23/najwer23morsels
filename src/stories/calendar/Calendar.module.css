@@ -26,96 +26,100 @@
       cursor: pointer;
     }
 
-    .dropdown {
+    .dropdownWrapper {
       background: white;
       position: absolute;
       z-index: 3;
       margin-top: 65px;
       top: 0px;
       width: 318px;
-      box-sizing: border-box;
-      padding: 20px 20px 20px 20px;
-      overflow-y: auto;
       display: none;
-      border: 1px solid var(--input-cb, black);
-      box-shadow:
-        0 4px 8px 0 rgba(0, 0, 0, 0.24),
-        0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      border-radius: 5px;
+      padding-bottom: 40px;
 
       &.open {
         display: block;
       }
 
-      & .controls {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 40px;
-        padding: 0 7px 0 7px;
-      }
+      .dropdown {
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 20px 20px 20px 20px;
+        border: 1px solid var(--input-cb, black);
+        box-shadow:
+          0 4px 8px 0 rgba(0, 0, 0, 0.24),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
 
-      & .controlsDate {
-        display: flex;
-        justify-content: center;
-        font-family: var(--n23mFontFamily, var(--iff));
-        font-size: 20px;
-      }
+        & .controls {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 40px;
+          padding: 0 7px 0 7px;
+        }
 
-      & .weekdays {
-        display: flex;
-        width: 100%;
-        justify-content: center;
-      }
+        & .controlsDate {
+          display: flex;
+          justify-content: center;
+          font-family: var(--n23mFontFamily, var(--iff));
+          font-size: 20px;
+        }
 
-      & .weekdaysChild {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-        width: calc(100% / 7);
-        font-family: var(--n23mFontFamily, var(--iff));
-        font-size: 12px;
-      }
+        & .weekdays {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+        }
 
-      & .days {
-        display: flex;
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-      }
+        & .weekdaysChild {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 30px;
+          width: calc(100% / 7);
+          font-family: var(--n23mFontFamily, var(--iff));
+          font-size: 12px;
+        }
 
-      & .daysChild {
-        font-size: 16px;
-      }
+        & .days {
+          display: flex;
+          width: 100%;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+        }
 
-      & .daysChild:nth-child(7n) {
-        color: red;
-        font-weight: bold;
-      }
+        & .daysChild {
+          font-size: 16px;
+        }
 
-      & .daysActive {
-        background-color: #f2f2f2;
-        border-radius: 100%;
-        cursor: pointer;
-      }
+        & .daysChild:nth-child(7n) {
+          color: red;
+          font-weight: bold;
+        }
 
-      & .daysClickable {
-        cursor: pointer;
-      }
+        & .daysActive {
+          background-color: #f2f2f2;
+          border-radius: 100%;
+          cursor: pointer;
+        }
 
-      & .months,
-      & .years {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
+        & .daysClickable {
+          cursor: pointer;
+        }
 
-      & .monthsChild,
-      & .yearsChild {
-        display: flex;
-        justify-content: center;
+        & .months,
+        & .years {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        & .monthsChild,
+        & .yearsChild {
+          display: flex;
+          justify-content: center;
+        }
       }
     }
   }

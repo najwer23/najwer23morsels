@@ -162,68 +162,98 @@ export const Calendar: React.FC<CalendarProps> = ({
       />
 
       <div
-        className={[styles.dropdown, calendarState.open ? styles.open : ''].join(' ')}
+        className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}
         onMouseDown={(e) => e.preventDefault()}
       >
-        {calendarState.dropDwonState === 'years' && (
-          <>
-            <div className={styles.controls} style={{ marginBottom: '10px' }}>
-              <div style={{ width: '30px' }}>
-                <Button
-                  padding={'3px 0 0 0'}
-                  height={'30px'}
-                  width={'30px'}
-                  title="Prev Month"
-                  backgroundColor="#F2F0EF"
-                  borderColor="black"
-                  onClick={() => changeYear(currentYear - 9)}
-                >
-                  <IconArrowLeft color="black" height={22} width={22} />
-                </Button>
-              </div>
+        <div className={[styles.dropdown].join(' ')}>
+          {calendarState.dropDwonState === 'years' && (
+            <>
+              <div className={styles.controls} style={{ marginBottom: '10px' }}>
+                <div style={{ width: '30px' }}>
+                  <Button
+                    padding={'3px 0 0 0'}
+                    height={'30px'}
+                    width={'30px'}
+                    title="Prev Month"
+                    backgroundColor="#F2F0EF"
+                    borderColor="black"
+                    onClick={() => changeYear(currentYear - 9)}
+                  >
+                    <IconArrowLeft color="black" height={22} width={22} />
+                  </Button>
+                </div>
 
-              <div style={{ width: '60%' }} className={styles.controlsDate}>
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    setCalendarState((prevState) => ({
-                      ...prevState,
-                      dropDwonState: 'days',
-                    }))
-                  }
-                >
-                  {currentYear}
+                <div style={{ width: '60%' }} className={styles.controlsDate}>
+                  <div
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      setCalendarState((prevState) => ({
+                        ...prevState,
+                        dropDwonState: 'days',
+                      }))
+                    }
+                  >
+                    {currentYear}
+                  </div>
+                </div>
+
+                <div style={{ width: '30px' }}>
+                  <Button
+                    padding={'3px 0 0 0'}
+                    height={'30px'}
+                    width={'30px'}
+                    title="Prev Month"
+                    backgroundColor="#F2F0EF"
+                    borderColor="black"
+                    onClick={() => changeYear(currentYear + 9)}
+                  >
+                    <IconArrowRight color="black" height={22} width={22} />
+                  </Button>
                 </div>
               </div>
 
-              <div style={{ width: '30px' }}>
-                <Button
-                  padding={'3px 0 0 0'}
-                  height={'30px'}
-                  width={'30px'}
-                  title="Prev Month"
-                  backgroundColor="#F2F0EF"
-                  borderColor="black"
-                  onClick={() => changeYear(currentYear + 9)}
-                >
-                  <IconArrowRight color="black" height={22} width={22} />
-                </Button>
+              <div className={styles.years}>
+                {years.map((v) => (
+                  <div className={styles.yearsChild} key={v + calendarState.value}>
+                    <Button
+                      key={v + calendarState.value}
+                      height={'40px'}
+                      width={'80px'}
+                      color="black"
+                      backgroundColor={currentYear == v ? 'white' : '#F2F0EF'}
+                      borderColor="black"
+                      title="year"
+                      onClick={() => {
+                        changeYear(v);
+                        setCalendarState((prevState) => ({
+                          ...prevState,
+                          dropDwonState: 'days',
+                        }));
+                      }}
+                    >
+                      <TextBox mobileSize={14} desktopSize={14}>
+                        {v}
+                      </TextBox>
+                    </Button>
+                  </div>
+                ))}
               </div>
-            </div>
+            </>
+          )}
 
-            <div className={styles.years}>
-              {years.map((v) => (
-                <div className={styles.yearsChild} key={v + calendarState.value}>
+          {calendarState.dropDwonState === 'months' && (
+            <div className={styles.months}>
+              {months.map((v, i) => (
+                <div className={styles.monthsChild} key={v + calendarState.value}>
                   <Button
                     key={v + calendarState.value}
                     height={'40px'}
                     width={'80px'}
-                    color="black"
-                    backgroundColor={currentYear == v ? 'white' : '#F2F0EF'}
+                    backgroundColor={currentMonth == i ? 'white' : '#F2F0EF'}
                     borderColor="black"
-                    title="year"
+                    title="month"
                     onClick={() => {
-                      changeYear(v);
+                      changeMonth(i - currentMonth);
                       setCalendarState((prevState) => ({
                         ...prevState,
                         dropDwonState: 'days',
@@ -237,123 +267,95 @@ export const Calendar: React.FC<CalendarProps> = ({
                 </div>
               ))}
             </div>
-          </>
-        )}
+          )}
 
-        {calendarState.dropDwonState === 'months' && (
-          <div className={styles.months}>
-            {months.map((v, i) => (
-              <div className={styles.monthsChild} key={v + calendarState.value}>
-                <Button
-                  key={v + calendarState.value}
-                  height={'40px'}
-                  width={'80px'}
-                  backgroundColor={currentMonth == i ? 'white' : '#F2F0EF'}
-                  borderColor="black"
-                  title="month"
-                  onClick={() => {
-                    changeMonth(i - currentMonth);
-                    setCalendarState((prevState) => ({
-                      ...prevState,
-                      dropDwonState: 'days',
-                    }));
-                  }}
-                >
-                  <TextBox mobileSize={14} desktopSize={14}>
+          {calendarState.dropDwonState === 'days' && (
+            <>
+              <div className={styles.controls}>
+                <div style={{ width: '30px' }}>
+                  <Button
+                    padding={'3px 0 0 0'}
+                    height={'30px'}
+                    width={'30px'}
+                    title="Prev Month"
+                    backgroundColor="#F2F0EF"
+                    borderColor="black"
+                    onClick={() => changeMonth(-1)}
+                  >
+                    <IconArrowLeft color="black" height={22} width={22} />
+                  </Button>
+                </div>
+
+                <div style={{ width: '60%' }} className={styles.controlsDate}>
+                  <div
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      setCalendarState((prevState) => ({
+                        ...prevState,
+                        dropDwonState: 'years',
+                      }))
+                    }
+                  >
+                    {currentYear}
+                  </div>
+                  <div>-</div>
+                  <div
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      setCalendarState((prevState) => ({
+                        ...prevState,
+                        dropDwonState: 'months',
+                      }))
+                    }
+                  >
+                    {String(currentMonth + 1).padStart(2, '0')}
+                  </div>
+                  <div>-</div>
+                  <div>{String(currentDay).padStart(2, '0')}</div>
+                </div>
+
+                <div style={{ width: '30px' }}>
+                  <Button
+                    padding={'3px 0 0 0'}
+                    height={'30px'}
+                    width={'30px'}
+                    title="Prev Month"
+                    backgroundColor="#F2F0EF"
+                    borderColor="black"
+                    onClick={() => changeMonth(1)}
+                  >
+                    <IconArrowRight color="black" height={22} width={22} />
+                  </Button>
+                </div>
+              </div>
+
+              <div className={styles.weekdays}>
+                {weekdays.map((v) => (
+                  <div key={v} className={styles.weekdaysChild}>
                     {v}
-                  </TextBox>
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {calendarState.dropDwonState === 'days' && (
-          <>
-            <div className={styles.controls}>
-              <div style={{ width: '30px' }}>
-                <Button
-                  padding={'3px 0 0 0'}
-                  height={'30px'}
-                  width={'30px'}
-                  title="Prev Month"
-                  backgroundColor="#F2F0EF"
-                  borderColor="black"
-                  onClick={() => changeMonth(-1)}
-                >
-                  <IconArrowLeft color="black" height={22} width={22} />
-                </Button>
+                  </div>
+                ))}
               </div>
 
-              <div style={{ width: '60%' }} className={styles.controlsDate}>
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    setCalendarState((prevState) => ({
-                      ...prevState,
-                      dropDwonState: 'years',
-                    }))
-                  }
-                >
-                  {currentYear}
-                </div>
-                <div>-</div>
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    setCalendarState((prevState) => ({
-                      ...prevState,
-                      dropDwonState: 'months',
-                    }))
-                  }
-                >
-                  {String(currentMonth + 1).padStart(2, '0')}
-                </div>
-                <div>-</div>
-                <div>{String(currentDay).padStart(2, '0')}</div>
+              <div className={styles.days}>
+                {days.map((v) => (
+                  <div
+                    key={v.day + calendarState.value}
+                    className={[
+                      styles.weekdaysChild,
+                      styles.daysChild,
+                      v.cssClass == 'active' && styles.daysActive,
+                      v.cssClass == 'clickable' && styles.daysClickable,
+                    ].join(' ')}
+                    onClick={() => v.day > 0 && changeDayOfMonth(v.day)}
+                  >
+                    {v.day <= 0 || v.day > getDaysInMonth(calendarState.value) ? ' ' : v.day}
+                  </div>
+                ))}
               </div>
-
-              <div style={{ width: '30px' }}>
-                <Button
-                  padding={'3px 0 0 0'}
-                  height={'30px'}
-                  width={'30px'}
-                  title="Prev Month"
-                  backgroundColor="#F2F0EF"
-                  borderColor="black"
-                  onClick={() => changeMonth(1)}
-                >
-                  <IconArrowRight color="black" height={22} width={22} />
-                </Button>
-              </div>
-            </div>
-
-            <div className={styles.weekdays}>
-              {weekdays.map((v) => (
-                <div key={v} className={styles.weekdaysChild}>
-                  {v}
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.days}>
-              {days.map((v) => (
-                <div
-                  key={v.day + calendarState.value}
-                  className={[
-                    styles.weekdaysChild,
-                    styles.daysChild,
-                    v.cssClass == 'active' && styles.daysActive,
-                    v.cssClass == 'clickable' && styles.daysClickable,
-                  ].join(' ')}
-                  onClick={() => v.day > 0 && changeDayOfMonth(v.day)}
-                >
-                  {v.day <= 0 || v.day > getDaysInMonth(calendarState.value) ? ' ' : v.day}
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

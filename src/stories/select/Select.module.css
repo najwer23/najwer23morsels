@@ -50,6 +50,7 @@
       background-color: white;
       border-radius: 5px;
       display: none;
+      padding-bottom: 40px;
 
       &.open {
         display: block;
