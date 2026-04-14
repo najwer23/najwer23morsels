@@ -169,6 +169,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               <div className={styles.controls} style={{ marginBottom: '10px' }}>
                 <div style={{ width: '30px' }}>
                   <Button
+                    type="button"
                     padding={'3px 0 0 0'}
                     height={'30px'}
                     width={'30px'}
@@ -197,6 +198,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
                 <div style={{ width: '30px' }}>
                   <Button
+                    type="button"
                     padding={'3px 0 0 0'}
                     height={'30px'}
                     width={'30px'}
@@ -214,6 +216,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                 {years.map((v) => (
                   <div className={styles.yearsChild} key={v + calendarState.value}>
                     <Button
+                      type="button"
                       key={v + calendarState.value}
                       height={'40px'}
                       width={'80px'}
@@ -244,6 +247,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               {months.map((v, i) => (
                 <div className={styles.monthsChild} key={v + calendarState.value}>
                   <Button
+                    type="button"
                     key={v + calendarState.value}
                     height={'40px'}
                     width={'80px'}
@@ -272,6 +276,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               <div className={styles.controls}>
                 <div style={{ width: '30px' }}>
                   <Button
+                    type="button"
                     padding={'3px 0 0 0'}
                     height={'30px'}
                     width={'30px'}
@@ -314,6 +319,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
                 <div style={{ width: '30px' }}>
                   <Button
+                    type="button"
                     padding={'3px 0 0 0'}
                     height={'30px'}
                     width={'30px'}
