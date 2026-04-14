@@ -351,7 +351,15 @@ export const Calendar: React.FC<CalendarProps> = ({
                       v.cssClass == 'active' && styles.daysActive,
                       v.cssClass == 'clickable' && styles.daysClickable,
                     ].join(' ')}
-                    onClick={() => v.day > 0 && changeDayOfMonth(v.day)}
+                    onClick={() => {
+                      if (v.day > 0) {
+                        changeDayOfMonth(v.day);
+                      }
+                      setCalendarState((prev) => ({
+                        ...prev,
+                        open: false,
+                      }));
+                    }}
                   >
                     {v.day <= 0 || v.day > getDaysInMonth(calendarState.value) ? ' ' : v.day}
                   </div>
