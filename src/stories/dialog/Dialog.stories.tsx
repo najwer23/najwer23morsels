@@ -33,7 +33,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     open: true,
-    maxWidth: '600px',
+    widthMax: '600px',
   },
   render: (args) => {
     const [isOpen, setIsOpen] = useState(false);

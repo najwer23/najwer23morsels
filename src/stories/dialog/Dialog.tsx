@@ -7,7 +7,7 @@ import styles from './Dialog.module.css';
 interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
-  maxWidth: React.CSSProperties['maxWidth'];
+  widthMax: React.CSSProperties['maxWidth'];
   open: boolean;
   onCancel: () => void;
 }
@@ -15,7 +15,7 @@ interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Dialog: React.FC<DialogProps> = ({
   children,
   open,
-  maxWidth,
+  widthMax,
   title,
   onCancel,
   className,
@@ -50,7 +50,7 @@ export const Dialog: React.FC<DialogProps> = ({
       style={
         {
           ...getCssVariableStyle({
-            '--dialog-mw': maxWidth,
+            '--dialog-wm': widthMax,
           }),
           ...style,
         } as React.CSSProperties

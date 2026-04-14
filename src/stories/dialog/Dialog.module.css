@@ -8,7 +8,7 @@
       overscroll-behavior: none;
 
       box-sizing: border-box;
-      max-inline-size: min(calc(100vw - 20px), var(--dialog-mw, 95%));
+      max-inline-size: min(calc(100vw - 20px), var(--dialog-wm, 95%));
       max-block-size: calc(100dvb - 50px);
 
       padding: 0;
