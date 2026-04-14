@@ -147,6 +147,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         type="text"
         kind="input"
         name={name}
+        autoComplete={'off'}
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -161,11 +162,8 @@ export const Calendar: React.FC<CalendarProps> = ({
         className={styles.arrowUp}
       />
 
-      <div
-        className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}
-        onMouseDown={(e) => e.preventDefault()}
-      >
-        <div className={[styles.dropdown].join(' ')}>
+      <div className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}>
+        <div className={[styles.dropdown].join(' ')} onMouseDown={(e) => e.preventDefault()}>
           {calendarState.dropDwonState === 'years' && (
             <>
               <div className={styles.controls} style={{ marginBottom: '10px' }}>

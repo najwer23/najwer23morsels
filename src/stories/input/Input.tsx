@@ -19,6 +19,7 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   value?: string;
+  autoComplete?: string;
 }
 
 export type InputProps = InputBase & {
@@ -48,6 +49,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   disabled,
   validatorOptions,
   value,
+  autoComplete,
   id,
   onBlur,
   onChange,
@@ -119,11 +121,13 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             defaultValue={defaultValue}
             disabled={disabled}
             value={value}
+            autoComplete={autoComplete}
           />
         )}
 
         {kind === 'textarea' && (
           <textarea
+            autoComplete={autoComplete}
             id={name}
             name={name}
             onBlur={handleBlur}
