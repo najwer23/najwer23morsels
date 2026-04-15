@@ -51,6 +51,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   return (
     <div className={[styles.n23mCopyButton, 'n23mCopyButton', className].filter(Boolean).join(' ')} {...props}>
       <Button
+        type="button"
         padding={'0px 3px'}
         height={'auto'}
         width="auto"
