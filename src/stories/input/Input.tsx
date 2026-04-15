@@ -135,6 +135,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
+            value={value}
             ref={inputRef as React.RefObject<HTMLTextAreaElement | null>}
           />
         )}
