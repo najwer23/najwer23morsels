@@ -5,6 +5,7 @@ type ValidatorOption =
   | { type: 'email' }
   | { type: 'numberInRange'; options?: { min?: number; max?: number } }
   | { type: 'date' }
+  | { type: 'json' }
   | {
       type: 'existsInOptions';
       options: {
@@ -66,6 +67,20 @@ const validators: Record<string, ValidatorFn> = {
     const exists = list.some((option) => (matchBy === 'value' ? option.value === value : option.label === value));
 
     return exists ? null : 'Please select a value from the list.';
+  },
+
+  json: (value: string): string | null => {
+    try {
+      const parsed = JSON.parse(value);
+
+      if (parsed === null || (typeof parsed !== 'object' && !Array.isArray(parsed))) {
+        return 'The value must be a valid JSON';
+      }
+
+      return null;
+    } catch {
+      return 'The value must be a valid JSON.';
+    }
   },
 };
 
