@@ -1,4 +1,4 @@
-import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./input-BaqCKTy9.js";var i,a,o,s,c,l,u,d,f;e((()=>{r(),i=t(),a={title:`Input/Input`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./input-C7pvU3tt.js";var i,a,o,s,c,l,u,d,f;e((()=>{r(),i=t(),a={title:`Input/Input`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
 This Input component is designed for flexible use in forms, supporting labels, placeholders, validation, disabled state, custom colors, and textarea mode.
 
 \`\`\`tsx
