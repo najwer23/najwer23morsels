@@ -47,7 +47,8 @@
       margin-top: 65px;
       top: 0px;
       width: 100%;
-      border-radius: 5px;
+      border-radius: 12px;
+      corner-shape: squircle;
       display: none;
       padding-bottom: 40px;
       background: transparent;
@@ -64,7 +65,8 @@
         box-shadow:
           0 4px 8px 0 rgba(0, 0, 0, 0.24),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 5px;
+        border-radius: 12px;
+        corner-shape: squircle;
         background: white;
 
         -webkit-touch-callout: none;
