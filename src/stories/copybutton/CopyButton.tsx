@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '../button';
 import { TextBox } from '../textbox';
-import styles from './CopyButton.module.css';
 
 interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -47,7 +46,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   }, []);
 
   return (
-    <div className={[styles.n23mCopyButton, 'n23mCopyButton', className].filter(Boolean).join(' ')} {...props}>
+    <div className={['n23mCopyButton', className].filter(Boolean).join(' ')} {...props}>
       <Button
         type="button"
         padding={'0px 3px'}
