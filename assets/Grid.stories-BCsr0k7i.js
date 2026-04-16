@@ -1,4 +1,4 @@
-import{a as e,n as t}from"./chunk-BneVvdWh.js";import{t as n}from"./react-D1sJ83FZ.js";import{t as r}from"./jsx-runtime-DnaggZxp.js";import{n as i,t as a}from"./textbox-D98-YxRJ.js";import{n as o,t as s}from"./Grid-ugLPCmQP.js";var c,l,u,d,f,p,m,h,g;t((()=>{c=e(n(),1),a(),o(),l=r(),u={title:`Grid/Grid`,component:s,parameters:{layout:`centered`,docs:{description:{component:`
+import{a as e,n as t}from"./chunk-BneVvdWh.js";import{t as n}from"./react-D1sJ83FZ.js";import{t as r}from"./jsx-runtime-DnaggZxp.js";import{n as i,t as a}from"./textbox-D98-YxRJ.js";import{n as o,t as s}from"./Grid-Bs8yBA7P.js";var c,l,u,d,f,p,m,h,g;t((()=>{c=e(n(),1),a(),o(),l=r(),u={title:`Grid/Grid`,component:s,parameters:{layout:`centered`,docs:{description:{component:`
 This is a grid component that can be used to create responsive layouts. It supports various properties such as layout type, column configuration, gap, padding, and more. You can use it to create both container-based and column-based layouts.
 
 You can import the Grid component from the library and use it in your application as follows:

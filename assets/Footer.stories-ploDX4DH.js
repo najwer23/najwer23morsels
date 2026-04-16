@@ -1,0 +1,12 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./getCssVariableStyle-rhjbzvYQ.js";import{n as i,t as a}from"./textbox-D98-YxRJ.js";import{t as o}from"./Grid-Bs8yBA7P.js";import{t as s}from"./grid-YiEsrCJN.js";var c,l,u,d,f=e((()=>{c=`_n23mFooter_1qo7l_11`,l=`_n23mFooterPush_1qo7l_12`,u=`_n23mFooterContainer_1qo7l_17`,d={n23mFooter:c,n23mFooterPush:l,n23mFooterContainer:u}})),p,m,h=e((()=>{s(),a(),n(),f(),p=t(),m=({children:e,author:t=`Mariusz Najwer`,className:n,initialYear:a=`2019`,backgroundColor:s=`#333333`,color:c=`white`,style:l,...u})=>(0,p.jsxs)(`footer`,{className:[d.n23mFooter,`n23mFooter`,n].filter(Boolean).join(` `),...u,style:{...r({"--bc":s}),...l},children:[(0,p.jsx)(`div`,{className:d.n23mFooterPush}),(0,p.jsx)(`div`,{className:d.n23mFooterContainer,children:(0,p.jsxs)(o,{layout:`container`,widthMax:`1600px`,children:[(0,p.jsx)(o,{layout:`flex`,widthMax:`1400px`,padding:`20px 0 0`,justifyContent:`center`,children:(0,p.jsxs)(i,{mobileSize:22,desktopSize:22,color:c,tag:`p`,children:[`© `,t]})}),(0,p.jsx)(o,{layout:`flex`,widthMax:`1400px`,padding:`0`,justifyContent:`center`,children:(0,p.jsxs)(i,{mobileSize:12,desktopSize:12,color:c,tag:`p`,children:[a,` - `,new Date().getFullYear()]})})]})})]}),m.displayName=`Footer`,m.__docgenInfo={description:``,methods:[],displayName:`Footer`,props:{author:{defaultValue:{value:`'Mariusz Najwer'`,computed:!1},required:!1},initialYear:{defaultValue:{value:`'2019'`,computed:!1},required:!1},backgroundColor:{defaultValue:{value:`'#333333'`,computed:!1},required:!1},color:{defaultValue:{value:`'white'`,computed:!1},required:!1}}}})),g=e((()=>{h()})),_,v,y,b;e((()=>{g(),_=t(),v={title:`Footer/Footer`,component:m,parameters:{docs:{description:{component:`
+Footer displayed at the bottom of the app.
+
+\`\`\`tsx
+import { Footer } from 'najwer23morsels/lib/footer';
+\`\`\`
+      `}}},tags:[`autodocs`]},y={args:{},render:e=>(0,_.jsx)(`div`,{children:(0,_.jsx)(m,{...e,children:`hello world!`})})},y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  args: {},
+  render: args => <div>
+      <Footer {...args}>hello world!</Footer>
+    </div>
+}`,...y.parameters?.docs?.source}}},b=[`Default`]}))();export{y as Default,b as __namedExportsOrder,v as default};
