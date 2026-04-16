@@ -1,4 +1,4 @@
-import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./loader-DXiTZxLH.js";var i,a,o,s;e((()=>{r(),i=t(),a={title:`Loader/Loader`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./jsx-runtime-DnaggZxp.js";import{n,t as r}from"./loader-fEDiFjRe.js";var i,a,o,s;e((()=>{r(),i=t(),a={title:`Loader/Loader`,component:n,parameters:{layout:`centered`,docs:{description:{component:`
 This is a loader component that can be used to indicate loading states in your application. It supports various properties such as size, color, and more.
 
 You can import the Button component from the library and use it in your application as follows:

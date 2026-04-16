@@ -1,4 +1,4 @@
-import{a as e,n as t}from"./chunk-BneVvdWh.js";import{t as n}from"./react-D1sJ83FZ.js";import{t as r}from"./jsx-runtime-DnaggZxp.js";import{n as i,t as a}from"./textbox-D98-YxRJ.js";import{n as o,t as s}from"./button-0EMNk7V8.js";var c,l,u,d,f,p,m,h;t((()=>{c=e(n(),1),a(),s(),l=r(),{action:u}=__STORYBOOK_MODULE_ACTIONS__,d={title:`Button/Button`,component:o,parameters:{layout:`centered`,docs:{description:{component:`
+import{a as e,n as t}from"./chunk-BneVvdWh.js";import{t as n}from"./react-D1sJ83FZ.js";import{t as r}from"./jsx-runtime-DnaggZxp.js";import{n as i,t as a}from"./textbox-D98-YxRJ.js";import{n as o,t as s}from"./button-XTq_5Em_.js";var c,l,u,d,f,p,m,h;t((()=>{c=e(n(),1),a(),s(),l=r(),{action:u}=__STORYBOOK_MODULE_ACTIONS__,d={title:`Button/Button`,component:o,parameters:{layout:`centered`,docs:{description:{component:`
 This is a button component that can be used to trigger actions. It supports various properties such as background color, width, height, and more. You can also use it with loading states and disabled states.
 
 You can import the Button component from the library and use it in your application as follows:
