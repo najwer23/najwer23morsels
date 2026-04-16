@@ -59,7 +59,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
         onClick={handleCopy}
       >
         {children ?? (
-          <TextBox mobileSize={8} desktopSize={8} fontWeight={600} lineHeight={'17px'} color={color}>
+          <TextBox mobileSize={10} desktopSize={10} fontWeight={600} lineHeight={'17px'} color={color}>
             Copy
           </TextBox>
         )}
