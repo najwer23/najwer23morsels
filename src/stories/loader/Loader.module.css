@@ -8,6 +8,8 @@
     height: var(--loader-mh, 100%);
     color: var(--loader-lc, var(--n23mTextBoxColor, black));
     border: dotted 1px var(--loader-lc, var(--n23mTextBoxColor, black));
+    border-radius: 12px;
+    corner-shape: squircle;
 
     .dots span {
       display: inline-block;

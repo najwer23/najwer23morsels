@@ -19,7 +19,8 @@
         font-weight: 500;
         font-size: 16px;
         border: 1px solid var(--input-cb, black);
-        border-radius: 5px;
+        border-radius: 12px;
+        corner-shape: squircle;
         box-sizing: border-box;
       }
 

@@ -13,6 +13,8 @@
 
       padding: 0;
       border: 1px solid black;
+      border-radius: 12px;
+      corner-shape: squircle;
 
       & .dialogCloseButton {
         position: absolute !important;

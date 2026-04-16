@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { color } from 'storybook/theming';
 import { Button } from '../button';
 import { TextBox } from '../textbox';
-import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './CopyButton.module.css';
 
 interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -11,6 +11,8 @@
     &.border {
       padding: 5px;
       border: 2px solid var(--picture-bc);
+      border-radius: 12px;
+      corner-shape: squircle;
     }
 
     & img {
@@ -20,6 +22,9 @@
       width: 100%;
       height: auto;
       max-height: var(--picture-mh, unset);
+
+      border-radius: 12px;
+      corner-shape: squircle;
     }
 
     &.loaded img {

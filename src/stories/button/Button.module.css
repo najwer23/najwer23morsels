@@ -10,8 +10,8 @@
     cursor: pointer;
     border: 1px solid var(--n23mButtonBorderColor, var(--button-bc, unset));
     letter-spacing: normal;
-    border-radius: 8px;
-
+    border-radius: 12px;
+    corner-shape: squircle;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
