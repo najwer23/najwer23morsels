@@ -3,7 +3,7 @@
     background-color: white;
 
     .dialog {
-      position: relative;
+      position: fixed;
       min-height: 100px;
       overscroll-behavior: none;
 
