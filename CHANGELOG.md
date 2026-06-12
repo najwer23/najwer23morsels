@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.1.0
+
+### Minor Changes
+
+- NavigationTabs
+
 ## 0.22.0
 
 ### Minor Changes
