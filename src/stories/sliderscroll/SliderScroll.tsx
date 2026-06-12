@@ -10,9 +10,9 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Button } from '../button';
+import { Button } from '../Button';
 import { useWindowSize } from '../hooks';
-import { IconArrowLeft, IconArrowRight } from '../icons';
+import { IconArrowLeft, IconArrowRight } from '../Icons';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './SliderScroll.module.css';
 

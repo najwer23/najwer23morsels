@@ -13,7 +13,7 @@ const meta: Meta<typeof Calendar> = {
 A simple calendar component for selecting and displaying dates.
 
 \`\`\`tsx
-import { Calendar } from 'najwer23morsels/lib/calendar';
+import { Calendar } from 'najwer23morsels/lib/Calendar';
 \`\`\`
       `,
       },

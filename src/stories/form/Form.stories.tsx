@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { action } from 'storybook/actions';
-import { Button } from '../button';
-import { Calendar } from '../calendar';
-import { Input } from '../input';
+import { Button } from '../Button';
+import { Calendar } from '../Calendar';
+import { Input } from '../Input';
 import { Select } from '../select';
-import { TextBox } from '../textbox';
-import { Form } from '.';
-import { FormType } from './Form';
+import { TextBox } from '../TextBox';
+import { Form, FormType } from '.';
 
 const meta: Meta<typeof Form> = {
   title: 'Form/Form',

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
-import { TextBox } from '../textbox';
+import { TextBox } from '../TextBox';
 import { Grid, GridColumnsProps, GridContainerProps } from './Grid';
 
 type GridContainerStory = StoryObj<GridContainerProps>;

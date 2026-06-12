@@ -1,9 +1,9 @@
 import React, { ReactElement, ReactNode, useLayoutEffect, useRef, useState } from 'react';
-import { Button } from '../button';
+import { Button } from '../Button';
 import { useWindowSize } from '../hooks';
-import { IconArrowLeft, IconArrowRight } from '../icons';
-import { Loader } from '../loader';
-import { TextBox } from '../textbox';
+import { IconArrowLeft, IconArrowRight } from '../Icons';
+import { Loader } from '../Loader';
+import { TextBox } from '../TextBox';
 import styles from './Slider.module.css';
 
 type SlideElement = ReactElement<{ className?: string }>;

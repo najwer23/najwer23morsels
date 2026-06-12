@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from '../button';
-import { TextBox } from '../textbox';
+import { Button } from '../Button';
+import { TextBox } from '../TextBox';
 
 interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;

@@ -1,4 +1,4 @@
-import { TextBox } from '../textbox';
+import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Loader.module.css';
 

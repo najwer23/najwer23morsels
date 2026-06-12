@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWindowSize } from '../hooks';
 import { useCachedImageCheck } from '../hooks/useCachedImageCheck';
-import { TextBox } from '../textbox';
+import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Picture.module.css';
 

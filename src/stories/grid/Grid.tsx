@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loader } from '../loader';
+import { Loader } from '../Loader';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Grid.module.css';
 

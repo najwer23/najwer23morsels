@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Button } from '../button';
-import { Grid } from '../grid';
-import { TextBox } from '../textbox';
+import { Button } from '../Button';
+import { Grid } from '../Grid';
+import { TextBox } from '../TextBox';
 import { Dialog } from '.';
 
 const meta: Meta<typeof Dialog> = {
@@ -18,7 +18,7 @@ A modal dialog component built with the native \`<dialog>\` element.
 It supports controlled open/close behavior, custom content, and a cancel callback.
 
 \`\`\`tsx
-import { Dialog } from 'najwer23morsels/lib/dialog';
+import { Dialog } from 'najwer23morsels/lib/Dialog';
 \`\`\`
       `,
       },

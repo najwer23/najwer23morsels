@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { action } from 'storybook/actions';
-import { TextBox } from '../textbox';
+import { TextBox } from '../TextBox';
 import { Button } from '.';
 
 const meta: Meta<typeof Button> = {
@@ -16,7 +16,7 @@ This is a button component that can be used to trigger actions. It supports vari
 
 You can import the Button component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Button } from 'najwer23morsels/lib/button';
+import { Button } from 'najwer23morsels/lib/Button';
 \`\`\`
       `,
       },

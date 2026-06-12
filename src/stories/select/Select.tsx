@@ -1,5 +1,5 @@
 import React, { useId, useMemo, useRef, useState } from 'react';
-import { Input } from '../input';
+import { Input } from '../Input';
 import { ValidatorOptions } from '../validator';
 import styles from './Select.module.css';
 

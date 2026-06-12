@@ -13,7 +13,7 @@ const meta: Meta<typeof CopyButton> = {
 A button that copies text to the clipboard.
 
 \`\`\`tsx
-import { CopyButton } from 'najwer23morsels/lib/copybutton';
+import { CopyButton } from 'najwer23morsels/lib/CopyButton';
 \`\`\`
       `,
       },

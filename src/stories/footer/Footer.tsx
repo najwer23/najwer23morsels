@@ -1,5 +1,5 @@
-import { Grid } from '../grid';
-import { TextBox } from '../textbox';
+import { Grid } from '../Grid';
+import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Footer.module.css';
 

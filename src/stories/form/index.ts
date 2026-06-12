@@ -1,3 +1,4 @@
 import { Form } from './Form';
+import { FormType } from './Form.types';
 
-export { Form };
+export { Form, type FormType };

@@ -17,7 +17,7 @@ const meta: Meta<typeof Input> = {
 This Input component is designed for flexible use in forms, supporting labels, placeholders, validation, disabled state, custom colors, and textarea mode.
 
 \`\`\`tsx
-import { Input } from 'najwer23morsels/lib/input';
+import { Input } from 'najwer23morsels/lib/Input';
 \`\`\`
       `,
       },

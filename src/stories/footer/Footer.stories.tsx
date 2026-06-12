@@ -12,7 +12,7 @@ const meta: Meta<typeof Footer> = {
 Footer displayed at the bottom of the app.
 
 \`\`\`tsx
-import { Footer } from 'najwer23morsels/lib/footer';
+import { Footer } from 'najwer23morsels/lib/Footer';
 \`\`\`
       `,
       },

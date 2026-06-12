@@ -13,7 +13,7 @@ const meta: Meta<typeof Select> = {
 Custom select/autocomplete input with a hidden submitted value.
 
 \`\`\`tsx
-import { Select } from 'najwer23morsels/lib/select';
+import { Select } from 'najwer23morsels/lib/Select';
 \`\`\`
       `,
       },

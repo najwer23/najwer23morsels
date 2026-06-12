@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { TextBox } from '../textbox';
+import { useRef } from 'react';
+import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { type ValidatorOptions, validator } from '../validator';
 import styles from './Input.module.css';

@@ -17,7 +17,7 @@ npm install najwer23morsels --save-dev
 ```
 
 ```typescript
-import { TextBox } from "najwer23morsels/lib/textbox";
+import { TextBox } from "najwer23morsels/lib/TextBox";
 
 export const Example = () => {
     return (

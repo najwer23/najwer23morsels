@@ -8,4 +8,4 @@ export const IconArrowLeft: React.FC<IconsProps> = ({ width, height, color = 'cu
   );
 };
 
-IconArrowLeft.displayName = 'IconArrowRight';
+IconArrowLeft.displayName = 'IconArrowLeft';

@@ -1,12 +1,5 @@
-import { FormEvent } from 'react';
-import { TextBox } from '../textbox';
-
-export interface FormType {
-  [k: string]: {
-    error: boolean;
-    value: string;
-  };
-}
+import { TextBox } from '../TextBox';
+import { FormType } from './Form.types';
 
 interface FormProps {
   className?: React.HTMLAttributes<HTMLDivElement>;

@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { Loader } from '../loader';
+import { Loader } from '../Loader';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Button.module.css';
 

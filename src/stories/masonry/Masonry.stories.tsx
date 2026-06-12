@@ -15,7 +15,7 @@ A flexible Masonry layout component for React that arranges children in columns 
 Supports dynamic content heights and adapts column count based on viewport size breakpoints.
 
 \`\`\`tsx
-import { Masonry } from 'najwer23morsels/lib/masonry';
+import { Masonry } from 'najwer23morsels/lib/Masonry';
 \`\`\`
       `,
       },

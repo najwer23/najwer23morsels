@@ -14,7 +14,7 @@ The Picture component renders an image with support for aspect ratio control and
 
 You can import the Picture component from the library and use it in your application as follows:
 \`\`\`tsx
-import { Picture } from 'najwer23morsels/lib/picture';
+import { Picture } from 'najwer23morsels/lib/Picture';
 \`\`\`
       `,
       },

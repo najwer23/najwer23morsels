@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Button } from '../button';
-import { TextBox } from '../textbox';
+import { Button } from '../Button';
+import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Dialog.module.css';
 
