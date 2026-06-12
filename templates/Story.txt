@@ -13,7 +13,7 @@ const meta: Meta<typeof {{name}}> = {
 Test Test
 
 \`\`\`tsx
-import { {{name}} } from 'najwer23morsels/lib/{{lowerCase name}}';
+import { {{name}} } from 'najwer23morsels/lib/{{name}}';
 \`\`\`
       `,
       },

@@ -20,22 +20,22 @@ export default function (plop) {
     actions: [
       {
         type: 'add',
-        path: 'src/stories/{{lowerCase name}}/{{name}}.stories.tsx',
+        path: 'src/stories/{{name}}/{{name}}.stories.tsx',
         templateFile: 'templates/Story.txt',
       },
       {
         type: 'add',
-        path: 'src/stories/{{lowerCase name}}/{{name}}.tsx',
+        path: 'src/stories/{{name}}/{{name}}.tsx',
         templateFile: 'templates/Component.txt',
       },
       {
         type: 'add',
-        path: 'src/stories/{{lowerCase name}}/{{name}}.module.css',
+        path: 'src/stories/{{name}}/{{name}}.module.css',
         templateFile: 'templates/CSS.txt',
       },
       {
         type: 'add',
-        path: 'src/stories/{{lowerCase name}}/index.ts',
+        path: 'src/stories/{{name}}/index.ts',
         templateFile: 'templates/Index.txt',
       },
     ],
