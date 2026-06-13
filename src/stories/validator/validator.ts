@@ -4,6 +4,7 @@ type ValidatorOption =
   | { type: 'empty' }
   | { type: 'email' }
   | { type: 'numberInRange'; options?: { min?: number; max?: number } }
+  | { type: 'naturalNumber' }
   | { type: 'date' }
   | { type: 'json' }
   | {
@@ -81,6 +82,20 @@ const validators: Record<string, ValidatorFn> = {
     } catch {
       return 'The value must be a valid JSON.';
     }
+  },
+
+  naturalNumber: (value: string): string | null => {
+    if (!/^([1-9][0-9]*|0)$/.test(value)) {
+      return 'The number must be a natural number (positive integer).';
+    }
+
+    const number = Number(value);
+
+    if (isNaN(number) || number <= 0 || !Number.isInteger(number)) {
+      return 'The number must be a natural number (positive integer).';
+    }
+
+    return null;
   },
 };
 
