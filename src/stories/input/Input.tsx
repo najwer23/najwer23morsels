@@ -20,6 +20,7 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   value?: string;
   autoComplete?: string;
+  step?: number | 'any';
 }
 
 export type InputProps = InputBase & {
@@ -53,6 +54,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   id,
   onBlur,
   onChange,
+  step,
   ...props
 }) => {
   const errorRef = useRef<HTMLDivElement | null>(null);
@@ -122,6 +124,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             disabled={disabled}
             value={value}
             autoComplete={autoComplete}
+            step={step}
           />
         )}
 
@@ -152,6 +155,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             defaultValue={defaultValue}
             disabled={disabled}
             value={value}
+            step={step}
           />
         )}
       </div>
