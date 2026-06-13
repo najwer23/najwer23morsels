@@ -11,7 +11,7 @@ interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   menuTopRightColumn: React.ReactNode;
   menuMobile: React.ReactNode;
   menuBottomTabs?: React.ReactNode;
-  menuOnlyTop: boolean;
+  menuOnlyTop?: boolean;
 }
 
 export const NavigationTabs: React.FC<NavigationTabsProps> = ({
