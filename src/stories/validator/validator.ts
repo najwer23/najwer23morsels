@@ -5,6 +5,7 @@ type ValidatorOption =
   | { type: 'email' }
   | { type: 'numberInRange'; options?: { min?: number; max?: number } }
   | { type: 'naturalNumber' }
+  | { type: 'decimalDigits'; options?: { digits: number } }
   | { type: 'date' }
   | { type: 'json' }
   | {
@@ -93,6 +94,31 @@ const validators: Record<string, ValidatorFn> = {
 
     if (isNaN(number) || number <= 0 || !Number.isInteger(number)) {
       return 'The number must be a natural number (positive integer).';
+    }
+
+    return null;
+  },
+
+  decimalDigits: (value: string, options?: { digits?: number }): string | null => {
+    const number = Number(value);
+
+    if (isNaN(number)) {
+      return 'The value must be a valid number.';
+    }
+
+    if (options?.digits === undefined) {
+      return null;
+    }
+
+    if (!value.includes('.')) {
+      return `The number must have exactly ${options.digits} digit(s) after the decimal point.`;
+    }
+
+    const decimalPart = value.split('.')[1];
+    const decimalDigitsCount = decimalPart.length;
+
+    if (decimalDigitsCount !== options.digits) {
+      return `The number must have exactly ${options.digits} digit(s) after the decimal point.`;
     }
 
     return null;
