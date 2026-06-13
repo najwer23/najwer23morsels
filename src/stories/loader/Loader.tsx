@@ -5,10 +5,11 @@ import styles from './Loader.module.css';
 interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
   loaderColor?: string;
   minHeight?: string;
+  loaderText?: string;
   style?: React.CSSProperties;
 }
 
-export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColor, style }) => {
+export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColor, loaderText = 'Loading', style }) => {
   return (
     <div
       className={[styles.n23mLoader, 'n23mLoader', className].filter(Boolean).join(' ')}
@@ -21,7 +22,7 @@ export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColo
       }}
     >
       <TextBox mobileSize={16} desktopSize={16} color={loaderColor} role="status" aria-label="Loading">
-        Loading
+        {loaderText}
         <span className={styles.dots} aria-hidden="true">
           <span>.</span>
           <span>.</span>
