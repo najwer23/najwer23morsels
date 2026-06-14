@@ -314,7 +314,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       newLastIndex = Math.max(visibleCount - 1, newLastIndex);
     }
 
-    let targetScrollLeft = cumulativeOffsets[newLastIndex] + childWidths[newLastIndex] - viewportWidth;
+    let targetScrollLeft =
+      cumulativeOffsets[newLastIndex] + childWidths[newLastIndex] - viewportWidth + Number(gap.slice(0, -2));
     if (targetScrollLeft < 0) targetScrollLeft = 0;
 
     if (isCircular) {
