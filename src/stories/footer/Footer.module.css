@@ -1,10 +1,10 @@
 @layer n23mFooter {
   html {
-    height: 100%;
+    height: max(100%, 100dvh);
   }
 
   body {
-    min-height: 100%;
+    min-height: max(100%, 100dvh);
     position: relative;
   }
 
