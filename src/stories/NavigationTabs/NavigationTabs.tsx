@@ -9,7 +9,7 @@ interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   menuTopLeftColumn: React.ReactNode;
   menuTopRightColumn: React.ReactNode;
-  menuMobile: React.ReactNode;
+  menuMobile?: React.ReactNode;
   menuBottomTabs?: React.ReactNode;
   menuOnlyTop?: boolean;
 }
@@ -75,21 +75,23 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
             <div className={styles.menuItemDesktop}>{menuTopRightColumn}</div>
 
             {/* mobile */}
-            <div className={styles.menuItemMobile}>
-              <div className={styles.menuPlaceholder}>
-                <Button height={'40px'} width={'70px'} padding={0} backgroundColor="orangered" onClick={toggleMenu}>
-                  <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
-                    Menu
-                  </TextBox>
-                </Button>
-              </div>
+            {!menuOnlyTop && (
+              <div className={styles.menuItemMobile}>
+                <div className={styles.menuPlaceholder}>
+                  <Button height={'40px'} width={'70px'} padding={0} backgroundColor="orangered" onClick={toggleMenu}>
+                    <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
+                      Menu
+                    </TextBox>
+                  </Button>
+                </div>
 
-              <div ref={menuRef} className={styles.menu}>
-                <div ref={contentRef} className={styles.menuContent} onClick={handleMobileMenuClick}>
-                  {menuMobile}
+                <div ref={menuRef} className={styles.menu}>
+                  <div ref={contentRef} className={styles.menuContent} onClick={handleMobileMenuClick}>
+                    {menuMobile}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </Grid>
         </Grid>
 
