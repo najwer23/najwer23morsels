@@ -72,7 +72,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
           >
             <div>{menuTopLeftColumn}</div>
 
-            <div className={!menuOnlyTop && styles.menuItemDesktop}>{menuTopRightColumn}</div>
+            <div className={!menuOnlyTop ? styles.menuItemDesktop : undefined}>{menuTopRightColumn}</div>
 
             {/* mobile */}
             {!menuOnlyTop && (
