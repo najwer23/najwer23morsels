@@ -8,6 +8,7 @@ type ValidatorOption =
   | { type: 'decimalDigits'; options?: { digits: number } }
   | { type: 'date' }
   | { type: 'json' }
+  | { type: 'equal'; options: { ref: React.RefObject<HTMLInputElement> } }
   | {
       type: 'existsInOptions';
       options: {
@@ -26,6 +27,12 @@ type ValidatorFn = (value: string, options?: any) => string | null;
 const validators: Record<string, ValidatorFn> = {
   empty: (value: string): string | null => {
     return value.trim() === '' || value.trim() === null ? 'The field cannot be empty.' : null;
+  },
+
+  equal: (value: string, options?: { ref: React.RefObject<HTMLInputElement> }): string | null => {
+    const refValue = options?.ref?.current?.value;
+    if (!value || !refValue) return null;
+    return value !== refValue ? 'Values do not match.' : null;
   },
 
   email: (value) => {
