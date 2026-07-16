@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.2.0
+
+### Minor Changes
+
+- LoaderDots
+
 ## 1.1.0
 
 ### Minor Changes
