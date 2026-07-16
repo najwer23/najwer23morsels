@@ -1,10 +1,11 @@
+import { LoaderDots } from '../LoaderDots';
 import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Loader.module.css';
 
 interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  loaderColor?: string;
-  minHeight?: string;
+  loaderColor?: React.CSSProperties['color'];
+  minHeight?: React.CSSProperties['minHeight'];
   loaderText?: string;
   style?: React.CSSProperties;
 }
@@ -21,14 +22,7 @@ export const Loader: React.FC<LoaderProps> = ({ minHeight, className, loaderColo
         ...style,
       }}
     >
-      <TextBox mobileSize={16} desktopSize={16} color={loaderColor} role="status" aria-label="Loading">
-        {loaderText}
-        <span className={styles.dots} aria-hidden="true">
-          <span>.</span>
-          <span>.</span>
-          <span>.</span>
-        </span>
-      </TextBox>
+      <LoaderDots color={loaderColor} />
     </div>
   );
 };
