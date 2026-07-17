@@ -144,7 +144,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
                   <div>
                     <TextBox
                       tag="a"
-                      href={linkForgotPassword.text}
+                      href={linkForgotPassword.link}
                       desktopSize={12}
                       mobileSize={12}
                       fontWeight={400}
@@ -152,7 +152,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
                       colorHover="var(--n23mTextBoxColorHover, black)"
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate(linkForgotPassword.text);
+                        navigate(linkForgotPassword.link);
                       }}
                     >
                       {linkForgotPassword.text}
@@ -164,7 +164,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
                   <Grid layout="flex" justifyContent="right">
                     <TextBox
                       tag="a"
-                      href={linkSignUp.text}
+                      href={linkSignUp.link}
                       desktopSize={12}
                       mobileSize={12}
                       fontWeight={400}
@@ -172,10 +172,10 @@ export const FormLogin: React.FC<FormLoginProps> = ({
                       colorHover="var(--n23mTextBoxColorHover, black)"
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate(linkSignUp.text);
+                        navigate(linkSignUp.link);
                       }}
                     >
-                      sign up
+                      {linkSignUp.text}
                     </TextBox>
                   </Grid>
                 )}
