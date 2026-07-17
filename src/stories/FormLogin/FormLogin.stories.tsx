@@ -26,7 +26,20 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    linkMainPage: {
+      link: '/link',
+      text: 'Main Page',
+    },
+    linkSignUp: {
+      link: '/auth/sign-up',
+      text: 'sign up',
+    },
+    linkForgotPassword: {
+      link: '/auth/forgot-password',
+      text: 'forgot password',
+    },
+  },
   render: (args) => (
     <div>
       <FormLogin {...args}>hello world!</FormLogin>

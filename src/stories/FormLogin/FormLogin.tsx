@@ -3,7 +3,6 @@ import { Form, type FormType } from '../Form';
 import { Grid } from '../Grid';
 import { Input } from '../Input';
 import { TextBox } from '../TextBox';
-import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './FormLogin.module.css';
 
 interface FormLoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
@@ -15,6 +14,18 @@ interface FormLoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onS
   errorMsg: string | null | undefined;
   successMsg: string | null | undefined;
   onNavigate?: (path: string) => void;
+  linkMainPage?: {
+    link: string;
+    text: string;
+  };
+  linkForgotPassword?: {
+    link: string;
+    text: string;
+  };
+  linkSignUp?: {
+    link: string;
+    text: string;
+  };
 }
 
 export const FormLogin: React.FC<FormLoginProps> = ({
@@ -27,6 +38,9 @@ export const FormLogin: React.FC<FormLoginProps> = ({
   errorMsg,
   successMsg,
   onNavigate,
+  linkMainPage,
+  linkForgotPassword,
+  linkSignUp,
   ...props
 }) => {
   const navigate = (path: string) => {
@@ -63,20 +77,23 @@ export const FormLogin: React.FC<FormLoginProps> = ({
           margin={'20px'}
           className={styles.loginWrapper}
         >
-          <TextBox
-            desktopSize={20}
-            mobileSize={20}
-            fontWeight={500}
-            tag="a"
-            href="/"
-            color="grey"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/');
-            }}
-          >
-            GYM
-          </TextBox>
+          {linkMainPage && (
+            <TextBox
+              desktopSize={20}
+              mobileSize={20}
+              fontWeight={500}
+              tag="a"
+              href={linkMainPage.link}
+              color="grey"
+              colorHover="var(--n23mTextBoxColorHover, black)"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/');
+              }}
+            >
+              {linkMainPage.text}
+            </TextBox>
+          )}
 
           <TextBox tag="h3" desktopSize={14} mobileSize={14} fontWeight={500} margin={'12px 0 18px'}>
             Good to see you!
@@ -121,38 +138,45 @@ export const FormLogin: React.FC<FormLoginProps> = ({
               </Button>
 
               <div>
-                <div>
-                  <TextBox
-                    tag="a"
-                    href="/auth/forgot-password"
-                    desktopSize={12}
-                    mobileSize={12}
-                    fontWeight={400}
-                    color="orangered"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate('/auth/forgot-password');
-                    }}
-                  >
-                    forgot password
-                  </TextBox>
-                </div>
-                <Grid layout="flex" justifyContent="right">
-                  <TextBox
-                    tag="a"
-                    href="/auth/sign-up"
-                    desktopSize={12}
-                    mobileSize={12}
-                    fontWeight={400}
-                    color="orangered"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate('/auth/sign-up');
-                    }}
-                  >
-                    sign up
-                  </TextBox>
-                </Grid>
+                {linkForgotPassword && (
+                  <div>
+                    <TextBox
+                      tag="a"
+                      href={linkForgotPassword.text}
+                      desktopSize={12}
+                      mobileSize={12}
+                      fontWeight={400}
+                      color="var(--n23mTextBoxColor, orangered)"
+                      colorHover="var(--n23mTextBoxColorHover, black)"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(linkForgotPassword.text);
+                      }}
+                    >
+                      {linkForgotPassword.text}
+                    </TextBox>
+                  </div>
+                )}
+
+                {linkSignUp && (
+                  <Grid layout="flex" justifyContent="right">
+                    <TextBox
+                      tag="a"
+                      href={linkSignUp.text}
+                      desktopSize={12}
+                      mobileSize={12}
+                      fontWeight={400}
+                      color="var(--n23mTextBoxColor, orangered)"
+                      colorHover="var(--n23mTextBoxColorHover, black)"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(linkSignUp.text);
+                      }}
+                    >
+                      sign up
+                    </TextBox>
+                  </Grid>
+                )}
               </div>
             </Grid>
           </Form>
