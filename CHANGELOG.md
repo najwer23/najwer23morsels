@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.8.0
+
+### Minor Changes
+
+- Typography
+
 ## 1.7.0
 
 ### Minor Changes
