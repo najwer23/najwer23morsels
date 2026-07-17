@@ -1,0 +1,112 @@
+import { useState } from 'react';
+import { useWindowSize } from '../hooks';
+import { useCachedImageCheck } from '../hooks/useCachedImageCheck';
+import { TextBox } from '../TextBox';
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
+import styles from './Picture.module.css';
+
+interface PictureProps extends React.HTMLAttributes<HTMLPictureElement> {
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+  src?: string;
+  alt: string;
+  ar?: number;
+  arDesktop?: number;
+  arMobile?: number;
+  draggable?: boolean;
+  border?: boolean;
+  borderColor?: React.CSSProperties['color'];
+  maxHeight?: React.CSSProperties['maxHeight'];
+  maxHeightMobile?: React.CSSProperties['maxHeight'];
+  maxHeightDesktop?: React.CSSProperties['maxHeight'];
+  sizes?: string;
+  srcset?: string;
+  loading?: 'eager' | 'lazy';
+  srcMobile?: string;
+  srcDesktop?: string;
+  figcaption?: string;
+  figcaptionColor?: string;
+}
+
+export const Picture: React.FC<PictureProps> = ({
+  children,
+  className,
+  style,
+  draggable = false,
+  alt,
+  src,
+  srcDesktop,
+  srcMobile,
+  ar,
+  arMobile,
+  arDesktop,
+  border = false,
+  borderColor = 'black',
+  loading = 'lazy',
+  srcset,
+  sizes,
+  maxHeight,
+  maxHeightMobile,
+  maxHeightDesktop,
+  figcaption,
+  figcaptionColor,
+  ...props
+}) => {
+  const [loaded, setLoaded] = useState(false);
+  const { width } = useWindowSize();
+
+  const imageSrcToCheck = srcDesktop && width >= 768 ? srcDesktop : srcMobile && width < 768 ? srcMobile : src || '';
+
+  const cached = useCachedImageCheck(imageSrcToCheck, 25);
+
+  return (
+    <figure className={styles.n23mPictureFigure}>
+      <picture
+        className={[
+          'n23mPicture',
+          styles.n23mPicture,
+          border && styles.border,
+          loaded && !cached && styles.loaded,
+          cached && styles.cacheLoaded,
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        {...props}
+        style={{
+          ...getCssVariableStyle({
+            '--picture-bc': borderColor,
+            '--picture-mh':
+              maxHeightDesktop || maxHeightMobile
+                ? maxHeightMobile && width < 767.98
+                  ? maxHeightMobile
+                  : maxHeightDesktop || maxHeightMobile
+                : maxHeight,
+          }),
+          ...style,
+        }}
+      >
+        {srcDesktop && <source media="(min-width: 768px)" srcSet={srcDesktop} />}
+        {srcMobile && <source media="(max-width: 767.98px)" srcSet={srcMobile} />}
+        <img
+          sizes={sizes}
+          srcSet={srcset}
+          width={arDesktop || arMobile ? (arMobile && width < 767.98 ? arMobile : arDesktop || arMobile) : ar}
+          height={1}
+          src={imageSrcToCheck}
+          alt={alt}
+          loading={loading}
+          onLoad={() => setLoaded(true)}
+          draggable={draggable}
+        />
+      </picture>
+      {figcaption && (
+        <figcaption>
+          <TextBox tag="p" desktopSize={12} mobileSize={12} color={figcaptionColor} margin={'3px 0 3px 0'}>
+            {figcaption}
+          </TextBox>
+        </figcaption>
+      )}
+    </figure>
+  );
+};
