@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.4.0
+
+### Minor Changes
+
+- FormForgotPass
+
 ## 1.3.0
 
 ### Minor Changes

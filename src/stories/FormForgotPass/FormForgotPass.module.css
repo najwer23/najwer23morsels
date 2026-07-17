@@ -1,0 +1,10 @@
+@layer n23mFormForgotPass {
+  .n23mFormForgotPass {
+    .forogotPasswordWrapper {
+      border-radius: 12px;
+      corner-shape: squircle;
+      background-color: white;
+      border: 1px solid grey;
+    }
+  }
+}
