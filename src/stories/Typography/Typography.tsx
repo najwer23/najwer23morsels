@@ -1,26 +1,15 @@
-import { TextBox } from '../TextBox';
+import { TextBox, type TextBoxOwnProps } from '../TextBox';
 
-export type TypographyVariant = 'display' | 'heading' | 'subheading' | 'body' | 'caption';
+export type TypographyVariant = 'display' | 'heading' | 'subheading' | 'body' | 'caption' | 'link';
 
 export type TypographyAppearance = 'light' | 'dark';
 
-type TextBoxLikeProps = {
+type TypographyPreset = Omit<TextBoxOwnProps, 'children'> & {
   tag?: React.ElementType;
-  mobileSize: number;
-  desktopSize: number;
-  lineHeight?: number | string;
   letterSpacing?: React.CSSProperties['letterSpacing'];
-  color?: React.CSSProperties['color'];
-  colorHover?: React.CSSProperties['color'];
-  margin?: React.CSSProperties['margin'];
-  fontWeight?: React.CSSProperties['fontWeight'];
-  fontWeightHover?: React.CSSProperties['fontWeight'];
-  textAlign?: React.CSSProperties['textAlign'];
-  textWrap?: React.CSSProperties['textWrap'];
-  style?: React.CSSProperties;
 };
 
-const VARIANTS: Record<TypographyVariant, Omit<TextBoxLikeProps, 'color'>> = {
+const VARIANTS: Record<TypographyVariant, TypographyPreset> = {
   display: {
     tag: 'h1',
     mobileSize: 42,
@@ -54,7 +43,6 @@ const VARIANTS: Record<TypographyVariant, Omit<TextBoxLikeProps, 'color'>> = {
     tag: 'p',
     mobileSize: 16,
     desktopSize: 17,
-    letterSpacing: '0',
     fontWeight: 400,
     margin: '10px 0 0',
   },
@@ -64,48 +52,114 @@ const VARIANTS: Record<TypographyVariant, Omit<TextBoxLikeProps, 'color'>> = {
     mobileSize: 11,
     desktopSize: 12,
     lineHeight: 1,
-    letterSpacing: '0.08em',
     fontWeight: 600,
     margin: 0,
     style: {
       textTransform: 'uppercase',
     },
   },
+
+  link: {
+    tag: 'a',
+    mobileSize: 'inherit',
+    desktopSize: 'inherit',
+    lineHeight: 'inherit',
+    letterSpacing: 'inherit',
+    fontWeight: 'inherit',
+    margin: 0,
+  },
 };
 
-const APPEARANCES: Record<TypographyAppearance, Record<TypographyVariant, React.CSSProperties['color']>> = {
+type TypographyColor = {
+  color: React.CSSProperties['color'];
+  hover?: React.CSSProperties['color'];
+};
+
+const APPEARANCES: Record<TypographyAppearance, Record<TypographyVariant, TypographyColor>> = {
   light: {
-    display: '#0F1014',
-    heading: '#14151A',
-    subheading: '#3f4043',
-    body: '#26272E',
-    caption: '#6B6D76',
+    display: {
+      color: '#0F1014',
+    },
+
+    heading: {
+      color: '#14151A',
+    },
+
+    subheading: {
+      color: '#3f4043',
+    },
+
+    body: {
+      color: '#26272E',
+    },
+
+    caption: {
+      color: '#6B6D76',
+    },
+
+    link: {
+      color: 'orangered',
+      hover: 'orangered',
+    },
   },
 
   dark: {
-    display: '#FFFFFF',
-    heading: '#F7F8FA',
-    subheading: '#9A9DAA',
-    body: '#f7f7f8',
-    caption: '#9A9DAA',
+    display: {
+      color: '#FFFFFF',
+    },
+
+    heading: {
+      color: '#F7F8FA',
+    },
+
+    subheading: {
+      color: '#9A9DAA',
+    },
+
+    body: {
+      color: '#F7F7F8',
+    },
+
+    caption: {
+      color: '#9A9DAA',
+    },
+
+    link: {
+      color: 'orangered',
+      hover: 'orangered',
+    },
   },
 };
 
-type TypographyProps = Partial<TextBoxLikeProps> & {
+type TypographyProps = Partial<TypographyPreset> & {
   variant: TypographyVariant;
   appearance?: TypographyAppearance;
+
   children?: React.ReactNode;
   className?: string;
+
+  href?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 };
 
-export const Typography = ({ variant, appearance = 'light', style, color, ...overrides }: TypographyProps) => {
+export const Typography = ({
+  variant,
+  appearance = 'light',
+  style,
+  color,
+  colorHover,
+  ...overrides
+}: TypographyProps) => {
   const preset = VARIANTS[variant];
+  const colors = APPEARANCES[appearance][variant];
 
   return (
     <TextBox
       {...preset}
       {...overrides}
-      color={color ?? APPEARANCES[appearance][variant]}
+      color={color ?? colors.color}
+      colorHover={colorHover ?? colors.hover}
       style={{
         ...preset.style,
         ...style,

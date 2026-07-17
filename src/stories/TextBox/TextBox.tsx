@@ -1,10 +1,10 @@
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './TextBox.module.css';
 
-type TextBoxOwnProps = {
+export type TextBoxOwnProps = {
   children?: React.ReactNode;
-  mobileSize: number;
-  desktopSize: number;
+  mobileSize: number | 'inherit';
+  desktopSize: number | 'inherit';
   lineHeight?: number | string;
   color?: React.CSSProperties['color'];
   colorHover?: React.CSSProperties['color'];

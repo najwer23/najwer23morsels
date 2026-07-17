@@ -1,3 +1,3 @@
-import { TextBox } from './TextBox';
+import { TextBox, type TextBoxOwnProps } from './TextBox';
 
-export { TextBox };
+export { TextBox, type TextBoxOwnProps };

@@ -260,6 +260,37 @@ export const ColorOverride: Story = {
   render: (args) => <Typography {...args}>Overriding the preset color</Typography>,
 };
 
+export const TypographyWithLink: Story = {
+  args: {
+    variant: 'heading',
+  },
+  render: (args) => (
+    <div>
+      <Typography {...args}>
+        Overriding the preset color{' '}
+        <Typography variant="link" href="/sss">
+          Light
+        </Typography>
+      </Typography>
+
+      <Typography variant="caption">
+        Light{' '}
+        <Typography variant="link" href="/sss">
+          Light
+        </Typography>
+      </Typography>
+
+      <Typography variant="body">
+        The quick brown fox jumps{' '}
+        <Typography variant="link" href="/sss">
+          Light
+        </Typography>{' '}
+        over the lazy dog.
+      </Typography>
+    </div>
+  ),
+};
+
 export const AppearanceComparison: Story = {
   parameters: {
     controls: { hideNoControlsWarning: true },
