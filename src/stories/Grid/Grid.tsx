@@ -1,0 +1,128 @@
+import React from 'react';
+import { Loader } from '../Loader';
+import { getCssVariableStyle } from '../utils/getCssVariableStyle';
+import styles from './Grid.module.css';
+
+interface Gap {
+  col: string;
+  row: string;
+}
+
+interface Col {
+  mobile: number;
+  tablet: number;
+  smallDesktop: number;
+  desktop: number;
+}
+
+type GridBase = React.PropsWithChildren<
+  React.HTMLAttributes<HTMLDivElement> & {
+    widthMin?: React.CSSProperties['width'];
+    widthMax?: React.CSSProperties['width'];
+    padding?: React.CSSProperties['padding'];
+    margin?: React.CSSProperties['margin'];
+    minHeight?: React.CSSProperties['minHeight'];
+    loading?: boolean;
+    style?: React.CSSProperties;
+  }
+>;
+
+export type GridContainerProps = GridBase & {
+  layout: 'container';
+  gap?: Gap;
+  justifyContent?: never;
+  alignItems?: never;
+  flexWrap?: never;
+  col?: never;
+};
+
+export type GridFlexProps = GridBase & {
+  layout: 'flex';
+  gap?: Gap;
+  justifyContent?: React.CSSProperties['justifyContent'];
+  alignItems?: React.CSSProperties['alignItems'];
+  flexWrap?: React.CSSProperties['flexWrap'];
+  col?: never;
+};
+
+export type GridColumnsProps = GridBase & {
+  layout: 'columns';
+  gap: Gap;
+  col: Col;
+  justifyContent?: never;
+  alignItems?: never;
+  flexWrap?: never;
+};
+
+export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProps> = ({
+  children,
+  widthMin = '0px',
+  widthMax = '1920px',
+  padding = '0px',
+  margin = 'auto',
+  layout,
+  gap,
+  col,
+  loading = false,
+  justifyContent,
+  alignItems,
+  minHeight,
+  flexWrap,
+  className,
+  style,
+  ...props
+}) => {
+  if (layout === 'container' || layout === 'flex') {
+    return (
+      <div
+        className={[
+          styles['n23mGrid' + layout.charAt(0).toUpperCase() + layout.slice(1)],
+          'n23mGrid' + layout.charAt(0).toUpperCase() + layout.slice(1),
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        style={{
+          ...getCssVariableStyle({
+            '--grid-p': padding,
+            '--grid-m': margin,
+            '--grid-jc': justifyContent,
+            '--grid-cg': gap?.col,
+            '--grid-rg': gap?.row,
+            '--grid-ai': alignItems,
+            '--grid-fw': flexWrap,
+            '--grid-mh': minHeight,
+            '--grid-wn': widthMin,
+            '--grid-wx': widthMax,
+          }),
+          ...style,
+        }}
+        {...props}
+      >
+        {!loading && children}
+        {loading && <Loader minHeight={`${minHeight}`} />}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={[styles.n23mGridColumns, 'n23mGridColumns', className].filter(Boolean).join(' ')}
+      style={
+        {
+          '--grid-cm': col.mobile.toString(),
+          '--grid-ct': col.tablet.toString(),
+          '--grid-csd': col.smallDesktop.toString(),
+          '--grid-cd': col.desktop.toString(),
+          '--grid-cg': gap.col,
+          '--grid-rg': gap.row,
+        } as React.CSSProperties
+      }
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+Grid.displayName = 'Grid';
