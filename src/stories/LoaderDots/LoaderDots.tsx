@@ -5,8 +5,9 @@ interface LoaderDotsProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   color?: React.CSSProperties['color'];
   fontWeight?: React.CSSProperties['fontWeight'];
-  loaderText?: string;
-  size?: number;
+  text?: string;
+  mobileSize?: number;
+  desktopSize?: number;
   margin?: React.CSSProperties['margin'];
 }
 
@@ -14,24 +15,25 @@ export const LoaderDots: React.FC<LoaderDotsProps> = ({
   className,
   style,
   color,
-  size = 16,
+  mobileSize = 16,
+  desktopSize = 16,
   fontWeight = 'var(--n23mTextBoxFontWeight)',
-  loaderText = 'Loading',
+  text = 'Loading',
   margin,
   ...props
 }) => {
   return (
     <div className={[styles.n23mLoaderDots, 'n23mLoaderDots', className].filter(Boolean).join(' ')} {...props}>
       <TextBox
-        mobileSize={size}
-        desktopSize={size}
+        mobileSize={mobileSize}
+        desktopSize={desktopSize}
         color={color}
         margin={margin}
         role="status"
         aria-label="Loading"
         fontWeight={fontWeight}
       >
-        {loaderText}
+        {text}
         <span className={styles.dots} aria-hidden="true">
           <span>.</span>
           <span>.</span>

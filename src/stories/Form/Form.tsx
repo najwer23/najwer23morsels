@@ -78,7 +78,9 @@ export const Form: React.FC<FormProps> = ({
           {errorMsg}
         </TextBox>
       )}
-      {isPending && <LoaderDots color="grey" size={12} fontWeight={400} margin={'15px 0 10px 0'} />}
+      {isPending && (
+        <LoaderDots color="grey" mobileSize={12} desktopSize={12} fontWeight={400} margin={'15px 0 10px 0'} />
+      )}
       {isSuccess && (
         <TextBox tag="p" color="#4BB543" mobileSize={12} desktopSize={12} margin={'15px 0 10px 0'} fontWeight={400}>
           {successMsg}

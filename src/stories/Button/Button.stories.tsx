@@ -32,16 +32,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     type: 'button',
-    backgroundColor: 'yellow',
-    width: '300px',
-    height: '90px',
-    padding: 0,
+    backgroundColor: 'orangered',
+    width: '100px',
+    height: '40px',
     borderColor: 'black',
   },
   render: (args) => (
     <div>
       <Button onClick={action('button-click')} {...args}>
-        <TextBox mobileSize={25} desktopSize={25} margin={0}>
+        <TextBox mobileSize={14} desktopSize={14} color="white">
           Button!
         </TextBox>
       </Button>
@@ -52,10 +51,11 @@ export const Default: Story = {
 export const ButtonLoading: Story = {
   args: {
     type: 'button',
-    backgroundColor: 'yellow',
-    width: '300px',
-    height: '90px',
-    padding: 0,
+    backgroundColor: 'orangered',
+    width: '100px',
+    height: '40px',
+    loaderMobileSize: 14,
+    loaderDesktopSize: 14,
     borderColor: 'black',
   },
   render: (args) => {
@@ -72,7 +72,7 @@ export const ButtonLoading: Story = {
     return (
       <div>
         <Button onClick={action('button-click')} {...args} loading={loading}>
-          <TextBox mobileSize={25} desktopSize={25} margin={0}>
+          <TextBox mobileSize={14} desktopSize={14}>
             Button!
           </TextBox>
         </Button>
@@ -84,17 +84,16 @@ export const ButtonLoading: Story = {
 export const ButtonDisabled: Story = {
   args: {
     type: 'button',
-    backgroundColor: 'yellow',
-    width: '300px',
-    height: '90px',
-    padding: 0,
+    backgroundColor: 'orangered',
+    width: '100px',
+    height: '40px',
     backgroundColorDisabled: 'gray',
     borderColor: 'black',
   },
   render: (args) => (
     <div>
       <Button onClick={action('button-click')} {...args} disabled>
-        <TextBox mobileSize={25} desktopSize={25} margin={0} color="white">
+        <TextBox mobileSize={14} desktopSize={14} margin={0} color="white">
           Button!
         </TextBox>
       </Button>

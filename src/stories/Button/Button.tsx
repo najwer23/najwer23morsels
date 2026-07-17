@@ -11,6 +11,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   height: React.CSSProperties['height'];
   width: React.CSSProperties['width'];
   loading?: boolean;
+  loaderMobileSize?: number;
+  loaderDesktopSize?: number;
   backgroundColorDisabled?: React.CSSProperties['color'];
   borderColor?: React.CSSProperties['color'];
   style?: React.CSSProperties;
@@ -19,6 +21,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
+      loaderMobileSize = 14,
+      loaderDesktopSize = 14,
       margin,
       children,
       className,
@@ -38,7 +42,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <div className={['n23mButton', className].filter(Boolean).join(' ')}>
         {loading && (
           <div style={{ width: width, height: height }}>
-            <Loader />
+            <Loader mobileSize={loaderMobileSize} desktopSize={loaderDesktopSize} />
           </div>
         )}
         {!loading && (
