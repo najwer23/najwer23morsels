@@ -26,6 +26,7 @@ interface FormLoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onS
     link: string;
     text: string;
   };
+  footerHeight?: React.CSSProperties['height'];
 }
 
 export const FormLogin: React.FC<FormLoginProps> = ({
@@ -41,6 +42,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
   linkMainPage,
   linkForgotPassword,
   linkSignUp,
+  footerHeight = '100px',
   ...props
 }) => {
   const navigate = (path: string) => {
@@ -67,7 +69,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
         justifyContent="center"
         alignItems="center"
         widthMax={'1400px'}
-        minHeight={'calc(100dvb - 100px)'}
+        minHeight={`calc(100dvb - ${footerHeight})`}
       >
         <Grid
           layout="container"
