@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './TextBox.module.css';
 
