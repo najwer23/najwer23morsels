@@ -23,6 +23,14 @@ import { Button } from 'najwer23morsels/lib/Button';
     },
   },
   tags: ['autodocs'],
+  args: {
+    type: 'button',
+    backgroundColor: 'orangered',
+    width: '100px',
+    height: '40px',
+    borderColor: 'black',
+    onClick: action('button-click'),
+  },
 };
 
 export default meta;
@@ -30,16 +38,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    type: 'button',
-    backgroundColor: 'orangered',
-    width: '100px',
-    height: '40px',
-    borderColor: 'black',
-  },
   render: (args) => (
     <div>
-      <Button onClick={action('button-click')} {...args}>
+      <Button {...args}>
         <TextBox mobileSize={14} desktopSize={14} color="white">
           Button!
         </TextBox>
@@ -50,13 +51,8 @@ export const Default: Story = {
 
 export const ButtonLoading: Story = {
   args: {
-    type: 'button',
-    backgroundColor: 'orangered',
-    width: '100px',
-    height: '40px',
     loaderMobileSize: 14,
     loaderDesktopSize: 14,
-    borderColor: 'black',
   },
   render: (args) => {
     const [loading, setLoading] = useState(true);
@@ -71,8 +67,8 @@ export const ButtonLoading: Story = {
 
     return (
       <div>
-        <Button onClick={action('button-click')} {...args} loading={loading}>
-          <TextBox mobileSize={14} desktopSize={14}>
+        <Button {...args} loading={loading}>
+          <TextBox mobileSize={14} desktopSize={14} color="white">
             Button!
           </TextBox>
         </Button>
@@ -83,18 +79,130 @@ export const ButtonLoading: Story = {
 
 export const ButtonDisabled: Story = {
   args: {
-    type: 'button',
-    backgroundColor: 'orangered',
-    width: '100px',
-    height: '40px',
     backgroundColorDisabled: 'gray',
-    borderColor: 'black',
+    disabled: true,
   },
   render: (args) => (
     <div>
-      <Button onClick={action('button-click')} {...args} disabled>
+      <Button {...args}>
         <TextBox mobileSize={14} desktopSize={14} margin={0} color="white">
           Button!
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const Small: Story = {
+  args: {
+    width: '60px',
+    height: '28px',
+  },
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={12} desktopSize={12} color="white">
+          Small
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const Large: Story = {
+  args: {
+    width: '200px',
+    height: '56px',
+  },
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={18} desktopSize={18} color="white">
+          Large Button
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const CustomColor: Story = {
+  args: {
+    backgroundColor: 'royalblue',
+    borderColor: 'navy',
+  },
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={14} desktopSize={14} color="white">
+          Blue Button
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const NoBorder: Story = {
+  args: {
+    borderColor: 'transparent',
+    backgroundColor: 'seagreen',
+  },
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={14} desktopSize={14} color="white">
+          No Border
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const CustomStyleBoxShadow: Story = {
+  args: {
+    style: { boxShadow: '0 4px 10px rgba(0,0,0,0.3)' },
+  },
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={14} desktopSize={14} color="white">
+          Box Shadow
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const SubmitType: Story = {
+  args: {
+    type: 'submit',
+  },
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={14} desktopSize={14} color="white">
+          Submit
+        </TextBox>
+      </Button>
+    </div>
+  ),
+};
+
+export const FullWidth: Story = {
+  args: {
+    width: '100%',
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '320px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  render: (args) => (
+    <div>
+      <Button {...args}>
+        <TextBox mobileSize={14} desktopSize={14} color="white">
+          Full Width
         </TextBox>
       </Button>
     </div>
