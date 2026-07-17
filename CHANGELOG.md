@@ -1,5 +1,17 @@
 # najwer23morsels
 
+## 1.6.0
+
+### Minor Changes
+
+- FormSignUp
+
+## 1.5.0
+
+### Minor Changes
+
+- FormForgotPassOtp
+
 ## 1.4.0
 
 ### Minor Changes

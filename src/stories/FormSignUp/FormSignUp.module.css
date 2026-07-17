@@ -1,0 +1,10 @@
+@layer n23mFormSignUp {
+  .n23mFormSignUp {
+    .signUpWrapper {
+      border-radius: 12px;
+      corner-shape: squircle;
+      background-color: white;
+      border: 1px solid grey;
+    }
+  }
+}
