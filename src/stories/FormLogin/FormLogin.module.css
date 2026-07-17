@@ -1,0 +1,10 @@
+@layer n23mFormLogin {
+  .n23mFormLogin {
+    .loginWrapper {
+      border-radius: 12px;
+      corner-shape: squircle;
+      background-color: white;
+      border: 1px solid grey;
+    }
+  }
+}

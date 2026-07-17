@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.3.0
+
+### Minor Changes
+
+- FormLogin
+
 ## 1.2.0
 
 ### Minor Changes
