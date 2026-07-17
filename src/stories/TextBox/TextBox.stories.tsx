@@ -62,8 +62,11 @@ export const TextWrapBalance: Story = {
 export const Link: Story = {
   args: {
     color: 'green',
+    colorHover: 'orange',
     mobileSize: 20,
     desktopSize: 20,
+    tag: 'a',
+    href: '/ksdjdkdj',
     children: defaultText,
   },
   render: (args) => (
@@ -120,6 +123,132 @@ export const FluidMobile40Desktop20: Story = {
     desktopSize: 20,
     href: '/ksdjdkdj',
     children: defaultText,
+  },
+  render: (args) => (
+    <div>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const Bold: Story = {
+  args: {
+    color: 'grey',
+    mobileSize: 20,
+    desktopSize: 20,
+    fontWeight: 700,
+    children: defaultText,
+  },
+  render: (args) => (
+    <div>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const FontWeightHover: Story = {
+  args: {
+    color: 'blue',
+    colorHover: 'purple',
+    mobileSize: 20,
+    desktopSize: 20,
+    tag: 'a',
+    href: '/ksdjdkdj',
+    fontWeight: 400,
+    fontWeightHover: 700,
+    children: defaultText,
+  },
+  render: (args) => (
+    <div>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const CenteredText: Story = {
+  args: {
+    color: 'grey',
+    mobileSize: 20,
+    desktopSize: 20,
+    textAlign: 'center',
+    children: defaultText,
+  },
+  render: (args) => (
+    <div style={{ width: 400 }}>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const RightAlignedText: Story = {
+  args: {
+    color: 'grey',
+    mobileSize: 20,
+    desktopSize: 20,
+    textAlign: 'right',
+    children: defaultText,
+  },
+  render: (args) => (
+    <div style={{ width: 400 }}>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const LooseLineHeight: Story = {
+  args: {
+    color: 'grey',
+    mobileSize: 20,
+    desktopSize: 20,
+    lineHeight: 2,
+    children: defaultText,
+  },
+  render: (args) => (
+    <div style={{ width: 400 }}>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const WithMargin: Story = {
+  args: {
+    color: 'grey',
+    mobileSize: 20,
+    desktopSize: 20,
+    margin: '40px 0',
+    children: defaultText,
+  },
+  render: (args) => (
+    <div style={{ border: '1px dashed #ccc' }}>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const AsHeading: Story = {
+  args: {
+    color: 'black',
+    mobileSize: 28,
+    desktopSize: 48,
+    tag: 'h1',
+    fontWeight: 800,
+    textWrap: 'balance',
+    children: 'One does not simply walk into Mordor.',
+  },
+  render: (args) => (
+    <div>
+      <TextBox {...args} />
+    </div>
+  ),
+};
+
+export const ShortLabel: Story = {
+  args: {
+    color: 'grey',
+    mobileSize: 14,
+    desktopSize: 14,
+    fontWeight: 600,
+    children: 'You shall not pass!',
   },
   render: (args) => (
     <div>
