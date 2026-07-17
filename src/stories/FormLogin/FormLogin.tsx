@@ -6,35 +6,26 @@ import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './FormLogin.module.css';
 
-interface FormLoginData {
-  code?: string;
-  message?: string;
-}
-
-interface FormLoginError {
-  message?: string;
-}
-
 interface FormLoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
-  children?: React.ReactNode;
   style?: React.CSSProperties;
   onSubmit: (formData: FormType) => void;
-  isPending?: boolean;
-  isError?: boolean;
-  data?: FormLoginData;
-  error?: FormLoginError;
+  isError: boolean;
+  isPending: boolean;
+  isSuccess: boolean;
+  errorMsg: string | null | undefined;
+  successMsg: string | null | undefined;
   onNavigate?: (path: string) => void;
 }
 
 export const FormLogin: React.FC<FormLoginProps> = ({
-  children,
   className,
   style,
   onSubmit,
-  isPending = false,
-  isError = false,
-  data,
-  error,
+  isPending,
+  isError,
+  isSuccess,
+  errorMsg,
+  successMsg,
   onNavigate,
   ...props
 }) => {
@@ -52,9 +43,6 @@ export const FormLogin: React.FC<FormLoginProps> = ({
       {...props}
       style={
         {
-          ...getCssVariableStyle({
-            '--formlogin': 'test',
-          }),
           ...style,
         } as React.CSSProperties
       }
@@ -98,9 +86,9 @@ export const FormLogin: React.FC<FormLoginProps> = ({
             onSubmit={onSubmit}
             isError={isError}
             isPending={isPending}
-            isSuccess={data?.code === 'OK'}
-            errorMsg={error?.message}
-            successMsg={data?.message}
+            isSuccess={isSuccess}
+            errorMsg={errorMsg}
+            successMsg={successMsg}
           >
             <Input
               validatorOptions={[{ type: 'empty' }, { type: 'email' }]}
