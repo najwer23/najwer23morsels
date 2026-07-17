@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.7.0
+
+### Minor Changes
+
+- ButtonCopy
+
 ## 1.6.0
 
 ### Minor Changes

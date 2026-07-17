@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '../Button';
 import { TextBox } from '../TextBox';
 
-interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ButtonCopyProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   backgroundColor?: string;
@@ -10,7 +10,7 @@ interface CopyButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   textToCopy: string;
 }
 
-export const CopyButton: React.FC<CopyButtonProps> = ({
+export const ButtonCopy: React.FC<ButtonCopyProps> = ({
   children,
   className,
   style,
@@ -46,7 +46,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   }, []);
 
   return (
-    <div className={['n23mCopyButton', className].filter(Boolean).join(' ')} {...props}>
+    <div className={['n23mButtonCopy', className].filter(Boolean).join(' ')} {...props}>
       <Button
         type="button"
         padding={'0px 3px'}
@@ -65,4 +65,4 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   );
 };
 
-CopyButton.displayName = 'CopyButton';
+ButtonCopy.displayName = 'ButtonCopy';

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { CopyButton } from '.';
+import { ButtonCopy } from '.';
 
-const meta: Meta<typeof CopyButton> = {
-  title: 'CopyButton/CopyButton',
-  component: CopyButton,
+const meta: Meta<typeof ButtonCopy> = {
+  title: 'Button/ButtonCopy',
+  component: ButtonCopy,
   parameters: {
     layout: 'centered',
     docs: {
@@ -13,7 +13,7 @@ const meta: Meta<typeof CopyButton> = {
 A button that copies text to the clipboard.
 
 \`\`\`tsx
-import { CopyButton } from 'najwer23morsels/lib/CopyButton';
+import { ButtonCopy } from 'najwer23morsels/lib/ButtonCopy';
 \`\`\`
       `,
       },
@@ -32,7 +32,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div>
-      <CopyButton {...args}></CopyButton>
+      <ButtonCopy {...args}></ButtonCopy>
     </div>
   ),
 };
