@@ -19,11 +19,16 @@ On macOS, install mise using Homebrew:
 brew install mise
 ```
 
-Enable mise in Zsh by adding these lines to `~/.zshrc`, in this order (`compinit` must run before `mise activate`):
+Enable mise in Zsh by adding this line to `~/.zshrc`:
 
 ```sh
-autoload -Uz compinit && compinit
 eval "$(mise activate zsh)"
+```
+
+Reload your shell configuration:
+
+```sh
+source ~/.zshrc
 ```
 
 For other shells, see the [mise docs](https://mise.jdx.dev/getting-started.html).
