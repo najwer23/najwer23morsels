@@ -8,8 +8,7 @@
   "homepage": "https://najwer23.github.io/najwer23morsels",
   "type": "module",
   "scripts": {
-    "setup": "echo 'Latest Yarn version:' && mise latest yarn && echo 'Currently configured Yarn version:' && mise current yarn && mise install && echo 'Installing dependencies with Yarn...' && yarn install",
-    "deploy": "yarn run build-storybook && gh-pages -d storybook-static && rimraf ./storybook-static ",
+    "deploy": "yarn build-storybook && gh-pages -d storybook-static && rimraf ./storybook-static",
     "start": "storybook dev -p 6006",
     "build": "rimraf ./lib && rollup -c --silent",
     "build-storybook": "storybook build",
@@ -18,7 +17,7 @@
     "publish:major": "yarn build && npm version major --force && npm publish && rimraf ./lib && rimraf ./.yarn/cache",
     "god": "yarn publish:patch",
     "plop": "plop && yarn format && yarn start",
-    "format": "yarn exec biome check --write",
+    "format": "biome check --write",
     "release": "yarn build && yarn && changeset && changeset version && changeset publish && rimraf ./lib && rimraf ./.yarn/cache"
   },
   "devDependencies": {

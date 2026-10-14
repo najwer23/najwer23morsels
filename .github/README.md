@@ -9,10 +9,7 @@ A comprehensive collection of React components for building consistent, scalable
 
 ## Prerequisites
 
-- [mise](https://mise.jdx.dev/) — manages Node.js and Yarn versions using `mise.toml`.
-- [Node.js](https://nodejs.org/) — the version configured in `mise.toml`.
-- [Yarn](https://yarnpkg.com/) — the version configured in `mise.toml`.
-- [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) — checks for and updates dependency versions.
+- [mise](https://mise.jdx.dev/) manages Node.js and Yarn versions using `mise.toml`. It is the only tool you need to install manually; Node.js and Yarn are installed by mise.
 
 ## Install mise
 
@@ -22,17 +19,14 @@ On macOS, install mise using Homebrew:
 brew install mise
 ```
 
-Enable mise in Zsh by adding the following line to `~/.zshrc`:
+Enable mise in Zsh by adding these lines to `~/.zshrc`, in this order (`compinit` must run before `mise activate`):
 
 ```sh
+autoload -Uz compinit && compinit
 eval "$(mise activate zsh)"
 ```
 
-Reload your shell configuration:
-
-```sh
-source ~/.zshrc
-```
+For other shells, see the [mise docs](https://mise.jdx.dev/getting-started.html).
 
 ## Installation
 
@@ -43,19 +37,26 @@ git clone https://github.com/najwer23/najwer23morsels.git
 cd najwer23morsels
 ```
 
-Install the configured tool versions and project dependencies:
+Trust the config, install the tools specified in `mise.toml`, and install project dependencies:
 
 ```sh
-yarn setup
+mise trust      # first time only
+mise install    # installs Node.js and Yarn
+mise setup      # shows tool versions and runs yarn install
 ```
 
-The setup script displays the latest available Yarn version, shows the currently configured Yarn version, installs the tools specified in `mise.toml`, and installs project dependencies.
-
-Alternatively, run the steps individually:
+Verify the setup:
 
 ```sh
-mise install
-yarn install
+mise current    # should list node and yarn
+which yarn      # should point into ~/.local/share/mise/installs/...
+mise doctor     # reports problems with the setup
+```
+
+To see the newest available Yarn version:
+
+```sh
+mise latest yarn
 ```
 
 ## Development
@@ -63,7 +64,7 @@ yarn install
 Start Storybook locally:
 
 ```sh
-yarn start
+mise start
 ```
 
 Storybook will be available at [http://localhost:6006](http://localhost:6006).
@@ -73,13 +74,13 @@ Storybook will be available at [http://localhost:6006](http://localhost:6006).
 Build the component library:
 
 ```sh
-yarn build
+mise build
 ```
 
 Build the static Storybook site:
 
 ```sh
-yarn build-storybook
+mise build-storybook
 ```
 
 ## Deploy to GitHub Pages
@@ -87,7 +88,7 @@ yarn build-storybook
 Build and deploy Storybook:
 
 ```sh
-yarn deploy
+mise deploy
 ```
 
 ## Update dependencies
@@ -95,31 +96,37 @@ yarn deploy
 Check for available dependency updates:
 
 ```sh
-ncu
+npx npm-check-updates
 ```
 
 Update dependency version ranges in `package.json` to the latest available versions:
 
 ```sh
-ncu -u
+npx npm-check-updates -u
 ```
 
 Install the updated dependencies and update `yarn.lock`:
 
 ```sh
-yarn install
+mise setup
 ```
 
 Verify the updates by building the library and Storybook:
 
 ```sh
-yarn build
-yarn build-storybook
+mise build
+mise build-storybook
 ```
 
 Review the changes and test the library before publishing a release.
 
 ## NPM package release
+
+Make sure you are logged in to NPM:
+
+```sh
+npm whoami
+```
 
 Create a changeset describing your changes:
 
@@ -130,26 +137,47 @@ yarn changeset
 Publish the release using Changesets:
 
 ```sh
-yarn release
+mise release
 ```
 
-For manual version bumps and publishing, the following scripts are also available:
+For manual version bumps and publishing, the following tasks are also available:
 
 ```sh
-yarn publish:patch
-yarn publish:minor
-yarn publish:major
+mise publish:patch
+mise publish:minor
+mise publish:major
 ```
 
-These scripts build the library, update the package version, and publish it to NPM.
+These tasks build the library, update the package version, and publish it to NPM.
 
 ## Code formatting
 
 Run Biome to check and automatically format the project:
 
 ```sh
-yarn format
+mise format
 ```
+
+## All tasks
+
+List every available task:
+
+```sh
+mise tasks
+```
+
+If a task name ever collides with a built-in mise command, use `mise run <task>`. Once mise is activated, the same scripts are also available through Yarn (`yarn start`, `yarn build`, ...).
+
+## Troubleshooting
+
+**`zsh: command not found: yarn`**  
+Mise isn't activated in your shell. Add the activation lines from [Install mise](#install-mise) to `~/.zshrc` and restart the terminal. As a one-off, run `mise exec -- yarn install`.
+
+**`zsh: command not found: compdef`**  
+`compinit` must run before `mise activate` in `~/.zshrc`. Add `autoload -Uz compinit && compinit` above the `eval "$(mise activate zsh)"` line.
+
+**Tools don't apply in the project directory**  
+Run `mise trust`. Mise ignores an untrusted `mise.toml`.
 
 ## Git history
 
