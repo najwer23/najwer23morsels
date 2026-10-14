@@ -25,6 +25,10 @@ const config: StorybookConfig = {
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
   },
+
+  core: {
+    disableTelemetry: true,
+  },
 };
 
 export default config;

@@ -12,6 +12,7 @@ A comprehensive collection of React components for building consistent, scalable
 - [mise](https://mise.jdx.dev/) — manages Node.js and Yarn versions using `mise.toml`.
 - [Node.js](https://nodejs.org/) — the version configured in `mise.toml`.
 - [Yarn](https://yarnpkg.com/) — the version configured in `mise.toml`.
+- [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) — checks for and updates dependency versions.
 
 ## Install mise
 
@@ -48,9 +49,9 @@ Install the configured tool versions and project dependencies:
 yarn setup
 ```
 
-The setup script runs `mise latest yarn`, installs the tools configured in `mise.toml`, and installs project dependencies.
+The setup script displays the latest available Yarn version, shows the currently configured Yarn version, installs the tools specified in `mise.toml`, and installs project dependencies.
 
-If you prefer to run the steps individually:
+Alternatively, run the steps individually:
 
 ```sh
 mise install
@@ -89,6 +90,35 @@ Build and deploy Storybook:
 yarn deploy
 ```
 
+## Update dependencies
+
+Check for available dependency updates:
+
+```sh
+ncu
+```
+
+Update dependency version ranges in `package.json` to the latest available versions:
+
+```sh
+ncu -u
+```
+
+Install the updated dependencies and update `yarn.lock`:
+
+```sh
+yarn install
+```
+
+Verify the updates by building the library and Storybook:
+
+```sh
+yarn build
+yarn build-storybook
+```
+
+Review the changes and test the library before publishing a release.
+
 ## NPM package release
 
 Create a changeset describing your changes:
@@ -110,6 +140,8 @@ yarn publish:patch
 yarn publish:minor
 yarn publish:major
 ```
+
+These scripts build the library, update the package version, and publish it to NPM.
 
 ## Code formatting
 
