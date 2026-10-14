@@ -8,6 +8,7 @@
   "homepage": "https://najwer23.github.io/najwer23morsels",
   "type": "module",
   "scripts": {
+    "setup": "echo 'Latest Yarn version:' && mise latest yarn && echo 'Currently configured Yarn version:' && mise current yarn && mise install && echo 'Installing dependencies with Yarn...' && yarn install",
     "deploy": "yarn run build-storybook && gh-pages -d storybook-static && rimraf ./storybook-static ",
     "start": "storybook dev -p 6006",
     "build": "rimraf ./lib && rollup -c --silent",
@@ -70,6 +71,5 @@
     "type": "git",
     "url": "git+https://github.com/najwer23/najwer23morsels.git"
   },
-  "license": "MIT",
-  "packageManager": "yarn@4.17.1"
+  "license": "MIT"
 }
