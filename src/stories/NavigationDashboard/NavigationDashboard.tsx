@@ -148,11 +148,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
                 aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
                 aria-expanded={isSidebarOpen}
                 className={[styles.toggle, isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M15 5l-7 7 7 7" />
-                </svg>
-              </button>
+              />
             </div>
 
             {test.repeat(999)}
