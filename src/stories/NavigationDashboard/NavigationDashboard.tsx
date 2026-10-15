@@ -11,9 +11,9 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
   style?: React.CSSProperties;
   menuTopLeftColumn: React.ReactNode;
   menuTopRightColumn: React.ReactNode;
-  menuMobile?: React.ReactNode;
-  outlet?: React.ReactNode;
-  aside?: React.ReactNode;
+  menuMobile: React.ReactNode;
+  outlet: React.ReactNode;
+  aside: React.ReactNode;
 }
 
 const SIDEBAR_WIDTH_DEFAULT = 300;
@@ -22,10 +22,6 @@ const SIDEBAR_WIDTH_MAX = 480;
 const COLLAPSE_THRESHOLD = 120;
 const DRAG_THRESHOLD = 4;
 const MOBILE_BREAKPOINT = 768;
-
-const SIDEBAR_DURATION = '450ms';
-const SIDEBAR_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
-const SIDEBAR_TRANSITION = `${SIDEBAR_DURATION} ${SIDEBAR_EASING}`;
 
 export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   children,
@@ -104,7 +100,8 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
 
     liveWidthRef.current = next;
 
-    root.style.setProperty('--sidebar-w', `${next}px`);
+    root.style.setProperty('--navigationdashboard-sidebar-w', `${next}px`);
+
     root.dataset.collapsing = next < COLLAPSE_THRESHOLD ? 'true' : 'false';
 
     if (!drag.wasOpen && next > 0) {
@@ -115,7 +112,9 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   const endDrag = () => {
     const drag = dragRef.current;
     const root = rootRef.current;
+
     dragRef.current = null;
+
     if (!drag?.moved || !root) return;
 
     didDragRef.current = true;
@@ -124,12 +123,15 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     const live = liveWidthRef.current;
 
     if (live < COLLAPSE_THRESHOLD) {
-      root.style.setProperty('--sidebar-w', `${sidebarWidth}px`);
+      root.style.setProperty('--navigationdashboard-sidebar-w', `${sidebarWidth}px`);
+
       setIsSidebarOpen(false);
     } else {
       const finalWidth = Math.min(SIDEBAR_WIDTH_MAX, Math.max(SIDEBAR_WIDTH_MIN, live));
 
-      root.style.setProperty('--sidebar-w', `${finalWidth}px`);
+      root.style.setProperty('--navigationdashboard-sidebar-w', `${finalWidth}px`);
+
+      liveWidthRef.current = finalWidth;
       setSidebarWidth(finalWidth);
       setIsSidebarOpen(true);
     }
@@ -152,16 +154,27 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     }
   }, [width]);
 
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+
+    if (!root) return;
+
+    root.style.setProperty('--navigationdashboard-sidebar-w', `${sidebarWidth}px`);
+  }, [sidebarWidth]);
+
   useEffect(() => {
     const root = rootRef.current;
     const header = headerRef.current;
+
     if (!root || !header) return;
 
     let raf = 0;
 
     const update = () => {
       raf = 0;
+
       const visible = Math.max(0, header.getBoundingClientRect().bottom);
+
       root.style.setProperty('--navigationdashboard-h', `${visible}px`);
     };
 
@@ -170,7 +183,10 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     };
 
     update();
-    window.addEventListener('scroll', schedule, { passive: true });
+
+    window.addEventListener('scroll', schedule, {
+      passive: true,
+    });
     window.addEventListener('resize', schedule);
 
     const ro = new ResizeObserver(schedule);
@@ -194,9 +210,8 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
       style={
         {
           ...getCssVariableStyle({
-            '--navigationdashboard': 'test',
-            '--sidebar-w': `${sidebarWidth}px`,
-            '--sidebar-min': `${SIDEBAR_WIDTH_MIN}px`,
+            '--navigationdashboard-sidebar-w': `${sidebarWidth}px`,
+            '--navigationdashboard-sidebar-min': `${SIDEBAR_WIDTH_MIN}px`,
           }),
           ...style,
         } as React.CSSProperties
@@ -225,14 +240,15 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           <Grid
             layout="container"
             margin={0}
+            padding={0}
+            className={[
+              styles.sidebarContainer,
+              isSidebarOpen ? styles.sidebarContainerOpen : styles.sidebarContainerClosed,
+            ].join(' ')}
             style={{
-              overflow: 'clip',
-              width: isSidebarOpen ? 'var(--sidebar-w)' : '0px',
-              minWidth: isSidebarOpen ? 'var(--sidebar-w)' : '0px',
-              maxWidth: isSidebarOpen ? 'var(--sidebar-w)' : '0px',
-              transition: isDragging
-                ? 'none'
-                : `width ${SIDEBAR_TRANSITION}, min-width ${SIDEBAR_TRANSITION}, max-width ${SIDEBAR_TRANSITION}`,
+              width: isSidebarOpen ? 'var(--navigationdashboard-sidebar-w)' : '0px',
+              minWidth: isSidebarOpen ? 'var(--navigationdashboard-sidebar-w)' : '0px',
+              maxWidth: isSidebarOpen ? 'var(--navigationdashboard-sidebar-w)' : '0px',
             }}
           >
             <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
@@ -241,23 +257,26 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           </Grid>
 
           <Grid layout="container" padding="20px 0 20px 20px" margin={0}>
-            <div className={styles.toggleAnchor}>
-              <Button
-                height={'60px'}
-                width={'10px'}
-                backgroundColor="darkgrey"
-                borderColor="black"
-                type="button"
-                onClick={handleClick}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={endDrag}
-                onPointerCancel={endDrag}
-                className={[isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
-              >
-                <div>|</div>
-              </Button>
-            </div>
+            {width >= MOBILE_BREAKPOINT && (
+              <div className={styles.toggleAnchor}>
+                <Button
+                  height="60px"
+                  width="10px"
+                  backgroundColor="darkgrey"
+                  borderColor="black"
+                  type="button"
+                  onClick={handleClick}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={endDrag}
+                  onPointerCancel={endDrag}
+                  className={[isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
+                >
+                  <div>|</div>
+                </Button>
+              </div>
+            )}
+
             {outlet}
           </Grid>
         </Grid>
