@@ -1,14 +1,28 @@
 @layer n23mNavigationDashboard {
   .n23mNavigationDashboard {
+    --sidebar-w: 300px; /* overridden inline from the component */
+    --sidebar-min: 200px; /* overridden inline from the component */
     --sidebar-border: 2px;
     --toggle-width: 10px;
     --toggle-height: 56px;
-    --toggle-nudge: 0px; /* fine-tune here if still off by a pixel */
+    --toggle-nudge: 0px;
+
+    /* while dragging: no text selection, keep the resize cursor everywhere */
+    &.dragging {
+      user-select: none;
+      cursor: col-resize;
+    }
+
+    /* dragged past the collapse point: dim the sidebar to show it will close */
+    &[data-collapsing="true"] .sticky {
+      opacity: 0.45;
+    }
 
     .sticky {
       position: sticky;
       top: var(--navigationdashboard-h, 0px);
-      width: 300px;
+      /* never narrower than the minimum, so the text doesn't re-wrap while the wrapper shrinks and clips it */
+      width: max(var(--sidebar-w), var(--sidebar-min));
       height: calc(100dvh - var(--navigationdashboard-h, 0px));
       box-sizing: border-box;
       padding: 20px 30px 20px 20px;
@@ -51,7 +65,7 @@
     .toggle {
       position: absolute;
       top: 0;
-      left: 0; /* anchor's left edge = sidebar's right edge */
+      left: 0;
       box-sizing: border-box;
 
       width: var(--toggle-width);
@@ -66,6 +80,7 @@
       color: #4b5563;
 
       cursor: pointer;
+      touch-action: none; /* lets touch drags reach pointermove instead of scrolling */
       box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
 
       transition:
@@ -99,13 +114,15 @@
       outline-offset: 3px;
     }
 
-    /* Open: handle center = border center. */
+    /* Open: handle center = border center; resize cursor because it can be dragged. */
     .toggleOpen {
+      cursor: col-resize;
       transform: translate(calc(-50% - var(--sidebar-border) / 2 + var(--toggle-nudge)), -50%);
     }
 
-    /* Closed: handle sits at the content's left edge. */
+    /* Closed: handle sits at the content's left edge; click only. */
     .toggleClosed {
+      cursor: pointer;
       transform: translate(0, -50%);
     }
   }

@@ -15,7 +15,12 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
   aside?: React.ReactNode;
 }
 
-const SIDEBAR_WIDTH = 300;
+const SIDEBAR_WIDTH_DEFAULT = 300;
+const SIDEBAR_WIDTH_MIN = 200;
+const SIDEBAR_WIDTH_MAX = 480;
+const COLLAPSE_THRESHOLD = 120; // release below this width -> sidebar closes
+const DRAG_THRESHOLD = 4; // px of movement before a press becomes a drag
+
 const SIDEBAR_DURATION = '450ms';
 const SIDEBAR_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const SIDEBAR_TRANSITION = `${SIDEBAR_DURATION} ${SIDEBAR_EASING}`;
@@ -40,6 +45,12 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   const { width } = useWindowSize();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(width >= 768);
+  const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_WIDTH_DEFAULT);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const dragRef = useRef<{ startX: number; startWidth: number; moved: boolean } | null>(null);
+  const liveWidthRef = useRef(SIDEBAR_WIDTH_DEFAULT);
+  const didDragRef = useRef(false);
 
   const toggleSidebar = () => {
     if (width < 768) {
@@ -47,6 +58,68 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     } else {
       setIsSidebarOpen((open) => !open);
     }
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    didDragRef.current = false;
+    if (!isSidebarOpen || e.button !== 0) return; // only drag while open, primary button only
+    e.currentTarget.setPointerCapture(e.pointerId);
+    dragRef.current = { startX: e.clientX, startWidth: sidebarWidth, moved: false };
+    liveWidthRef.current = sidebarWidth;
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const drag = dragRef.current;
+    const root = rootRef.current;
+    if (!drag || !root) return;
+
+    const dx = e.clientX - drag.startX;
+
+    if (!drag.moved) {
+      if (Math.abs(dx) < DRAG_THRESHOLD) return;
+      drag.moved = true;
+      setIsDragging(true);
+    }
+
+    // can shrink all the way to 0 so the sidebar visibly follows the cursor to the edge
+    const next = Math.min(SIDEBAR_WIDTH_MAX, Math.max(0, drag.startWidth + dx));
+    liveWidthRef.current = next;
+
+    root.style.setProperty('--sidebar-w', `${next}px`); // no React render per move
+    root.dataset.collapsing = next < COLLAPSE_THRESHOLD ? 'true' : 'false';
+  };
+
+  const endDrag = () => {
+    const drag = dragRef.current;
+    const root = rootRef.current;
+    dragRef.current = null;
+    if (!drag?.moved || !root) return;
+
+    didDragRef.current = true; // swallow the click that follows the drag
+    root.dataset.collapsing = 'false';
+
+    const live = liveWidthRef.current;
+
+    if (live < COLLAPSE_THRESHOLD) {
+      // collapse, but remember the previous width so reopening restores it
+      root.style.setProperty('--sidebar-w', `${drag.startWidth}px`);
+      setIsSidebarOpen(false);
+    } else {
+      // snap back to the minimum if released between threshold and minimum
+      const finalWidth = Math.min(SIDEBAR_WIDTH_MAX, Math.max(SIDEBAR_WIDTH_MIN, live));
+      root.style.setProperty('--sidebar-w', `${finalWidth}px`);
+      setSidebarWidth(finalWidth);
+    }
+
+    setIsDragging(false);
+  };
+
+  const handleClick = () => {
+    if (didDragRef.current) {
+      didDragRef.current = false;
+      return;
+    }
+    toggleSidebar();
   };
 
   useLayoutEffect(() => {
@@ -90,13 +163,17 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   return (
     <div
       ref={rootRef}
-      className={[styles.n23mNavigationDashboard, 'n23mNavigationDashboard', className].filter(Boolean).join(' ')}
+      className={[styles.n23mNavigationDashboard, 'n23mNavigationDashboard', isDragging && styles.dragging, className]
+        .filter(Boolean)
+        .join(' ')}
       {...props}
       style={
         {
           ...getCssVariableStyle({
             '--navigationdashboard': 'test',
           }),
+          '--sidebar-w': `${sidebarWidth}px`,
+          '--sidebar-min': `${SIDEBAR_WIDTH_MIN}px`,
           ...style,
         } as React.CSSProperties
       }
@@ -121,16 +198,18 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           padding={0}
           style={{ width: '100%' }}
         >
-          {/* Sidebar wrapper: width, min-width and max-width animate together */}
+          {/* Sidebar wrapper: width follows --sidebar-w, transition is off while dragging */}
           <Grid
             layout="container"
             margin={0}
             style={{
               overflow: 'clip',
-              width: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
-              minWidth: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
-              maxWidth: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
-              transition: `width ${SIDEBAR_TRANSITION}, min-width ${SIDEBAR_TRANSITION}, max-width ${SIDEBAR_TRANSITION}`,
+              width: isSidebarOpen ? 'var(--sidebar-w)' : '0px',
+              minWidth: isSidebarOpen ? 'var(--sidebar-w)' : '0px',
+              maxWidth: isSidebarOpen ? 'var(--sidebar-w)' : '0px',
+              transition: isDragging
+                ? 'none'
+                : `width ${SIDEBAR_TRANSITION}, min-width ${SIDEBAR_TRANSITION}, max-width ${SIDEBAR_TRANSITION}`,
             }}
           >
             <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
@@ -144,7 +223,11 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             <div className={styles.toggleAnchor}>
               <button
                 type="button"
-                onClick={toggleSidebar}
+                onClick={handleClick}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={endDrag}
+                onPointerCancel={endDrag}
                 aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
                 aria-expanded={isSidebarOpen}
                 className={[styles.toggle, isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
