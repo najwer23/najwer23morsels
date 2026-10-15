@@ -1,13 +1,18 @@
 @layer n23mNavigationDashboard {
   .n23mNavigationDashboard {
+    --sidebar-border: 2px;
+    --toggle-width: 10px;
+    --toggle-height: 56px;
+    --toggle-nudge: 0px; /* fine-tune here if still off by a pixel */
+
     .sticky {
       position: sticky;
       top: var(--navigationdashboard-h, 0px);
-      width: 300px; /* Always fixed: the text never re-wraps */
+      width: 300px;
       height: calc(100dvh - var(--navigationdashboard-h, 0px));
       box-sizing: border-box;
       padding: 20px 30px 20px 20px;
-      border-right: 2px solid rgb(225, 223, 223);
+      border-right: var(--sidebar-border) solid rgb(225, 223, 223);
 
       overflow-x: hidden;
       overflow-y: auto;
@@ -33,62 +38,71 @@
       pointer-events: none;
     }
 
-    /*
-     * Sticky anchor stays vertically centered in the viewport area
-     * below the header.
-     */
+    /* Keep the handle vertically centered in the visible viewport area. */
     .toggleAnchor {
       position: sticky;
-      top: calc(var(--navigationdashboard-h, 0px) + (100vh - var(--navigationdashboard-h, 0px)) / 2);
+      top: calc(var(--navigationdashboard-h, 0px) + (100dvh - var(--navigationdashboard-h, 0px)) / 2);
       height: 0;
-      margin-left: -20px;
+      margin-left: -20px; /* cancels the main column's 20px left padding */
       z-index: 5;
     }
 
+    /* Slim divider handle. */
     .toggle {
       position: absolute;
       top: 0;
-      left: -1px;
+      left: 0; /* anchor's left edge = sidebar's right edge */
+      box-sizing: border-box;
 
-      width: 28px;
-      height: 28px;
+      width: var(--toggle-width);
+      height: var(--toggle-height);
       padding: 0;
 
+      /* one track exactly as wide as the inner box, so the arrow centers on the handle */
       display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
       place-items: center;
 
-      border: 1px solid rgb(225, 223, 223);
-      border-radius: 50%;
-      background: #fff;
-      color: #444;
+      border: 1px solid #d1d5db;
+      background: #f3f4f6;
+      color: #4b5563;
 
       cursor: pointer;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
 
       transition:
         transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
-        background-color 150ms ease;
+        background-color 150ms ease,
+        border-color 150ms ease;
     }
 
     .toggle:hover {
-      background: #f5f5f5;
+      background: #e5e7eb;
+      border-color: #9ca3af;
     }
 
     .toggle:focus-visible {
       outline: 2px solid #6b7280;
-      outline-offset: 2px;
+      outline-offset: 3px;
     }
 
     .toggle svg {
+      display: block;
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      justify-self: center;
+      align-self: center;
       transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* Open: centered on the sidebar border, both horizontally and vertically. */
+    /* Open: handle center = border center. */
     .toggleOpen {
-      transform: translate(-50%, -50%);
+      transform: translate(calc(-50% - var(--sidebar-border) / 2 + var(--toggle-nudge)), -50%);
     }
 
-    /* Closed: vertically centered, horizontally aligned to the left edge. */
+    /* Closed: handle sits at the content's left edge. */
     .toggleClosed {
       transform: translate(0, -50%);
     }
