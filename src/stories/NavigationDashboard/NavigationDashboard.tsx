@@ -121,6 +121,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           padding={0}
           style={{ width: '100%' }}
         >
+          {/* Sidebar wrapper: width, min-width and max-width animate together */}
           <Grid
             layout="container"
             margin={0}
@@ -138,10 +139,21 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             </div>
           </Grid>
 
+          {/* Main column: its left edge is the sidebar's right edge */}
           <Grid layout="container" padding="20px 0 20px 20px" margin={0}>
-            <button type="button" onClick={toggleSidebar}>
-              {isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-            </button>
+            <div className={styles.toggleAnchor}>
+              <button
+                type="button"
+                onClick={toggleSidebar}
+                aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                aria-expanded={isSidebarOpen}
+                className={[styles.toggle, isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M15 5l-7 7 7 7" />
+                </svg>
+              </button>
+            </div>
 
             {test.repeat(999)}
             {outlet}

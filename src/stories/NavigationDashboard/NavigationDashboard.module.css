@@ -3,11 +3,12 @@
     .sticky {
       position: sticky;
       top: var(--navigationdashboard-h, 0px);
-      width: 300px; /* always fixed: the text never re-wraps */
+      width: 300px; /* Always fixed: the text never re-wraps */
       height: calc(100dvh - var(--navigationdashboard-h, 0px));
       box-sizing: border-box;
       padding: 20px 30px 20px 20px;
       border-right: 2px solid rgb(225, 223, 223);
+
       overflow-x: hidden;
       overflow-y: auto;
       overscroll-behavior: contain;
@@ -16,7 +17,6 @@
       opacity: 1;
       will-change: transform;
 
-      /* same duration and easing as the wrapper's width */
       transition:
         transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
         opacity 300ms ease;
@@ -32,11 +32,77 @@
       opacity: 0;
       pointer-events: none;
     }
+
+    /*
+     * Sticky anchor stays vertically centered in the viewport area
+     * below the header.
+     */
+    .toggleAnchor {
+      position: sticky;
+      top: calc(var(--navigationdashboard-h, 0px) + (100vh - var(--navigationdashboard-h, 0px)) / 2);
+      height: 0;
+      margin-left: -20px;
+      z-index: 5;
+    }
+
+    .toggle {
+      position: absolute;
+      top: 0;
+      left: -1px;
+
+      width: 28px;
+      height: 28px;
+      padding: 0;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgb(225, 223, 223);
+      border-radius: 50%;
+      background: #fff;
+      color: #444;
+
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+
+      transition:
+        transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 150ms ease;
+    }
+
+    .toggle:hover {
+      background: #f5f5f5;
+    }
+
+    .toggle:focus-visible {
+      outline: 2px solid #6b7280;
+      outline-offset: 2px;
+    }
+
+    .toggle svg {
+      transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Open: centered on the sidebar border, both horizontally and vertically. */
+    .toggleOpen {
+      transform: translate(-50%, -50%);
+    }
+
+    /* Closed: vertically centered, horizontally aligned to the left edge. */
+    .toggleClosed {
+      transform: translate(0, -50%);
+    }
+
+    .toggleClosed svg {
+      transform: rotate(180deg);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .n23mNavigationDashboard .sticky {
+  .n23mNavigationDashboard .sticky,
+  .n23mNavigationDashboard .toggle,
+  .n23mNavigationDashboard .toggle svg {
     transition: none;
   }
 }
