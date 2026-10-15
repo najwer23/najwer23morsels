@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Grid } from '../Grid';
 import { NavigationTabs } from '../NavigationTabs';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
@@ -13,6 +13,9 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
   outlet?: React.ReactNode;
   aside?: React.ReactNode;
 }
+
+const SIDEBAR_WIDTH = 300;
+const SIDEBAR_TRANSITION = '650ms cubic-bezier(0.22, 1, 0.36, 1)';
 
 const test =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled";
@@ -30,6 +33,12 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((open) => !open);
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -79,19 +88,36 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     >
       <div ref={headerRef}>
         <NavigationTabs
-          widthInnerContainer={'100%'}
-          widthMainContainer={'100%'}
+          widthInnerContainer="100%"
+          widthMainContainer="100%"
           menuOnlyTop
-          menuTopLeftColumn={'halo'}
+          menuTopLeftColumn={menuTopLeftColumn}
           menuTopRightColumn={menuTopRightColumn}
           menuMobile={menuMobile}
         />
       </div>
 
-      <Grid layout="container" padding={'0 20px 0 0px'}>
-        <Grid layout="flex" alignItems="stretch" justifyContent="flex-start" margin={0} padding={0}>
-          <Grid layout="container" margin={0} widthMin={'300px'} widthMax={'300px'} style={{ flex: 'none' }}>
-            <div className={styles.sticky}>
+      <Grid layout="container" padding="0 20px 0 0px">
+        <Grid
+          layout="flex"
+          alignItems="stretch"
+          justifyContent="flex-start"
+          margin={0}
+          padding={0}
+          style={{ width: '100%' }}
+        >
+          <Grid
+            layout="container"
+            margin={0}
+            widthMin={isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px'}
+            widthMax={isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px'}
+            style={{
+              width: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
+              minWidth: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
+              transition: `width ${SIDEBAR_TRANSITION}, min-width ${SIDEBAR_TRANSITION}`,
+            }}
+          >
+            <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
               {test.repeat(49)}
               {aside}
             </div>
@@ -99,14 +125,18 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
 
           <Grid
             layout="container"
-            widthMin={'calc(100% - 300px)'}
-            widthMax={'calc(100% - 300px)'}
-            padding={'20px 0 20px 20px'}
+            widthMin={isSidebarOpen ? `calc(100% - ${SIDEBAR_WIDTH}px)` : '100%'}
+            widthMax={isSidebarOpen ? `calc(100% - ${SIDEBAR_WIDTH}px)` : '100%'}
+            padding="20px 0 20px 20px"
             margin={0}
-            style={{ minWidth: 0, overflowWrap: 'anywhere' }}
           >
+            <button type="button" onClick={toggleSidebar}>
+              {isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+            </button>
+
             {test.repeat(999)}
             {outlet}
+            {children}
           </Grid>
         </Grid>
       </Grid>

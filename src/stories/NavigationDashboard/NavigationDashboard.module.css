@@ -2,7 +2,8 @@
   .n23mNavigationDashboard {
     .sticky {
       position: sticky;
-      top: 0;
+      top: var(--navigationdashboard-h, 0px);
+      width: 300px;
       height: calc(100dvh - var(--navigationdashboard-h, 0px));
       box-sizing: border-box;
       padding: 20px 30px 20px 20px;
@@ -10,6 +11,33 @@
       overflow-x: hidden;
       overflow-y: auto;
       overscroll-behavior: contain;
+
+      opacity: 1;
+      transform: translateX(0);
+      clip-path: inset(0 0 0 0);
+
+      transition:
+        opacity 250ms ease,
+        transform 400ms ease,
+        clip-path 650ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding 650ms ease,
+        border-color 650ms ease;
+    }
+
+    .sidebarOpen {
+      opacity: 1;
+      transform: translateX(0);
+      clip-path: inset(0 0 0 0);
+    }
+
+    .sidebarClosed {
+      opacity: 0;
+      transform: translateX(-12px);
+      clip-path: inset(0 100% 0 0);
+      padding-left: 0;
+      padding-right: 0;
+      border-color: transparent;
+      pointer-events: none;
     }
   }
 }
