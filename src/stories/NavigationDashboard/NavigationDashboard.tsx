@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid } from '../Grid';
+import { useWindowSize } from '../hooks';
 import { NavigationTabs } from '../NavigationTabs';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './NavigationDashboard.module.css';
@@ -34,11 +35,23 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   const rootRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { width } = useWindowSize();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(width >= 768);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen((open) => !open);
+    if (width < 768) {
+      setIsSidebarOpen(false);
+    } else {
+      setIsSidebarOpen((open) => !open);
+    }
   };
+
+  useLayoutEffect(() => {
+    if (width < 768) {
+      setIsSidebarOpen(false);
+    }
+  }, [width]);
 
   useEffect(() => {
     const root = rootRef.current;
