@@ -1,0 +1,15 @@
+@layer n23mNavigationDashboard {
+  .n23mNavigationDashboard {
+    .sticky {
+      position: sticky;
+      top: 0;
+      height: calc(100dvh - var(--navigationdashboard-h, 0px));
+      box-sizing: border-box;
+      padding: 20px 30px 20px 20px;
+      border-right: 2px solid rgb(225, 223, 223);
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+  }
+}

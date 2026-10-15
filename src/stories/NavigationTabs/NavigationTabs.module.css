@@ -1,8 +1,9 @@
 @layer n23mNavigationTabs {
   .n23mNavigationTabs {
-    .navigationLogo {
-      width: 20px;
-      height: 20px;
+    .navigationItemHeight {
+      height: 29px;
+      display: flex;
+      align-items: center;
     }
 
     .navigationLine {
@@ -81,6 +82,7 @@
 
       .menuItemMobile {
         display: block;
+        height: 29px;
       }
 
       body:has(.menuItemMobile .menuOpen) {

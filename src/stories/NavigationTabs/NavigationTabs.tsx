@@ -22,7 +22,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   style,
   menuTopLeftColumn = <>menuTopLeftColumn</>,
   menuTopRightColumn = <>menuTopRightColumn</>,
-  menuMobile = <>menuMobile</>,
+  menuMobile,
   menuBottomTabs = <>menuBottomTabs</>,
   menuOnlyTop = false,
   widthMainContainer = '1600px',
@@ -74,13 +74,21 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
             gap={{ col: '20px', row: '20px' }}
             col={{ smallDesktop: 2, desktop: 2, mobile: 2, tablet: 2 }}
           >
-            <div>{menuTopLeftColumn}</div>
+            <div className={styles.navigationItemHeight}>{menuTopLeftColumn}</div>
 
-            <div className={!menuOnlyTop ? styles.menuItemDesktop : undefined}>{menuTopRightColumn}</div>
+            <div
+              className={
+                menuMobile
+                  ? [styles.menuItemDesktop, styles.navigationItemHeight].join(' ')
+                  : styles.navigationItemHeight
+              }
+            >
+              {menuTopRightColumn}
+            </div>
 
             {/* mobile */}
-            {!menuOnlyTop && (
-              <div className={styles.menuItemMobile}>
+            {menuMobile && (
+              <div className={[styles.navigationItemHeight, styles.menuItemMobile].join(' ')}>
                 <div className={styles.menuPlaceholder}>
                   <Button height={'40px'} width={'70px'} padding={0} backgroundColor="orangered" onClick={toggleMenu}>
                     <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
