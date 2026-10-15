@@ -18,8 +18,9 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
 const SIDEBAR_WIDTH_DEFAULT = 300;
 const SIDEBAR_WIDTH_MIN = 200;
 const SIDEBAR_WIDTH_MAX = 480;
-const COLLAPSE_THRESHOLD = 120; // release below this width -> sidebar closes
-const DRAG_THRESHOLD = 4; // px of movement before a press becomes a drag
+const COLLAPSE_THRESHOLD = 120;
+const DRAG_THRESHOLD = 4;
+const MOBILE_BREAKPOINT = 768;
 
 const SIDEBAR_DURATION = '450ms';
 const SIDEBAR_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
@@ -44,49 +45,73 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
 
   const { width } = useWindowSize();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(width >= 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(width >= MOBILE_BREAKPOINT);
   const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_WIDTH_DEFAULT);
   const [isDragging, setIsDragging] = useState(false);
 
-  const dragRef = useRef<{ startX: number; startWidth: number; moved: boolean } | null>(null);
+  const dragRef = useRef<{
+    startX: number;
+    startWidth: number;
+    moved: boolean;
+    wasOpen: boolean;
+  } | null>(null);
+
   const liveWidthRef = useRef(SIDEBAR_WIDTH_DEFAULT);
   const didDragRef = useRef(false);
 
   const toggleSidebar = () => {
-    if (width < 768) {
+    if (width < MOBILE_BREAKPOINT) {
       setIsSidebarOpen(false);
-    } else {
-      setIsSidebarOpen((open) => !open);
+      return;
     }
+
+    setIsSidebarOpen((open) => !open);
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     didDragRef.current = false;
-    if (!isSidebarOpen || e.button !== 0) return; // only drag while open, primary button only
+
+    if (e.button !== 0 || width < MOBILE_BREAKPOINT) return;
+
     e.currentTarget.setPointerCapture(e.pointerId);
-    dragRef.current = { startX: e.clientX, startWidth: sidebarWidth, moved: false };
-    liveWidthRef.current = sidebarWidth;
+
+    const startWidth = isSidebarOpen ? sidebarWidth : 0;
+
+    dragRef.current = {
+      startX: e.clientX,
+      startWidth,
+      moved: false,
+      wasOpen: isSidebarOpen,
+    };
+
+    liveWidthRef.current = startWidth;
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
     const drag = dragRef.current;
     const root = rootRef.current;
+
     if (!drag || !root) return;
 
     const dx = e.clientX - drag.startX;
 
     if (!drag.moved) {
       if (Math.abs(dx) < DRAG_THRESHOLD) return;
+
       drag.moved = true;
       setIsDragging(true);
     }
 
-    // can shrink all the way to 0 so the sidebar visibly follows the cursor to the edge
     const next = Math.min(SIDEBAR_WIDTH_MAX, Math.max(0, drag.startWidth + dx));
+
     liveWidthRef.current = next;
 
-    root.style.setProperty('--sidebar-w', `${next}px`); // no React render per move
+    root.style.setProperty('--sidebar-w', `${next}px`);
     root.dataset.collapsing = next < COLLAPSE_THRESHOLD ? 'true' : 'false';
+
+    if (!drag.wasOpen && next > 0) {
+      setIsSidebarOpen(true);
+    }
   };
 
   const endDrag = () => {
@@ -95,20 +120,20 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     dragRef.current = null;
     if (!drag?.moved || !root) return;
 
-    didDragRef.current = true; // swallow the click that follows the drag
+    didDragRef.current = true;
     root.dataset.collapsing = 'false';
 
     const live = liveWidthRef.current;
 
     if (live < COLLAPSE_THRESHOLD) {
-      // collapse, but remember the previous width so reopening restores it
-      root.style.setProperty('--sidebar-w', `${drag.startWidth}px`);
+      root.style.setProperty('--sidebar-w', `${sidebarWidth}px`);
       setIsSidebarOpen(false);
     } else {
-      // snap back to the minimum if released between threshold and minimum
       const finalWidth = Math.min(SIDEBAR_WIDTH_MAX, Math.max(SIDEBAR_WIDTH_MIN, live));
+
       root.style.setProperty('--sidebar-w', `${finalWidth}px`);
       setSidebarWidth(finalWidth);
+      setIsSidebarOpen(true);
     }
 
     setIsDragging(false);
@@ -119,11 +144,12 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
       didDragRef.current = false;
       return;
     }
+
     toggleSidebar();
   };
 
   useLayoutEffect(() => {
-    if (width < 768) {
+    if (width < MOBILE_BREAKPOINT) {
       setIsSidebarOpen(false);
     }
   }, [width]);
@@ -189,7 +215,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
         />
       </div>
 
-      <Grid layout="container" padding="0 20px 0 0px">
+      <Grid layout="container" padding="0 20px 0 0">
         <Grid
           layout="flex"
           alignItems="stretch"
@@ -198,7 +224,6 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           padding={0}
           style={{ width: '100%' }}
         >
-          {/* Sidebar wrapper: width follows --sidebar-w, transition is off while dragging */}
           <Grid
             layout="container"
             margin={0}
@@ -218,7 +243,6 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             </div>
           </Grid>
 
-          {/* Main column: its left edge is the sidebar's right edge */}
           <Grid layout="container" padding="20px 0 20px 20px" margin={0}>
             <div className={styles.toggleAnchor}>
               <button

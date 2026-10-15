@@ -1,19 +1,17 @@
 @layer n23mNavigationDashboard {
   .n23mNavigationDashboard {
-    --sidebar-w: 300px; /* overridden inline from the component */
-    --sidebar-min: 200px; /* overridden inline from the component */
+    --sidebar-w: 300px;
+    --sidebar-min: 200px;
     --sidebar-border: 2px;
     --toggle-width: 10px;
     --toggle-height: 56px;
     --toggle-nudge: 0px;
 
-    /* while dragging: no text selection, keep the resize cursor everywhere */
     &.dragging {
       user-select: none;
       cursor: col-resize;
     }
 
-    /* dragged past the collapse point: dim the sidebar to show it will close */
     &[data-collapsing="true"] .sticky {
       opacity: 0.45;
     }
@@ -21,7 +19,6 @@
     .sticky {
       position: sticky;
       top: var(--navigationdashboard-h, 0px);
-      /* never narrower than the minimum, so the text doesn't re-wrap while the wrapper shrinks and clips it */
       width: max(var(--sidebar-w), var(--sidebar-min));
       height: calc(100dvh - var(--navigationdashboard-h, 0px));
       box-sizing: border-box;
@@ -52,16 +49,14 @@
       pointer-events: none;
     }
 
-    /* Keep the handle vertically centered in the visible viewport area. */
     .toggleAnchor {
       position: sticky;
       top: calc(var(--navigationdashboard-h, 0px) + (100dvh - var(--navigationdashboard-h, 0px)) / 2);
       height: 0;
-      margin-left: -20px; /* cancels the main column's 20px left padding */
+      margin-left: -20px;
       z-index: 5;
     }
 
-    /* Slim divider handle. */
     .toggle {
       position: absolute;
       top: 0;
@@ -80,7 +75,7 @@
       color: #4b5563;
 
       cursor: pointer;
-      touch-action: none; /* lets touch drags reach pointermove instead of scrolling */
+      touch-action: none;
       box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
 
       transition:
@@ -89,7 +84,6 @@
         border-color 150ms ease;
     }
 
-    /* Grip: two thin vertical lines (1px line, 2px gap, 1px line = 4px wide). */
     .toggle::before {
       content: "";
       display: block;
@@ -114,15 +108,13 @@
       outline-offset: 3px;
     }
 
-    /* Open: handle center = border center; resize cursor because it can be dragged. */
     .toggleOpen {
       cursor: col-resize;
       transform: translate(calc(-50% - var(--sidebar-border) / 2 + var(--toggle-nudge)), -50%);
     }
 
-    /* Closed: handle sits at the content's left edge; click only. */
     .toggleClosed {
-      cursor: pointer;
+      cursor: col-resize;
       transform: translate(0, -50%);
     }
   }
