@@ -16,7 +16,9 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const SIDEBAR_WIDTH = 300;
-const SIDEBAR_TRANSITION = '650ms cubic-bezier(0.22, 1, 0.36, 1)';
+const SIDEBAR_DURATION = '450ms';
+const SIDEBAR_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const SIDEBAR_TRANSITION = `${SIDEBAR_DURATION} ${SIDEBAR_EASING}`;
 
 const test =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled";
@@ -122,12 +124,12 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           <Grid
             layout="container"
             margin={0}
-            widthMin={isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px'}
-            widthMax={isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px'}
             style={{
+              overflow: 'clip',
               width: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
               minWidth: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
-              transition: `width ${SIDEBAR_TRANSITION}, min-width ${SIDEBAR_TRANSITION}`,
+              maxWidth: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
+              transition: `width ${SIDEBAR_TRANSITION}, min-width ${SIDEBAR_TRANSITION}, max-width ${SIDEBAR_TRANSITION}`,
             }}
           >
             <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
@@ -136,13 +138,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             </div>
           </Grid>
 
-          <Grid
-            layout="container"
-            widthMin={isSidebarOpen ? `calc(100% - ${SIDEBAR_WIDTH}px)` : '100%'}
-            widthMax={isSidebarOpen ? `calc(100% - ${SIDEBAR_WIDTH}px)` : '100%'}
-            padding="20px 0 20px 20px"
-            margin={0}
-          >
+          <Grid layout="container" padding="20px 0 20px 20px" margin={0}>
             <button type="button" onClick={toggleSidebar}>
               {isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
             </button>
