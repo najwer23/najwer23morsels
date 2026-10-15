@@ -12,6 +12,8 @@ interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   menuMobile?: React.ReactNode;
   menuBottomTabs?: React.ReactNode;
   menuOnlyTop?: boolean;
+  widthMainContainer?: React.CSSProperties['width'];
+  widthInnerContainer?: React.CSSProperties['width'];
 }
 
 export const NavigationTabs: React.FC<NavigationTabsProps> = ({
@@ -23,6 +25,8 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   menuMobile = <>menuMobile</>,
   menuBottomTabs = <>menuBottomTabs</>,
   menuOnlyTop = false,
+  widthMainContainer = '1600px',
+  widthInnerContainer = '1400px',
   ...props
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -63,8 +67,8 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
 
   return (
     <div className={[styles.n23mNavigationTabs, 'n23mNavigationTabs', className].filter(Boolean).join(' ')} {...props}>
-      <Grid layout="container" widthMax={'1600px'}>
-        <Grid layout="container" widthMax={'1400px'} padding={'20px'} margin={'auto'}>
+      <Grid layout="container" widthMax={widthMainContainer}>
+        <Grid layout="container" widthMax={widthInnerContainer} padding={'20px'} margin={'auto'}>
           <Grid
             layout="columns"
             gap={{ col: '20px', row: '20px' }}
@@ -100,12 +104,17 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
         {!menuOnlyTop && (
           <Grid
             layout="container"
-            widthMax={'1400px'}
+            widthMax={widthInnerContainer}
             padding={'20px'}
             margin={'auto'}
             className={styles.navigationTabMenu}
           >
-            <Grid layout="flex" justifyContent="center" widthMax={'1400px'} gap={{ col: '30px', row: '20px' }}>
+            <Grid
+              layout="flex"
+              justifyContent="center"
+              widthMax={widthInnerContainer}
+              gap={{ col: '30px', row: '20px' }}
+            >
               {menuBottomTabs}
             </Grid>
           </Grid>
