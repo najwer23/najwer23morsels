@@ -40,7 +40,8 @@
       transition: filter 0.3s;
       z-index: 0;
       pointer-events: none;
-      border-radius: 8px;
+      border-radius: 12px;
+      corner-shape: squircle;
     }
 
     @media (hover: hover) and (pointer: fine) {

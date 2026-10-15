@@ -10,7 +10,7 @@ const meta: Meta<typeof NavigationTabs> = {
     docs: {
       description: {
         component: `
-Test Test
+Responsive navigation component with a top bar, optional bottom tabs, and a mobile menu.
 
 \`\`\`tsx
 import { NavigationTabs } from 'najwer23morsels/lib/NavigationTabs';

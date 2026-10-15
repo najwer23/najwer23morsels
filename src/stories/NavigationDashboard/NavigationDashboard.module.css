@@ -3,8 +3,6 @@
     --sidebar-w: 300px;
     --sidebar-min: 200px;
     --sidebar-border: 2px;
-    --toggle-width: 10px;
-    --toggle-height: 56px;
     --toggle-nudge: 0px;
 
     &.dragging {
@@ -57,57 +55,6 @@
       z-index: 5;
     }
 
-    .toggle {
-      position: absolute;
-      top: 0;
-      left: 0;
-      box-sizing: border-box;
-
-      width: var(--toggle-width);
-      height: var(--toggle-height);
-      padding: 0;
-
-      display: grid;
-      place-items: center;
-
-      border: 1px solid #d1d5db;
-      background: #f3f4f6;
-      color: #4b5563;
-
-      cursor: pointer;
-      touch-action: none;
-      box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
-
-      transition:
-        transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
-        background-color 150ms ease,
-        border-color 150ms ease;
-    }
-
-    .toggle::before {
-      content: "";
-      display: block;
-      width: 4px;
-      height: 18px;
-      background: linear-gradient(to right, currentColor 0 1px, transparent 1px 3px, currentColor 3px 4px);
-      opacity: 0.7;
-      transition: opacity 150ms ease;
-    }
-
-    .toggle:hover {
-      background: #e5e7eb;
-      border-color: #9ca3af;
-    }
-
-    .toggle:hover::before {
-      opacity: 1;
-    }
-
-    .toggle:focus-visible {
-      outline: 2px solid #6b7280;
-      outline-offset: 3px;
-    }
-
     .toggleOpen {
       cursor: col-resize;
       transform: translate(calc(-50% - var(--sidebar-border) / 2 + var(--toggle-nudge)), -50%);
@@ -115,7 +62,7 @@
 
     .toggleClosed {
       cursor: col-resize;
-      transform: translate(0, -50%);
+      transform: translate(-2px, -50%);
     }
   }
 }

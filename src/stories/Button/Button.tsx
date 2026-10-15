@@ -39,7 +39,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     return (
-      <div className={['n23mButton', className].filter(Boolean).join(' ')}>
+      <div className={['n23mButton'].filter(Boolean).join(' ')}>
         {loading && (
           <div style={{ width: width, height: height }}>
             <Loader mobileSize={loaderMobileSize} desktopSize={loaderDesktopSize} />
@@ -60,7 +60,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               }),
               ...style,
             }}
-            className={[styles.n23mButtonButton, 'n23mButtonButton'].filter(Boolean).join(' ')}
+            className={[styles.n23mButtonButton, 'n23mButtonButton', className].filter(Boolean).join(' ')}
             {...props}
           >
             {children}

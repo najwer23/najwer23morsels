@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { useWindowSize } from '../hooks';
 import { NavigationTabs } from '../NavigationTabs';
@@ -25,9 +26,6 @@ const MOBILE_BREAKPOINT = 768;
 const SIDEBAR_DURATION = '450ms';
 const SIDEBAR_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const SIDEBAR_TRANSITION = `${SIDEBAR_DURATION} ${SIDEBAR_EASING}`;
-
-const test =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled";
 
 export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   children,
@@ -197,9 +195,9 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
         {
           ...getCssVariableStyle({
             '--navigationdashboard': 'test',
+            '--sidebar-w': `${sidebarWidth}px`,
+            '--sidebar-min': `${SIDEBAR_WIDTH_MIN}px`,
           }),
-          '--sidebar-w': `${sidebarWidth}px`,
-          '--sidebar-min': `${SIDEBAR_WIDTH_MIN}px`,
           ...style,
         } as React.CSSProperties
       }
@@ -238,29 +236,29 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             }}
           >
             <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
-              {test.repeat(49)}
               {aside}
             </div>
           </Grid>
 
           <Grid layout="container" padding="20px 0 20px 20px" margin={0}>
             <div className={styles.toggleAnchor}>
-              <button
+              <Button
+                height={'60px'}
+                width={'10px'}
+                backgroundColor="darkgrey"
+                borderColor="black"
                 type="button"
                 onClick={handleClick}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={endDrag}
                 onPointerCancel={endDrag}
-                aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-                aria-expanded={isSidebarOpen}
-                className={[styles.toggle, isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
-              />
+                className={[isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
+              >
+                <div>|</div>
+              </Button>
             </div>
-
-            {test.repeat(999)}
             {outlet}
-            {children}
           </Grid>
         </Grid>
       </Grid>

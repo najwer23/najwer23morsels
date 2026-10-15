@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { NavigationDashboard } from '.';
 
 const meta: Meta<typeof NavigationDashboard> = {
-  title: 'NavigationDashboard/NavigationDashboard',
+  title: 'Navigation/NavigationDashboard',
   component: NavigationDashboard,
   parameters: {
     docs: {
