@@ -233,7 +233,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
         />
       </div>
 
-      <Grid layout="container" padding="0 20px 0 0">
+      <Grid layout="container" padding="0 20px 0 0" widthMin={'100%'}>
         <div
           className={[styles.row, hasAside ? isSidebarOpen && styles.rowOpen : styles.rowNoAside]
             .filter(Boolean)
