@@ -12,6 +12,7 @@
       cursor: col-resize;
     }
 
+    &.dragging .row,
     &.dragging .sidebarContainer,
     &.dragging .sticky {
       transition: none;
@@ -21,19 +22,27 @@
       opacity: 0.45;
     }
 
+    .row {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 0px minmax(0, 1fr); /* closed */
+      transition: grid-template-columns var(--navigationdashboard-sidebar-duration)
+        var(--navigationdashboard-sidebar-easing);
+    }
+
+    .rowOpen {
+      grid-template-columns: var(--navigationdashboard-sidebar-w) minmax(0, 1fr);
+    }
+
     .sidebarContainer {
       position: relative;
-      flex: 0 0 auto;
+      min-width: 0;
       box-sizing: border-box;
       overflow: clip;
 
       border-right: var(--navigationdashboard-sidebar-border) solid transparent;
-
-      transition:
-        width var(--navigationdashboard-sidebar-duration) var(--navigationdashboard-sidebar-easing),
-        min-width var(--navigationdashboard-sidebar-duration) var(--navigationdashboard-sidebar-easing),
-        max-width var(--navigationdashboard-sidebar-duration) var(--navigationdashboard-sidebar-easing),
-        border-right-color var(--navigationdashboard-sidebar-duration) var(--navigationdashboard-sidebar-easing);
+      transition: border-right-color var(--navigationdashboard-sidebar-duration)
+        var(--navigationdashboard-sidebar-easing);
     }
 
     .sidebarContainerOpen {
@@ -42,6 +51,18 @@
 
     .sidebarContainerClosed {
       border-right-color: transparent;
+    }
+
+    .outlet {
+      position: relative;
+      min-width: 0;
+      box-sizing: border-box;
+      padding: 20px 0 20px 20px;
+    }
+
+    .outletContent {
+      min-width: 0;
+      overflow-x: auto; /* wide content scrolls here, not the page */
     }
 
     .sticky {
@@ -101,14 +122,10 @@
       cursor: col-resize;
       transform: translate(-4px, -50%);
     }
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .n23mNavigationDashboard .sidebarContainer,
-  .n23mNavigationDashboard .sticky,
-  .n23mNavigationDashboard .toggle,
-  .n23mNavigationDashboard .toggle::before {
-    transition: none;
+    .rowNoAside {
+      grid-template-columns: minmax(0, 1fr);
+      transition: none;
+    }
   }
 }

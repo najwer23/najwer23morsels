@@ -29,9 +29,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     menuTopLeftColumn: (
-      <TextBox desktopSize={20} mobileSize={20} fontWeight={500} tag="a" href="/" onClick={(e) => e.preventDefault()}>
-        Gym
-      </TextBox>
+      <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
+        <TextBox desktopSize={20} mobileSize={20} fontWeight={500} tag="a" href="/" onClick={(e) => e.preventDefault()}>
+          Gym
+        </TextBox>
+      </Grid>
     ),
     menuTopRightColumn: (
       <Grid layout="flex" justifyContent="flex-end">
@@ -104,12 +106,14 @@ export const Default: Story = {
 export const NavigationTabsOnlyTop: Story = {
   args: {
     menuTopLeftColumn: (
-      <TextBox desktopSize={20} mobileSize={20} fontWeight={500} tag="a" href="/">
-        Gym
-      </TextBox>
+      <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
+        <TextBox desktopSize={20} mobileSize={20} fontWeight={500} tag="a" href="/">
+          Gym
+        </TextBox>
+      </Grid>
     ),
     menuTopRightColumn: (
-      <Grid layout="flex" justifyContent="flex-end">
+      <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight={'100%'}>
         <TextBox tag="a" href="/login" desktopSize={20} mobileSize={20} fontWeight={500}>
           Login
         </TextBox>
@@ -140,6 +144,7 @@ export const NavigationTabsOnlyTop: Story = {
   render: (args) => (
     <div style={{ width: '100vw', height: '400px' }}>
       <NavigationTabs {...args}></NavigationTabs>
+      <div>{'test '.repeat(1000)}</div>
     </div>
   ),
 };

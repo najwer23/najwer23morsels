@@ -13,6 +13,7 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
   menuTopRightColumn: React.ReactNode;
   menuMobile: React.ReactNode;
   outlet: React.ReactNode;
+  /** Pass null (or omit the content) to hide the sidebar and the divider completely. */
   aside: React.ReactNode;
 }
 
@@ -39,9 +40,13 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
 
   const { width } = useWindowSize();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(width >= MOBILE_BREAKPOINT);
+  const hasAside = aside !== null && aside !== undefined && aside !== false;
+
+  const [isSidebarOpenState, setIsSidebarOpen] = useState(width >= MOBILE_BREAKPOINT);
   const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_WIDTH_DEFAULT);
   const [isDragging, setIsDragging] = useState(false);
+
+  const isSidebarOpen = hasAside && isSidebarOpenState;
 
   const dragRef = useRef<{
     startX: number;
@@ -229,35 +234,26 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
       </div>
 
       <Grid layout="container" padding="0 20px 0 0">
-        <Grid
-          layout="flex"
-          alignItems="stretch"
-          justifyContent="flex-start"
-          margin={0}
-          padding={0}
-          style={{ width: '100%' }}
+        <div
+          className={[styles.row, hasAside ? isSidebarOpen && styles.rowOpen : styles.rowNoAside]
+            .filter(Boolean)
+            .join(' ')}
         >
-          <Grid
-            layout="container"
-            margin={0}
-            padding={0}
-            className={[
-              styles.sidebarContainer,
-              isSidebarOpen ? styles.sidebarContainerOpen : styles.sidebarContainerClosed,
-            ].join(' ')}
-            style={{
-              width: isSidebarOpen ? 'var(--navigationdashboard-sidebar-w)' : '0px',
-              minWidth: isSidebarOpen ? 'var(--navigationdashboard-sidebar-w)' : '0px',
-              maxWidth: isSidebarOpen ? 'var(--navigationdashboard-sidebar-w)' : '0px',
-            }}
-          >
-            <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
-              {aside}
+          {hasAside && (
+            <div
+              className={[
+                styles.sidebarContainer,
+                isSidebarOpen ? styles.sidebarContainerOpen : styles.sidebarContainerClosed,
+              ].join(' ')}
+            >
+              <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
+                {aside}
+              </div>
             </div>
-          </Grid>
+          )}
 
-          <Grid layout="container" padding="20px 0 20px 20px" margin={0}>
-            {width >= MOBILE_BREAKPOINT && (
+          <div className={[styles.outlet, !hasAside && styles.outletNoAside].filter(Boolean).join(' ')}>
+            {hasAside && width >= MOBILE_BREAKPOINT && (
               <div className={styles.toggleAnchor}>
                 <Button
                   height="60px"
@@ -277,9 +273,9 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
               </div>
             )}
 
-            {outlet}
-          </Grid>
-        </Grid>
+            <div className={styles.outletContent}>{outlet}</div>
+          </div>
+        </div>
       </Grid>
     </div>
   );
