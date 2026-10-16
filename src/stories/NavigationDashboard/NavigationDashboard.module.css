@@ -62,7 +62,6 @@
 
     .outletContent {
       min-width: 0;
-      overflow-x: auto; /* wide content scrolls here, not the page */
     }
 
     .sticky {
