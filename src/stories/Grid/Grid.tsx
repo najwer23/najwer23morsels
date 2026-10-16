@@ -34,6 +34,7 @@ export type GridContainerProps = GridBase & {
   alignItems?: never;
   flexWrap?: never;
   col?: never;
+  flexDirection?: never;
 };
 
 export type GridFlexProps = GridBase & {
@@ -43,6 +44,7 @@ export type GridFlexProps = GridBase & {
   alignItems?: React.CSSProperties['alignItems'];
   flexWrap?: React.CSSProperties['flexWrap'];
   col?: never;
+  flexDirection?: React.CSSProperties['flexDirection'];
 };
 
 export type GridColumnsProps = GridBase & {
@@ -52,6 +54,7 @@ export type GridColumnsProps = GridBase & {
   justifyContent?: never;
   alignItems?: never;
   flexWrap?: never;
+  flexDirection?: never;
 };
 
 export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProps> = ({
@@ -69,6 +72,7 @@ export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProp
   minHeight,
   flexWrap,
   className,
+  flexDirection,
   style,
   ...props
 }) => {
@@ -94,6 +98,7 @@ export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProp
             '--grid-mh': minHeight,
             '--grid-wn': widthMin,
             '--grid-wx': widthMax,
+            '--grid-fd': flexDirection,
           }),
           ...style,
         }}

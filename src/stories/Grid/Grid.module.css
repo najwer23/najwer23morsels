@@ -7,7 +7,6 @@
     padding: var(--grid-p);
     margin: var(--grid-m);
     box-sizing: border-box;
-    flex-wrap: var(--grid-fw, nowrap);
   }
 
   .n23mGridFlex {
@@ -16,6 +15,8 @@
     column-gap: var(--grid-cg, 0px);
     row-gap: var(--grid-rg);
     align-items: var(--grid-ai, center);
+    flex-direction: var(--grid-fd, row);
+    flex-wrap: var(--grid-fw, nowrap);
   }
 
   .n23mGridColumns {
