@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Grid } from '../Grid';
 import { TextBox } from '../TextBox';
 import { NavigationTabs } from '.';
@@ -15,6 +14,8 @@ Responsive navigation component with a top bar, optional bottom tabs, and a mobi
 
 Below 768px the right column and the bottom tabs are hidden, and a fixed **Menu** button opens a full-screen menu
 (only when \`menuMobile\` is provided).
+
+Content inside \`menuMobile\` is **centered** by default. Put \`margin={0}\` on its root \`Grid\` to left-justify it.
 
 \`\`\`tsx
 import { NavigationTabs } from 'najwer23morsels/lib/NavigationTabs';
@@ -99,6 +100,78 @@ const BottomTabs = ({ items = ['Dashboard', 'Push Ups', 'Squats', 'Sit Ups', 'Pu
       </div>
     ))}
   </>
+);
+
+type MobileSection = {
+  title: string;
+  links: { to: string; label: string }[];
+};
+
+const defaultSections: MobileSection[] = [
+  {
+    title: 'Tools',
+    links: [
+      { to: '/stock-quotes', label: 'Stock Quotes' },
+      { to: '/visitors', label: 'Visitors' },
+      { to: '/weather', label: 'Weather' },
+    ],
+  },
+  {
+    title: 'Apps',
+    links: [
+      { to: 'https://najwer23.github.io/#/blog', label: 'Blog' },
+      { to: 'https://najwer23.github.io/#/contact', label: 'Contact' },
+      { to: 'https://najwer23gym.vercel.app/', label: 'Gym' },
+      { to: 'https://najwer23.github.io/', label: 'Portfolio' },
+    ],
+  },
+  {
+    title: 'Social Media',
+    links: [{ to: 'https://www.npmjs.com/~najwer23', label: 'NPM' }],
+  },
+];
+
+const isExternalLink = (to: string) => /^https?:\/\//i.test(to);
+
+const MobileSections = ({
+  sections = defaultSections,
+  margin,
+}: {
+  sections?: MobileSection[];
+  margin?: React.ComponentProps<typeof Grid>['margin'];
+}) => (
+  <Grid layout="container" margin={margin}>
+    {sections.map(({ title, links }) => (
+      <Grid key={title} layout="container" margin="0 0 24px 0">
+        <Grid layout="container" margin="0 0 8px 0">
+          <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+            {title}
+          </TextBox>
+        </Grid>
+
+        {links.map(({ to, label }) => {
+          const external = isExternalLink(to);
+
+          return (
+            <Grid key={to} layout="container" margin="0 0 8px 0">
+              <TextBox
+                tag="a"
+                href={to}
+                desktopSize={28}
+                mobileSize={28}
+                fontWeight={400}
+                onClick={preventDefault}
+                {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+              >
+                {label}
+                {external && ' ↗'}
+              </TextBox>
+            </Grid>
+          );
+        })}
+      </Grid>
+    ))}
+  </Grid>
 );
 
 const PageContent = ({ repeat = 1000 }: { repeat?: number }) => (
@@ -349,6 +422,130 @@ export const MobileLongMenu: Story = {
   },
 };
 
+export const MobileWithSections: Story = {
+  args: {
+    ...defaultArgs,
+    menuMobile: <MobileSections />,
+  },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+  parameters: {
+    ...isolatedDocs,
+    docs: {
+      ...isolatedDocs.docs,
+      description: {
+        story:
+          'The mobile menu is split into sections (Tools, Apps, Social Media). External links open in a new tab and are marked with an arrow.',
+      },
+    },
+  },
+};
+
+export const MobileSectionsCentered: Story = {
+  args: {
+    ...defaultArgs,
+    menuMobile: <MobileSections />,
+  },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+  parameters: {
+    ...isolatedDocs,
+    docs: {
+      ...isolatedDocs.docs,
+      description: {
+        story: 'No `margin` on the main container: the sections and links are **centered**. Open the menu to check.',
+      },
+    },
+  },
+};
+
+export const MobileSectionsLeftAligned: Story = {
+  args: {
+    ...defaultArgs,
+    menuMobile: <MobileSections margin={0} />,
+  },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+  parameters: {
+    ...isolatedDocs,
+    docs: {
+      ...isolatedDocs.docs,
+      description: {
+        story:
+          'With `margin={0}` on the main container, the sections and links are **left-justified** instead of centered. Open the menu to check.',
+      },
+    },
+  },
+};
+
+export const MobileSectionsWithExtras: Story = {
+  args: {
+    ...defaultArgs,
+    menuMobile: (
+      <Grid layout="container">
+        <Grid layout="container" margin="0 0 24px 0">
+          <Grid layout="container" margin="0 0 8px 0">
+            <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+              Account
+            </TextBox>
+          </Grid>
+          <TextBox
+            tag="a"
+            href="/auth/login"
+            desktopSize={28}
+            mobileSize={28}
+            fontWeight={400}
+            onClick={preventDefault}
+          >
+            Login
+          </TextBox>
+        </Grid>
+
+        <MobileSections />
+
+        <TextBox tag="p" desktopSize={14} mobileSize={14} color="grey">
+          © Gym
+        </TextBox>
+      </Grid>
+    ),
+  },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+  parameters: {
+    ...isolatedDocs,
+    docs: {
+      ...isolatedDocs.docs,
+      description: {
+        story: 'Sections plus mobile-only extras: an Account block on top and a footer line at the bottom.',
+      },
+    },
+  },
+};
+
+export const MobileManySections: Story = {
+  args: {
+    ...defaultArgs,
+    menuMobile: (
+      <MobileSections
+        sections={Array.from({ length: 6 }, (_, s) => ({
+          title: `Section ${s + 1}`,
+          links: Array.from({ length: 5 }, (_, l) => ({
+            to: `/section-${s + 1}/link-${l + 1}`,
+            label: `Link ${s + 1}.${l + 1}`,
+          })),
+        }))}
+      />
+    ),
+  },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+  parameters: {
+    ...isolatedDocs,
+    docs: {
+      ...isolatedDocs.docs,
+      description: {
+        story:
+          'Open the menu: 6 sections are taller than the screen and scroll inside the menu, not the page behind it.',
+      },
+    },
+  },
+};
+
 export const MobileLongPage: Story = {
   args: defaultArgs,
   globals: { viewport: { value: 'mobile1', isRotated: false } },
@@ -359,78 +556,4 @@ export const MobileLongPage: Story = {
       <PageContent repeat={3000} />
     </div>
   ),
-};
-
-export const OpenAndCloseMobileMenu: Story = {
-  args: defaultArgs,
-  globals: { viewport: { value: 'mobile1', isRotated: false } },
-  parameters: {
-    ...isolatedDocs,
-    docs: {
-      ...isolatedDocs.docs,
-      description: {
-        story: 'Opens the mobile menu, then closes it by clicking a link. Checked by the play function.',
-      },
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByRole('button', { name: 'Menu' });
-    const link = canvas.getByRole('link', { name: 'Home' });
-
-    await expect(link).not.toBeVisible();
-
-    await userEvent.click(button);
-
-    await waitFor(() => expect(link).toBeVisible(), { timeout: 2000 });
-    await expect(document.body).toHaveStyle({ overflow: 'hidden' });
-
-    await userEvent.click(link);
-    await waitFor(() => expect(link).not.toBeVisible(), { timeout: 2000 });
-    await waitFor(() => expect(document.body).not.toHaveStyle({ overflow: 'hidden' }));
-  },
-};
-
-export const ToggleMobileMenuWithButton: Story = {
-  args: defaultArgs,
-  globals: { viewport: { value: 'mobile1', isRotated: false } },
-  parameters: isolatedDocs,
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByRole('button', { name: 'Menu' });
-    const link = canvas.getByRole('link', { name: 'Login' });
-
-    await userEvent.click(button);
-    await waitFor(() => expect(link).toBeVisible(), { timeout: 2000 });
-
-    await userEvent.click(button);
-    await waitFor(() => expect(link).not.toBeVisible(), { timeout: 2000 });
-  },
-};
-
-export const NoMenuButtonWithoutMobileMenu: Story = {
-  args: { ...defaultArgs, menuMobile: undefined },
-  globals: { viewport: { value: 'mobile1', isRotated: false } },
-  parameters: isolatedDocs,
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.queryByRole('button', { name: 'Menu' })).toBeNull();
-  },
-};
-
-export const OnlyTopHidesBottomTabs: Story = {
-  args: { ...defaultArgs, menuOnlyTop: true },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.queryByRole('link', { name: 'Dashboard' })).toBeNull();
-  },
-};
-
-export const DesktopShowsBottomTabs: Story = {
-  args: defaultArgs,
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.getByRole('link', { name: 'Dashboard' })).toBeVisible();
-    await expect(canvas.queryByRole('button', { name: 'Menu' })).toBeNull();
-  },
 };

@@ -32,24 +32,22 @@
       .menuContent {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        align-items: center;
-        padding: 150px 0;
+
+        padding: 150px 20px;
+
+        opacity: 0;
+        transition: opacity 0s ease-out;
+        transition-delay: 0s;
+
+        &.menuAnimation {
+          opacity: 1;
+          transition: opacity 200ms ease-in 300ms;
+        }
 
         a {
-          opacity: 0;
-          transition: opacity 0s ease-out;
-          transition-delay: 0s;
-
           -webkit-touch-callout: none;
           user-select: none;
           -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        .menuAnimation {
-          opacity: 1;
-          transition: opacity 200ms ease-in !important;
-          transition-delay: 300ms !important;
         }
       }
     }

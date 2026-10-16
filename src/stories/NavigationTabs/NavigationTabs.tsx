@@ -39,9 +39,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = requestAnimationFrame(() => {
         menuRef.current?.classList.add(styles.menuOpen);
-        contentRef.current?.querySelectorAll('a').forEach((a) => {
-          a.classList.add(styles.menuAnimation);
-        });
+        contentRef.current?.classList.add(styles.menuAnimation);
       });
     });
   };
@@ -49,9 +47,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   const closeMenu = () => {
     isMenuOpen.current = false;
     menuRef.current?.classList.remove(styles.menuOpen);
-    contentRef.current?.querySelectorAll('a').forEach((a) => {
-      a.classList.remove(styles.menuAnimation);
-    });
+    contentRef.current?.classList.remove(styles.menuAnimation);
   };
 
   const toggleMenu = () => {
