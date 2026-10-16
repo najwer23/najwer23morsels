@@ -107,7 +107,6 @@
       top: calc(var(--navigationdashboard-h, 0px) + (100dvh - var(--navigationdashboard-h, 0px)) / 2);
       height: 0;
       margin-left: -20px;
-      z-index: 5;
     }
 
     .toggleOpen {
