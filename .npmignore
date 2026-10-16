@@ -19,3 +19,5 @@ lib/**/*.stories.d.ts
 .github/*
 .changeset
 biome.json
+mise.toml
+.ncurc.json
