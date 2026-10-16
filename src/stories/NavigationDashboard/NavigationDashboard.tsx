@@ -2,7 +2,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { useWindowSize } from '../hooks';
+import { IconAside } from '../Icons';
 import { NavigationTabs } from '../NavigationTabs';
+import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './NavigationDashboard.module.css';
 
@@ -227,7 +229,26 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
           widthInnerContainer="100%"
           widthMainContainer="100%"
           menuOnlyTop
-          menuTopLeftColumn={menuTopLeftColumn}
+          menuTopLeftColumn={
+            <Grid
+              layout="flex"
+              justifyContent="flex-start"
+              gap={{ col: '15px', row: '0px' }}
+              alignItems="center"
+              minHeight={'100%'}
+            >
+              {hasAside && width >= MOBILE_BREAKPOINT && (
+                <Grid layout="flex" justifyContent="flex-start" margin={0}>
+                  <Button onClick={toggleSidebar} height={'40px'} width={'40px'} backgroundColor="orange">
+                    <TextBox tag={'div'} mobileSize={0} desktopSize={0} margin={'2px 0 0'}>
+                      <IconAside open={isSidebarOpenState} width={30} height={30} />
+                    </TextBox>
+                  </Button>
+                </Grid>
+              )}
+              <div>{menuTopLeftColumn}</div>
+            </Grid>
+          }
           menuTopRightColumn={menuTopRightColumn}
           menuMobile={menuMobile}
         />
