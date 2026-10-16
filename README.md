@@ -8,14 +8,6 @@ A comprehensive collection of React components for building consistent, scalable
 **Github:** https://github.com/najwer23/najwer23morsels  
 **NPM:** https://www.npmjs.com/search?q=najwer23morsels
 
-```js
-yarn add najwer23morsels --dev
-```
-
-```js
-npm install najwer23morsels --save-dev
-```
-
 ```typescript
 import { TextBox } from "najwer23morsels/lib/TextBox";
 
