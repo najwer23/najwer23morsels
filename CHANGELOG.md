@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.9.0
+
+### Minor Changes
+
+- NavigationDashboard
+
 ## 1.8.0
 
 ### Minor Changes
