@@ -81,6 +81,20 @@ export const Slider: React.FC<SliderProps> = ({
     setCurrSlide(isCircular ? childSlides.length * 2 : 0);
   }, [loading, isCircular, slidePerViewDynamic, childSlides.length, width]);
 
+  // FIX: keep wrapperWidth in sync when the div itself is resized.
+  // Only updates the width; currSlide is left alone so the slider keeps its position.
+  useLayoutEffect(() => {
+    const el = slideWrapperRef.current;
+    if (!el) return; // wrapper is not mounted while loading
+
+    const observer = new ResizeObserver(() => {
+      setWrapperWidth(el.offsetWidth); // same value => React bails out
+    });
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, [loading]); // re-attach when the wrapper mounts after loading
+
   const slideWidth = (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic;
 
   let slides = isCircular

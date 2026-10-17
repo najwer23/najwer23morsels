@@ -46,6 +46,9 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     isSliding: useRef(false),
     animationFrameId: useRef<number | null>(null),
     isHovered: useRef(false),
+    hasInitialized: useRef(false),
+
+    updateControls: useRef<() => void>(() => {}),
 
     drag: useRef<{
       isDown: boolean;
@@ -80,17 +83,48 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
   const { width } = useWindowSize();
 
-  useEffect(() => {
+  const measure = useCallback(() => {
     if (!refs.carousel.current) return;
+    const gapPx = Number(gap.slice(0, -2));
     const newWidths = refs.childRefs.current.map((el) => {
       if (!el) return 0;
-      const style = getComputedStyle(el);
-      const marginLeft = parseFloat(style.marginLeft) || 0;
-      const marginRight = parseFloat(style.marginRight) || 0;
-      return el.offsetWidth + marginLeft + marginRight + Number(gap.slice(0, -2));
+      const s = getComputedStyle(el);
+      const marginLeft = parseFloat(s.marginLeft) || 0;
+      const marginRight = parseFloat(s.marginRight) || 0;
+      return el.offsetWidth + marginLeft + marginRight + gapPx;
     });
-    setChildWidths(newWidths);
-  }, [children, width, gap]);
+
+    setChildWidths((prev) =>
+      prev.length === newWidths.length && prev.every((w, i) => w === newWidths[i]) ? prev : newWidths,
+    );
+  }, [gap]);
+
+  useEffect(() => {
+    measure();
+  }, [children, width, measure]);
+
+  useEffect(() => {
+    const el = refs.carousel.current;
+    if (!el) return;
+
+    let raf: number | null = null;
+
+    const observer = new ResizeObserver(() => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        measure();
+        refs.updateControls.current();
+      });
+    });
+
+    observer.observe(el);
+    if (el.parentElement) observer.observe(el.parentElement);
+
+    return () => {
+      observer.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [measure, isCircular]);
 
   const cumulativeOffsets = useMemo(() => {
     const offsets: number[] = [];
@@ -103,8 +137,13 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   }, [childWidths]);
 
   useEffect(() => {
-    if (isCircular && refs.carousel.current && cumulativeOffsets.length) {
+    refs.hasInitialized.current = false;
+  }, [isCircular]);
+
+  useEffect(() => {
+    if (isCircular && refs.carousel.current && cumulativeOffsets.length && !refs.hasInitialized.current) {
       refs.carousel.current.scrollLeft = (cumulativeOffsets[cloneCount] || 0) - Number(gap.slice(0, -2)) * 2;
+      refs.hasInitialized.current = true;
     }
     updateControls();
   }, [width, cumulativeOffsets, cloneCount, isCircular]);
@@ -181,6 +220,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
     setButtonsDisabled(refs.isSliding.current);
   };
+
+  refs.updateControls.current = updateControls;
 
   const setButtonsDisabled = (disabled: boolean) => {
     if (refs.buttonLeft.current) {
