@@ -55,10 +55,14 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     menuRef.current?.classList.remove(styles.menuOpen);
     contentRef.current?.classList.remove(styles.menuAnimation);
 
-    requestAnimationFrame(() => {
-      menuRef.current?.classList.remove(styles.noAnimation);
-      contentRef.current?.classList.remove(styles.noAnimation);
-    });
+    if (withoutAnimation) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          menuRef.current?.classList.remove(styles.noAnimation);
+          contentRef.current?.classList.remove(styles.noAnimation);
+        });
+      });
+    }
   };
 
   const toggleMenu = () => {
