@@ -239,7 +239,14 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             >
               {hasAside && width >= MOBILE_BREAKPOINT && (
                 <Grid layout="flex" justifyContent="flex-start" margin={0}>
-                  <Button onClick={toggleSidebar} height={'40px'} width={'40px'} backgroundColor="orange">
+                  <Button
+                    onClick={toggleSidebar}
+                    height={'40px'}
+                    width={'40px'}
+                    backgroundColor="#F2F0EF"
+                    backgroundColorDisabled="#F2F0EF"
+                    borderColor="black"
+                  >
                     <TextBox tag={'div'} mobileSize={0} desktopSize={0} margin={'2px 0 0'}>
                       <IconAside open={isSidebarOpenState} width={30} height={30} />
                     </TextBox>
@@ -279,7 +286,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
                 <Button
                   height="60px"
                   width="10px"
-                  backgroundColor="darkgrey"
+                  backgroundColor="#F2F0EF"
                   borderColor="black"
                   type="button"
                   onClick={handleClick}
