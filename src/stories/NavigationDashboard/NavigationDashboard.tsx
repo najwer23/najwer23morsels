@@ -43,12 +43,13 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
   const { width } = useWindowSize();
 
   const hasAside = aside !== null && aside !== undefined && aside !== false;
+  const showAside = hasAside && width >= MOBILE_BREAKPOINT;
 
   const [isSidebarOpenState, setIsSidebarOpen] = useState(width >= MOBILE_BREAKPOINT);
   const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_WIDTH_DEFAULT);
   const [isDragging, setIsDragging] = useState(false);
 
-  const isSidebarOpen = hasAside && isSidebarOpenState;
+  const isSidebarOpen = showAside && isSidebarOpenState;
 
   const dragRef = useRef<{
     startX: number;
@@ -237,7 +238,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
               alignItems="center"
               minHeight={'100%'}
             >
-              {hasAside && width >= MOBILE_BREAKPOINT && (
+              {showAside && (
                 <Grid layout="flex" justifyContent="flex-start" margin={0}>
                   <Button
                     onClick={toggleSidebar}
@@ -263,11 +264,11 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
 
       <Grid layout="container" padding="0 20px 0 0" widthMin={'100%'}>
         <div
-          className={[styles.row, hasAside ? isSidebarOpen && styles.rowOpen : styles.rowNoAside]
+          className={[styles.row, showAside ? isSidebarOpen && styles.rowOpen : styles.rowNoAside]
             .filter(Boolean)
             .join(' ')}
         >
-          {hasAside && (
+          {showAside && (
             <div
               className={[
                 styles.sidebarContainer,
@@ -280,8 +281,8 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             </div>
           )}
 
-          <div className={[styles.outlet, !hasAside && styles.outletNoAside].filter(Boolean).join(' ')}>
-            {hasAside && width >= MOBILE_BREAKPOINT && (
+          <div className={[styles.outlet, !showAside && styles.outletNoAside].filter(Boolean).join(' ')}>
+            {showAside && (
               <div className={styles.toggleAnchor}>
                 <Button
                   height="60px"
