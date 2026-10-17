@@ -1,8 +1,79 @@
-import { useRef } from 'react';
+import { useCallback, useEffect, useId, useRef } from 'react';
 import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { TextBox } from '../TextBox';
 import styles from './NavigationTabs.module.css';
+
+const URL_CHANGE_TIMEOUT_MS = 500; // URL must change within this time (else same-page click)
+const SETTLE_MS = 100; // DOM must be quiet this long after the URL changed
+const MAX_WAIT_MS = 3000; // safety net
+const MOBILE_QUERY = '(max-width: 767.98px)';
+
+/**
+ * Waits until the URL changed AND the page DOM stopped changing, then calls onSettled once.
+ * Mutations inside `ignoreEl` (the menu) are ignored. Returns a cancel function.
+ */
+const waitForRouteSettle = (ignoreEl: Element | null, onSettled: () => void): (() => void) => {
+  const startHref = window.location.href;
+  const startedAt = performance.now();
+
+  let done = false;
+  let pollRaf = 0;
+  let settleTimer: number | undefined;
+  let observer: MutationObserver | undefined;
+
+  const cleanup = () => {
+    cancelAnimationFrame(pollRaf);
+    clearTimeout(settleTimer);
+    clearTimeout(maxTimer);
+    observer?.disconnect();
+  };
+
+  const finish = () => {
+    if (done) return;
+    done = true;
+    cleanup();
+    onSettled();
+  };
+
+  const maxTimer = window.setTimeout(finish, MAX_WAIT_MS);
+
+  const armSettleTimer = () => {
+    clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(finish, SETTLE_MS);
+  };
+
+  const startSettling = () => {
+    observer = new MutationObserver((records) => {
+      if (records.some((r) => !ignoreEl?.contains(r.target))) armSettleTimer();
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    armSettleTimer();
+  };
+
+  const poll = () => {
+    if (done) return;
+
+    if (window.location.href !== startHref) {
+      startSettling();
+      return;
+    }
+
+    if (performance.now() - startedAt > URL_CHANGE_TIMEOUT_MS) {
+      finish(); // URL never changed
+      return;
+    }
+
+    pollRaf = requestAnimationFrame(poll);
+  };
+
+  pollRaf = requestAnimationFrame(poll);
+
+  return () => {
+    done = true;
+    cleanup();
+  };
+};
 
 interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -29,24 +100,33 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   widthInnerContainer = '1400px',
   ...props
 }) => {
+  const menuId = useId();
+  const placeholderRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const isMenuOpen = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const cancelWatchRef = useRef<(() => void) | null>(null);
 
-  const cancelPendingAnimation = () => {
+  const cancelPendingAnimation = useCallback(() => {
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-  };
+  }, []);
 
-  const openMenu = () => {
+  const stopWatching = useCallback(() => {
+    cancelWatchRef.current?.();
+    cancelWatchRef.current = null;
+  }, []);
+
+  const openMenu = useCallback(() => {
     const menu = menuRef.current;
     const content = contentRef.current;
 
     if (!menu || !content) return;
 
+    stopWatching();
     cancelPendingAnimation();
 
     isMenuOpen.current = true;
@@ -63,26 +143,30 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
         rafRef.current = null;
       });
     });
-  };
+  }, [cancelPendingAnimation, stopWatching]);
 
-  const closeMenu = (withoutAnimation = false) => {
-    const menu = menuRef.current;
-    const content = contentRef.current;
+  const closeMenu = useCallback(
+    (withoutAnimation = false) => {
+      const menu = menuRef.current;
+      const content = contentRef.current;
 
-    if (!menu || !content) return;
+      if (!menu || !content) return;
 
-    cancelPendingAnimation();
+      stopWatching();
+      cancelPendingAnimation();
 
-    isMenuOpen.current = false;
+      isMenuOpen.current = false;
 
-    if (withoutAnimation) {
-      menu.classList.add(styles.noAnimation);
-      content.classList.add(styles.noAnimation);
-    }
+      if (withoutAnimation) {
+        menu.classList.add(styles.noAnimation);
+        content.classList.add(styles.noAnimation);
+      }
 
-    menu.classList.remove(styles.menuOpen);
-    content.classList.remove(styles.menuAnimation);
-  };
+      menu.classList.remove(styles.menuOpen);
+      content.classList.remove(styles.menuAnimation);
+    },
+    [cancelPendingAnimation, stopWatching],
+  );
 
   const toggleMenu = () => {
     if (isMenuOpen.current) {
@@ -92,16 +176,65 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     }
   };
 
-  const handleMobileMenuClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMenuOpen.current) closeMenu();
+    };
+
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const onMediaChange = (e: MediaQueryListEvent) => {
+      if (!e.matches && isMenuOpen.current) closeMenu(true);
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    mql.addEventListener('change', onMediaChange);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      mql.removeEventListener('change', onMediaChange);
+      stopWatching();
+      cancelPendingAnimation();
+    };
+  }, [closeMenu, stopWatching, cancelPendingAnimation]);
+
+  const handleMobileMenuClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target;
 
     if (!(target instanceof Element)) return;
 
     const link = target.closest('a');
 
-    if (link) {
-      closeMenu(link.hasAttribute('data-no-menu-close-animation'));
+    if (!link) return;
+
+    // ctrl/cmd/shift/middle click: not a normal in-page navigation, leave the menu alone
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+    // external link opened in a new tab: leave the menu as it is
+    if (link.getAttribute('target') === '_blank') {
+      stopWatching();
+      return;
     }
+
+    // special link: keep the menu open until the route has rendered, then close instantly
+    if (link.hasAttribute('data-no-menu-close-animation')) {
+      stopWatching();
+
+      // already on this page: nothing will change, close right away
+      if (link.href === window.location.href) {
+        closeMenu(true);
+        return;
+      }
+
+      cancelWatchRef.current = waitForRouteSettle(menuRef.current, () => {
+        cancelWatchRef.current = null;
+        closeMenu(true);
+      });
+      return;
+    }
+
+    // normal link: cancel any pending special close and close with the regular animation
+    stopWatching();
+    closeMenu();
   };
 
   return (
@@ -128,16 +261,25 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
 
             {menuMobile && (
               <div className={styles.menuItemMobile}>
-                <div className={styles.menuPlaceholder}>
-                  <Button height="40px" width="70px" padding={0} backgroundColor="orangered" onClick={toggleMenu}>
+                <div ref={placeholderRef} className={styles.menuPlaceholder}>
+                  <Button
+                    height="40px"
+                    width="70px"
+                    padding={0}
+                    backgroundColor="orangered"
+                    onClick={toggleMenu}
+                    aria-label="Menu"
+                    aria-controls={menuId}
+                    aria-expanded={false}
+                  >
                     <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
                       Menu
                     </TextBox>
                   </Button>
                 </div>
 
-                <div ref={menuRef} className={styles.menu}>
-                  <div ref={contentRef} className={styles.menuContent} onClick={handleMobileMenuClick}>
+                <div id={menuId} ref={menuRef} className={styles.menu}>
+                  <div ref={contentRef} className={styles.menuContent} onClickCapture={handleMobileMenuClickCapture}>
                     {menuMobile}
                   </div>
                 </div>
