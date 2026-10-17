@@ -253,7 +253,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
                     borderColor="black"
                   >
                     <TextBox tag={'div'} mobileSize={0} desktopSize={0} margin={'2px 0 0'}>
-                      <IconAside open={isSidebarOpenState} width={30} height={30} />
+                      <IconAside open={isSidebarOpenState} width={20} height={20} />
                     </TextBox>
                   </Button>
                 </Grid>
