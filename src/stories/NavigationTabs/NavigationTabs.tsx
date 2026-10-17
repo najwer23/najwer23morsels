@@ -34,44 +34,70 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   const isMenuOpen = useRef(false);
   const rafRef = useRef<number | null>(null);
 
+  const cancelPendingAnimation = () => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  };
+
   const openMenu = () => {
+    const menu = menuRef.current;
+    const content = contentRef.current;
+
+    if (!menu || !content) return;
+
+    cancelPendingAnimation();
+
     isMenuOpen.current = true;
+
+    menu.classList.remove(styles.noAnimation);
+    content.classList.remove(styles.noAnimation);
+
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = requestAnimationFrame(() => {
-        menuRef.current?.classList.add(styles.menuOpen);
-        contentRef.current?.classList.add(styles.menuAnimation);
+        if (!isMenuOpen.current) return;
+
+        menu.classList.add(styles.menuOpen);
+        content.classList.add(styles.menuAnimation);
+        rafRef.current = null;
       });
     });
   };
 
   const closeMenu = (withoutAnimation = false) => {
+    const menu = menuRef.current;
+    const content = contentRef.current;
+
+    if (!menu || !content) return;
+
+    cancelPendingAnimation();
+
     isMenuOpen.current = false;
 
     if (withoutAnimation) {
-      menuRef.current?.classList.add(styles.noAnimation);
-      contentRef.current?.classList.add(styles.noAnimation);
+      menu.classList.add(styles.noAnimation);
+      content.classList.add(styles.noAnimation);
     }
 
-    menuRef.current?.classList.remove(styles.menuOpen);
-    contentRef.current?.classList.remove(styles.menuAnimation);
-
-    if (withoutAnimation) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          menuRef.current?.classList.remove(styles.noAnimation);
-          contentRef.current?.classList.remove(styles.noAnimation);
-        });
-      });
-    }
+    menu.classList.remove(styles.menuOpen);
+    content.classList.remove(styles.menuAnimation);
   };
 
   const toggleMenu = () => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    isMenuOpen.current ? closeMenu() : openMenu();
+    if (isMenuOpen.current) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   };
 
   const handleMobileMenuClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const link = (e.target as HTMLElement).closest('a');
+    const target = e.target;
+
+    if (!(target instanceof Element)) return;
+
+    const link = target.closest('a');
 
     if (link) {
       closeMenu(link.hasAttribute('data-no-menu-close-animation'));
@@ -79,23 +105,31 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   };
 
   return (
-    <div className={[styles.n23mNavigationTabs, 'n23mNavigationTabs', className].filter(Boolean).join(' ')} {...props}>
+    <div
+      className={[styles.n23mNavigationTabs, 'n23mNavigationTabs', className].filter(Boolean).join(' ')}
+      style={style}
+      {...props}
+    >
       <Grid layout="container" widthMax={widthMainContainer}>
-        <Grid layout="container" widthMax={widthInnerContainer} padding={'20px'} margin={'auto'}>
+        <Grid layout="container" widthMax={widthInnerContainer} padding="20px" margin="auto">
           <Grid
             layout="columns"
             gap={{ col: '20px', row: '20px' }}
-            col={{ smallDesktop: 2, desktop: 2, mobile: 2, tablet: 2 }}
+            col={{
+              smallDesktop: 2,
+              desktop: 2,
+              mobile: 2,
+              tablet: 2,
+            }}
           >
             <div>{menuTopLeftColumn}</div>
 
-            <div className={[...(menuMobile ? [styles.menuItemDesktop] : [])].join(' ')}>{menuTopRightColumn}</div>
+            <div className={menuMobile ? styles.menuItemDesktop : undefined}>{menuTopRightColumn}</div>
 
-            {/* mobile */}
             {menuMobile && (
-              <div className={[styles.menuItemMobile].join(' ')}>
+              <div className={styles.menuItemMobile}>
                 <div className={styles.menuPlaceholder}>
-                  <Button height={'40px'} width={'70px'} padding={0} backgroundColor="orangered" onClick={toggleMenu}>
+                  <Button height="40px" width="70px" padding={0} backgroundColor="orangered" onClick={toggleMenu}>
                     <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
                       Menu
                     </TextBox>
@@ -112,14 +146,14 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
           </Grid>
         </Grid>
 
-        <div className={styles.navigationLine}></div>
+        <div className={styles.navigationLine} />
 
         {!menuOnlyTop && (
           <Grid
             layout="container"
             widthMax={widthInnerContainer}
-            padding={'20px'}
-            margin={'auto'}
+            padding="20px"
+            margin="auto"
             className={styles.navigationTabMenu}
           >
             <Grid
