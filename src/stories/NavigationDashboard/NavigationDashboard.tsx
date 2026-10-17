@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { useWindowSize } from '../hooks';
@@ -170,7 +170,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     root.style.setProperty('--navigationdashboard-sidebar-w', `${sidebarWidth}px`);
   }, [sidebarWidth]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = rootRef.current;
     const header = headerRef.current;
 
@@ -196,6 +196,8 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
       passive: true,
     });
     window.addEventListener('resize', schedule);
+    window.addEventListener('pageshow', schedule);
+    window.visualViewport?.addEventListener('resize', schedule);
 
     const ro = new ResizeObserver(schedule);
     ro.observe(header);
@@ -203,6 +205,8 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
     return () => {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
+      window.removeEventListener('pageshow', schedule);
+      window.visualViewport?.removeEventListener('resize', schedule);
       ro.disconnect();
       cancelAnimationFrame(raf);
     };

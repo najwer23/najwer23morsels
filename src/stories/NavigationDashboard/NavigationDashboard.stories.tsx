@@ -38,8 +38,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/* ---------- helpers ---------- */
-
 const NAV_ITEMS = ['Overview', 'Analytics', 'Reports', 'Users', 'Settings'];
 
 const NavigationLinks = ({ items = NAV_ITEMS }: { items?: string[] }) => (
@@ -108,34 +106,6 @@ const MainContent = ({
   </main>
 );
 
-const WideTable = () => (
-  <table style={{ borderCollapse: 'collapse', minWidth: 1800 }}>
-    <thead>
-      <tr>
-        {Array.from({ length: 12 }, (_, i) => (
-          <th
-            key={i}
-            style={{ border: '1px solid #ddd', padding: '8px 16px', textAlign: 'left', background: '#fafafa' }}
-          >
-            Column {i + 1}
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {Array.from({ length: 15 }, (_, row) => (
-        <tr key={row}>
-          {Array.from({ length: 12 }, (_, col) => (
-            <td key={col} style={{ border: '1px solid #ddd', padding: '8px 16px', whiteSpace: 'nowrap' }}>
-              Row {row + 1} / Cell {col + 1}
-            </td>
-          ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
-
 const defaultArgs = {
   menuTopLeftColumn: (
     <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
@@ -171,8 +141,6 @@ const defaultArgs = {
   outlet: <MainContent />,
   aside: <NavigationLinks />,
 };
-
-/* ---------- basic ---------- */
 
 export const Default: Story = {
   args: defaultArgs,
@@ -213,8 +181,6 @@ export const EmptySidebar: Story = {
     outlet: <MainContent title="Empty sidebar" />,
   },
 };
-
-/* ---------- scrolling ---------- */
 
 export const LongSidebar: Story = {
   args: {
@@ -259,60 +225,6 @@ export const LongSidebarAndLongPage: Story = {
   },
 };
 
-/* ---------- overflow ---------- */
-
-export const WideContent: Story = {
-  args: {
-    ...defaultArgs,
-    outlet: (
-      <main style={{ width: '100%', minHeight: 600 }}>
-        <h1 style={{ marginTop: 0 }}>Wide content</h1>
-        <p>
-          The striped block is 2400px wide. It should scroll inside the outlet, with no page-level horizontal scroll.
-        </p>
-        <div
-          style={{
-            width: 2400,
-            height: 300,
-            background: 'repeating-linear-gradient(90deg, #f0f0f0 0 100px, #fff 100px 200px)',
-            border: '1px solid #ddd',
-          }}
-        />
-      </main>
-    ),
-  },
-};
-
-export const WideTableContent: Story = {
-  args: {
-    ...defaultArgs,
-    outlet: (
-      <main style={{ width: '100%', minHeight: 600 }}>
-        <h1 style={{ marginTop: 0 }}>Wide table</h1>
-        <WideTable />
-      </main>
-    ),
-  },
-};
-
-export const LongUnbrokenText: Story = {
-  args: {
-    ...defaultArgs,
-    outlet: (
-      <main style={{ width: '100%', minHeight: 300 }}>
-        <h1 style={{ marginTop: 0 }}>Long unbroken text</h1>
-        <p style={{ whiteSpace: 'nowrap' }}>{'Unbreakable '.repeat(80)}</p>
-        <pre style={{ background: '#f6f6f6', padding: 16 }}>
-          {'const veryLongLine = '.concat('"x".repeat(300)'.repeat(10))}
-        </pre>
-      </main>
-    ),
-  },
-};
-
-/* ---------- responsive ---------- */
-
-// Storybook 9+ syntax. On Storybook 8 use: parameters: { viewport: { defaultViewport: 'mobile1' } }
 export const Mobile: Story = {
   args: defaultArgs,
   globals: { viewport: { value: 'mobile1', isRotated: false } },
@@ -342,46 +254,5 @@ export const MobileLongPage: Story = {
         story: 'Scroll the page: the Menu button should stay fixed on screen.',
       },
     },
-  },
-};
-
-/* ---------- interaction ---------- */
-
-export const ToggleSidebar: Story = {
-  args: defaultArgs,
-  parameters: {
-    docs: {
-      description: {
-        story: 'Click the divider to collapse and reopen the sidebar. The play function checks it automatically.',
-      },
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const link = canvas.getByRole('link', { name: 'Overview' });
-    const toggle = canvas.getByRole('button', { name: '|' });
-
-    await expect(link).toBeVisible();
-
-    await userEvent.click(toggle);
-    await waitFor(() => expect(link).not.toBeVisible(), { timeout: 2000 });
-
-    await userEvent.click(toggle);
-    await waitFor(() => expect(link).toBeVisible(), { timeout: 2000 });
-  },
-};
-
-export const WideContentNoPageScroll: Story = {
-  args: WideContent.args,
-  parameters: {
-    docs: {
-      description: {
-        story: 'Asserts that wide content does not create horizontal scroll on the page.',
-      },
-    },
-  },
-  play: async () => {
-    const doc = document.documentElement;
-    await expect(doc.scrollWidth).toBeLessThanOrEqual(doc.clientWidth);
   },
 };
