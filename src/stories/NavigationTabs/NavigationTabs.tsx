@@ -44,10 +44,21 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     });
   };
 
-  const closeMenu = () => {
+  const closeMenu = (withoutAnimation = false) => {
     isMenuOpen.current = false;
+
+    if (withoutAnimation) {
+      menuRef.current?.classList.add(styles.noAnimation);
+      contentRef.current?.classList.add(styles.noAnimation);
+    }
+
     menuRef.current?.classList.remove(styles.menuOpen);
     contentRef.current?.classList.remove(styles.menuAnimation);
+
+    requestAnimationFrame(() => {
+      menuRef.current?.classList.remove(styles.noAnimation);
+      contentRef.current?.classList.remove(styles.noAnimation);
+    });
   };
 
   const toggleMenu = () => {
@@ -56,8 +67,10 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   };
 
   const handleMobileMenuClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('a')) {
-      closeMenu();
+    const link = (e.target as HTMLElement).closest('a');
+
+    if (link) {
+      closeMenu(link.hasAttribute('data-no-menu-close-animation'));
     }
   };
 

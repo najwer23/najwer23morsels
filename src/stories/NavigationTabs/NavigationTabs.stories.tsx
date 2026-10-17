@@ -20,7 +20,7 @@ Content inside \`menuMobile\` is **centered** by default. Put \`margin={0}\` on 
 \`\`\`tsx
 import { NavigationTabs } from 'najwer23morsels/lib/NavigationTabs';
 \`\`\`
-      `,
+        `,
       },
     },
   },
@@ -40,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 const preventDefault = (e: React.MouseEvent) => e.preventDefault();
 
 const Logo = ({ label = 'Gym' }: { label?: string }) => (
-  <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
+  <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight="100%">
     <TextBox desktopSize={20} mobileSize={20} fontWeight={500} tag="a" href="/" onClick={preventDefault}>
       {label}
     </TextBox>
@@ -48,7 +48,7 @@ const Logo = ({ label = 'Gym' }: { label?: string }) => (
 );
 
 const TopRightLinks = ({ items = ['Login'] }: { items?: string[] }) => (
-  <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight={'100%'} gap={{ col: '20px', row: '0' }}>
+  <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight="100%" gap={{ col: '20px', row: '0' }}>
     {items.map((label) => (
       <TextBox
         key={label}
@@ -178,6 +178,29 @@ const PageContent = ({ repeat = 1000 }: { repeat?: number }) => (
   <div style={{ padding: 20 }}>{'Page content. '.repeat(repeat)}</div>
 );
 
+const AnimationTestLinks = () => (
+  <Grid layout="container" margin={0} gap={{ col: '0', row: '16px' }}>
+    <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={600}>
+      Animation test
+    </TextBox>
+
+    <TextBox tag="a" href="#normal-link" desktopSize={28} mobileSize={28} onClick={preventDefault}>
+      Normal link (animated close)
+    </TextBox>
+
+    <TextBox
+      tag="a"
+      href="#instant-link"
+      data-no-menu-close-animation
+      desktopSize={28}
+      mobileSize={28}
+      onClick={preventDefault}
+    >
+      Instant link (no animation)
+    </TextBox>
+  </Grid>
+);
+
 const defaultArgs = {
   menuTopLeftColumn: <Logo />,
   menuTopRightColumn: <TopRightLinks />,
@@ -271,7 +294,7 @@ export const CustomTopColumns: Story = {
         layout="flex"
         justifyContent="flex-start"
         alignItems="center"
-        minHeight={'100%'}
+        minHeight="100%"
         gap={{ col: '12px', row: '0' }}
       >
         <div style={{ width: 32, height: 32, borderRadius: 8, background: 'orangered' }} />
@@ -285,7 +308,7 @@ export const CustomTopColumns: Story = {
         layout="flex"
         justifyContent="flex-end"
         alignItems="center"
-        minHeight={'100%'}
+        minHeight="100%"
         gap={{ col: '16px', row: '0' }}
       >
         <TextBox tag="a" href="/login" desktopSize={18} mobileSize={18} fontWeight={500} onClick={preventDefault}>
@@ -489,12 +512,13 @@ export const MobileSectionsWithExtras: Story = {
           <TextBox
             tag="a"
             href="/auth/login"
+            data-no-menu-close-animation
             desktopSize={28}
             mobileSize={28}
             fontWeight={400}
             onClick={preventDefault}
           >
-            Login
+            Login (no closing animation)
           </TextBox>
         </Grid>
 
@@ -512,7 +536,7 @@ export const MobileSectionsWithExtras: Story = {
     docs: {
       ...isolatedDocs.docs,
       description: {
-        story: 'Sections plus mobile-only extras: an Account block on top and a footer line at the bottom.',
+        story: 'Sections plus mobile-only extras. The Login link opts out of the closing animation.',
       },
     },
   },
@@ -556,4 +580,22 @@ export const MobileLongPage: Story = {
       <PageContent repeat={3000} />
     </div>
   ),
+};
+
+export const MobileMenuCloseAnimation: Story = {
+  args: {
+    ...defaultArgs,
+    menuMobile: <AnimationTestLinks />,
+  },
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
+  parameters: {
+    ...isolatedDocs,
+    docs: {
+      ...isolatedDocs.docs,
+      description: {
+        story:
+          'Open the mobile menu and compare both links. The normal link should close with the CSS transition; the link with data-no-menu-close-animation should close immediately.',
+      },
+    },
+  },
 };

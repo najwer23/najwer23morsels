@@ -32,9 +32,7 @@
       .menuContent {
         display: flex;
         flex-direction: column;
-
         padding: 150px 20px;
-
         opacity: 0;
         transition: opacity 0s ease-out;
         transition-delay: 0s;
@@ -56,6 +54,11 @@
       transform: scale(1);
       transition: transform 250ms ease-in;
       will-change: transform;
+    }
+
+    .menu.noAnimation,
+    .menuContent.noAnimation {
+      transition: none;
     }
 
     .menuItemMobile {
