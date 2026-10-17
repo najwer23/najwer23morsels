@@ -2,78 +2,8 @@ import { useCallback, useEffect, useId, useRef } from 'react';
 import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { TextBox } from '../TextBox';
+import { waitForRouteSettle } from './Navigation.utils';
 import styles from './NavigationTabs.module.css';
-
-const URL_CHANGE_TIMEOUT_MS = 500; // URL must change within this time (else same-page click)
-const SETTLE_MS = 100; // DOM must be quiet this long after the URL changed
-const MAX_WAIT_MS = 3000; // safety net
-const MOBILE_QUERY = '(max-width: 767.98px)';
-
-/**
- * Waits until the URL changed AND the page DOM stopped changing, then calls onSettled once.
- * Mutations inside `ignoreEl` (the menu) are ignored. Returns a cancel function.
- */
-const waitForRouteSettle = (ignoreEl: Element | null, onSettled: () => void): (() => void) => {
-  const startHref = window.location.href;
-  const startedAt = performance.now();
-
-  let done = false;
-  let pollRaf = 0;
-  let settleTimer: number | undefined;
-  let observer: MutationObserver | undefined;
-
-  const cleanup = () => {
-    cancelAnimationFrame(pollRaf);
-    clearTimeout(settleTimer);
-    clearTimeout(maxTimer);
-    observer?.disconnect();
-  };
-
-  const finish = () => {
-    if (done) return;
-    done = true;
-    cleanup();
-    onSettled();
-  };
-
-  const maxTimer = window.setTimeout(finish, MAX_WAIT_MS);
-
-  const armSettleTimer = () => {
-    clearTimeout(settleTimer);
-    settleTimer = window.setTimeout(finish, SETTLE_MS);
-  };
-
-  const startSettling = () => {
-    observer = new MutationObserver((records) => {
-      if (records.some((r) => !ignoreEl?.contains(r.target))) armSettleTimer();
-    });
-    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
-    armSettleTimer();
-  };
-
-  const poll = () => {
-    if (done) return;
-
-    if (window.location.href !== startHref) {
-      startSettling();
-      return;
-    }
-
-    if (performance.now() - startedAt > URL_CHANGE_TIMEOUT_MS) {
-      finish(); // URL never changed
-      return;
-    }
-
-    pollRaf = requestAnimationFrame(poll);
-  };
-
-  pollRaf = requestAnimationFrame(poll);
-
-  return () => {
-    done = true;
-    cleanup();
-  };
-};
 
 interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -181,7 +111,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
       if (e.key === 'Escape' && isMenuOpen.current) closeMenu();
     };
 
-    const mql = window.matchMedia(MOBILE_QUERY);
+    const mql = window.matchMedia('(max-width: 767.98px)');
     const onMediaChange = (e: MediaQueryListEvent) => {
       if (!e.matches && isMenuOpen.current) closeMenu(true);
     };
