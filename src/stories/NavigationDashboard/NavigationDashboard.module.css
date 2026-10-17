@@ -72,7 +72,7 @@
       min-width: max(var(--navigationdashboard-sidebar-w), var(--navigationdashboard-sidebar-min));
 
       box-sizing: border-box;
-      max-height: calc(100dvh - var(--navigationdashboard-h, 0px));
+      height: calc(100dvh - var(--navigationdashboard-h, 0px));
 
       padding: 20px 30px 20px 20px;
 
