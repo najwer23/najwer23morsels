@@ -5,9 +5,13 @@ import { TextBox } from '../TextBox';
 interface ButtonCopyProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
-  backgroundColor?: string;
-  color?: string;
+  backgroundColor?: React.CSSProperties['backgroundColor'];
+  color?: React.CSSProperties['color'];
+  padding?: React.CSSProperties['padding'];
+  margin?: React.CSSProperties['margin'];
   textToCopy: string;
+  height?: React.CSSProperties['height'];
+  width?: React.CSSProperties['width'];
 }
 
 export const ButtonCopy: React.FC<ButtonCopyProps> = ({
@@ -15,6 +19,10 @@ export const ButtonCopy: React.FC<ButtonCopyProps> = ({
   className,
   style,
   textToCopy,
+  margin,
+  height = 'auto',
+  width = 'auto',
+  padding = '0px 3px',
   color = 'white',
   backgroundColor = 'orangered',
   ...props
@@ -49,9 +57,10 @@ export const ButtonCopy: React.FC<ButtonCopyProps> = ({
     <div className={['n23mButtonCopy', className].filter(Boolean).join(' ')} {...props}>
       <Button
         type="button"
-        padding={'0px 3px'}
-        height={'auto'}
-        width="auto"
+        padding={padding}
+        height={height}
+        width={width}
+        margin={margin}
         backgroundColor={isCopied ? '#4BB543' : backgroundColor}
         onClick={handleCopy}
       >
