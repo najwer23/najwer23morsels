@@ -111,7 +111,7 @@ export const FormForgotPassOtp: React.FC<FormForgotPassOtpProps> = ({
               type="password"
               name="pass"
               validatorOptions={[{ type: 'empty' }, { type: 'equal', options: { ref: confirmPass } }]}
-              placeholder="New password"
+              placeholder="Create a new password"
               onBlur={() => {
                 if (isBlurring.current) return;
                 if (!pass.current?.value || !confirmPass.current?.value) return;
@@ -127,7 +127,7 @@ export const FormForgotPassOtp: React.FC<FormForgotPassOtpProps> = ({
               type="password"
               name="confirmPass"
               validatorOptions={[{ type: 'empty' }, { type: 'equal', options: { ref: pass } }]}
-              placeholder="Confirm new password"
+              placeholder="Re-enter your new password"
               onBlur={() => {
                 if (isBlurring.current) return;
                 if (!pass.current?.value || !confirmPass.current?.value) return;
@@ -147,7 +147,7 @@ export const FormForgotPassOtp: React.FC<FormForgotPassOtpProps> = ({
               backgroundColorDisabled="grey"
             >
               <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                SEND
+                Send
               </TextBox>
             </Button>
           </Form>

@@ -109,14 +109,14 @@ export const FormSignUp: React.FC<FormSignUpProps> = ({
               label="Email"
               name="email"
               type="text"
-              placeholder="Email"
+              placeholder="you@example.com"
             />
             <Input
               label="Password"
               type="password"
               name="pass"
               validatorOptions={[{ type: 'empty' }]}
-              placeholder="Password"
+              placeholder="Enter your password"
             />
 
             <Grid layout="flex" justifyContent="space-between" alignItems="flex-start">
@@ -130,7 +130,7 @@ export const FormSignUp: React.FC<FormSignUpProps> = ({
                 backgroundColorDisabled="grey"
               >
                 <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                  SIGN UP
+                  Sign up
                 </TextBox>
               </Button>
 

@@ -109,7 +109,7 @@ export const FormForgotPass: React.FC<FormForgotPassProps> = ({
               label="Email"
               name="email"
               type="text"
-              placeholder="Email"
+              placeholder="you@example.com"
             />
 
             <Grid layout="flex" justifyContent="space-between" alignItems="flex-start">
@@ -123,7 +123,7 @@ export const FormForgotPass: React.FC<FormForgotPassProps> = ({
                 backgroundColorDisabled="grey"
               >
                 <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                  SEND
+                  Send
                 </TextBox>
               </Button>
 

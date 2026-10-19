@@ -114,14 +114,14 @@ export const FormLogin: React.FC<FormLoginProps> = ({
               label="Email"
               name="email"
               type="text"
-              placeholder="Email"
+              placeholder="you@example.com"
             />
             <Input
               label="Password"
               type="password"
               name="pass"
               validatorOptions={[{ type: 'empty' }]}
-              placeholder="Password"
+              placeholder="Enter your password"
             />
 
             <Grid layout="flex" justifyContent="space-between" alignItems="flex-start">
@@ -135,7 +135,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
                 backgroundColorDisabled="grey"
               >
                 <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                  LOG IN
+                  Log in
                 </TextBox>
               </Button>
 
