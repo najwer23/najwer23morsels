@@ -22,7 +22,6 @@
       background-color: rgb(225, 223, 223);
       overflow-y: auto;
       overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
       contain: strict;
       transform: scale(0);
       transform-origin: top right;
@@ -34,8 +33,6 @@
         flex-direction: column;
         padding: 150px 20px;
         opacity: 0;
-        transition: opacity 0s ease-out;
-        transition-delay: 0s;
 
         &.menuAnimation {
           opacity: 1;
@@ -53,7 +50,6 @@
     .menuOpen {
       transform: scale(1);
       transition: transform 250ms ease-in;
-      will-change: transform;
     }
 
     .menu.noAnimation,

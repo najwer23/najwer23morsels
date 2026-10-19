@@ -2,7 +2,7 @@ import { useCallback, useEffect, useId, useRef } from 'react';
 import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { TextBox } from '../TextBox';
-import { waitForRouteSettle } from './Navigation.utils';
+import { isHashRoute, normalizePath, waitForRouteSettle } from './Navigation.utils';
 import styles from './NavigationTabs.module.css';
 
 interface NavigationTabsProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,7 +31,6 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
   ...props
 }) => {
   const menuId = useId();
-  const placeholderRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const isMenuOpen = useRef(false);
@@ -106,6 +105,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     }
   };
 
+  // Escape key and switching to a desktop viewport
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isMenuOpen.current) closeMenu();
@@ -127,6 +127,24 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     };
   }, [closeMenu, stopWatching, cancelPendingAnimation]);
 
+  // Browser back and forward buttons
+  useEffect(() => {
+    const onHistoryChange = () => {
+      // a menu click is already being watched: let it finish
+      if (cancelWatchRef.current) return;
+
+      if (isMenuOpen.current) closeMenu(true);
+    };
+
+    window.addEventListener('popstate', onHistoryChange);
+    window.addEventListener('hashchange', onHistoryChange);
+
+    return () => {
+      window.removeEventListener('popstate', onHistoryChange);
+      window.removeEventListener('hashchange', onHistoryChange);
+    };
+  }, [closeMenu]);
+
   const handleMobileMenuClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target;
 
@@ -139,32 +157,41 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
     // ctrl/cmd/shift/middle click: not a normal in-page navigation, leave the menu alone
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
-    // external link opened in a new tab: leave the menu as it is
-    if (link.getAttribute('target') === '_blank') {
+    // new tab or download: the current page stays as it is, leave the menu alone
+    if (link.getAttribute('target') === '_blank' || link.hasAttribute('download')) {
       stopWatching();
       return;
     }
 
-    // special link: keep the menu open until the route has rendered, then close instantly
-    if (link.hasAttribute('data-no-menu-close-animation')) {
+    const url = new URL(link.href, window.location.href);
+
+    // external link in the same tab: the page is about to unload, keep the menu as it is
+    if (url.origin !== window.location.origin) {
       stopWatching();
-
-      // already on this page: nothing will change, close right away
-      if (link.href === window.location.href) {
-        closeMenu(true);
-        return;
-      }
-
-      cancelWatchRef.current = waitForRouteSettle(menuRef.current, () => {
-        cancelWatchRef.current = null;
-        closeMenu(true);
-      });
       return;
     }
 
-    // normal link: cancel any pending special close and close with the regular animation
+    const isSamePath =
+      normalizePath(url.pathname) === normalizePath(window.location.pathname) && url.search === window.location.search;
+
+    // the hash only changes the page if it's a route, either the one we leave or the one we enter
+    const hashChangesPage =
+      url.hash !== window.location.hash && (isHashRoute(url.hash) || isHashRoute(window.location.hash));
+
+    // same path and nothing that changes the page: close with animation right away
+    if (isSamePath && !hashChangesPage) {
+      stopWatching();
+      closeMenu();
+      return;
+    }
+
+    // different path, or a hash route change: keep the menu covering the page
+    // until the new route has rendered, then close with the regular animation
     stopWatching();
-    closeMenu();
+    cancelWatchRef.current = waitForRouteSettle(menuRef.current, () => {
+      cancelWatchRef.current = null;
+      closeMenu();
+    });
   };
 
   return (
@@ -191,7 +218,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
 
             {menuMobile && (
               <div className={styles.menuItemMobile}>
-                <div ref={placeholderRef} className={styles.menuPlaceholder}>
+                <div className={styles.menuPlaceholder}>
                   <Button
                     height="40px"
                     width="70px"
@@ -200,7 +227,6 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
                     onClick={toggleMenu}
                     aria-label="Menu"
                     aria-controls={menuId}
-                    aria-expanded={false}
                   >
                     <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
                       Menu

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 import { Grid } from '../Grid';
 import { TextBox } from '../TextBox';
 import { NavigationTabs } from '.';
@@ -16,6 +17,9 @@ Below 768px the right column and the bottom tabs are hidden, and a fixed **Menu*
 (only when \`menuMobile\` is provided).
 
 Content inside \`menuMobile\` is **centered** by default. Put \`margin={0}\` on its root \`Grid\` to left-justify it.
+
+When a link in the mobile menu changes the route, the menu stays open until the new page has rendered, then closes
+with its animation. Same-page links, anchors, and links opened in a new tab are handled separately.
 
 \`\`\`tsx
 import { NavigationTabs } from 'najwer23morsels/lib/NavigationTabs';
@@ -178,25 +182,59 @@ const PageContent = ({ repeat = 1000 }: { repeat?: number }) => (
   <div style={{ padding: 20 }}>{'Page content. '.repeat(repeat)}</div>
 );
 
-const AnimationTestLinks = () => (
+// Simulates a router: swaps the page shortly after the hash changes.
+// delayMs must stay below the settle time (150 ms), otherwise the menu closes before the swap.
+const RoutePage = ({ delayMs = 100 }: { delayMs?: number }) => {
+  const [route, setRoute] = useState(() => window.location.hash || '#/home');
+
+  useEffect(() => {
+    let timer: number | undefined;
+
+    const onHashChange = () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => setRoute(window.location.hash), delayMs);
+    };
+
+    window.addEventListener('hashchange', onHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', onHashChange);
+      clearTimeout(timer);
+    };
+  }, [delayMs]);
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>{route}</h1>
+      <PageContent repeat={200} />
+    </div>
+  );
+};
+
+// No preventDefault on the hash links: the URL has to change, or the menu has nothing to wait for.
+const RouteChangeLinks = () => (
   <Grid layout="container" margin={0} gap={{ col: '0', row: '16px' }}>
     <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={600}>
-      Animation test
+      Route change test
     </TextBox>
 
-    <TextBox tag="a" href="#normal-link" desktopSize={28} mobileSize={28} onClick={preventDefault}>
-      Normal link (animated close)
-    </TextBox>
+    {['dashboard', 'weight', 'settings'].map((name) => (
+      <div key={name}>
+        <TextBox key={name} tag="a" href={`#/${name}`} desktopSize={28} mobileSize={28}>
+          {name[0].toUpperCase() + name.slice(1)}
+        </TextBox>
+      </div>
+    ))}
 
     <TextBox
       tag="a"
-      href="#instant-link"
-      data-no-menu-close-animation
+      href="https://najwer23.github.io/"
+      target="_blank"
+      rel="noreferrer"
       desktopSize={28}
       mobileSize={28}
-      onClick={preventDefault}
     >
-      Instant link (no animation)
+      External link ↗
     </TextBox>
   </Grid>
 );
@@ -512,13 +550,12 @@ export const MobileSectionsWithExtras: Story = {
           <TextBox
             tag="a"
             href="/auth/login"
-            data-no-menu-close-animation
             desktopSize={28}
             mobileSize={28}
             fontWeight={400}
             onClick={preventDefault}
           >
-            Login (no closing animation)
+            Login
           </TextBox>
         </Grid>
 
@@ -536,7 +573,7 @@ export const MobileSectionsWithExtras: Story = {
     docs: {
       ...isolatedDocs.docs,
       description: {
-        story: 'Sections plus mobile-only extras. The Login link opts out of the closing animation.',
+        story: 'Sections plus mobile-only extras, such as an account link and a footer.',
       },
     },
   },
@@ -582,10 +619,10 @@ export const MobileLongPage: Story = {
   ),
 };
 
-export const MobileMenuCloseAnimation: Story = {
+export const MobileMenuRouteChange: Story = {
   args: {
     ...defaultArgs,
-    menuMobile: <AnimationTestLinks />,
+    menuMobile: <RouteChangeLinks />,
   },
   globals: { viewport: { value: 'mobile1', isRotated: false } },
   parameters: {
@@ -594,8 +631,14 @@ export const MobileMenuCloseAnimation: Story = {
       ...isolatedDocs.docs,
       description: {
         story:
-          'Open the mobile menu and compare both links. The normal link should close with the CSS transition; the link with data-no-menu-close-animation should close immediately.',
+          'Open the menu and click a route. The menu stays open while the page changes underneath, then closes with its animation, so the old page is never visible. The external link opens in a new tab and leaves the menu as it is.',
       },
     },
   },
+  render: (args) => (
+    <div style={{ width: '100%' }}>
+      <NavigationTabs {...args} />
+      <RoutePage />
+    </div>
+  ),
 };
