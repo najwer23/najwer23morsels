@@ -280,7 +280,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
               ].join(' ')}
             >
               <div className={[styles.sticky, isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed].join(' ')}>
-                {aside}
+                <div className={styles.asideInner}>{aside}</div>
               </div>
             </div>
           )}

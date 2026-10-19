@@ -27,6 +27,7 @@
       width: 100%;
       min-width: 0;
       grid-template-columns: 0px minmax(0, 1fr);
+      overflow-x: clip; /* clip (not hidden) so position: sticky keeps working */
       transition: grid-template-columns var(--navigationdashboard-sidebar-duration)
         var(--navigationdashboard-sidebar-easing);
     }
@@ -65,8 +66,8 @@
       height: calc(100dvh - var(--navigationdashboard-h, 0px));
       padding: 20px 30px 20px 20px;
 
-      overflow-x: auto;
-      overflow-y: auto;
+      overflow-x: hidden; /* was auto: this caused the horizontal scrollbar */
+      overflow-y: auto; /* the only scrollbar in the sidebar */
       overscroll-behavior: contain;
 
       transform: translate3d(0, 0, 0);
@@ -77,6 +78,21 @@
         opacity 300ms ease;
 
       will-change: transform;
+    }
+
+    /* Content never gets narrower than the min width; it is clipped, not squashed, while dragging.
+       52px = 20px left padding + 30px right padding + 2px border */
+    .asideInner {
+      box-sizing: border-box;
+      width: calc(max(var(--navigationdashboard-sidebar-min), var(--navigationdashboard-sidebar-w)) - 52px);
+      min-width: 0;
+    }
+
+    /* Prevent the root of the aside from creating a second scrollbar */
+    .asideInner > * {
+      height: auto;
+      max-height: none;
+      overflow: visible;
     }
 
     .sidebarOpen {
