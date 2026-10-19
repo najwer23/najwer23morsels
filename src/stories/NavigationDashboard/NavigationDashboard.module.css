@@ -62,7 +62,7 @@
 
     .outletContent {
       min-width: 0;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     .sticky {
