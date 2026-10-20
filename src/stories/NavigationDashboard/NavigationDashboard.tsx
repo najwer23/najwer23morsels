@@ -20,9 +20,9 @@ interface NavigationDashboardProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const SIDEBAR_WIDTH_DEFAULT = 300;
-const SIDEBAR_WIDTH_MIN = 200;
+const SIDEBAR_WIDTH_MIN = 300;
 const SIDEBAR_WIDTH_MAX = 480;
-const COLLAPSE_THRESHOLD = 120;
+const COLLAPSE_THRESHOLD = 220;
 const DRAG_THRESHOLD = 4;
 const MOBILE_BREAKPOINT = 768;
 
