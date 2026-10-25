@@ -42,6 +42,7 @@ export default {
   output: {
     dir: 'lib',
     format: 'esm',
+    entryFileNames: '[name]/index.js',
     // sourcemap: true,
   },
   plugins: [
