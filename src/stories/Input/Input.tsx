@@ -1,8 +1,10 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { type ValidatorOptions, validator } from '../validator';
 import styles from './Input.module.css';
+import { FieldElement } from './Input.types';
+import { isAutofillEvent, isAutofilled } from './Input.utils';
 
 interface InputBase extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
@@ -58,35 +60,50 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   ...props
 }) => {
   const errorRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    onBlur?.(e);
+  const validate = (target: FieldElement) => {
+    if (errorRef.current) errorRef.current.textContent = '';
 
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+    if (!validatorOptions) return;
 
-    if (document.activeElement !== target) {
-      if (errorRef.current) errorRef.current.textContent = '';
-
-      if (validatorOptions) {
-        const validatorResult = validator(target.value, validatorOptions);
-        if (validatorResult.length > 0) {
-          if (errorRef.current) {
-            errorRef.current.textContent = validatorResult[0];
-          }
-          target.classList.add('error');
-        } else {
-          target.classList.remove('error');
-        }
-      }
+    const validatorResult = validator(target.value, validatorOptions);
+    if (validatorResult.length > 0) {
+      if (errorRef.current) errorRef.current.textContent = validatorResult[0];
+      target.classList.add('error');
+    } else {
+      target.classList.remove('error');
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    onChange?.(e);
+  const handleBlur = (e: React.FocusEvent<FieldElement>) => {
+    onBlur?.(e);
+
+    const target = e.target;
+    if (document.activeElement !== target) validate(target);
   };
+
+  const handleChange = (e: React.ChangeEvent<FieldElement>) => {
+    onChange?.(e);
+
+    const target = e.target;
+
+    if (isAutofillEvent(e) || target.classList.contains('error')) {
+      validate(target);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const el = wrapperRef.current?.querySelector<FieldElement>('input, textarea');
+      if (el && el.value && isAutofilled(el)) validate(el);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div
+      ref={wrapperRef}
       className={[styles.n23mInput, 'n23mInput', className].filter(Boolean).join(' ')}
       {...props}
       style={{
@@ -104,7 +121,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           tag="label"
           fontWeight={400}
           color={labelColor}
-          htmlFor={kind == 'select' ? id : name}
+          htmlFor={kind === 'select' ? id : name}
         >
           {label}
         </TextBox>
