@@ -1,10 +1,10 @@
 {
   "name": "najwer23morsels",
-  "version": "1.9.39",
+  "version": "1.9.40",
   "exports": {
     "./lib/*": {
       "types": "./lib/*/index.d.ts",
-      "import": "./lib/*.js"
+      "import": "./lib/*/index.js"
     }
   },
   "author": "Mariusz Najwer (https://najwer23.github.io/)",
