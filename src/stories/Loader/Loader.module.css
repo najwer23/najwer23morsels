@@ -11,4 +11,10 @@
     border-radius: 12px;
     corner-shape: squircle;
   }
+
+  .n23mLoaderTopLeft {
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 16px;
+  }
 }

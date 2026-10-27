@@ -9,6 +9,7 @@ interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   mobileSize?: number;
   desktopSize?: number;
+  textPosition?: 'center' | 'topLeft';
 }
 
 export const Loader: React.FC<LoaderProps> = ({
@@ -18,11 +19,23 @@ export const Loader: React.FC<LoaderProps> = ({
   text = 'Loading',
   mobileSize = 16,
   desktopSize = 16,
+  textPosition = 'center',
   style,
+  ...props
 }) => {
+  const isTopLeft = textPosition === 'topLeft';
+
   return (
     <div
-      className={[styles.n23mLoader, 'n23mLoader', className].filter(Boolean).join(' ')}
+      className={[
+        styles.n23mLoader,
+        'n23mLoader',
+        isTopLeft && styles.n23mLoaderTopLeft,
+        isTopLeft && 'n23mLoaderTopLeft',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       style={{
         ...getCssVariableStyle({
           '--loader-lc': loaderColor,
@@ -30,6 +43,7 @@ export const Loader: React.FC<LoaderProps> = ({
         }),
         ...style,
       }}
+      {...props}
     >
       <LoaderDots color={loaderColor} text={text} mobileSize={mobileSize} desktopSize={desktopSize} />
     </div>

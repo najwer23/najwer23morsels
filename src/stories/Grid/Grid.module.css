@@ -1,58 +1,66 @@
 @layer n23mGrid {
   .n23mGridFlex,
-  .n23mGridContainer {
-    max-width: var(--grid-wx);
-    min-width: var(--grid-wn);
+  .n23mGridContainer,
+  .n23mGridColumns {
+    max-width: var(--grid-wx, none);
+    min-width: var(--grid-wn, 0);
     min-height: var(--grid-mh, auto);
-    padding: var(--grid-p);
-    margin: var(--grid-m);
+    padding: var(--grid-p, 0);
+    margin: var(--grid-m, 0);
     box-sizing: border-box;
   }
 
-  .n23mGridFlex {
+  .n23mGridFlex,
+  .n23mGridColumns {
     display: flex;
-    justify-content: var(--grid-jc, space-between);
     column-gap: var(--grid-cg, 0px);
-    row-gap: var(--grid-rg);
+    row-gap: var(--grid-rg, 0px);
+  }
+
+  .n23mGridFlex {
+    justify-content: var(--grid-jc, space-between);
     align-items: var(--grid-ai, center);
     flex-direction: var(--grid-fd, row);
     flex-wrap: var(--grid-fw, nowrap);
   }
 
+  .n23mGridLoading > * {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
   .n23mGridColumns {
-    display: flex;
-    column-gap: var(--grid-cg, 0px);
-    row-gap: var(--grid-rg);
     flex-wrap: wrap;
     width: 100%;
+
+    --_m: var(--grid-cm, 1);
+    --_t: var(--grid-ct, var(--_m));
+    --_sd: var(--grid-csd, var(--_t));
+    --_d: var(--grid-cd, var(--_sd));
+    --gfc: var(--_m);
   }
 
-  .n23mGridColumns > div {
-    width: calc((100% / var(--gfc)) - (((var(--gfc) - 1) / var(--gfc)) * var(--grid-cg, 0px)));
+  .n23mGridColumns > * {
+    box-sizing: border-box;
+    width: calc((100% - (var(--gfc) - 1) * var(--grid-cg, 0px)) / var(--gfc));
   }
 
-  /* breakpoints */
-  @media (max-width: 767.98px) {
-    .n23mGridColumns > div {
-      --gfc: var(--grid-cm);
+  @media (min-width: 768px) {
+    .n23mGridColumns {
+      --gfc: var(--_t);
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1199.98px) {
-    .n23mGridColumns > div {
-      --gfc: var(--grid-ct);
-    }
-  }
-
-  @media (min-width: 1200px) and (max-width: 1599.98px) {
-    .n23mGridColumns > div {
-      --gfc: var(--grid-csd);
+  @media (min-width: 1200px) {
+    .n23mGridColumns {
+      --gfc: var(--_sd);
     }
   }
 
   @media (min-width: 1600px) {
-    .n23mGridColumns > div {
-      --gfc: var(--grid-cd);
+    .n23mGridColumns {
+      --gfc: var(--_d);
     }
   }
 }
