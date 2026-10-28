@@ -1,0 +1,16 @@
+@layer n23mTable {
+  .n23mTable {
+    overflow-x: auto;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 12px;
+    border: 1px solid grey;
+  }
+}

@@ -2,7 +2,7 @@ A comprehensive collection of React components for building consistent, scalable
 
 # najwer23morsels
 
- [![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)
+[![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)
 
 **Storybook:** https://najwer23.github.io/najwer23morsels  
 **Github:** https://github.com/najwer23/najwer23morsels  
@@ -27,8 +27,4 @@ export const Example = () => {
 **X:** https://twitter.com/najwer23  
 **LinkedIn:** https://www.linkedin.com/in/najwer23  
 **LeetCode:** https://leetcode.com/najwer23  
-**NPM:** https://www.npmjs.com/~najwer23  
-
-
-
-
+**NPM:** https://www.npmjs.com/~najwer23
