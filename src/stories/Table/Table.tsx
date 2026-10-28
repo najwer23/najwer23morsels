@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '../Button';
 import { Dialog } from '../Dialog';
 import { Form, FormType } from '../Form';
 import { Grid } from '../Grid';
@@ -21,12 +22,28 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   jsonData: {
     rows: ({ id: number } & Record<string, string | number | boolean>)[];
   };
+  handleOnSumbitEdit: (form: Record<string, string>) => void;
 }
 
-export const Table: React.FC<TableProps> = ({ className, jsonSchema, jsonData, style, ...props }) => {
+export const Table: React.FC<TableProps> = ({
+  className,
+  jsonSchema,
+  jsonData,
+  handleOnSumbitEdit,
+  style,
+  ...props
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<({ id: number } & Record<string, string | number | boolean>) | null>(
+    null,
+  );
 
-  const handleOnSubmit = (form: FormType) => {};
+  const handleOnSubmit = (form: FormType) => {
+    if (Object.values(form).some(({ error }) => error)) return;
+    const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
+
+    handleOnSumbitEdit(dataForm);
+  };
 
   return (
     <div
@@ -54,14 +71,45 @@ export const Table: React.FC<TableProps> = ({ className, jsonSchema, jsonData, s
             errorMsg={undefined}
             successMsg={undefined}
           >
-            <Input
-              label="Title"
-              type="text"
-              name="title"
-              defaultValue={'0'}
-              validatorOptions={[{ type: 'empty' }]}
-              placeholder="Post Title"
-            />
+            <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
+              {jsonSchema.col.map((col) => {
+                const value = selectedRow?.[col.cellName];
+
+                return (
+                  <Input
+                    key={col.cellName}
+                    label={col.cellText}
+                    name={col.cellName}
+                    type="text"
+                    defaultValue={value === undefined ? '' : String(value)}
+                    validatorOptions={[{ type: 'empty' }]}
+                    placeholder={col.cellText}
+                  />
+                );
+              })}
+            </Grid>
+
+            <Grid
+              layout="flex"
+              widthMax={'100%'}
+              padding={'0'}
+              justifyContent="flex-end"
+              alignItems="right"
+              margin={'20px 0 0 0'}
+            >
+              <Button
+                type="submit"
+                height={'40px'}
+                width={'80px'}
+                padding={0}
+                backgroundColor="#4BB543"
+                backgroundColorDisabled="grey"
+              >
+                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                  Save
+                </TextBox>
+              </Button>
+            </Grid>
           </Form>
         </Grid>
       </Dialog>
@@ -84,7 +132,13 @@ export const Table: React.FC<TableProps> = ({ className, jsonSchema, jsonData, s
               {jsonSchema.col.map((col) => {
                 const value = row[col.cellName];
                 return (
-                  <td key={col.cellName} onClick={() => setIsOpen(true)}>
+                  <td
+                    key={col.cellName}
+                    onClick={() => {
+                      setIsOpen(true);
+                      setSelectedRow(row);
+                    }}
+                  >
                     <TextBox
                       fontWeight={400}
                       mobileSize={16}
