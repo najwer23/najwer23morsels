@@ -17,11 +17,13 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
       thAlign?: 'left' | 'right';
       tdAlign?: 'left' | 'right';
     }[];
+  };
+  jsonData: {
     rows: ({ id: number } & Record<string, string | number | boolean>)[];
   };
 }
 
-export const Table: React.FC<TableProps> = ({ className, jsonSchema, style, ...props }) => {
+export const Table: React.FC<TableProps> = ({ className, jsonSchema, jsonData, style, ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOnSubmit = (form: FormType) => {};
@@ -77,7 +79,7 @@ export const Table: React.FC<TableProps> = ({ className, jsonSchema, style, ...p
           </tr>
         </thead>
         <tbody>
-          {jsonSchema.rows.map((row) => (
+          {jsonData.rows.map((row) => (
             <tr key={row.id}>
               {jsonSchema.col.map((col) => {
                 const value = row[col.cellName];

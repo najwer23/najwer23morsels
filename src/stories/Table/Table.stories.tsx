@@ -10,12 +10,12 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component: `
-Renders a read-only table. Columns are defined in \`jsonSchema.col\` (\`cellName\` is the key in a row, \`cellText\` is the header label). Each item in \`jsonSchema.rows\` is one row with a unique \`id\`.
+Renders a read-only table. Columns are defined in \`jsonSchema.col\` (\`cellName\` is the key in a row, \`cellText\` is the header label). Each item in \`jsonData.rows\` is one row with a unique \`id\`.
 
 \`\`\`tsx
 import { Table } from 'najwer23morsels/lib/Table';
 \`\`\`
-      `,
+        `,
       },
     },
   },
@@ -36,7 +36,7 @@ type Story = StoryObj<typeof meta>;
 const taskColumns = [
   { cellName: 'title', cellText: 'Task' },
   { cellName: 'owner', cellText: 'Owner' },
-  { cellName: 'hours', cellText: 'Hours' },
+  { cellName: 'hours', cellText: 'Hours', thAlign: 'right' as const, tdAlign: 'right' as const },
 ];
 
 const taskRows = [
@@ -49,10 +49,8 @@ const taskRows = [
 
 export const Default: Story = {
   args: {
-    jsonSchema: {
-      col: taskColumns,
-      rows: taskRows,
-    },
+    jsonSchema: { col: taskColumns },
+    jsonData: { rows: taskRows },
   },
 };
 
@@ -61,7 +59,7 @@ export const NumbersAndBooleans: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Numbers are right-aligned with tabular figures. Booleans are shown as the text `true` or `false`.',
+        story: 'Numbers are right-aligned with tabular figures. Booleans are displayed as the text `true` or `false`.',
       },
     },
   },
@@ -70,9 +68,11 @@ export const NumbersAndBooleans: Story = {
       col: [
         { cellName: 'title', cellText: 'Task' },
         { cellName: 'done', cellText: 'Done' },
-        { cellName: 'hours', cellText: 'Hours' },
-        { cellName: 'cost', cellText: 'Cost' },
+        { cellName: 'hours', cellText: 'Hours', thAlign: 'right', tdAlign: 'right' },
+        { cellName: 'cost', cellText: 'Cost', thAlign: 'right', tdAlign: 'right' },
       ],
+    },
+    jsonData: {
       rows: [
         { id: 1, title: 'Write release notes', done: false, hours: 3, cost: 240.5 },
         { id: 2, title: 'Fix invoice PDF layout', done: true, hours: 4, cost: 320 },
@@ -87,13 +87,13 @@ export const MissingCells: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A row that has no value for a column renders an empty cell.',
+        story: 'A row without a value for a column renders an empty cell.',
       },
     },
   },
   args: {
-    jsonSchema: {
-      col: taskColumns,
+    jsonSchema: { col: taskColumns },
+    jsonData: {
       rows: [
         { id: 1, title: 'Finalize pricing page copy', owner: 'Maria Kowalska', hours: 6 },
         { id: 2, title: 'Set up analytics events', hours: 12 },
@@ -112,10 +112,8 @@ export const Empty: Story = {
     },
   },
   args: {
-    jsonSchema: {
-      col: taskColumns,
-      rows: [],
-    },
+    jsonSchema: { col: taskColumns },
+    jsonData: { rows: [] },
   },
 };
 
@@ -130,10 +128,8 @@ export const CustomStyle: Story = {
     },
   },
   args: {
-    jsonSchema: {
-      col: taskColumns,
-      rows: taskRows,
-    },
+    jsonSchema: { col: taskColumns },
+    jsonData: { rows: taskRows },
     style: {
       '--table-cell-padding': '16px 20px',
       '--table-border-color': '#2a6f97',
@@ -145,8 +141,8 @@ export const CustomStyle: Story = {
 export const ManyRows: Story = {
   name: 'Many rows',
   args: {
-    jsonSchema: {
-      col: taskColumns,
+    jsonSchema: { col: taskColumns },
+    jsonData: {
       rows: Array.from({ length: 30 }, (_, i) => ({
         id: i + 1,
         title: `Task number ${i + 1}`,
@@ -158,11 +154,12 @@ export const ManyRows: Story = {
 };
 
 export const Narrow: Story = {
+  name: 'Narrow',
   parameters: {
     docs: {
       description: {
         story:
-          'A narrow container demonstrates horizontal scrolling and edge shadows when additional columns are available.',
+          'A narrow container demonstrates horizontal scrolling and edge shadows when the columns exceed the available width.',
       },
     },
   },
@@ -182,6 +179,8 @@ export const Narrow: Story = {
         { cellName: 'status', cellText: 'Status' },
         { cellName: 'priority', cellText: 'Priority' },
       ],
+    },
+    jsonData: {
       rows: taskRows.map((row, index) => ({
         ...row,
         status: index % 2 === 0 ? 'In progress' : 'Completed',
