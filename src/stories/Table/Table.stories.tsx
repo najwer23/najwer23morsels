@@ -161,21 +161,32 @@ export const Narrow: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'In a container narrower than the table, the table scrolls horizontally.',
+        story:
+          'A narrow container demonstrates horizontal scrolling and edge shadows when additional columns are available.',
       },
     },
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 280 }}>
+      <div style={{ width: 280, maxWidth: '100%' }}>
         <Story />
       </div>
     ),
   ],
   args: {
     jsonSchema: {
-      col: taskColumns,
-      rows: taskRows,
+      col: [
+        { cellName: 'title', cellText: 'Task' },
+        { cellName: 'owner', cellText: 'Owner' },
+        { cellName: 'hours', cellText: 'Hours' },
+        { cellName: 'status', cellText: 'Status' },
+        { cellName: 'priority', cellText: 'Priority' },
+      ],
+      rows: taskRows.map((row, index) => ({
+        ...row,
+        status: index % 2 === 0 ? 'In progress' : 'Completed',
+        priority: index % 2 === 0 ? 'High' : 'Normal',
+      })),
     },
   },
 };
