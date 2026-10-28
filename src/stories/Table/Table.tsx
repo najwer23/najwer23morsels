@@ -1,4 +1,10 @@
+import { useState } from 'react';
+import { Dialog } from '../Dialog';
+import { Form, FormType } from '../Form';
+import { Grid } from '../Grid';
+import { Input } from '../Input';
 import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
 
@@ -16,6 +22,10 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Table: React.FC<TableProps> = ({ className, jsonSchema, style, ...props }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnSubmit = (form: FormType) => {};
+
   return (
     <div
       className={[styles.n23mTable, 'n23mTable', className].filter(Boolean).join(' ')}
@@ -27,6 +37,33 @@ export const Table: React.FC<TableProps> = ({ className, jsonSchema, style, ...p
         } as React.CSSProperties
       }
     >
+      <Dialog open={isOpen} onCancel={() => setIsOpen(false)} widthMax={'900px'}>
+        <Grid layout="container" widthMin={'min(800px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
+          <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+            Edit Cell
+          </Typography>
+
+          <Form
+            key={``}
+            onSubmit={handleOnSubmit}
+            isError={false}
+            isPending={false}
+            isSuccess={false}
+            errorMsg={undefined}
+            successMsg={undefined}
+          >
+            <Input
+              label="Title"
+              type="text"
+              name="title"
+              defaultValue={'0'}
+              validatorOptions={[{ type: 'empty' }]}
+              placeholder="Post Title"
+            />
+          </Form>
+        </Grid>
+      </Dialog>
+
       <table className={styles.table}>
         <thead>
           <tr>
@@ -45,7 +82,7 @@ export const Table: React.FC<TableProps> = ({ className, jsonSchema, style, ...p
               {jsonSchema.col.map((col) => {
                 const value = row[col.cellName];
                 return (
-                  <td key={col.cellName}>
+                  <td key={col.cellName} onClick={() => setIsOpen(true)}>
                     <TextBox
                       fontWeight={400}
                       mobileSize={16}

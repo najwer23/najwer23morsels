@@ -32,4 +32,8 @@
     padding: 10px 12px;
     border: 1px solid grey;
   }
+
+  .table td {
+    cursor: pointer;
+  }
 }
