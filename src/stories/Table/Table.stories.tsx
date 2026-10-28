@@ -12,7 +12,7 @@ const meta: Meta<typeof Table> = {
         component: `
 An editable table with columns defined in \`jsonSchema.col\` and rows in \`jsonData.rows\`.
 
-Click any cell to open the row editor. The \`id\` field is read-only. Editing state, submission status, and feedback messages are controlled through props.
+Click any cell to open the row editor. The \`id\` field is read-only. Missing cell values can be filled in through the dialog. Editing state, submission status, and feedback messages are controlled through props.
         `,
       },
     },
@@ -37,6 +37,7 @@ export default meta;
 type Story = StoryObj<typeof Table>;
 
 const taskColumns = [
+  { cellName: 'id', cellText: 'ID' },
   { cellName: 'title', cellText: 'Task' },
   { cellName: 'owner', cellText: 'Owner' },
   {
@@ -66,6 +67,7 @@ export const NumbersAndBooleans: Story = {
   args: {
     jsonSchema: {
       col: [
+        { cellName: 'id', cellText: 'ID' },
         { cellName: 'title', cellText: 'Task' },
         { cellName: 'done', cellText: 'Completed' },
         {
@@ -96,6 +98,7 @@ export const MissingCells: Story = {
   args: {
     jsonSchema: {
       col: [
+        { cellName: 'id', cellText: 'ID' },
         { cellName: 'name', cellText: 'Name' },
         { cellName: 'email', cellText: 'Email' },
         { cellName: 'role', cellText: 'Role' },
@@ -155,6 +158,7 @@ export const Narrow: Story = {
   args: {
     jsonSchema: {
       col: [
+        { cellName: 'id', cellText: 'ID' },
         { cellName: 'title', cellText: 'Task' },
         { cellName: 'owner', cellText: 'Owner' },
         { cellName: 'hours', cellText: 'Hours' },

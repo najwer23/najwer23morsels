@@ -51,6 +51,8 @@ export const Table: React.FC<TableProps> = ({
     null,
   );
 
+  const tableColumns = jsonSchema.col.filter((col) => col.cellName !== 'id');
+
   const handleOnSubmit = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
@@ -75,9 +77,9 @@ export const Table: React.FC<TableProps> = ({
           setIsOpenDialogEditCell(false);
           resetQueryCellEdit();
         }}
-        widthMax={'900px'}
+        widthMax="900px"
       >
-        <Grid layout="container" widthMin={'min(800px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
+        <Grid layout="container" widthMin="min(800px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
           <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
             Edit Cell
           </Typography>
@@ -93,19 +95,18 @@ export const Table: React.FC<TableProps> = ({
           >
             <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
               {selectedRow &&
-                Object.entries(selectedRow).map(([key, value]) => {
-                  const col = jsonSchema.col.find((col) => col.cellName === key);
+                jsonSchema.col.map((col) => {
+                  const isId = col.cellName === 'id';
 
                   return (
                     <Input
-                      key={key}
-                      label={col?.cellText ?? key}
-                      name={key}
+                      key={col.cellName}
+                      label={col.cellText}
+                      name={col.cellName}
                       type="text"
-                      defaultValue={String(value)}
-                      disabled={key === 'id'}
-                      validatorOptions={key === 'id' ? undefined : [{ type: 'empty' }]}
-                      placeholder={col?.cellText ?? key}
+                      defaultValue={String(selectedRow[col.cellName] ?? '')}
+                      disabled={isId}
+                      placeholder={col.cellText}
                     />
                   );
                 })}
@@ -113,16 +114,16 @@ export const Table: React.FC<TableProps> = ({
 
             <Grid
               layout="flex"
-              widthMax={'100%'}
-              padding={'0'}
+              widthMax="100%"
+              padding="0"
               justifyContent="flex-end"
               alignItems="right"
-              margin={'20px 0 0 0'}
+              margin="20px 0 0 0"
             >
               <Button
                 type="submit"
-                height={'40px'}
-                width={'80px'}
+                height="40px"
+                width="80px"
                 padding={0}
                 disabled={isPendingCellEdit}
                 backgroundColor="#4BB543"
@@ -140,7 +141,7 @@ export const Table: React.FC<TableProps> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            {jsonSchema.col.map((col) => (
+            {tableColumns.map((col) => (
               <th key={col.cellName} scope="col">
                 <TextBox mobileSize={16} desktopSize={20} color="black" textAlign={col.thAlign ?? 'left'}>
                   {col.cellText}
@@ -149,17 +150,19 @@ export const Table: React.FC<TableProps> = ({
             ))}
           </tr>
         </thead>
+
         <tbody>
           {jsonData.rows.map((row) => (
             <tr key={row.id}>
-              {jsonSchema.col.map((col) => {
+              {tableColumns.map((col) => {
                 const value = row[col.cellName];
+
                 return (
                   <td
                     key={col.cellName}
                     onClick={() => {
-                      setIsOpenDialogEditCell(true);
                       setSelectedRow(row);
+                      setIsOpenDialogEditCell(true);
                       setDialogEditCellKey((prev) => prev + 1);
                     }}
                   >
