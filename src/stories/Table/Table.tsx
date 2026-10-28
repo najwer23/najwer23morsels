@@ -22,18 +22,31 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   jsonData: {
     rows: ({ id: number } & Record<string, string | number | boolean>)[];
   };
-  handleOnSumbitEdit: (form: Record<string, string>) => void;
+  handleCellEdit: (form: Record<string, string>) => void;
+  resetQueryCellEdit: () => void;
+  isErrorCellEdit: boolean;
+  isPendingCellEdit: boolean;
+  isSuccessCellEdit: boolean;
+  errorMsgCellEdit: string | null | undefined;
+  successMsgCellEdit: string | null | undefined;
 }
 
 export const Table: React.FC<TableProps> = ({
   className,
   jsonSchema,
   jsonData,
-  handleOnSumbitEdit,
+  handleCellEdit,
+  resetQueryCellEdit,
+  isErrorCellEdit,
+  isPendingCellEdit,
+  isSuccessCellEdit,
+  errorMsgCellEdit,
+  successMsgCellEdit,
   style,
   ...props
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDialogEditCell, setIsOpenDialogEditCell] = useState(false);
+  const [dialogEditCellKey, setDialogEditCellKey] = useState(0);
   const [selectedRow, setSelectedRow] = useState<({ id: number } & Record<string, string | number | boolean>) | null>(
     null,
   );
@@ -42,7 +55,7 @@ export const Table: React.FC<TableProps> = ({
     if (Object.values(form).some(({ error }) => error)) return;
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    handleOnSumbitEdit(dataForm);
+    handleCellEdit(dataForm);
   };
 
   return (
@@ -56,37 +69,46 @@ export const Table: React.FC<TableProps> = ({
         } as React.CSSProperties
       }
     >
-      <Dialog open={isOpen} onCancel={() => setIsOpen(false)} widthMax={'900px'}>
+      <Dialog
+        open={isOpenDialogEditCell}
+        onCancel={() => {
+          setIsOpenDialogEditCell(false);
+          resetQueryCellEdit();
+        }}
+        widthMax={'900px'}
+      >
         <Grid layout="container" widthMin={'min(800px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
           <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
             Edit Cell
           </Typography>
 
           <Form
-            key={``}
+            key={dialogEditCellKey}
             onSubmit={handleOnSubmit}
-            isError={false}
-            isPending={false}
-            isSuccess={false}
-            errorMsg={undefined}
-            successMsg={undefined}
+            isError={isErrorCellEdit}
+            isPending={isPendingCellEdit}
+            isSuccess={isSuccessCellEdit}
+            errorMsg={errorMsgCellEdit}
+            successMsg={successMsgCellEdit}
           >
             <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
-              {jsonSchema.col.map((col) => {
-                const value = selectedRow?.[col.cellName];
+              {selectedRow &&
+                Object.entries(selectedRow).map(([key, value]) => {
+                  const col = jsonSchema.col.find((col) => col.cellName === key);
 
-                return (
-                  <Input
-                    key={col.cellName}
-                    label={col.cellText}
-                    name={col.cellName}
-                    type="text"
-                    defaultValue={value === undefined ? '' : String(value)}
-                    validatorOptions={[{ type: 'empty' }]}
-                    placeholder={col.cellText}
-                  />
-                );
-              })}
+                  return (
+                    <Input
+                      key={key}
+                      label={col?.cellText ?? key}
+                      name={key}
+                      type="text"
+                      defaultValue={String(value)}
+                      disabled={key === 'id'}
+                      validatorOptions={key === 'id' ? undefined : [{ type: 'empty' }]}
+                      placeholder={col?.cellText ?? key}
+                    />
+                  );
+                })}
             </Grid>
 
             <Grid
@@ -102,6 +124,7 @@ export const Table: React.FC<TableProps> = ({
                 height={'40px'}
                 width={'80px'}
                 padding={0}
+                disabled={isPendingCellEdit}
                 backgroundColor="#4BB543"
                 backgroundColorDisabled="grey"
               >
@@ -135,8 +158,9 @@ export const Table: React.FC<TableProps> = ({
                   <td
                     key={col.cellName}
                     onClick={() => {
-                      setIsOpen(true);
+                      setIsOpenDialogEditCell(true);
                       setSelectedRow(row);
+                      setDialogEditCellKey((prev) => prev + 1);
                     }}
                   >
                     <TextBox

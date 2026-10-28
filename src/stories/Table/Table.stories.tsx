@@ -10,33 +10,41 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component: `
-Renders a read-only table. Columns are defined in \`jsonSchema.col\` (\`cellName\` is the key in a row, \`cellText\` is the header label). Each item in \`jsonData.rows\` is one row with a unique \`id\`.
+An editable table with columns defined in \`jsonSchema.col\` and rows in \`jsonData.rows\`.
 
-\`\`\`tsx
-import { Table } from 'najwer23morsels/lib/Table';
-\`\`\`
+Click any cell to open the row editor. The \`id\` field is read-only. Editing state, submission status, and feedback messages are controlled through props.
         `,
       },
     },
   },
-  tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div style={{ width: 640, maxWidth: '100%' }}>
-        <Story />
-      </div>
-    ),
-  ],
+  args: {
+    handleCellEdit: (form) => {
+      console.log('Edited row:', form);
+    },
+    resetQueryCellEdit: () => {
+      console.log('Reset cell edit query');
+    },
+    isErrorCellEdit: false,
+    isPendingCellEdit: false,
+    isSuccessCellEdit: false,
+    errorMsgCellEdit: undefined,
+    successMsgCellEdit: undefined,
+  },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Table>;
 
 const taskColumns = [
   { cellName: 'title', cellText: 'Task' },
   { cellName: 'owner', cellText: 'Owner' },
-  { cellName: 'hours', cellText: 'Hours', thAlign: 'right' as const, tdAlign: 'right' as const },
+  {
+    cellName: 'hours',
+    cellText: 'Hours',
+    thAlign: 'right' as const,
+    tdAlign: 'right' as const,
+  },
 ];
 
 const taskRows = [
@@ -55,62 +63,55 @@ export const Default: Story = {
 };
 
 export const NumbersAndBooleans: Story = {
-  name: 'Numbers and booleans',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Numbers are right-aligned with tabular figures. Booleans are displayed as the text `true` or `false`.',
-      },
-    },
-  },
   args: {
     jsonSchema: {
       col: [
         { cellName: 'title', cellText: 'Task' },
-        { cellName: 'done', cellText: 'Done' },
-        { cellName: 'hours', cellText: 'Hours', thAlign: 'right', tdAlign: 'right' },
-        { cellName: 'cost', cellText: 'Cost', thAlign: 'right', tdAlign: 'right' },
+        { cellName: 'done', cellText: 'Completed' },
+        {
+          cellName: 'hours',
+          cellText: 'Hours',
+          thAlign: 'right',
+          tdAlign: 'right',
+        },
+        {
+          cellName: 'cost',
+          cellText: 'Cost',
+          thAlign: 'right',
+          tdAlign: 'right',
+        },
       ],
     },
     jsonData: {
       rows: [
-        { id: 1, title: 'Write release notes', done: false, hours: 3, cost: 240.5 },
-        { id: 2, title: 'Fix invoice PDF layout', done: true, hours: 4, cost: 320 },
-        { id: 3, title: 'Record onboarding video', done: false, hours: 8, cost: 1280.75 },
+        { id: 1, title: 'Design', done: true, hours: 4, cost: 200 },
+        { id: 2, title: 'Development', done: false, hours: 12, cost: 600 },
+        { id: 3, title: 'Testing', done: true, hours: 3, cost: 150 },
       ],
     },
   },
 };
 
 export const MissingCells: Story = {
-  name: 'Missing cells',
-  parameters: {
-    docs: {
-      description: {
-        story: 'A row without a value for a column renders an empty cell.',
-      },
-    },
-  },
   args: {
-    jsonSchema: { col: taskColumns },
+    jsonSchema: {
+      col: [
+        { cellName: 'name', cellText: 'Name' },
+        { cellName: 'email', cellText: 'Email' },
+        { cellName: 'role', cellText: 'Role' },
+      ],
+    },
     jsonData: {
       rows: [
-        { id: 1, title: 'Finalize pricing page copy', owner: 'Maria Kowalska', hours: 6 },
-        { id: 2, title: 'Set up analytics events', hours: 12 },
-        { id: 3, title: 'Record onboarding video', owner: 'Anna Wiśniewska' },
+        { id: 1, name: 'Anna', email: 'anna@example.com', role: 'Admin' },
+        { id: 2, name: 'Piotr', role: 'Editor' },
+        { id: 3, email: 'maria@example.com', role: 'Viewer' },
       ],
     },
   },
 };
 
 export const Empty: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story: 'With no rows, only the header is shown.',
-      },
-    },
-  },
   args: {
     jsonSchema: { col: taskColumns },
     jsonData: { rows: [] },
@@ -118,54 +119,35 @@ export const Empty: Story = {
 };
 
 export const CustomStyle: Story = {
-  name: 'Custom style',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Override the CSS variables through the `style` prop: `--table-cell-padding`, `--table-border-color` and `--table-header-color`.',
-      },
-    },
-  },
   args: {
     jsonSchema: { col: taskColumns },
     jsonData: { rows: taskRows },
     style: {
-      '--table-cell-padding': '16px 20px',
-      '--table-border-color': '#2a6f97',
-      '--table-header-color': '#2a6f97',
+      '--table-cell-padding': '16px',
+      '--table-border-color': '#b8c7d9',
+      '--table-header-color': '#eaf1f8',
     } as React.CSSProperties,
   },
 };
 
 export const ManyRows: Story = {
-  name: 'Many rows',
   args: {
     jsonSchema: { col: taskColumns },
     jsonData: {
-      rows: Array.from({ length: 30 }, (_, i) => ({
-        id: i + 1,
-        title: `Task number ${i + 1}`,
-        owner: ['Maria Kowalska', 'Tomasz Nowak', 'Anna Wiśniewska'][i % 3],
-        hours: (i % 8) + 1,
+      rows: Array.from({ length: 30 }, (_, index) => ({
+        id: index + 1,
+        title: `Task ${index + 1}`,
+        owner: ['Anna', 'Piotr', 'Maria', 'Tomasz'][index % 4],
+        hours: ((index + 1) % 8) + 1,
       })),
     },
   },
 };
 
 export const Narrow: Story = {
-  name: 'Narrow',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'A narrow container demonstrates horizontal scrolling and edge shadows when the columns exceed the available width.',
-      },
-    },
-  },
   decorators: [
     (Story) => (
-      <div style={{ width: 280, maxWidth: '100%' }}>
+      <div style={{ width: '280px' }}>
         <Story />
       </div>
     ),
@@ -181,10 +163,13 @@ export const Narrow: Story = {
       ],
     },
     jsonData: {
-      rows: taskRows.map((row, index) => ({
-        ...row,
-        status: index % 2 === 0 ? 'In progress' : 'Completed',
-        priority: index % 2 === 0 ? 'High' : 'Normal',
+      rows: Array.from({ length: 5 }, (_, index) => ({
+        id: index + 1,
+        title: `Task ${index + 1}`,
+        owner: ['Anna', 'Piotr', 'Maria', 'Tomasz', 'Jan'][index],
+        hours: index + 2,
+        status: ['Open', 'In progress', 'Done'][index % 3],
+        priority: ['High', 'Medium', 'Low'][index % 3],
       })),
     },
   },
