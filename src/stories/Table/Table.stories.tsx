@@ -24,6 +24,9 @@ Click any cell to open the row editor. The \`id\` field is read-only. Missing ce
     resetQueryCellEdit: () => {
       console.log('Reset cell edit query');
     },
+    handelCellDel: (row) => {
+      console.log('Deleted row:', row);
+    },
     isErrorCellEdit: false,
     isPendingCellEdit: false,
     isSuccessCellEdit: false,

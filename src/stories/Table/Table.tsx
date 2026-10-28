@@ -9,6 +9,10 @@ import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
 
+type TableRow = Record<string, string | number | boolean> & {
+  id: string | number;
+};
+
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   jsonSchema: {
@@ -20,10 +24,11 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
     }[];
   };
   jsonData: {
-    rows: ({ id: number } & Record<string, string | number | boolean>)[];
+    rows: TableRow[];
   };
-  handleCellEdit: (form: Record<string, string>) => void;
+  handleCellEdit: (cell: Record<string, string>) => void;
   resetQueryCellEdit: () => void;
+  handelCellDel: (cell: TableRow | null) => void;
   isErrorCellEdit: boolean;
   isPendingCellEdit: boolean;
   isSuccessCellEdit: boolean;
@@ -36,6 +41,7 @@ export const Table: React.FC<TableProps> = ({
   jsonSchema,
   jsonData,
   handleCellEdit,
+  handelCellDel,
   resetQueryCellEdit,
   isErrorCellEdit,
   isPendingCellEdit,
@@ -47,9 +53,7 @@ export const Table: React.FC<TableProps> = ({
 }) => {
   const [isOpenDialogEditCell, setIsOpenDialogEditCell] = useState(false);
   const [dialogEditCellKey, setDialogEditCellKey] = useState(0);
-  const [selectedRow, setSelectedRow] = useState<({ id: number } & Record<string, string | number | boolean>) | null>(
-    null,
-  );
+  const [selectedRow, setSelectedRow] = useState<TableRow | null>(null);
 
   const tableColumns = jsonSchema.col.filter((col) => col.cellName !== 'id');
 
@@ -58,6 +62,11 @@ export const Table: React.FC<TableProps> = ({
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
     handleCellEdit(dataForm);
+  };
+
+  const handleOnDel = () => {
+    handelCellDel(selectedRow);
+    setIsOpenDialogEditCell(false);
   };
 
   return (
@@ -116,10 +125,25 @@ export const Table: React.FC<TableProps> = ({
               layout="flex"
               widthMax="100%"
               padding="0"
-              justifyContent="flex-end"
+              justifyContent="space-between"
               alignItems="right"
               margin="20px 0 0 0"
             >
+              <Button
+                type="button"
+                height="40px"
+                width="80px"
+                padding={0}
+                disabled={isPendingCellEdit}
+                backgroundColor="red"
+                backgroundColorDisabled="grey"
+                onClick={handleOnDel}
+              >
+                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                  Delete
+                </TextBox>
+              </Button>
+
               <Button
                 type="submit"
                 height="40px"
