@@ -1,13 +1,19 @@
 @layer n23mTable {
   .n23mTable {
     overflow-x: auto;
+    background-color: #fff;
 
-    background:
-      linear-gradient(to right, var(--table-background, #fff) 30%, transparent) left center,
-      linear-gradient(to left, var(--table-background, #fff) 30%, transparent) right center,
-      radial-gradient(farthest-side at 0 50%, var(--table-shadow-color, rgb(0 0 0 / 25%)), transparent) left center,
-      radial-gradient(farthest-side at 100% 50%, var(--table-shadow-color, rgb(0 0 0 / 25%)), transparent) right center;
+    background-image:
+      linear-gradient(to right, #fff 20px, rgb(255 255 255 / 0%)),
+      linear-gradient(to left, #fff 20px, rgb(255 255 255 / 0%)),
+      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%)),
+      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%));
     background-repeat: no-repeat;
+    background-position:
+      left center,
+      right center,
+      left center,
+      right center;
     background-size:
       40px 100%,
       40px 100%,
