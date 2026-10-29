@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { SelectOption } from '../Select';
-import { Table } from '.';
+import { Table, type TableColumn } from '.';
 
 const meta: Meta<typeof Table> = {
   title: 'Table/Table',
@@ -52,34 +52,34 @@ const priorityOptions: SelectOption[] = [
   { label: 'Low', value: 'Low' },
 ];
 
-const taskColumns = [
-  { cellName: 'id', cellText: 'ID', cellType: 'text' as const },
-  { cellName: 'title', cellText: 'Task', cellType: 'text' as const },
-  { cellName: 'owner', cellText: 'Owner', cellType: 'text' as const },
+const taskColumns: TableColumn[] = [
+  { cellName: 'id', cellText: 'ID', cellType: 'text' },
+  { cellName: 'title', cellText: 'Task', cellType: 'text' },
+  { cellName: 'owner', cellText: 'Owner', cellType: 'text' },
   {
     cellName: 'hours',
     cellText: 'Hours',
-    cellType: 'number' as const,
-    thAlign: 'right' as const,
-    tdAlign: 'right' as const,
+    cellType: 'number',
+    thAlign: 'right',
+    tdAlign: 'right',
   },
   {
     cellName: 'dueDate',
     cellText: 'Due Date',
-    cellType: 'date' as const,
-    initialValue: '2026-10-30' as const,
+    cellType: 'date',
+    initialValue: '2026-10-30',
   },
   {
     cellName: 'status',
     cellText: 'Status',
-    cellType: 'select' as const,
+    cellType: 'select',
     options: statusOptions,
     initialValue: statusOptions[0],
   },
   {
     cellName: 'priority',
     cellText: 'Priority',
-    cellType: 'select' as const,
+    cellType: 'select',
     options: priorityOptions,
     initialValue: priorityOptions[1],
   },

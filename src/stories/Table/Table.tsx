@@ -10,39 +10,7 @@ import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
-
-type TableRow = Record<string, string | number | boolean> & {
-  id: string | number;
-};
-
-type TableColumn =
-  | {
-      cellText: string;
-      cellName: string;
-      cellType: 'select';
-      options: SelectOption[];
-      initialValue: SelectOption;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    }
-  | {
-      cellText: string;
-      cellName: string;
-      cellType: 'date';
-      options?: never;
-      initialValue: '' | `${number}-${number}-${number}`;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    }
-  | {
-      cellText: string;
-      cellName: string;
-      cellType: 'text' | 'number';
-      initialValue?: never;
-      options?: never;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    };
+import { TableColumn, TableRow } from './Table.types';
 
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
