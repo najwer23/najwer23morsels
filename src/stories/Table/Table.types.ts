@@ -10,7 +10,7 @@ export type TableColumn =
       cellName: string;
       cellType: 'select';
       options: SelectOption[];
-      initialValue: SelectOption;
+      initialValue?: SelectOption;
       thAlign?: 'left' | 'right';
       tdAlign?: 'left' | 'right';
     }
@@ -19,7 +19,7 @@ export type TableColumn =
       cellName: string;
       cellType: 'date';
       options?: never;
-      initialValue: '' | `${number}-${number}-${number}`;
+      initialValue?: '' | `${number}-${number}-${number}`;
       thAlign?: 'left' | 'right';
       tdAlign?: 'left' | 'right';
     }
