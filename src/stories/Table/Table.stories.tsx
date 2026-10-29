@@ -10,10 +10,10 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component: `
-An editable table with columns defined in \`jsonSchema.col\` and rows in \`jsonData.rows\`.
+An table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
 
-Click any cell to open the row editor. The \`id\` field is read-only. Missing cell values can be filled in through the dialog. Editing state, submission status, and feedback messages are controlled through props.
-        `,
+Editing is optional. Pass \`handleCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit it for a read-only table. Pass \`handelCellDel\` to add a Delete button to the editor. Submission status and feedback messages are controlled through props.
+`,
       },
     },
   },
@@ -178,6 +178,39 @@ export const Narrow: Story = {
         status: ['Open', 'In progress', 'Done'][index % 3],
         priority: ['High', 'Medium', 'Low'][index % 3],
       })),
+    },
+  },
+};
+
+export const ReadOnly: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    handleCellEdit: undefined,
+    resetQueryCellEdit: undefined,
+    handelCellDel: undefined,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Without `handleCellEdit` the table is read-only: cells are not clickable and no edit dialog is rendered.',
+      },
+    },
+  },
+};
+
+export const EditWithoutDelete: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    handelCellDel: undefined,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Without `handelCellDel` the edit dialog has no Delete button and Save stays aligned to the right.',
+      },
     },
   },
 };

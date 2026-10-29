@@ -39,7 +39,7 @@
     border: 1px solid grey;
   }
 
-  .table td {
+  .table td[data-clickable="true"] {
     cursor: pointer;
   }
 }
