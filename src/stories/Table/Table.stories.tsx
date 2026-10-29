@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import type { SelectOption } from '../Select';
 import { Table } from '.';
 
 const meta: Meta<typeof Table> = {
@@ -10,7 +11,7 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component: `
-An table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
+A table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
 
 Editing is optional. Pass \`handleCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit it for a read-only table. Pass \`handelCellDel\` to add a Delete button to the editor. Submission status and feedback messages are controlled through props.
 `,
@@ -39,24 +40,97 @@ export default meta;
 
 type Story = StoryObj<typeof Table>;
 
+const statusOptions: SelectOption[] = [
+  { label: 'Open', value: 'Open' },
+  { label: 'In progress', value: 'In progress' },
+  { label: 'Done', value: 'Done' },
+];
+
+const priorityOptions: SelectOption[] = [
+  { label: 'High', value: 'High' },
+  { label: 'Medium', value: 'Medium' },
+  { label: 'Low', value: 'Low' },
+];
+
 const taskColumns = [
-  { cellName: 'id', cellText: 'ID' },
-  { cellName: 'title', cellText: 'Task' },
-  { cellName: 'owner', cellText: 'Owner' },
+  { cellName: 'id', cellText: 'ID', cellType: 'text' as const },
+  { cellName: 'title', cellText: 'Task', cellType: 'text' as const },
+  { cellName: 'owner', cellText: 'Owner', cellType: 'text' as const },
   {
     cellName: 'hours',
     cellText: 'Hours',
+    cellType: 'number' as const,
     thAlign: 'right' as const,
     tdAlign: 'right' as const,
+  },
+  {
+    cellName: 'dueDate',
+    cellText: 'Due Date',
+    cellType: 'date' as const,
+    initialValue: '2026-10-30' as const,
+  },
+  {
+    cellName: 'status',
+    cellText: 'Status',
+    cellType: 'select' as const,
+    options: statusOptions,
+    initialValue: statusOptions[0],
+  },
+  {
+    cellName: 'priority',
+    cellText: 'Priority',
+    cellType: 'select' as const,
+    options: priorityOptions,
+    initialValue: priorityOptions[1],
   },
 ];
 
 const taskRows = [
-  { id: 1, title: 'Finalize pricing page copy', owner: 'Maria Kowalska', hours: 6 },
-  { id: 2, title: 'Set up analytics events', owner: 'Tomasz Nowak', hours: 12 },
-  { id: 3, title: 'Record onboarding video', owner: 'Anna Wiśniewska', hours: 8 },
-  { id: 4, title: 'Fix invoice PDF layout', owner: 'Piotr Zieliński', hours: 4 },
-  { id: 5, title: 'Write release notes', owner: 'Maria Kowalska', hours: 3 },
+  {
+    id: 1,
+    title: 'Finalize pricing page copy',
+    owner: 'Maria Kowalska',
+    hours: 6,
+    dueDate: '2026-10-30',
+    status: 'In progress',
+    priority: 'High',
+  },
+  {
+    id: 2,
+    title: 'Set up analytics events',
+    owner: 'Tomasz Nowak',
+    hours: 12,
+    dueDate: '2026-11-02',
+    status: 'Open',
+    priority: 'Medium',
+  },
+  {
+    id: 3,
+    title: 'Record onboarding video',
+    owner: 'Anna Wiśniewska',
+    hours: 8,
+    dueDate: '2026-11-05',
+    status: 'Done',
+    priority: 'Low',
+  },
+  {
+    id: 4,
+    title: 'Fix invoice PDF layout',
+    owner: 'Piotr Zieliński',
+    hours: 4,
+    dueDate: '2026-11-10',
+    status: 'In progress',
+    priority: 'Medium',
+  },
+  {
+    id: 5,
+    title: 'Write release notes',
+    owner: 'Maria Kowalska',
+    hours: 3,
+    dueDate: '2026-11-12',
+    status: 'Open',
+    priority: 'Low',
+  },
 ];
 
 export const Default: Story = {
@@ -70,18 +144,20 @@ export const NumbersAndBooleans: Story = {
   args: {
     jsonSchema: {
       cols: [
-        { cellName: 'id', cellText: 'ID' },
-        { cellName: 'title', cellText: 'Task' },
-        { cellName: 'done', cellText: 'Completed' },
+        { cellName: 'id', cellText: 'ID', cellType: 'text' },
+        { cellName: 'title', cellText: 'Task', cellType: 'text' },
+        { cellName: 'done', cellText: 'Completed', cellType: 'text' },
         {
           cellName: 'hours',
           cellText: 'Hours',
+          cellType: 'number',
           thAlign: 'right',
           tdAlign: 'right',
         },
         {
           cellName: 'cost',
           cellText: 'Cost',
+          cellType: 'number',
           thAlign: 'right',
           tdAlign: 'right',
         },
@@ -101,10 +177,10 @@ export const MissingCells: Story = {
   args: {
     jsonSchema: {
       cols: [
-        { cellName: 'id', cellText: 'ID' },
-        { cellName: 'name', cellText: 'Name' },
-        { cellName: 'email', cellText: 'Email' },
-        { cellName: 'role', cellText: 'Role' },
+        { cellName: 'id', cellText: 'ID', cellType: 'text' },
+        { cellName: 'name', cellText: 'Name', cellType: 'text' },
+        { cellName: 'email', cellText: 'Email', cellType: 'text' },
+        { cellName: 'role', cellText: 'Role', cellType: 'text' },
       ],
     },
     jsonData: {
@@ -145,6 +221,9 @@ export const ManyRows: Story = {
         title: `Task ${index + 1}`,
         owner: ['Anna', 'Piotr', 'Maria', 'Tomasz'][index % 4],
         hours: ((index + 1) % 8) + 1,
+        dueDate: `2026-11-${String((index % 28) + 1).padStart(2, '0')}`,
+        status: statusOptions[index % statusOptions.length].value,
+        priority: priorityOptions[index % priorityOptions.length].value,
       })),
     },
   },
@@ -161,12 +240,24 @@ export const Narrow: Story = {
   args: {
     jsonSchema: {
       cols: [
-        { cellName: 'id', cellText: 'ID' },
-        { cellName: 'title', cellText: 'Task' },
-        { cellName: 'owner', cellText: 'Owner' },
-        { cellName: 'hours', cellText: 'Hours' },
-        { cellName: 'status', cellText: 'Status' },
-        { cellName: 'priority', cellText: 'Priority' },
+        { cellName: 'id', cellText: 'ID', cellType: 'text' },
+        { cellName: 'title', cellText: 'Task', cellType: 'text' },
+        { cellName: 'owner', cellText: 'Owner', cellType: 'text' },
+        { cellName: 'hours', cellText: 'Hours', cellType: 'number' },
+        {
+          cellName: 'status',
+          cellText: 'Status',
+          cellType: 'select',
+          options: statusOptions,
+          initialValue: statusOptions[0],
+        },
+        {
+          cellName: 'priority',
+          cellText: 'Priority',
+          cellType: 'select',
+          options: priorityOptions,
+          initialValue: priorityOptions[1],
+        },
       ],
     },
     jsonData: {
@@ -175,8 +266,8 @@ export const Narrow: Story = {
         title: `Task ${index + 1}`,
         owner: ['Anna', 'Piotr', 'Maria', 'Tomasz', 'Jan'][index],
         hours: index + 2,
-        status: ['Open', 'In progress', 'Done'][index % 3],
-        priority: ['High', 'Medium', 'Low'][index % 3],
+        status: statusOptions[index % statusOptions.length].value,
+        priority: priorityOptions[index % priorityOptions.length].value,
       })),
     },
   },

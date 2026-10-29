@@ -20,6 +20,7 @@ interface CalendarProps extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
   name: string;
   label: string;
+  disabled?: boolean;
   placeholder?: string;
   validatorOptions?: ValidatorOptions;
   initialValue?: '' | `${number}-${number}-${number}`;
@@ -32,6 +33,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   placeholder,
   label = 'Calendar',
   initialValue,
+  disabled,
   onBlur,
   validatorOptions,
   className,
@@ -121,7 +123,9 @@ export const Calendar: React.FC<CalendarProps> = ({
       <div
         className={styles.icon}
         onMouseDown={(e) => {
+          if (disabled) return;
           e.preventDefault();
+
           inputRef.current?.focus();
           setCalendarState((prevState) => ({
             ...prevState,
@@ -142,14 +146,17 @@ export const Calendar: React.FC<CalendarProps> = ({
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
-        onClick={() =>
+        onClick={() => {
+          if (disabled) return;
+
           setCalendarState((prevState) => ({
             ...prevState,
             value: '',
             open: true,
             dropDwonState: 'days',
-          }))
-        }
+          }));
+        }}
+        disabled={disabled}
         value={calendarState.value}
         validatorOptions={[
           ...(validatorOptions ?? []),

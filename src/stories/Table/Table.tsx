@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Button } from '../Button';
+import { Calendar } from '../Calendar';
 import { Dialog } from '../Dialog';
 import { Form, FormType } from '../Form';
 import { Grid } from '../Grid';
 import { Input } from '../Input';
+import { Select, SelectOption } from '../Select';
 import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
@@ -13,15 +15,39 @@ type TableRow = Record<string, string | number | boolean> & {
   id: string | number;
 };
 
+type TableColumn =
+  | {
+      cellText: string;
+      cellName: string;
+      cellType: 'select';
+      options: SelectOption[];
+      initialValue: SelectOption;
+      thAlign?: 'left' | 'right';
+      tdAlign?: 'left' | 'right';
+    }
+  | {
+      cellText: string;
+      cellName: string;
+      cellType: 'date';
+      options?: never;
+      initialValue: '' | `${number}-${number}-${number}`;
+      thAlign?: 'left' | 'right';
+      tdAlign?: 'left' | 'right';
+    }
+  | {
+      cellText: string;
+      cellName: string;
+      cellType: 'text' | 'number';
+      initialValue?: never;
+      options?: never;
+      thAlign?: 'left' | 'right';
+      tdAlign?: 'left' | 'right';
+    };
+
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   jsonSchema: {
-    cols: {
-      cellText: string;
-      cellName: string;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    }[];
+    cols: TableColumn[];
   };
   jsonData: {
     rows: TableRow[];
@@ -61,6 +87,7 @@ export const Table: React.FC<TableProps> = ({
   const handleOnSubmit = (form: FormType) => {
     if (!handleCellEdit) return;
     if (Object.values(form).some(({ error }) => error)) return;
+
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
     handleCellEdit(dataForm);
@@ -68,6 +95,7 @@ export const Table: React.FC<TableProps> = ({
 
   const handleOnDel = () => {
     if (!handelCellDel || !selectedRow) return;
+
     handelCellDel(selectedRow.id);
     setIsOpenDialogEditCell(false);
   };
@@ -114,6 +142,35 @@ export const Table: React.FC<TableProps> = ({
                 {selectedRow &&
                   jsonSchema.cols.map((col) => {
                     const isId = col.cellName === 'id';
+                    const value = selectedRow[col.cellName];
+
+                    if (col.cellType === 'date') {
+                      const initialValue = (value as '' | `${number}-${number}-${number}`) || col.initialValue;
+
+                      return (
+                        <Calendar
+                          key={col.cellName}
+                          label={col.cellText}
+                          name={col.cellName}
+                          initialValue={initialValue}
+                          placeholder={col.cellText}
+                        />
+                      );
+                    }
+
+                    if (col.cellType === 'select') {
+                      const selectedOption =
+                        col.options.find((option) => option.value === String(value ?? '')) ?? col.initialValue;
+
+                      return (
+                        <Select
+                          key={col.cellName}
+                          name={col.cellName}
+                          options={col.options}
+                          initialValue={selectedOption}
+                        />
+                      );
+                    }
 
                     return (
                       <Input
@@ -121,7 +178,7 @@ export const Table: React.FC<TableProps> = ({
                         label={col.cellText}
                         name={col.cellName}
                         type="text"
-                        defaultValue={String(selectedRow[col.cellName] ?? '')}
+                        defaultValue={String(value ?? '')}
                         disabled={isId}
                         placeholder={col.cellText}
                       />

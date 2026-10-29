@@ -2,18 +2,14 @@ import React, { useId, useMemo, useRef, useState } from 'react';
 import { Input } from '../Input';
 import { ValidatorOptions } from '../validator';
 import styles from './Select.module.css';
-
-type Option = {
-  value: string;
-  label: string;
-};
+import { SelectOption } from './Select.types';
 
 interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur'> {
   style?: React.CSSProperties;
   name: string;
-  options: Option[];
+  options: SelectOption[];
   inputRef?: React.RefObject<HTMLInputElement | null>;
-  initialValue?: Option;
+  initialValue?: SelectOption;
   validatorOptions?: ValidatorOptions;
   label?: string;
   placeholder?: string;
@@ -68,7 +64,7 @@ export const Select: React.FC<SelectProps> = ({
     });
   };
 
-  const handleSelect = (option: Option) => {
+  const handleSelect = (option: SelectOption) => {
     setSelectedOptionValue(option.value);
     setSelectedOptionLabel(option.label);
     setIsOpen(false);

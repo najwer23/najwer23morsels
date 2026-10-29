@@ -38,3 +38,17 @@ export const Default: Story = {
     </div>
   ),
 };
+
+export const Disabled: Story = {
+  args: {
+    name: 'Calendar',
+    label: 'Calendar (disabled)',
+    placeholder: 'Calendar is disabled',
+    disabled: true,
+  },
+  render: (args) => (
+    <div>
+      <Calendar {...args} />
+    </div>
+  ),
+};
