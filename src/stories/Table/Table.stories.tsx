@@ -305,3 +305,56 @@ export const EditWithoutDelete: Story = {
     },
   },
 };
+
+export const TextInputs: Story = {
+  args: {
+    jsonSchema: {
+      cols: [
+        { cellName: 'id', cellText: 'ID', cellType: 'text' },
+        { cellName: 'title', cellText: 'Task', cellType: 'text' },
+        { cellName: 'owner', cellText: 'Owner', cellType: 'text' },
+      ],
+    },
+    jsonData: {
+      rows: [
+        { id: 1, title: 'Design', owner: 'Anna' },
+        { id: 2, title: 'Development', owner: 'Piotr' },
+      ],
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Only `text` columns. Click a cell: every field renders as `type="text"`, prefilled from the row, and `id` is disabled.',
+      },
+    },
+  },
+};
+
+export const NumberInputs: Story = {
+  args: {
+    jsonSchema: {
+      cols: [
+        { cellName: 'id', cellText: 'ID', cellType: 'text' },
+        { cellName: 'hours', cellText: 'Hours', cellType: 'number', thAlign: 'right', tdAlign: 'right' },
+        { cellName: 'cost', cellText: 'Cost', cellType: 'number', thAlign: 'right', tdAlign: 'right' },
+      ],
+    },
+    jsonData: {
+      rows: [
+        { id: 1, hours: 4, cost: 200.5 },
+        { id: 2, hours: 12, cost: 600 },
+        { id: 3, hours: 0, cost: 0 },
+      ],
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Only `number` columns. Click a cell: fields render as `type="number"` (up/down arrows, letters are rejected). The `0` row should show `0`, not an empty input.',
+      },
+    },
+  },
+};
