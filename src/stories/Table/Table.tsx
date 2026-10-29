@@ -16,7 +16,7 @@ type TableRow = Record<string, string | number | boolean> & {
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   jsonSchema: {
-    col: {
+    cols: {
       cellText: string;
       cellName: string;
       thAlign?: 'left' | 'right';
@@ -55,7 +55,7 @@ export const Table: React.FC<TableProps> = ({
   const [dialogEditCellKey, setDialogEditCellKey] = useState(0);
   const [selectedRow, setSelectedRow] = useState<TableRow | null>(null);
 
-  const tableColumns = jsonSchema.col.filter((col) => col.cellName !== 'id');
+  const tableColumns = jsonSchema.cols.filter((col) => col.cellName !== 'id');
 
   const handleOnSubmit = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
@@ -104,7 +104,7 @@ export const Table: React.FC<TableProps> = ({
           >
             <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
               {selectedRow &&
-                jsonSchema.col.map((col) => {
+                jsonSchema.cols.map((col) => {
                   const isId = col.cellName === 'id';
 
                   return (

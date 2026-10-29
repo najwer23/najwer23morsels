@@ -61,7 +61,7 @@ const taskRows = [
 
 export const Default: Story = {
   args: {
-    jsonSchema: { col: taskColumns },
+    jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
   },
 };
@@ -69,7 +69,7 @@ export const Default: Story = {
 export const NumbersAndBooleans: Story = {
   args: {
     jsonSchema: {
-      col: [
+      cols: [
         { cellName: 'id', cellText: 'ID' },
         { cellName: 'title', cellText: 'Task' },
         { cellName: 'done', cellText: 'Completed' },
@@ -100,7 +100,7 @@ export const NumbersAndBooleans: Story = {
 export const MissingCells: Story = {
   args: {
     jsonSchema: {
-      col: [
+      cols: [
         { cellName: 'id', cellText: 'ID' },
         { cellName: 'name', cellText: 'Name' },
         { cellName: 'email', cellText: 'Email' },
@@ -119,14 +119,14 @@ export const MissingCells: Story = {
 
 export const Empty: Story = {
   args: {
-    jsonSchema: { col: taskColumns },
+    jsonSchema: { cols: taskColumns },
     jsonData: { rows: [] },
   },
 };
 
 export const CustomStyle: Story = {
   args: {
-    jsonSchema: { col: taskColumns },
+    jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
     style: {
       '--table-cell-padding': '16px',
@@ -138,7 +138,7 @@ export const CustomStyle: Story = {
 
 export const ManyRows: Story = {
   args: {
-    jsonSchema: { col: taskColumns },
+    jsonSchema: { cols: taskColumns },
     jsonData: {
       rows: Array.from({ length: 30 }, (_, index) => ({
         id: index + 1,
@@ -160,7 +160,7 @@ export const Narrow: Story = {
   ],
   args: {
     jsonSchema: {
-      col: [
+      cols: [
         { cellName: 'id', cellText: 'ID' },
         { cellName: 'title', cellText: 'Task' },
         { cellName: 'owner', cellText: 'Owner' },
