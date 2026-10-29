@@ -28,7 +28,7 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   };
   handleCellEdit?: (cell: Record<string, string>) => void;
   resetQueryCellEdit?: () => void;
-  handelCellDel?: (cell: TableRow | null) => void;
+  handelCellDel?: (cell: string | number) => void;
   isErrorCellEdit?: boolean;
   isPendingCellEdit?: boolean;
   isSuccessCellEdit?: boolean;
@@ -67,8 +67,8 @@ export const Table: React.FC<TableProps> = ({
   };
 
   const handleOnDel = () => {
-    if (!handelCellDel) return;
-    handelCellDel(selectedRow);
+    if (!handelCellDel || !selectedRow) return;
+    handelCellDel(selectedRow.id);
     setIsOpenDialogEditCell(false);
   };
 
