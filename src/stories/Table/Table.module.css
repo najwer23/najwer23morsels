@@ -48,6 +48,20 @@
     cursor: pointer;
   }
 
+  .table td.loadingCell {
+    padding: 0;
+    cursor: default;
+  }
+
+  .loadingInner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: var(--table-loading-height, 219.25px);
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
   @media (hover: hover) {
     .table tbody tr:hover > td {
       background-color: var(--hover-bg);
@@ -60,6 +74,14 @@
       z-index: -1;
       background-color: var(--hover-bg);
       pointer-events: none;
+    }
+
+    .table tbody tr:hover > td.loadingCell {
+      background-color: transparent;
+    }
+
+    .table tbody td.loadingCell:hover::after {
+      content: none;
     }
   }
 }

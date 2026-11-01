@@ -5,6 +5,7 @@ import { Dialog } from '../Dialog';
 import { Form, FormType } from '../Form';
 import { Grid } from '../Grid';
 import { Input } from '../Input';
+import { LoaderDots } from '../LoaderDots';
 import { Select } from '../Select';
 import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
@@ -23,6 +24,8 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   cellEdit?: TableCellEdit;
   cellDelete?: TableCellDelete;
   onCellReset?: () => void;
+  isLoading?: boolean;
+  tableLoadingHeight?: React.CSSProperties['height'];
 }
 
 export const Table: React.FC<TableProps> = ({
@@ -32,7 +35,9 @@ export const Table: React.FC<TableProps> = ({
   cellEdit,
   cellDelete,
   onCellReset,
+  isLoading = false,
   style,
+  tableLoadingHeight,
   ...props
 }) => {
   const [isOpenDialogEditCell, setIsOpenDialogEditCell] = useState(false);
@@ -113,7 +118,9 @@ export const Table: React.FC<TableProps> = ({
       {...props}
       style={
         {
-          ...getCssVariableStyle({}),
+          ...getCssVariableStyle({
+            '--table-loading-height': tableLoadingHeight,
+          }),
           ...style,
         } as React.CSSProperties
       }
@@ -321,7 +328,7 @@ export const Table: React.FC<TableProps> = ({
         </Dialog>
       )}
 
-      <table className={styles.table}>
+      <table className={styles.table} aria-busy={isLoading}>
         <thead>
           <tr>
             {tableColumns.map((col) => (
@@ -335,31 +342,41 @@ export const Table: React.FC<TableProps> = ({
         </thead>
 
         <tbody>
-          {jsonData.rows.map((row) => (
-            <tr key={row.id}>
-              {tableColumns.map((col) => {
-                const value = row[col.cellName];
-
-                return (
-                  <td
-                    key={col.cellName}
-                    data-clickable={isEditable}
-                    onClick={isEditable ? () => handleOnCellClick(row) : undefined}
-                  >
-                    <TextBox
-                      fontWeight={400}
-                      mobileSize={16}
-                      desktopSize={16}
-                      color="black"
-                      textAlign={col.tdAlign ?? 'left'}
-                    >
-                      {value === undefined ? '' : String(value)}
-                    </TextBox>
-                  </td>
-                );
-              })}
+          {isLoading ? (
+            <tr>
+              <td className={styles.loadingCell} colSpan={Math.max(tableColumns.length, 1)}>
+                <div className={styles.loadingInner}>
+                  <LoaderDots />
+                </div>
+              </td>
             </tr>
-          ))}
+          ) : (
+            jsonData.rows.map((row) => (
+              <tr key={row.id}>
+                {tableColumns.map((col) => {
+                  const value = row[col.cellName];
+
+                  return (
+                    <td
+                      key={col.cellName}
+                      data-clickable={isEditable}
+                      onClick={isEditable ? () => handleOnCellClick(row) : undefined}
+                    >
+                      <TextBox
+                        fontWeight={400}
+                        mobileSize={16}
+                        desktopSize={16}
+                        color="black"
+                        textAlign={col.tdAlign ?? 'left'}
+                      >
+                        {value === undefined ? '' : String(value)}
+                      </TextBox>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

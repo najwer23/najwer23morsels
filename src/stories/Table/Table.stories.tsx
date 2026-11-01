@@ -40,6 +40,8 @@ Editing is optional and configured through the \`cellEdit\` object. Pass \`cellE
 Deleting is configured separately through the \`cellDelete\` object. Pass \`cellDelete.onCellDelete\` to add a Delete button to the editor. Clicking it opens an "Are you sure?" confirmation dialog, and \`onCellDelete\` is called only after confirming. The dialog stays open to show the result: \`cellDeleteErrorMsg\` when \`isCellDeleteError\` is true, or \`cellDeleteSuccessMsg\` with a Close button when \`isCellDeleteSuccess\` is true. Delete status is controlled through \`isCellDeleteError\`, \`isCellDeletePending\`, \`isCellDeleteSuccess\`, \`cellDeleteErrorMsg\` and \`cellDeleteSuccessMsg\`. Because the Delete button lives in the editor, \`cellEdit.onCellEdit\` must also be set.
 
 \`onCellReset\` is independent of both objects. It is called when a dialog is closed or cancelled, including the Close button after a successful delete, so the parent can reset its edit and delete queries.
+
+Pass \`isLoading\` to replace the body rows with a loader while data is being fetched; the header row stays visible.
 `,
       },
     },
@@ -480,6 +482,23 @@ export const NumberInputs: Story = {
       description: {
         story:
           'Only `number` columns. Click a cell: fields render as `type="number"` (up/down arrows, letters are rejected). The `0` row should show `0`, not an empty input.',
+      },
+    },
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    isLoading: true,
+    tableLoadingHeight: '500px',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'While `isLoading` is true, the headers stay visible and the body shows a single row with `LoaderDots` spanning all columns. Rows are not rendered, so nothing can be clicked or edited until loading finishes.',
       },
     },
   },
