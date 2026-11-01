@@ -1,9 +1,9 @@
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
 import fs from 'fs';
 import path from 'path';
 import postcss from 'rollup-plugin-postcss';
-import typescript from 'rollup-plugin-typescript2';
 import { gzipSync } from 'zlib';
 
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
