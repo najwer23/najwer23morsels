@@ -167,8 +167,8 @@ export const Table: React.FC<TableProps> = ({
                   <Button
                     type="button"
                     height="40px"
-                    width="80px"
-                    padding={0}
+                    width="auto"
+                    padding={'0 10px'}
                     disabled={isPendingCellEdit}
                     backgroundColor="red"
                     backgroundColorDisabled="grey"
@@ -183,8 +183,8 @@ export const Table: React.FC<TableProps> = ({
                 <Button
                   type="submit"
                   height="40px"
-                  width="80px"
-                  padding={0}
+                  width="auto"
+                  padding={'0 10px'}
                   disabled={isPendingCellEdit}
                   backgroundColor="#4BB543"
                   backgroundColorDisabled="grey"
