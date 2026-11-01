@@ -1,6 +1,10 @@
 @layer n23mTable {
   .n23mTable {
+    --hover-bg: rgb(0 0 0 / 11%);
     overflow-x: auto;
+    overflow-y: hidden; /* clips the column highlight */
+    isolation: isolate; /* keeps the z-index: -1 highlight inside the wrapper */
+
     background-color: #fff;
 
     background-image:
@@ -35,11 +39,27 @@
 
   .table th,
   .table td {
+    position: relative;
     padding: 10px 12px;
     border: 1px solid grey;
   }
 
   .table td[data-clickable="true"] {
     cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .table tbody tr:hover > td {
+      background-color: var(--hover-bg);
+    }
+
+    .table tbody td:hover::after {
+      content: "";
+      position: absolute;
+      inset: -100vh 0;
+      z-index: -1;
+      background-color: var(--hover-bg);
+      pointer-events: none;
+    }
   }
 }
