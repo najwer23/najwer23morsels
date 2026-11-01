@@ -56,6 +56,7 @@ export const Table: React.FC<TableProps> = ({ className, jsonSchema, jsonData, c
 
     onCellDelete(selectedRow.id);
     setIsOpenDialogEditCell(false);
+    onCellReset?.();
   };
 
   const handleOnClose = () => {
