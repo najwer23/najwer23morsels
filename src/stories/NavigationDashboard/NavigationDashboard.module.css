@@ -70,6 +70,14 @@
       overflow-y: auto; /* the only scrollbar in the sidebar */
       overscroll-behavior: contain;
 
+      /* hide scrollbar */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
       transform: translate3d(0, 0, 0);
       opacity: 1;
 
