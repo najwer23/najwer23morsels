@@ -7,11 +7,11 @@ const defaultCellEdit: TableCellEdit = {
   onCellEdit: (form) => {
     console.log('Edited row:', form);
   },
-  isCellError: false,
-  isCellPending: false,
-  isCellSuccess: false,
-  cellErrorMsg: undefined,
-  cellSuccessMsg: undefined,
+  isCellEditError: false,
+  isCellEditPending: false,
+  isCellEditSuccess: false,
+  cellEditErrorMsg: undefined,
+  cellEditSuccessMsg: undefined,
 };
 
 const defaultCellDelete: TableCellDelete = {
@@ -394,8 +394,8 @@ export const EditError: Story = {
     jsonData: { rows: taskRows },
     cellEdit: {
       ...defaultCellEdit,
-      isCellError: true,
-      cellErrorMsg: 'Could not save changes.',
+      isCellEditError: true,
+      cellEditErrorMsg: 'Could not save changes.',
     },
   },
   parameters: {

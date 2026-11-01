@@ -42,11 +42,11 @@ export const Table: React.FC<TableProps> = ({
 
   const {
     onCellEdit,
-    isCellError = false,
-    isCellPending = false,
-    isCellSuccess = false,
-    cellErrorMsg,
-    cellSuccessMsg,
+    isCellEditError = false,
+    isCellEditPending = false,
+    isCellEditSuccess = false,
+    cellEditErrorMsg,
+    cellEditSuccessMsg,
   } = cellEdit ?? {};
 
   const {
@@ -60,15 +60,6 @@ export const Table: React.FC<TableProps> = ({
   const isEditable = Boolean(onCellEdit);
   const isDeletable = Boolean(onCellDelete);
   const tableColumns = jsonSchema.cols.filter((col) => col.cellName !== 'id');
-
-  // close both dialogs once the delete succeeded
-  useEffect(() => {
-    if (!isCellDeleteSuccess) return;
-
-    setIsOpenDialogDeleteCell(false);
-    setIsOpenDialogEditCell(false);
-    onCellReset?.();
-  }, [isCellDeleteSuccess, onCellReset]);
 
   const handleOnSubmit = (form: FormType) => {
     if (!onCellEdit) return;
@@ -89,6 +80,9 @@ export const Table: React.FC<TableProps> = ({
   const handleOnDelConfirm = () => {
     if (!onCellDelete || !selectedRow) return;
     onCellDelete(selectedRow.id);
+    setIsOpenDialogDeleteCell(false);
+    setIsOpenDialogEditCell(false);
+    onCellReset?.();
   };
 
   const handleOnDelCancel = () => {
@@ -128,11 +122,11 @@ export const Table: React.FC<TableProps> = ({
             <Form
               key={dialogEditCellKey}
               onSubmit={handleOnSubmit}
-              isError={isCellError}
-              isPending={isCellPending}
-              isSuccess={isCellSuccess}
-              errorMsg={cellErrorMsg}
-              successMsg={cellSuccessMsg}
+              isError={isCellEditError}
+              isPending={isCellEditPending}
+              isSuccess={isCellEditSuccess}
+              errorMsg={cellEditErrorMsg}
+              successMsg={cellEditSuccessMsg}
             >
               <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
                 {selectedRow &&
@@ -197,7 +191,7 @@ export const Table: React.FC<TableProps> = ({
                     height="40px"
                     width="auto"
                     padding="0 10px"
-                    disabled={isCellPending || isCellDeletePending}
+                    disabled={isCellEditPending || isCellDeletePending}
                     backgroundColor="red"
                     backgroundColorDisabled="grey"
                     onClick={handleOnDel}
@@ -213,7 +207,7 @@ export const Table: React.FC<TableProps> = ({
                   height="40px"
                   width="auto"
                   padding="0 10px"
-                  disabled={isCellPending || isCellDeletePending}
+                  disabled={isCellEditPending || isCellDeletePending}
                   backgroundColor="#4BB543"
                   backgroundColorDisabled="grey"
                 >
