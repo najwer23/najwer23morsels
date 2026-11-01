@@ -1,23 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { SelectOption } from '../Select';
-import { Table, type TableCellEdit, type TableColumn } from '.';
+import { Table, type TableCellDelete, type TableCellEdit, type TableColumn } from '.';
 
 const defaultCellEdit: TableCellEdit = {
   onCellEdit: (form) => {
     console.log('Edited row:', form);
-  },
-  onCellReset: () => {
-    console.log('Reset cell edit query');
-  },
-  onCellDelete: (id) => {
-    console.log('Deleted row:', id);
   },
   isCellError: false,
   isCellPending: false,
   isCellSuccess: false,
   cellErrorMsg: undefined,
   cellSuccessMsg: undefined,
+};
+
+const defaultCellDelete: TableCellDelete = {
+  onCellDelete: (id) => {
+    console.log('Deleted row:', id);
+  },
+  isCellDeleteError: false,
+  isCellDeletePending: false,
+  isCellDeleteSuccess: false,
+  cellDeleteErrorMsg: undefined,
 };
 
 const meta: Meta<typeof Table> = {
@@ -30,13 +34,21 @@ const meta: Meta<typeof Table> = {
         component: `
 A table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
 
-Editing is optional and configured through a single \`cellEdit\` object. Pass \`cellEdit.onCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`cellEdit\` for a read-only table. Pass \`cellEdit.onCellDelete\` to add a Delete button to the editor. Submission status and feedback messages are controlled through \`isCellError\`, \`isCellPending\`, \`isCellSuccess\`, \`cellErrorMsg\` and \`cellSuccessMsg\`.
+Editing is optional and configured through the \`cellEdit\` object. Pass \`cellEdit.onCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`cellEdit\` for a read-only table. Submission status and feedback messages are controlled through \`isCellError\`, \`isCellPending\`, \`isCellSuccess\`, \`cellErrorMsg\` and \`cellSuccessMsg\`.
+
+Deleting is configured separately through the \`cellDelete\` object. Pass \`cellDelete.onCellDelete\` to add a Delete button to the editor. Clicking it opens an "Are you sure?" confirmation dialog, and \`onCellDelete\` is called only after confirming. Delete status is controlled through \`isCellDeleteError\`, \`isCellDeletePending\`, \`isCellDeleteSuccess\` and \`cellDeleteErrorMsg\`. Because the Delete button lives in the editor, \`cellEdit.onCellEdit\` must also be set.
+
+\`onCellReset\` is independent of both objects. It is called when a dialog is closed or cancelled, and after a successful delete, so the parent can reset its edit and delete queries.
 `,
       },
     },
   },
   args: {
     cellEdit: defaultCellEdit,
+    cellDelete: defaultCellDelete,
+    onCellReset: () => {
+      console.log('Reset cell edit and delete queries');
+    },
   },
 };
 
@@ -282,11 +294,13 @@ export const ReadOnly: Story = {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
     cellEdit: undefined,
+    cellDelete: undefined,
+    onCellReset: undefined,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Without `cellEdit` the table is read-only: cells are not clickable and no edit dialog is rendered.',
+        story: 'Without `cellEdit` the table is read-only: cells are not clickable and no dialogs are rendered.',
       },
     },
   },
@@ -296,13 +310,98 @@ export const EditWithoutDelete: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellEdit: { ...defaultCellEdit, onCellDelete: undefined },
+    cellDelete: undefined,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Without `cellDelete` the edit dialog has no Delete button and Save stays aligned to the right.',
+      },
+    },
+  },
+};
+
+export const DeleteConfirmation: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
   },
   parameters: {
     docs: {
       description: {
         story:
-          'Without `cellEdit.onCellDelete` the edit dialog has no Delete button and Save stays aligned to the right.',
+          'Click a cell, then Delete. An "Are you sure?" dialog opens. Cancel closes only the confirmation; "Yes, delete" calls `cellDelete.onCellDelete` with the row id.',
+      },
+    },
+  },
+};
+
+export const DeletePending: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    cellDelete: { ...defaultCellDelete, isCellDeletePending: true },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'While `isCellDeletePending` is true, the Delete and Save buttons in the editor and both buttons in the confirmation dialog are disabled.',
+      },
+    },
+  },
+};
+
+export const DeleteError: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    cellDelete: {
+      ...defaultCellDelete,
+      isCellDeleteError: true,
+      cellDeleteErrorMsg: 'Could not delete this row. Try again.',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'When `isCellDeleteError` is true, the confirmation dialog stays open and shows `cellDeleteErrorMsg` so the user can retry or cancel.',
+      },
+    },
+  },
+};
+
+export const DeleteSuccess: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    cellDelete: { ...defaultCellDelete, isCellDeleteSuccess: true },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'When `isCellDeleteSuccess` becomes true, both dialogs close and `onCellReset` is called so the parent can reset the delete query.',
+      },
+    },
+  },
+};
+
+export const EditError: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    cellEdit: {
+      ...defaultCellEdit,
+      isCellError: true,
+      cellErrorMsg: 'Could not save changes.',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Edit state is independent of delete state: an edit error does not affect the delete dialog.',
       },
     },
   },

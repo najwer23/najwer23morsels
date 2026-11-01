@@ -34,12 +34,18 @@ export type TableColumn =
     };
 
 export interface TableCellEdit {
-  onCellEdit: (cell: Record<string, string>) => void;
-  onCellDelete?: (id: string | number) => void;
-  onCellReset?: () => void;
+  onCellEdit?: (data: Record<string, unknown>) => void;
   isCellError?: boolean;
   isCellPending?: boolean;
   isCellSuccess?: boolean;
-  cellErrorMsg?: string | null;
-  cellSuccessMsg?: string | null;
+  cellErrorMsg?: string;
+  cellSuccessMsg?: string;
+}
+
+export interface TableCellDelete {
+  onCellDelete?: (id: TableRow['id']) => void;
+  isCellDeleteError?: boolean;
+  isCellDeletePending?: boolean;
+  isCellDeleteSuccess?: boolean;
+  cellDeleteErrorMsg?: string;
 }

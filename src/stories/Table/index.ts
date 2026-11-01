@@ -1,4 +1,4 @@
 import { Table } from './Table';
-import { TableCellEdit, TableColumn, TableRow } from './Table.types';
+import { TableCellDelete, TableCellEdit, TableColumn, TableRow } from './Table.types';
 
-export { Table, type TableCellEdit, type TableColumn, type TableRow };
+export { Table, type TableCellDelete, type TableCellEdit, type TableColumn, type TableRow };
