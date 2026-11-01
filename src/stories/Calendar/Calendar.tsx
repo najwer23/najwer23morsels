@@ -13,7 +13,7 @@ import {
   generateYears,
   getDateForInput,
   getDaysInMonth,
-  isYYYYMMDD,
+  parseTypedDate,
 } from './Calendar.utils';
 
 interface CalendarProps extends React.HTMLAttributes<HTMLElement> {
@@ -47,10 +47,17 @@ export const Calendar: React.FC<CalendarProps> = ({
     open: boolean;
     dropDwonState: 'years' | 'days' | 'months';
   }>({
-    value: initialValue == '' ? '' : getDateForInput(initialValue ?? new Date()),
+    value: initialValue ?? getDateForInput(new Date()),
     open: false,
     dropDwonState: 'days',
   });
+
+  const {
+    year: currentYear,
+    month: currentMonth,
+    day: currentDay,
+    iso: gridBase,
+  } = parseTypedDate(calendarState.value);
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setCalendarState((prev) => ({
@@ -79,19 +86,15 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const changeDayOfMonth = (day: number) => {
-    updateDateValue(
-      calculateNewDayOfMonth(isYYYYMMDD(calendarState.value) ? calendarState.value : getDateForInput(new Date()), day),
-    );
+    updateDateValue(calculateNewDayOfMonth(gridBase, day));
   };
 
   const changeMonth = (n: number) => {
-    updateDateValue(addMonths(isYYYYMMDD(calendarState.value) ? calendarState.value : getDateForInput(new Date()), n));
+    updateDateValue(addMonths(gridBase, n));
   };
 
   const changeYear = (n: number) => {
-    updateDateValue(
-      changeYearInDate(isYYYYMMDD(calendarState.value) ? calendarState.value : getDateForInput(new Date()), n),
-    );
+    updateDateValue(changeYearInDate(gridBase, n));
   };
 
   const weekdays = useMemo(
@@ -105,14 +108,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     [],
   );
 
-  const days = generateDaysArray(isYYYYMMDD(calendarState.value) ? calendarState.value : getDateForInput(new Date()));
-  const years = generateYears(isYYYYMMDD(calendarState.value) ? calendarState.value : getDateForInput(new Date()));
-
-  const currentDate = isYYYYMMDD(calendarState.value) ? new Date(calendarState.value) : new Date();
-
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
-  const currentDay = currentDate.getDate();
+  const days = generateDaysArray(gridBase);
+  const years = generateYears(gridBase);
 
   return (
     <div
@@ -129,7 +126,6 @@ export const Calendar: React.FC<CalendarProps> = ({
           inputRef.current?.focus();
           setCalendarState((prevState) => ({
             ...prevState,
-            value: '',
             open: !prevState.open,
             dropDwonState: 'days',
           }));
@@ -151,7 +147,6 @@ export const Calendar: React.FC<CalendarProps> = ({
 
           setCalendarState((prevState) => ({
             ...prevState,
-            value: '',
             open: true,
             dropDwonState: 'days',
           }));
@@ -371,7 +366,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                       });
                     }}
                   >
-                    {v.day <= 0 || v.day > getDaysInMonth(calendarState.value) ? ' ' : v.day}
+                    {v.day <= 0 || v.day > getDaysInMonth(gridBase) ? ' ' : v.day}
                   </div>
                 ))}
               </div>

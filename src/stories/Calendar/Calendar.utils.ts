@@ -95,20 +95,25 @@ export const generateDaysArray = (inputDate: string | Date) => {
   });
 };
 
-export const isYYYYMMDD = (inputDate: string) => {
-  if (typeof inputDate === 'string') {
-    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(inputDate);
-    if (!match) return false;
-  }
+export const parseTypedDate = (value: string, today: Date = new Date()) => {
+  const [typedYear = '', typedMonth = '', typedDay = ''] = value.split('-');
 
-  const date = typeof inputDate === 'string' ? new Date(inputDate) : inputDate;
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
+  const year = /^\d{4}$/.test(typedYear) ? Number(typedYear) : today.getFullYear();
 
-  let monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const month =
+    /^\d{1,2}$/.test(typedMonth) && Number(typedMonth) >= 1 && Number(typedMonth) <= 12
+      ? Number(typedMonth) - 1
+      : today.getMonth();
 
-  if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLength[1] = 29;
+  const wantedDay =
+    /^\d{1,2}$/.test(typedDay) && Number(typedDay) >= 1 && Number(typedDay) <= 31 ? Number(typedDay) : today.getDate();
 
-  return day > 0 && day <= monthLength[month] && inputDate.length == 10;
+  const day = Math.min(wantedDay, getDaysInMonth(createDate(year, month, 1)));
+
+  return {
+    year,
+    month,
+    day,
+    iso: `${String(year).padStart(4, '0')}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
+  };
 };

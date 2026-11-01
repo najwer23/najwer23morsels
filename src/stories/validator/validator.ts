@@ -1,4 +1,4 @@
-import { isYYYYMMDD } from '../Calendar/Calendar.utils';
+import { isYYYYMMDD } from './isYYYYMMDD';
 
 type ValidatorOption =
   | { type: 'empty' }
