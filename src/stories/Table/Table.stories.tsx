@@ -22,6 +22,7 @@ const defaultCellDelete: TableCellDelete = {
   isCellDeletePending: false,
   isCellDeleteSuccess: false,
   cellDeleteErrorMsg: undefined,
+  cellDeleteSuccessMsg: undefined,
 };
 
 const meta: Meta<typeof Table> = {
@@ -34,11 +35,11 @@ const meta: Meta<typeof Table> = {
         component: `
 A table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
 
-Editing is optional and configured through the \`cellEdit\` object. Pass \`cellEdit.onCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`cellEdit\` for a read-only table. Submission status and feedback messages are controlled through \`isCellError\`, \`isCellPending\`, \`isCellSuccess\`, \`cellErrorMsg\` and \`cellSuccessMsg\`.
+Editing is optional and configured through the \`cellEdit\` object. Pass \`cellEdit.onCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`cellEdit\` for a read-only table. Submission status and feedback messages are controlled through \`isCellEditError\`, \`isCellEditPending\`, \`isCellEditSuccess\`, \`cellEditErrorMsg\` and \`cellEditSuccessMsg\`.
 
-Deleting is configured separately through the \`cellDelete\` object. Pass \`cellDelete.onCellDelete\` to add a Delete button to the editor. Clicking it opens an "Are you sure?" confirmation dialog, and \`onCellDelete\` is called only after confirming. Delete status is controlled through \`isCellDeleteError\`, \`isCellDeletePending\`, \`isCellDeleteSuccess\` and \`cellDeleteErrorMsg\`. Because the Delete button lives in the editor, \`cellEdit.onCellEdit\` must also be set.
+Deleting is configured separately through the \`cellDelete\` object. Pass \`cellDelete.onCellDelete\` to add a Delete button to the editor. Clicking it opens an "Are you sure?" confirmation dialog, and \`onCellDelete\` is called only after confirming. The dialog stays open to show the result: \`cellDeleteErrorMsg\` when \`isCellDeleteError\` is true, or \`cellDeleteSuccessMsg\` with a Close button when \`isCellDeleteSuccess\` is true. Delete status is controlled through \`isCellDeleteError\`, \`isCellDeletePending\`, \`isCellDeleteSuccess\`, \`cellDeleteErrorMsg\` and \`cellDeleteSuccessMsg\`. Because the Delete button lives in the editor, \`cellEdit.onCellEdit\` must also be set.
 
-\`onCellReset\` is independent of both objects. It is called when a dialog is closed or cancelled, and after a successful delete, so the parent can reset its edit and delete queries.
+\`onCellReset\` is independent of both objects. It is called when a dialog is closed or cancelled, including the Close button after a successful delete, so the parent can reset its edit and delete queries.
 `,
       },
     },
@@ -330,7 +331,7 @@ export const DeleteConfirmation: Story = {
     docs: {
       description: {
         story:
-          'Click a cell, then Delete. An "Are you sure?" dialog opens. Cancel closes only the confirmation; "Yes, delete" calls `cellDelete.onCellDelete` with the row id.',
+          'Click a cell, then Delete. An "Are you sure?" dialog opens. Cancel closes only the confirmation; "Yes, delete" calls `cellDelete.onCellDelete` with the row id and leaves the dialog open so the parent can show the result.',
       },
     },
   },
@@ -376,13 +377,17 @@ export const DeleteSuccess: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellDelete: { ...defaultCellDelete, isCellDeleteSuccess: true },
+    cellDelete: {
+      ...defaultCellDelete,
+      isCellDeleteSuccess: true,
+      cellDeleteSuccessMsg: 'Row deleted successfully',
+    },
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When `isCellDeleteSuccess` becomes true, both dialogs close and `onCellReset` is called so the parent can reset the delete query.',
+          'When `isCellDeleteSuccess` is true, the confirmation dialog shows `cellDeleteSuccessMsg` in place of the error message, with a single Close button. Close (or Esc) closes both dialogs and calls `onCellReset` so the parent can reset the delete query.',
       },
     },
   },
@@ -402,6 +407,26 @@ export const EditError: Story = {
     docs: {
       description: {
         story: 'Edit state is independent of delete state: an edit error does not affect the delete dialog.',
+      },
+    },
+  },
+};
+
+export const EditSuccess: Story = {
+  args: {
+    jsonSchema: { cols: taskColumns },
+    jsonData: { rows: taskRows },
+    cellEdit: {
+      ...defaultCellEdit,
+      isCellEditSuccess: true,
+      cellEditSuccessMsg: 'Changes saved',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'When `isCellEditSuccess` is true, the edit form shows `cellEditSuccessMsg`. Delete state is unaffected.',
       },
     },
   },

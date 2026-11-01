@@ -48,4 +48,5 @@ export interface TableCellDelete {
   isCellDeletePending?: boolean;
   isCellDeleteSuccess?: boolean;
   cellDeleteErrorMsg?: string;
+  cellDeleteSuccessMsg?: string;
 }

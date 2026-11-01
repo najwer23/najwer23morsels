@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../Button';
 import { Calendar } from '../Calendar';
 import { Dialog } from '../Dialog';
@@ -55,6 +55,7 @@ export const Table: React.FC<TableProps> = ({
     isCellDeletePending = false,
     isCellDeleteSuccess = false,
     cellDeleteErrorMsg,
+    cellDeleteSuccessMsg,
   } = cellDelete ?? {};
 
   const isEditable = Boolean(onCellEdit);
@@ -76,17 +77,22 @@ export const Table: React.FC<TableProps> = ({
     setIsOpenDialogDeleteCell(true);
   };
 
-  // "Yes, delete" in the confirmation dialog
+  // "Yes, delete": only fires the request; the dialog stays open to show the result
   const handleOnDelConfirm = () => {
     if (!onCellDelete || !selectedRow) return;
     onCellDelete(selectedRow.id);
+  };
+
+  // Cancel before deleting: close only the confirmation dialog
+  const handleOnDelCancel = () => {
     setIsOpenDialogDeleteCell(false);
-    setIsOpenDialogEditCell(false);
     onCellReset?.();
   };
 
-  const handleOnDelCancel = () => {
+  // Close after a successful delete: close both dialogs
+  const handleOnDelClose = () => {
     setIsOpenDialogDeleteCell(false);
+    setIsOpenDialogEditCell(false);
     onCellReset?.();
   };
 
@@ -222,17 +228,23 @@ export const Table: React.FC<TableProps> = ({
       )}
 
       {isDeletable && (
-        <Dialog open={isOpenDialogDeleteCell} onCancel={handleOnDelCancel} widthMax="450px">
+        <Dialog
+          open={isOpenDialogDeleteCell}
+          onCancel={isCellDeleteSuccess ? handleOnDelClose : handleOnDelCancel}
+          widthMax="450px"
+        >
           <Grid layout="container" widthMin="min(400px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
             <Typography appearance="light" variant="subheading" style={{ margin: '0 0 10px 0' }}>
-              Are you sure?
+              {isCellDeleteSuccess ? 'Deleted' : 'Are you sure?'}
             </Typography>
 
-            <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={400} color="black">
-              This row will be permanently deleted. This action cannot be undone.
-            </TextBox>
+            {!isCellDeleteSuccess && (
+              <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={400} color="black">
+                This row will be permanently deleted. This action cannot be undone.
+              </TextBox>
+            )}
 
-            {isCellDeleteError && (
+            {isCellDeleteError && !isCellDeleteSuccess && (
               <TextBox
                 tag="p"
                 desktopSize={16}
@@ -245,36 +257,65 @@ export const Table: React.FC<TableProps> = ({
               </TextBox>
             )}
 
-            <Grid layout="flex" widthMax="100%" padding="0" justifyContent="space-between" margin="20px 0 0 0">
-              <Button
-                type="button"
-                height="40px"
-                width="auto"
-                padding="0 10px"
-                disabled={isCellDeletePending}
-                backgroundColor="grey"
-                backgroundColorDisabled="grey"
-                onClick={handleOnDelCancel}
-              >
-                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                  Cancel
-                </TextBox>
-              </Button>
+            {isCellDeleteSuccess && (
+              <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={400} color="#4BB543">
+                {cellDeleteSuccessMsg ?? 'Row deleted'}
+              </TextBox>
+            )}
 
-              <Button
-                type="button"
-                height="40px"
-                width="auto"
-                padding="0 10px"
-                disabled={isCellDeletePending}
-                backgroundColor="red"
-                backgroundColorDisabled="grey"
-                onClick={handleOnDelConfirm}
-              >
-                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                  Yes, delete
-                </TextBox>
-              </Button>
+            <Grid
+              layout="flex"
+              widthMax="100%"
+              padding="0"
+              justifyContent={isCellDeleteSuccess ? 'flex-end' : 'space-between'}
+              margin="20px 0 0 0"
+            >
+              {isCellDeleteSuccess ? (
+                <Button
+                  type="button"
+                  height="40px"
+                  width="auto"
+                  padding="0 10px"
+                  backgroundColor="#4BB543"
+                  onClick={handleOnDelClose}
+                >
+                  <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                    Close
+                  </TextBox>
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    type="button"
+                    height="40px"
+                    width="auto"
+                    padding="0 10px"
+                    disabled={isCellDeletePending}
+                    backgroundColor="grey"
+                    backgroundColorDisabled="grey"
+                    onClick={handleOnDelCancel}
+                  >
+                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                      Cancel
+                    </TextBox>
+                  </Button>
+
+                  <Button
+                    type="button"
+                    height="40px"
+                    width="auto"
+                    padding="0 10px"
+                    disabled={isCellDeletePending}
+                    backgroundColor="red"
+                    backgroundColorDisabled="grey"
+                    onClick={handleOnDelConfirm}
+                  >
+                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                      Yes, delete
+                    </TextBox>
+                  </Button>
+                </>
+              )}
             </Grid>
           </Grid>
         </Dialog>
