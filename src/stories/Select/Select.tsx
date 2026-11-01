@@ -36,28 +36,38 @@ export const Select: React.FC<SelectProps> = ({
   const [selectedOptionLabel, setSelectedOptionLabel] = useState<string>(initialValue?.label ?? '');
   const [selectedOptionValue, setSelectedOptionValue] = useState<string>(initialValue?.value ?? '');
   const [isOpen, setIsOpen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const id = useId();
 
   const filteredOptions = useMemo(() => {
+    if (!isTyping) return options;
     return options.filter((option) => option.label.toLowerCase().includes(selectedOptionLabel.toLowerCase()));
-  }, [options, selectedOptionLabel]);
+  }, [options, selectedOptionLabel, isTyping]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const nextValue = e.currentTarget.value;
     setSelectedOptionLabel(nextValue);
     setSelectedOptionValue('');
+    setIsTyping(true);
     setIsOpen(true);
   };
 
-  const handleFocus = () => {
+  const handleOpen = () => {
+    if (disabled) return;
+    setIsTyping(false);
+    setIsOpen(true);
+  };
+
+  const handleToggle = () => {
+    if (disabled) return;
+    setIsTyping(false);
     setIsOpen((prev) => !prev);
-    setSelectedOptionLabel('');
-    setSelectedOptionValue('');
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setIsOpen(false);
+    setIsTyping(false);
     onBlur?.(e, {
       value: selectedOptionValue,
       label: selectedOptionLabel,
@@ -67,6 +77,7 @@ export const Select: React.FC<SelectProps> = ({
   const handleSelect = (option: SelectOption) => {
     setSelectedOptionValue(option.value);
     setSelectedOptionLabel(option.label);
+    setIsTyping(false);
     setIsOpen(false);
   };
 
@@ -81,7 +92,7 @@ export const Select: React.FC<SelectProps> = ({
         onMouseDown={(e) => {
           e.preventDefault();
           inputRef.current?.focus();
-          handleFocus();
+          handleToggle();
         }}
       ></div>
 
@@ -112,7 +123,7 @@ export const Select: React.FC<SelectProps> = ({
         placeholder={placeholder}
         value={selectedOptionLabel}
         onChange={handleChange}
-        onClick={handleFocus}
+        onClick={handleOpen}
         onBlur={handleBlur}
         validatorOptions={[
           ...(validatorOptions ?? []),
