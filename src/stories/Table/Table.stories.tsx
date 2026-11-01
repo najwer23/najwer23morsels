@@ -1,7 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { SelectOption } from '../Select';
-import { Table, type TableColumn } from '.';
+import { Table, type TableCellEdit, type TableColumn } from '.';
+
+const defaultCellEdit: TableCellEdit = {
+  onCellEdit: (form) => {
+    console.log('Edited row:', form);
+  },
+  onCellReset: () => {
+    console.log('Reset cell edit query');
+  },
+  onCellDelete: (id) => {
+    console.log('Deleted row:', id);
+  },
+  isCellError: false,
+  isCellPending: false,
+  isCellSuccess: false,
+  cellErrorMsg: undefined,
+  cellSuccessMsg: undefined,
+};
 
 const meta: Meta<typeof Table> = {
   title: 'Table/Table',
@@ -13,26 +30,13 @@ const meta: Meta<typeof Table> = {
         component: `
 A table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
 
-Editing is optional. Pass \`handleCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit it for a read-only table. Pass \`handelCellDel\` to add a Delete button to the editor. Submission status and feedback messages are controlled through props.
+Editing is optional and configured through a single \`cellEdit\` object. Pass \`cellEdit.onCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`cellEdit\` for a read-only table. Pass \`cellEdit.onCellDelete\` to add a Delete button to the editor. Submission status and feedback messages are controlled through \`isCellError\`, \`isCellPending\`, \`isCellSuccess\`, \`cellErrorMsg\` and \`cellSuccessMsg\`.
 `,
       },
     },
   },
   args: {
-    handleCellEdit: (form) => {
-      console.log('Edited row:', form);
-    },
-    resetQueryCellEdit: () => {
-      console.log('Reset cell edit query');
-    },
-    handelCellDel: (row) => {
-      console.log('Deleted row:', row);
-    },
-    isErrorCellEdit: false,
-    isPendingCellEdit: false,
-    isSuccessCellEdit: false,
-    errorMsgCellEdit: undefined,
-    successMsgCellEdit: undefined,
+    cellEdit: defaultCellEdit,
   },
 };
 
@@ -277,15 +281,12 @@ export const ReadOnly: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    handleCellEdit: undefined,
-    resetQueryCellEdit: undefined,
-    handelCellDel: undefined,
+    cellEdit: undefined,
   },
   parameters: {
     docs: {
       description: {
-        story:
-          'Without `handleCellEdit` the table is read-only: cells are not clickable and no edit dialog is rendered.',
+        story: 'Without `cellEdit` the table is read-only: cells are not clickable and no edit dialog is rendered.',
       },
     },
   },
@@ -295,12 +296,13 @@ export const EditWithoutDelete: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    handelCellDel: undefined,
+    cellEdit: { ...defaultCellEdit, onCellDelete: undefined },
   },
   parameters: {
     docs: {
       description: {
-        story: 'Without `handelCellDel` the edit dialog has no Delete button and Save stays aligned to the right.',
+        story:
+          'Without `cellEdit.onCellDelete` the edit dialog has no Delete button and Save stays aligned to the right.',
       },
     },
   },

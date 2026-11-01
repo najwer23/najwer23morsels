@@ -5,12 +5,12 @@ import { Dialog } from '../Dialog';
 import { Form, FormType } from '../Form';
 import { Grid } from '../Grid';
 import { Input } from '../Input';
-import { Select, SelectOption } from '../Select';
+import { Select } from '../Select';
 import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
-import { TableColumn, TableRow } from './Table.types';
+import { TableCellEdit, TableColumn, TableRow } from './Table.types';
 
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
@@ -20,57 +20,47 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   jsonData: {
     rows: TableRow[];
   };
-  handleCellEdit?: (cell: Record<string, string>) => void;
-  resetQueryCellEdit?: () => void;
-  handelCellDel?: (cell: string | number) => void;
-  isErrorCellEdit?: boolean;
-  isPendingCellEdit?: boolean;
-  isSuccessCellEdit?: boolean;
-  errorMsgCellEdit?: string | null;
-  successMsgCellEdit?: string | null;
+  cellEdit?: TableCellEdit;
 }
 
-export const Table: React.FC<TableProps> = ({
-  className,
-  jsonSchema,
-  jsonData,
-  handleCellEdit,
-  handelCellDel,
-  resetQueryCellEdit,
-  isErrorCellEdit = false,
-  isPendingCellEdit = false,
-  isSuccessCellEdit = false,
-  errorMsgCellEdit,
-  successMsgCellEdit,
-  style,
-  ...props
-}) => {
+export const Table: React.FC<TableProps> = ({ className, jsonSchema, jsonData, cellEdit, style, ...props }) => {
   const [isOpenDialogEditCell, setIsOpenDialogEditCell] = useState(false);
   const [dialogEditCellKey, setDialogEditCellKey] = useState(0);
   const [selectedRow, setSelectedRow] = useState<TableRow | null>(null);
 
-  const isEditable = Boolean(handleCellEdit);
+  const {
+    onCellEdit,
+    onCellDelete,
+    onCellReset,
+    isCellError = false,
+    isCellPending = false,
+    isCellSuccess = false,
+    cellErrorMsg,
+    cellSuccessMsg,
+  } = cellEdit ?? {};
+
+  const isEditable = Boolean(onCellEdit);
   const tableColumns = jsonSchema.cols.filter((col) => col.cellName !== 'id');
 
   const handleOnSubmit = (form: FormType) => {
-    if (!handleCellEdit) return;
+    if (!onCellEdit) return;
     if (Object.values(form).some(({ error }) => error)) return;
 
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    handleCellEdit(dataForm);
+    onCellEdit(dataForm);
   };
 
   const handleOnDel = () => {
-    if (!handelCellDel || !selectedRow) return;
+    if (!onCellDelete || !selectedRow) return;
 
-    handelCellDel(selectedRow.id);
+    onCellDelete(selectedRow.id);
     setIsOpenDialogEditCell(false);
   };
 
   const handleOnClose = () => {
     setIsOpenDialogEditCell(false);
-    resetQueryCellEdit?.();
+    onCellReset?.();
   };
 
   const handleOnCellClick = (row: TableRow) => {
@@ -100,11 +90,11 @@ export const Table: React.FC<TableProps> = ({
             <Form
               key={dialogEditCellKey}
               onSubmit={handleOnSubmit}
-              isError={isErrorCellEdit}
-              isPending={isPendingCellEdit}
-              isSuccess={isSuccessCellEdit}
-              errorMsg={errorMsgCellEdit}
-              successMsg={successMsgCellEdit}
+              isError={isCellError}
+              isPending={isCellPending}
+              isSuccess={isCellSuccess}
+              errorMsg={cellErrorMsg}
+              successMsg={cellSuccessMsg}
             >
               <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
                 {selectedRow &&
@@ -159,17 +149,17 @@ export const Table: React.FC<TableProps> = ({
                 layout="flex"
                 widthMax="100%"
                 padding="0"
-                justifyContent={handelCellDel ? 'space-between' : 'flex-end'}
+                justifyContent={onCellDelete ? 'space-between' : 'flex-end'}
                 alignItems="right"
                 margin="20px 0 0 0"
               >
-                {handelCellDel && (
+                {onCellDelete && (
                   <Button
                     type="button"
                     height="40px"
                     width="auto"
-                    padding={'0 10px'}
-                    disabled={isPendingCellEdit}
+                    padding="0 10px"
+                    disabled={isCellPending}
                     backgroundColor="red"
                     backgroundColorDisabled="grey"
                     onClick={handleOnDel}
@@ -184,8 +174,8 @@ export const Table: React.FC<TableProps> = ({
                   type="submit"
                   height="40px"
                   width="auto"
-                  padding={'0 10px'}
-                  disabled={isPendingCellEdit}
+                  padding="0 10px"
+                  disabled={isCellPending}
                   backgroundColor="#4BB543"
                   backgroundColorDisabled="grey"
                 >

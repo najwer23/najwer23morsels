@@ -32,3 +32,14 @@ export type TableColumn =
       thAlign?: 'left' | 'right';
       tdAlign?: 'left' | 'right';
     };
+
+export interface TableCellEdit {
+  onCellEdit: (cell: Record<string, string>) => void;
+  onCellDelete?: (id: string | number) => void;
+  onCellReset?: () => void;
+  isCellError?: boolean;
+  isCellPending?: boolean;
+  isCellSuccess?: boolean;
+  cellErrorMsg?: string | null;
+  cellSuccessMsg?: string | null;
+}
