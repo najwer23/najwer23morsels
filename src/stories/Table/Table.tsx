@@ -144,7 +144,6 @@ export const Table: React.FC<TableProps> = ({
               <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
                 {selectedRow &&
                   jsonSchema.cols.map((col) => {
-                    const isId = col.cellName === 'id';
                     const value = selectedRow[col.cellName];
 
                     if (col.cellType === 'date') {
@@ -155,6 +154,7 @@ export const Table: React.FC<TableProps> = ({
                           key={col.cellName}
                           label={col.cellText}
                           name={col.cellName}
+                          disabled={col.disabled}
                           initialValue={initialValue}
                           placeholder={col.cellText}
                         />
@@ -170,6 +170,7 @@ export const Table: React.FC<TableProps> = ({
                           key={col.cellName}
                           name={col.cellName}
                           options={col.options}
+                          disabled={col.disabled}
                           initialValue={selectedOption}
                         />
                       );
@@ -183,7 +184,7 @@ export const Table: React.FC<TableProps> = ({
                         type={col.cellType}
                         step={col.cellType === 'number' ? 0.01 : undefined}
                         defaultValue={String(value ?? '')}
-                        disabled={isId}
+                        disabled={col.disabled}
                         placeholder={col.cellText}
                       />
                     );
@@ -225,7 +226,7 @@ export const Table: React.FC<TableProps> = ({
                   backgroundColorDisabled="grey"
                 >
                   <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                    Save
+                    Save changes
                   </TextBox>
                 </Button>
               </Grid>

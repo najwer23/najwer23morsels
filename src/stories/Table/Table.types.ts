@@ -4,34 +4,30 @@ export type TableRow = Record<string, string | number | boolean> & {
   id: string | number;
 };
 
+type TableColumnBase = {
+  disabled?: boolean;
+  cellText: string;
+  cellName: string;
+  thAlign?: 'left' | 'right';
+  tdAlign?: 'left' | 'right';
+};
+
 export type TableColumn =
-  | {
-      cellText: string;
-      cellName: string;
+  | (TableColumnBase & {
       cellType: 'select';
       options: SelectOption[];
       initialValue?: SelectOption;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    }
-  | {
-      cellText: string;
-      cellName: string;
+    })
+  | (TableColumnBase & {
       cellType: 'date';
       options?: never;
       initialValue?: '' | `${number}-${number}-${number}`;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    }
-  | {
-      cellText: string;
-      cellName: string;
+    })
+  | (TableColumnBase & {
       cellType: 'text' | 'number';
-      initialValue?: never;
       options?: never;
-      thAlign?: 'left' | 'right';
-      tdAlign?: 'left' | 'right';
-    };
+      initialValue?: never;
+    });
 
 export interface TableCellEdit {
   onCellEdit?: (cell: Record<string, string>) => void;
