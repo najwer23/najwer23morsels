@@ -1,4 +1,4 @@
-import { isYYYYMMDD } from './isYYYYMMDD';
+import { isYYYYMMDDOrEmpty } from './isYYYYMMDDorEmpty';
 
 type ValidatorOption =
   | { type: 'empty' }
@@ -54,7 +54,7 @@ const validators: Record<string, ValidatorFn> = {
   },
 
   date: (value: string): string | null => {
-    if (!isYYYYMMDD(value)) {
+    if (!isYYYYMMDDOrEmpty(value)) {
       return `The date is invalid.`;
     }
     return null;
