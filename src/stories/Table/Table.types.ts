@@ -5,9 +5,10 @@ export type TableRow = Record<string, string | number | boolean> & {
 };
 
 type TableColumnBase = {
-  disabled?: boolean;
   cellText: string;
   cellName: string;
+  disabledAdd?: boolean;
+  disabledEdit?: boolean;
   thAlign?: 'left' | 'right';
   tdAlign?: 'left' | 'right';
 };

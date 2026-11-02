@@ -154,7 +154,7 @@ export const Table: React.FC<TableProps> = ({
                           key={col.cellName}
                           label={col.cellText}
                           name={col.cellName}
-                          disabled={col.disabled}
+                          disabled={col.disabledEdit}
                           initialValue={initialValue}
                           placeholder={col.cellText}
                         />
@@ -170,7 +170,7 @@ export const Table: React.FC<TableProps> = ({
                           key={col.cellName}
                           name={col.cellName}
                           options={col.options}
-                          disabled={col.disabled}
+                          disabled={col.disabledEdit}
                           initialValue={selectedOption}
                         />
                       );
@@ -184,7 +184,7 @@ export const Table: React.FC<TableProps> = ({
                         type={col.cellType}
                         step={col.cellType === 'number' ? 0.01 : undefined}
                         defaultValue={String(value ?? '')}
-                        disabled={col.disabled}
+                        disabled={col.disabledEdit}
                         placeholder={col.cellText}
                       />
                     );
