@@ -88,22 +88,28 @@ export const Table: React.FC<TableProps> = ({
     onCellDelete(selectedRow.id);
   };
 
+  const handleOnCellReset = () => {
+    if (onCellReset) {
+      setTimeout(() => onCellReset(), 300);
+    }
+  };
+
   // Cancel before deleting: close only the confirmation dialog
   const handleOnDelCancel = () => {
     setIsOpenDialogDeleteCell(false);
-    onCellReset?.();
+    handleOnCellReset();
   };
 
   // Close after a successful delete: close both dialogs
   const handleOnDelClose = () => {
     setIsOpenDialogDeleteCell(false);
     setIsOpenDialogEditCell(false);
-    onCellReset?.();
+    handleOnCellReset();
   };
 
   const handleOnClose = () => {
     setIsOpenDialogEditCell(false);
-    onCellReset?.();
+    handleOnCellReset();
   };
 
   const handleOnCellClick = (row: TableRow) => {
