@@ -93,6 +93,10 @@ const validators: Record<string, ValidatorFn> = {
   },
 
   naturalNumber: (value: string): string | null => {
+    if (value === '') {
+      return null;
+    }
+
     if (!/^([1-9][0-9]*|0)$/.test(value)) {
       return 'The number must be a natural number (positive integer).';
     }
@@ -107,6 +111,10 @@ const validators: Record<string, ValidatorFn> = {
   },
 
   decimalDigits: (value: string, options?: { digits?: number }): string | null => {
+    if (value === '') {
+      return null;
+    }
+
     const number = Number(value);
 
     if (isNaN(number)) {
