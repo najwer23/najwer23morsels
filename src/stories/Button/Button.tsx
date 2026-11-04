@@ -1,11 +1,17 @@
 import React, { forwardRef } from 'react';
-import { Loader } from '../Loader';
+import { LoaderDots } from '../LoaderDots';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
+import { BUTTON_VARIANTS } from './Button.const';
 import styles from './Button.module.css';
+import { ButtonVariant } from './Button.types';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
+  variant?: ButtonVariant;
   backgroundColor?: React.CSSProperties['color'];
+  backgroundColorDisabled?: React.CSSProperties['color'];
+  borderColor?: React.CSSProperties['color'];
+  textColor?: React.CSSProperties['color'];
   padding?: React.CSSProperties['padding'];
   margin?: React.CSSProperties['margin'];
   height?: React.CSSProperties['height'];
@@ -13,44 +19,53 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   loaderMobileSize?: number;
   loaderDesktopSize?: number;
-  backgroundColorDisabled?: React.CSSProperties['color'];
-  borderColor?: React.CSSProperties['color'];
   style?: React.CSSProperties;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
+      variant = 'primary',
       loaderMobileSize = 16,
       loaderDesktopSize = 16,
       margin,
       children,
       className,
       backgroundColor,
+      backgroundColorDisabled,
+      borderColor,
+      textColor,
       padding = '0 12px',
       loading = false,
       height = '42px',
       width,
-      borderColor,
-      backgroundColorDisabled,
       style,
       disabled,
       ...props
     },
     ref,
   ) => {
+    const isDisabledVariant = variant === 'disabled' || (disabled && !loading);
+    const activeVariant: ButtonVariant = isDisabledVariant ? 'disabled' : variant;
+    const palette = BUTTON_VARIANTS[activeVariant];
+    const disabledPalette = BUTTON_VARIANTS.disabled;
+
     return (
       <button
         ref={ref}
-        disabled={disabled || loading}
+        disabled={disabled || loading || variant === 'disabled'}
         aria-busy={loading || undefined}
+        data-variant={activeVariant}
         style={{
           ...getCssVariableStyle({
-            '--button-bg': backgroundColor,
+            '--button-bg': backgroundColor ?? palette.background,
+            '--button-bc': borderColor ?? palette.border,
+            '--button-color': textColor ?? palette.text,
+            '--button-focus': palette.focus,
+            '--button-bgd': backgroundColorDisabled ?? disabledPalette.background,
+            '--button-colord': disabledPalette.text,
             '--button-h': height,
             '--button-w': width,
-            '--button-bgd': backgroundColorDisabled,
-            '--button-bc': borderColor,
             '--button-p': padding,
             '--button-m': margin,
           }),
@@ -67,7 +82,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         {loading && (
           <span className={styles.n23mButtonLoader}>
-            <Loader mobileSize={loaderMobileSize} desktopSize={loaderDesktopSize} />
+            <LoaderDots
+              mobileSize={loaderMobileSize}
+              desktopSize={loaderDesktopSize}
+              color={textColor ?? palette.text}
+            />
           </span>
         )}
       </button>

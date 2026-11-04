@@ -4,26 +4,7 @@ import { action } from 'storybook/actions';
 import { TextBox } from '../TextBox';
 import { Button } from '.';
 
-const COLORS = {
-  primary: '#3F454B',
-  primaryBorder: '#343A40',
-
-  secondary: '#666666',
-  secondaryBorder: '#555555',
-
-  danger: '#C24141',
-  dangerBorder: '#A93434',
-
-  success: '#367C59',
-  successBorder: '#2D684B',
-
-  disabled: '#D4D4D4',
-  disabledBorder: '#C8C8C8',
-
-  text: '#FFFFFF',
-  textDark: '#333333',
-  textDisabled: '#595959',
-};
+const VARIANTS = ['primary', 'secondary', 'danger', 'success', 'copy', 'menu', 'disabled'] as const;
 
 const meta: Meta<typeof Button> = {
   title: 'Button/Button',
@@ -33,8 +14,10 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component: `
-A customizable button component supporting semantic colors, loading states, disabled states, and custom dimensions.
+A customizable button component supporting color variants, loading states, disabled states, and custom dimensions.
 
+Variants: \`primary\` (default), \`secondary\`, \`danger\`, \`success\`, \`copy\`, \`menu\`, \`disabled\`.
+Use \`backgroundColor\`, \`borderColor\` and \`textColor\` to override a variant.
 
 Import:
 \`\`\`tsx
@@ -45,11 +28,16 @@ import { Button } from 'najwer23morsels/lib/Button';
     },
   },
   tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: VARIANTS,
+    },
+  },
   args: {
     type: 'button',
-    backgroundColor: COLORS.primary,
+    variant: 'primary',
     height: '42px',
-    borderColor: COLORS.primaryBorder,
     padding: '0 10px',
     onClick: action('button-click'),
   },
@@ -59,9 +47,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const renderButton = (args: React.ComponentProps<typeof Button>, label: string, color: string = COLORS.text) => (
+const renderButton = (args: React.ComponentProps<typeof Button>, label: string) => (
   <Button {...args}>
-    <TextBox mobileSize={14} desktopSize={14} color={color}>
+    <TextBox mobileSize={14} desktopSize={14} color="inherit">
       {label}
     </TextBox>
   </Button>
@@ -71,10 +59,57 @@ export const Default: Story = {
   render: (args) => renderButton(args, 'Button'),
 };
 
+export const Primary: Story = {
+  args: { variant: 'primary' },
+  render: (args) => renderButton(args, 'Save changes'),
+};
+
+export const Secondary: Story = {
+  args: { variant: 'secondary' },
+  render: (args) => renderButton(args, 'Close'),
+};
+
+export const Danger: Story = {
+  args: { variant: 'danger' },
+  render: (args) => renderButton(args, 'Delete'),
+};
+
+export const Success: Story = {
+  args: { variant: 'success' },
+  render: (args) => renderButton(args, 'Sign up'),
+};
+
+export const Copy: Story = {
+  args: { variant: 'copy' },
+  render: (args) => renderButton(args, 'Copy'),
+};
+
+export const Menu: Story = {
+  args: { variant: 'menu' },
+  render: (args) => renderButton(args, 'Menu'),
+};
+
+export const Disabled: Story = {
+  args: { variant: 'disabled' },
+  render: (args) => renderButton(args, 'Disabled'),
+};
+
+export const DisabledProp: Story = {
+  args: { variant: 'danger', disabled: true },
+  render: (args) => renderButton(args, 'Disabled via prop'),
+};
+
+export const CustomColors: Story = {
+  args: {
+    backgroundColor: '#0057B8',
+    borderColor: '#003F87',
+    textColor: '#FFFFFF',
+  },
+  render: (args) => renderButton(args, 'Custom'),
+};
+
 export const ButtonLoading: Story = {
   args: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primaryBorder,
     loaderMobileSize: 14,
     loaderDesktopSize: 14,
   },
@@ -91,89 +126,26 @@ export const ButtonLoading: Story = {
 
     return (
       <Button {...args} loading={loading}>
-        Save changes
+        <TextBox mobileSize={14} desktopSize={14} color="inherit">
+          Save changes
+        </TextBox>
       </Button>
     );
   },
 };
-export const ButtonDisabled: Story = {
-  args: {
-    backgroundColor: COLORS.disabled,
-    backgroundColorDisabled: COLORS.disabled,
-    borderColor: COLORS.disabledBorder,
-    disabled: true,
-  },
-  render: (args) => renderButton(args, 'Disabled', COLORS.textDisabled),
-};
-
-export const Danger: Story = {
-  args: {
-    backgroundColor: COLORS.danger,
-    borderColor: COLORS.dangerBorder,
-  },
-  render: (args) => renderButton(args, 'Delete'),
-};
-
-export const SaveChanges: Story = {
-  args: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primaryBorder,
-  },
-  render: (args) => renderButton(args, 'Save changes'),
-};
-
-export const Close: Story = {
-  args: {
-    backgroundColor: COLORS.secondary,
-    borderColor: COLORS.secondaryBorder,
-  },
-  render: (args) => renderButton(args, 'Close', COLORS.text),
-};
-
-export const Login: Story = {
-  args: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primaryBorder,
-  },
-  render: (args) => renderButton(args, 'Log in'),
-};
-
-export const SignUp: Story = {
-  args: {
-    backgroundColor: COLORS.success,
-    borderColor: COLORS.successBorder,
-  },
-  render: (args) => renderButton(args, 'Sign up'),
-};
-
-export const ResetPassword: Story = {
-  args: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primaryBorder,
-  },
-  render: (args) => renderButton(args, 'Reset password'),
-};
 
 export const Small: Story = {
-  args: {
-    width: '80px',
-    height: '42px',
-  },
+  args: { width: '80px' },
   render: (args) => renderButton(args, 'Small'),
 };
 
 export const Large: Story = {
-  args: {
-    width: '220px',
-    height: '42px',
-  },
+  args: { width: '220px' },
   render: (args) => renderButton(args, 'Large button'),
 };
 
 export const FullWidth: Story = {
-  args: {
-    width: '100%',
-  },
+  args: { width: '100%' },
   decorators: [
     (Story) => (
       <div style={{ width: '320px' }}>
@@ -184,72 +156,22 @@ export const FullWidth: Story = {
   render: (args) => renderButton(args, 'Full width'),
 };
 
-export const SemanticActions: Story = {
-  render: () => {
-    const buttons = [
-      {
-        label: 'Log in',
-        background: COLORS.primary,
-        border: COLORS.primaryBorder,
-      },
-      {
-        label: 'Sign up',
-        background: COLORS.success,
-        border: COLORS.successBorder,
-      },
-      {
-        label: 'Reset password',
-        background: COLORS.primary,
-        border: COLORS.primaryBorder,
-      },
-      {
-        label: 'Save changes',
-        background: COLORS.primary,
-        border: COLORS.primaryBorder,
-      },
-      {
-        label: 'Delete',
-        background: COLORS.danger,
-        border: COLORS.dangerBorder,
-      },
-      {
-        label: 'Close',
-        background: COLORS.secondary,
-        border: COLORS.secondaryBorder,
-        color: COLORS.text,
-      },
-      {
-        label: 'Disabled',
-        background: COLORS.disabled,
-        border: COLORS.disabledBorder,
-        color: COLORS.textDisabled,
-        disabled: true,
-      },
-    ];
-
-    return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 180px)',
-          gap: '16px',
-        }}
-      >
-        {buttons.map((button) => (
-          <Button
-            key={button.label}
-            height="42px"
-            backgroundColor={button.background}
-            borderColor={button.border}
-            disabled={button.disabled}
-            onClick={action(button.label)}
-          >
-            <TextBox mobileSize={14} desktopSize={14} color={button.color ?? COLORS.text}>
-              {button.label}
-            </TextBox>
-          </Button>
-        ))}
-      </div>
-    );
-  },
+export const AllVariants: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 180px)',
+        gap: '16px',
+      }}
+    >
+      {VARIANTS.map((variant) => (
+        <Button key={variant} variant={variant} onClick={action(variant)}>
+          <TextBox mobileSize={14} desktopSize={14} color="inherit">
+            {variant}
+          </TextBox>
+        </Button>
+      ))}
+    </div>
+  ),
 };

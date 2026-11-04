@@ -1,6 +1,6 @@
 @layer n23mButton {
   .n23mButtonButton {
-    color: var(--n23mButtonTextColor, #ffffff);
+    color: var(--n23mButtonTextColor, var(--button-color, #ffffff));
 
     position: relative;
     display: inline-flex;
@@ -76,7 +76,7 @@
     }
 
     &:focus-visible {
-      outline: 3px solid var(--n23mButtonFocusColor, var(--button-bg));
+      outline: 3px solid var(--n23mButtonFocusColor, var(--button-focus, var(--button-bg)));
       outline-offset: 3px;
       box-shadow: none;
     }
@@ -85,7 +85,12 @@
       cursor: not-allowed;
       box-shadow: none;
       transform: none;
+    }
+
+    /* Disabled look applies only when not loading, so loading keeps variant colors */
+    &:disabled:not(.n23mButtonButtonLoading) {
       background-color: var(--n23mButtonBgDisabled, var(--button-bgd, #e5e7eb));
+      color: var(--n23mButtonTextColorDisabled, var(--button-colord, #595959));
       border-color: transparent;
     }
 
