@@ -31,19 +31,26 @@ export const ButtonCopy: React.FC<ButtonCopyProps> = ({
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleCopy = useCallback(() => {
+  const handleCopy = useCallback(async () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
 
-    navigator.clipboard.writeText(textToCopy);
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+    } catch {
+      setIsCopied(false);
+      return;
+    }
+
     setIsCopied(true);
 
     timeoutRef.current = setTimeout(() => {
       setIsCopied(false);
       timeoutRef.current = null;
     }, 800);
-  }, []);
+  }, [textToCopy]);
 
   useEffect(() => {
     return () => {
@@ -54,7 +61,7 @@ export const ButtonCopy: React.FC<ButtonCopyProps> = ({
   }, []);
 
   return (
-    <div className={['n23mButtonCopy', className].filter(Boolean).join(' ')} {...props}>
+    <div className={['n23mButtonCopy', className].filter(Boolean).join(' ')} style={style} {...props}>
       <Button
         type="button"
         padding={padding}
