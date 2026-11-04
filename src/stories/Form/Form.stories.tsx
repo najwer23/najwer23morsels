@@ -4,7 +4,7 @@ import { action } from 'storybook/actions';
 import { Button } from '../Button';
 import { Calendar } from '../Calendar';
 import { Input } from '../Input';
-import { Select } from '../select';
+import { Select } from '../Select';
 import { TextBox } from '../TextBox';
 import { Form, FormType } from '.';
 

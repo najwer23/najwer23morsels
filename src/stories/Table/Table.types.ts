@@ -1,4 +1,5 @@
 import { SelectOption } from '../Select';
+import { ValidatorOptions } from '../validator';
 
 export type TableRow = Record<string, string | number | boolean> & {
   id: string | number;
@@ -9,6 +10,7 @@ type TableColumnBase = {
   cellName: string;
   disabledAdd?: boolean;
   disabledEdit?: boolean;
+  validatorOptions?: ValidatorOptions;
   thAlign?: 'left' | 'right';
   tdAlign?: 'left' | 'right';
 };

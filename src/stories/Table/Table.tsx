@@ -163,6 +163,7 @@ export const Table: React.FC<TableProps> = ({
                           disabled={col.disabledEdit}
                           initialValue={initialValue}
                           placeholder={col.cellText}
+                          validatorOptions={col.validatorOptions}
                         />
                       );
                     }
@@ -178,6 +179,7 @@ export const Table: React.FC<TableProps> = ({
                           options={col.options}
                           disabled={col.disabledEdit}
                           initialValue={selectedOption}
+                          validatorOptions={col.validatorOptions}
                         />
                       );
                     }
@@ -192,6 +194,7 @@ export const Table: React.FC<TableProps> = ({
                         defaultValue={String(value ?? '')}
                         disabled={col.disabledEdit}
                         placeholder={col.cellText}
+                        validatorOptions={col.validatorOptions}
                       />
                     );
                   })}

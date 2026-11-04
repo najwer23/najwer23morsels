@@ -73,7 +73,7 @@ const priorityOptions: SelectOption[] = [
 
 const taskColumns: TableColumn[] = [
   { cellName: 'id', cellText: 'ID', cellType: 'text' },
-  { cellName: 'title', cellText: 'Task', cellType: 'text' },
+  { cellName: 'title', cellText: 'Task', cellType: 'text', validatorOptions: [{ type: 'empty' }] },
   { cellName: 'owner', cellText: 'Owner', cellType: 'text' },
   {
     cellName: 'hours',
