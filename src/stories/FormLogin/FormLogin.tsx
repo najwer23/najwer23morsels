@@ -3,6 +3,7 @@ import { Form, type FormType } from '../Form';
 import { Grid } from '../Grid';
 import { Input } from '../Input';
 import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import styles from './FormLogin.module.css';
 
 interface FormLoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
@@ -80,21 +81,19 @@ export const FormLogin: React.FC<FormLoginProps> = ({
           className={styles.loginWrapper}
         >
           {linkMainPage && (
-            <TextBox
+            <Typography
               desktopSize={20}
               mobileSize={20}
               fontWeight={500}
-              tag="a"
+              variant="link"
               href={linkMainPage.link}
-              color="grey"
-              colorHover="var(--n23mTextBoxColorHover, black)"
               onClick={(e) => {
                 e.preventDefault();
-                navigate('/');
+                navigate(linkMainPage.link);
               }}
             >
               {linkMainPage.text}
-            </TextBox>
+            </Typography>
           )}
 
           <TextBox tag="h3" desktopSize={14} mobileSize={14} fontWeight={500} margin={'12px 0 18px'}>
@@ -125,16 +124,8 @@ export const FormLogin: React.FC<FormLoginProps> = ({
             />
 
             <Grid layout="flex" justifyContent="space-between" alignItems="flex-start">
-              <Button
-                type="submit"
-                disabled={isPending}
-                height={'40px'}
-                width={'auto'}
-                padding={'0 10px'}
-                backgroundColor="orangered"
-                backgroundColorDisabled="grey"
-              >
-                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+              <Button type="submit" disabled={isPending} variant="primary">
+                <TextBox desktopSize={16} mobileSize={16} color="inherit">
                   Log in
                 </TextBox>
               </Button>
@@ -142,41 +133,35 @@ export const FormLogin: React.FC<FormLoginProps> = ({
               <div>
                 {linkForgotPassword && (
                   <div>
-                    <TextBox
-                      tag="a"
+                    <Typography
+                      variant="link"
                       href={linkForgotPassword.link}
                       desktopSize={12}
                       mobileSize={12}
-                      fontWeight={400}
-                      color="var(--n23mTextBoxColor, orangered)"
-                      colorHover="var(--n23mTextBoxColorHover, black)"
                       onClick={(e) => {
                         e.preventDefault();
                         navigate(linkForgotPassword.link);
                       }}
                     >
                       {linkForgotPassword.text}
-                    </TextBox>
+                    </Typography>
                   </div>
                 )}
 
                 {linkSignUp && (
                   <Grid layout="flex" justifyContent="right">
-                    <TextBox
-                      tag="a"
+                    <Typography
+                      variant="link"
                       href={linkSignUp.link}
                       desktopSize={12}
                       mobileSize={12}
-                      fontWeight={400}
-                      color="var(--n23mTextBoxColor, orangered)"
-                      colorHover="var(--n23mTextBoxColorHover, black)"
                       onClick={(e) => {
                         e.preventDefault();
                         navigate(linkSignUp.link);
                       }}
                     >
                       {linkSignUp.text}
-                    </TextBox>
+                    </Typography>
                   </Grid>
                 )}
               </div>

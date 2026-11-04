@@ -77,71 +77,33 @@ type TypographyColor = {
 
 const APPEARANCES: Record<TypographyAppearance, Record<TypographyVariant, TypographyColor>> = {
   light: {
-    display: {
-      color: '#0F1014',
-    },
-
-    heading: {
-      color: '#14151A',
-    },
-
-    subheading: {
-      color: '#3f4043',
-    },
-
-    body: {
-      color: '#26272E',
-    },
-
-    caption: {
-      color: '#6B6D76',
-    },
-
-    link: {
-      color: 'orangered',
-      hover: 'orangered',
-    },
+    display: { color: '#0F1014' },
+    heading: { color: '#14151A' },
+    subheading: { color: '#3f4043' },
+    body: { color: '#26272E' },
+    caption: { color: '#6B6D76' },
+    link: { color: '#C73500', hover: '#C73500' },
   },
 
   dark: {
-    display: {
-      color: '#FFFFFF',
-    },
-
-    heading: {
-      color: '#F7F8FA',
-    },
-
-    subheading: {
-      color: '#9A9DAA',
-    },
-
-    body: {
-      color: '#F7F7F8',
-    },
-
-    caption: {
-      color: '#9A9DAA',
-    },
-
-    link: {
-      color: 'orangered',
-      hover: 'orangered',
-    },
+    display: { color: '#FFFFFF' },
+    heading: { color: '#F7F8FA' },
+    subheading: { color: '#9A9DAA' },
+    body: { color: '#F7F7F8' },
+    caption: { color: '#9A9DAA' },
+    link: { color: '#C73500', hover: '#C73500' },
   },
 };
 
-type TypographyProps = Partial<TypographyPreset> & {
-  variant: TypographyVariant;
-  appearance?: TypographyAppearance;
-
-  children?: React.ReactNode;
-  className?: string;
-
-  href?: string;
-  target?: React.HTMLAttributeAnchorTarget;
-  rel?: string;
-};
+type TypographyProps = Partial<TypographyPreset> &
+  React.HTMLAttributes<HTMLElement> & {
+    variant: TypographyVariant;
+    appearance?: TypographyAppearance;
+    href?: string;
+    target?: React.HTMLAttributeAnchorTarget;
+    rel?: string;
+    className?: string;
+  };
 
 export const Typography = ({
   variant,

@@ -5,6 +5,7 @@ import { Form, type FormType } from '../Form';
 import { Grid } from '../Grid';
 import { Input } from '../Input';
 import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import styles from './FormForgotPassOtp.module.css';
 
 interface FormForgotPassOtpProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
@@ -76,21 +77,19 @@ export const FormForgotPassOtp: React.FC<FormForgotPassOtpProps> = ({
           className={styles.forogotPasswordOtpWrapper}
         >
           {linkMainPage && (
-            <TextBox
+            <Typography
               desktopSize={20}
               mobileSize={20}
               fontWeight={500}
-              tag="a"
+              variant="link"
               href={linkMainPage.link}
-              color="grey"
-              colorHover="var(--n23mTextBoxColorHover, black)"
               onClick={(e) => {
                 e.preventDefault();
                 navigate(linkMainPage.link);
               }}
             >
               {linkMainPage.text}
-            </TextBox>
+            </Typography>
           )}
 
           <TextBox tag="h3" desktopSize={14} mobileSize={14} fontWeight={500} margin={'12px 0 18px'}>
@@ -137,16 +136,8 @@ export const FormForgotPassOtp: React.FC<FormForgotPassOtpProps> = ({
               }}
             />
 
-            <Button
-              type="submit"
-              disabled={isPending}
-              height={'40px'}
-              width={'auto'}
-              padding={'0 10px'}
-              backgroundColor="orangered"
-              backgroundColorDisabled="grey"
-            >
-              <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+            <Button type="submit" disabled={isPending} variant="primary">
+              <TextBox desktopSize={16} mobileSize={16} color="inherit">
                 Send
               </TextBox>
             </Button>
