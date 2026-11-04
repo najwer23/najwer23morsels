@@ -64,14 +64,14 @@ export const Dialog: React.FC<DialogProps> = ({
       >
         <div className={styles.dialogCloseButton} style={{ display: open ? 'block' : 'none' }}>
           <Button
+            variant="secondary"
             onClick={onCancel}
             aria-label="close dialog"
             height={'25px'}
             width={'auto'}
             padding={'0 10px'}
-            backgroundColor="#ff3333"
           >
-            <TextBox tag="h2" mobileSize={14} desktopSize={14} color="white">
+            <TextBox tag="h2" mobileSize={14} desktopSize={14} color="inherit">
               Close
             </TextBox>
           </Button>
