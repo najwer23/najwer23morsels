@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { type ValidatorOptions, validator } from '../validator';
+import { VALIDATOR_MESSAGE_COLORS } from '../validator/validator.const';
 import styles from './Input.module.css';
 import { FieldElement } from './Input.types';
 import { isAutofillEvent, isAutofilled } from './Input.utils';
@@ -184,7 +185,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           desktopSize={12}
           tag="p"
           fontWeight={400}
-          color={'#ff3333'}
+          color={VALIDATOR_MESSAGE_COLORS.error}
           lineHeight={'14px'}
           margin={'2px 0 2px'}
         />
