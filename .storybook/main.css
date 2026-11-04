@@ -6,3 +6,22 @@ body.sb-show-main.sb-main-padded {
 body.sb-show-main.sb-main-centered #storybook-root {
   padding: 0;
 }
+
+.sb-preparing-docs,
+.sb-preparing-story,
+.sb-loader {
+  display: none !important;
+}
+
+#preview-loader,
+[role="progressbar"] {
+  display: none !important;
+}
+
+.sb-preparing-docs,
+.sb-preparing-story,
+.sb-loader,
+.sbdocs [role="progressbar"],
+.docs-story [role="progressbar"] {
+  display: none !important;
+}

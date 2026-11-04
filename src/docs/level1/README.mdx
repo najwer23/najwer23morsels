@@ -1,11 +1,89 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
 import Readme from './../../../README.md?raw';
-import { Markdown } from '@storybook/addon-docs/blocks';
 
 <Meta title="Documentation/README" />
 
-<div style={{ minHeight: "800px"}}>
+export const typography = {
+  family: '-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif',
+  code: '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace',
+};
 
-<Markdown>{Readme}</Markdown>
+<style>{`
+  .readme-doc,
+  .readme-doc p,
+  .readme-doc li,
+  .readme-doc td,
+  .readme-doc th {
+    font-family: ${typography.family};
+    font-size: 15.5px;
+    line-height: 1.7;
+  }
+  .readme-doc h1 { font-size: 34.5px; }
+  .readme-doc h2 { font-size: 25.9px; }
+  .readme-doc h3 { font-size: 20.7px; }
 
+  /* Inline code */
+  .readme-doc code {
+    font-family: ${typography.code};
+    font-size: 12.9px;
+  }
+
+  /* Code blocks: plain state (before the highlighter loads) */
+  .readme-doc pre {
+    font-family: ${typography.code};
+    font-size: 12.9px;
+    line-height: 20px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+   /* One value for both states */
+  .readme-doc {
+    --code-h: 224px;
+  }
+
+  /* Placeholder state: plain pre, not inside the highlighter wrapper */
+  .readme-doc pre {
+    min-height: 258px;
+    box-sizing: border-box;
+  }
+
+  /* Loaded state: outer wrapper gets the height... */
+  .readme-doc .docblock-source {
+    min-height: var(--code-h);
+    box-sizing: border-box;
+  }
+
+  /* ...and the inner pre must NOT add its own */
+  .readme-doc .docblock-source pre {
+    min-height: 0 !important;
+  }
+
+  /* Code blocks: highlighted state (after it loads) */
+  .readme-doc .docblock-source {
+    margin: 16px 0 !important;
+  }
+  .readme-doc .docblock-source pre,
+  .readme-doc .docblock-source pre code,
+  .readme-doc .docblock-source [class^="language-"] {
+    font-family: ${typography.code} !important;
+    font-size: 12.9px !important;
+    line-height: 20px !important;
+  }
+  .readme-doc .docblock-source pre {
+    padding: 12px 16px !important;
+    margin: 0 !important;
+  }
+
+  /* Reserve space for the badge image at the top */
+  .readme-doc a img {
+    height: 28px;
+    width: auto;
+  }
+`}</style>
+
+<div className="readme-doc">
+  <Markdown>{Readme}</Markdown>
 </div>

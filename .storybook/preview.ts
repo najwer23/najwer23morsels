@@ -1,10 +1,14 @@
 import type { Preview } from '@storybook/react-vite';
+import themeDocs from './themeDocs';
 
 // @ts-ignore
 import './main.css';
 
 const preview: Preview = {
   parameters: {
+    docs: {
+      theme: themeDocs,
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

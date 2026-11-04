@@ -27,4 +27,7 @@ export const Example = () => {
 **X:** https://twitter.com/najwer23  
 **LinkedIn:** https://www.linkedin.com/in/najwer23  
 **LeetCode:** https://leetcode.com/najwer23  
-**NPM:** https://www.npmjs.com/~najwer23
+**NPM:** https://www.npmjs.com/~najwer23 <br>
+**Gitfut:** https://gitfut.com/najwer23  
+**Nook:** https://najwer23.github.io/nook  
+**Blog** https://najwer23.github.io/#/blog

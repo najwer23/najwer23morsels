@@ -183,9 +183,12 @@ git log --pretty=oneline
 
 ## Let's connect!
 
-- **Portfolio:** [najwer23.github.io](https://najwer23.github.io)
-- **Résumé:** [najwer23.github.io/resume](https://najwer23.github.io/resume)
-- **X:** [@najwer23](https://twitter.com/najwer23)
-- **LinkedIn:** [najwer23](https://www.linkedin.com/in/najwer23)
-- **LeetCode:** [najwer23](https://leetcode.com/najwer23)
-- **NPM:** [@najwer23](https://www.npmjs.com/~najwer23)
+**Portfolio:** https://najwer23.github.io  
+**Résumé:** https://najwer23.github.io/resume  
+**X:** https://twitter.com/najwer23  
+**LinkedIn:** https://www.linkedin.com/in/najwer23  
+**LeetCode:** https://leetcode.com/najwer23  
+**NPM:** https://www.npmjs.com/~najwer23 <br>
+**Gitfut:** https://gitfut.com/najwer23  
+**Nook:** https://najwer23.github.io/nook  
+**Blog** https://najwer23.github.io/#/blog
