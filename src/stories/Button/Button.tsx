@@ -8,8 +8,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   backgroundColor?: React.CSSProperties['color'];
   padding?: React.CSSProperties['padding'];
   margin?: React.CSSProperties['margin'];
-  height: React.CSSProperties['height'];
-  width: React.CSSProperties['width'];
+  height?: React.CSSProperties['height'];
+  width?: React.CSSProperties['width'];
   loading?: boolean;
   loaderMobileSize?: number;
   loaderDesktopSize?: number;
@@ -21,52 +21,56 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      loaderMobileSize = 14,
-      loaderDesktopSize = 14,
+      loaderMobileSize = 16,
+      loaderDesktopSize = 16,
       margin,
       children,
       className,
       backgroundColor,
-      padding,
-      loading,
-      height,
+      padding = '0 12px',
+      loading = false,
+      height = '42px',
       width,
       borderColor,
       backgroundColorDisabled,
       style,
+      disabled,
       ...props
     },
     ref,
   ) => {
     return (
-      <div className={['n23mButton'].filter(Boolean).join(' ')}>
+      <button
+        ref={ref}
+        disabled={disabled || loading}
+        aria-busy={loading || undefined}
+        style={{
+          ...getCssVariableStyle({
+            '--button-bg': backgroundColor,
+            '--button-h': height,
+            '--button-w': width,
+            '--button-bgd': backgroundColorDisabled,
+            '--button-bc': borderColor,
+            '--button-p': padding,
+            '--button-m': margin,
+          }),
+          ...style,
+        }}
+        className={[styles.n23mButtonButton, 'n23mButtonButton', loading && styles.n23mButtonButtonLoading, className]
+          .filter(Boolean)
+          .join(' ')}
+        {...props}
+      >
+        <span className={styles.n23mButtonContent} aria-hidden={loading || undefined}>
+          {children}
+        </span>
+
         {loading && (
-          <div style={{ width: width, height: height }}>
+          <span className={styles.n23mButtonLoader}>
             <Loader mobileSize={loaderMobileSize} desktopSize={loaderDesktopSize} />
-          </div>
+          </span>
         )}
-        {!loading && (
-          <button
-            ref={ref}
-            style={{
-              ...getCssVariableStyle({
-                '--button-bg': backgroundColor,
-                '--button-h': height,
-                '--button-w': width,
-                '--button-bgd': backgroundColorDisabled,
-                '--button-bc': borderColor,
-                '--button-p': padding,
-                '--button-m': margin,
-              }),
-              ...style,
-            }}
-            className={[styles.n23mButtonButton, 'n23mButtonButton', className].filter(Boolean).join(' ')}
-            {...props}
-          >
-            {children}
-          </button>
-        )}
-      </div>
+      </button>
     );
   },
 );

@@ -4,6 +4,27 @@ import { action } from 'storybook/actions';
 import { TextBox } from '../TextBox';
 import { Button } from '.';
 
+const COLORS = {
+  primary: '#3F454B',
+  primaryBorder: '#343A40',
+
+  secondary: '#666666',
+  secondaryBorder: '#555555',
+
+  danger: '#C24141',
+  dangerBorder: '#A93434',
+
+  success: '#367C59',
+  successBorder: '#2D684B',
+
+  disabled: '#D4D4D4',
+  disabledBorder: '#C8C8C8',
+
+  text: '#FFFFFF',
+  textDark: '#333333',
+  textDisabled: '#595959',
+};
+
 const meta: Meta<typeof Button> = {
   title: 'Button/Button',
   component: Button,
@@ -12,23 +33,24 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component: `
-This is a button component that can be used to trigger actions. It supports various properties such as background color, width, height, and more. You can also use it with loading states and disabled states.
+A customizable button component supporting semantic colors, loading states, disabled states, and custom dimensions.
 
-You can import the Button component from the library and use it in your application as follows:
+
+Import:
 \`\`\`tsx
 import { Button } from 'najwer23morsels/lib/Button';
 \`\`\`
-      `,
+        `,
       },
     },
   },
   tags: ['autodocs'],
   args: {
     type: 'button',
-    backgroundColor: 'orangered',
-    width: '100px',
-    height: '40px',
-    borderColor: 'black',
+    backgroundColor: COLORS.primary,
+    height: '42px',
+    borderColor: COLORS.primaryBorder,
+    padding: '0 10px',
     onClick: action('button-click'),
   },
 };
@@ -37,20 +59,22 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const renderButton = (args: React.ComponentProps<typeof Button>, label: string, color: string = COLORS.text) => (
+  <Button {...args}>
+    <TextBox mobileSize={14} desktopSize={14} color={color}>
+      {label}
+    </TextBox>
+  </Button>
+);
+
 export const Default: Story = {
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} color="white">
-          Button!
-        </TextBox>
-      </Button>
-    </div>
-  ),
+  render: (args) => renderButton(args, 'Button'),
 };
 
 export const ButtonLoading: Story = {
   args: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primaryBorder,
     loaderMobileSize: 14,
     loaderDesktopSize: 14,
   },
@@ -66,125 +90,84 @@ export const ButtonLoading: Story = {
     }, []);
 
     return (
-      <div>
-        <Button {...args} loading={loading}>
-          <TextBox mobileSize={14} desktopSize={14} color="white">
-            Button!
-          </TextBox>
-        </Button>
-      </div>
+      <Button {...args} loading={loading}>
+        Save changes
+      </Button>
     );
   },
 };
-
 export const ButtonDisabled: Story = {
   args: {
-    backgroundColorDisabled: 'gray',
+    backgroundColor: COLORS.disabled,
+    backgroundColorDisabled: COLORS.disabled,
+    borderColor: COLORS.disabledBorder,
     disabled: true,
   },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} margin={0} color="white">
-          Button!
-        </TextBox>
-      </Button>
-    </div>
-  ),
+  render: (args) => renderButton(args, 'Disabled', COLORS.textDisabled),
+};
+
+export const Danger: Story = {
+  args: {
+    backgroundColor: COLORS.danger,
+    borderColor: COLORS.dangerBorder,
+  },
+  render: (args) => renderButton(args, 'Delete'),
+};
+
+export const SaveChanges: Story = {
+  args: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primaryBorder,
+  },
+  render: (args) => renderButton(args, 'Save changes'),
+};
+
+export const Close: Story = {
+  args: {
+    backgroundColor: COLORS.secondary,
+    borderColor: COLORS.secondaryBorder,
+  },
+  render: (args) => renderButton(args, 'Close', COLORS.text),
+};
+
+export const Login: Story = {
+  args: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primaryBorder,
+  },
+  render: (args) => renderButton(args, 'Log in'),
+};
+
+export const SignUp: Story = {
+  args: {
+    backgroundColor: COLORS.success,
+    borderColor: COLORS.successBorder,
+  },
+  render: (args) => renderButton(args, 'Sign up'),
+};
+
+export const ResetPassword: Story = {
+  args: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primaryBorder,
+  },
+  render: (args) => renderButton(args, 'Reset password'),
 };
 
 export const Small: Story = {
   args: {
-    width: '60px',
-    height: '28px',
+    width: '80px',
+    height: '42px',
   },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={12} desktopSize={12} color="white">
-          Small
-        </TextBox>
-      </Button>
-    </div>
-  ),
+  render: (args) => renderButton(args, 'Small'),
 };
 
 export const Large: Story = {
   args: {
-    width: '200px',
-    height: '56px',
+    width: '220px',
+    height: '42px',
   },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={18} desktopSize={18} color="white">
-          Large Button
-        </TextBox>
-      </Button>
-    </div>
-  ),
-};
-
-export const CustomColor: Story = {
-  args: {
-    backgroundColor: 'royalblue',
-    borderColor: 'navy',
-  },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} color="white">
-          Blue Button
-        </TextBox>
-      </Button>
-    </div>
-  ),
-};
-
-export const NoBorder: Story = {
-  args: {
-    borderColor: 'transparent',
-    backgroundColor: 'seagreen',
-  },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} color="white">
-          No Border
-        </TextBox>
-      </Button>
-    </div>
-  ),
-};
-
-export const CustomStyleBoxShadow: Story = {
-  args: {
-    style: { boxShadow: '0 4px 10px rgba(0,0,0,0.3)' },
-  },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} color="white">
-          Box Shadow
-        </TextBox>
-      </Button>
-    </div>
-  ),
-};
-
-export const SubmitType: Story = {
-  args: {
-    type: 'submit',
-  },
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} color="white">
-          Submit
-        </TextBox>
-      </Button>
-    </div>
-  ),
+  render: (args) => renderButton(args, 'Large button'),
 };
 
 export const FullWidth: Story = {
@@ -198,13 +181,75 @@ export const FullWidth: Story = {
       </div>
     ),
   ],
-  render: (args) => (
-    <div>
-      <Button {...args}>
-        <TextBox mobileSize={14} desktopSize={14} color="white">
-          Full Width
-        </TextBox>
-      </Button>
-    </div>
-  ),
+  render: (args) => renderButton(args, 'Full width'),
+};
+
+export const SemanticActions: Story = {
+  render: () => {
+    const buttons = [
+      {
+        label: 'Log in',
+        background: COLORS.primary,
+        border: COLORS.primaryBorder,
+      },
+      {
+        label: 'Sign up',
+        background: COLORS.success,
+        border: COLORS.successBorder,
+      },
+      {
+        label: 'Reset password',
+        background: COLORS.primary,
+        border: COLORS.primaryBorder,
+      },
+      {
+        label: 'Save changes',
+        background: COLORS.primary,
+        border: COLORS.primaryBorder,
+      },
+      {
+        label: 'Delete',
+        background: COLORS.danger,
+        border: COLORS.dangerBorder,
+      },
+      {
+        label: 'Close',
+        background: COLORS.secondary,
+        border: COLORS.secondaryBorder,
+        color: COLORS.text,
+      },
+      {
+        label: 'Disabled',
+        background: COLORS.disabled,
+        border: COLORS.disabledBorder,
+        color: COLORS.textDisabled,
+        disabled: true,
+      },
+    ];
+
+    return (
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 180px)',
+          gap: '16px',
+        }}
+      >
+        {buttons.map((button) => (
+          <Button
+            key={button.label}
+            height="42px"
+            backgroundColor={button.background}
+            borderColor={button.border}
+            disabled={button.disabled}
+            onClick={action(button.label)}
+          >
+            <TextBox mobileSize={14} desktopSize={14} color={button.color ?? COLORS.text}>
+              {button.label}
+            </TextBox>
+          </Button>
+        ))}
+      </div>
+    );
+  },
 };

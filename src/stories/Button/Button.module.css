@@ -1,80 +1,135 @@
 @layer n23mButton {
   .n23mButtonButton {
-    position: relative; /* important for ::before positioning */
-    --boxShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.24), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: var(--button-p, 0);
-    height: var(--button-h, auto);
+    color: var(--n23mButtonTextColor, #ffffff);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    --button-radius: 12px;
+    --button-transition: 180ms ease;
+    --button-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+    --button-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.14);
+
+    padding: var(--button-p, 0 12px);
+    height: var(--button-h, 42px);
     width: var(--button-w, auto);
     margin: var(--button-m, 0);
 
     cursor: pointer;
-    border: 1px solid var(--n23mButtonBorderColor, var(--button-bc, unset));
-    letter-spacing: normal;
-    border-radius: 12px;
+    border: 1px solid var(--n23mButtonBorderColor, var(--button-bc, transparent));
+    border-radius: var(--button-radius);
     corner-shape: squircle;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+
+    letter-spacing: normal;
     user-select: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
 
     background-color: var(--n23mButtonBg, var(--button-bg));
     box-shadow: none;
+
     transition:
-      background-color 0.3s,
-      box-shadow 0.3s;
+      background-color var(--button-transition),
+      border-color var(--button-transition),
+      box-shadow var(--button-transition),
+      transform var(--button-transition);
 
     > * {
       position: relative;
       z-index: 1;
-      display: inline-block;
     }
 
     &::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-color: inherit;
-      transition: filter 0.3s;
       z-index: 0;
       pointer-events: none;
-      border-radius: 12px;
-      corner-shape: squircle;
+
+      border-radius: inherit;
+      corner-shape: inherit;
+      background-color: inherit;
+
+      transition: filter var(--button-transition);
     }
 
     @media (hover: hover) and (pointer: fine) {
-      &:hover::before {
-        filter: brightness(100%);
+      &:hover:not(:disabled) {
+        box-shadow: var(--button-shadow-hover);
+        transform: translateY(-1px);
       }
-      &:hover {
-        box-shadow: var(--boxShadow);
+
+      &:hover:not(:disabled)::before {
+        filter: brightness(1.06);
       }
     }
 
-    &:active::before {
-      filter: brightness(0.8);
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: var(--button-shadow);
     }
 
-    &:active {
-      box-shadow: var(--boxShadow);
-    }
-
-    &:focus-visible::before {
-      outline: none;
-      filter: brightness(0.8);
+    &:active:not(:disabled)::before {
+      filter: brightness(0.92);
     }
 
     &:focus-visible {
-      outline: none;
-      box-shadow: var(--boxShadow);
+      outline: 3px solid var(--n23mButtonFocusColor, var(--button-bg));
+      outline-offset: 3px;
+      box-shadow: none;
     }
 
     &:disabled {
       cursor: not-allowed;
       box-shadow: none;
-      background-color: var(--n23mButtonBgDisabled, var(--button-bgd));
+      transform: none;
+      background-color: var(--n23mButtonBgDisabled, var(--button-bgd, #e5e7eb));
+      border-color: transparent;
     }
+
+    &:disabled::before {
+      filter: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &::before {
+        transition: none;
+      }
+    }
+  }
+
+  .n23mButtonContent {
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    white-space: nowrap;
+
+    transition: opacity 140ms ease;
+  }
+
+  .n23mButtonButtonLoading .n23mButtonContent {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .n23mButtonLoader {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
   }
 }
