@@ -2,7 +2,6 @@ A comprehensive collection of React components for building consistent, scalable
 
 <p align="left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://najwer23.github.io/najwer23morsels/logo-dark.svg">
     <img src="https://najwer23.github.io/najwer23morsels/logo.svg" alt="najwer23morsels" height="64">
   </picture>
 </p>
