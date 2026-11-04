@@ -49,6 +49,8 @@
     <link href="./sb-addons/a11y-1/manager-bundle.js" rel="modulepreload" />
     
     <link href="./sb-addons/docs-2/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/storybook-3/manager-bundle.js" rel="modulepreload" />
       <link rel="shortcut icon" href="/icon/favicon.ico" />
 <title>najwer23morsels | React Design System by Mariusz Najwer</title>
 
@@ -101,7 +103,20 @@
         "https://www.npmjs.com/package/najwer23morsels"
     ]
 }
-</script> 
+</script>
+
+<style>
+  .sb-preparing-docs,
+  .sb-preparing-story,
+  .sb-loader {
+    display: none !important;
+  }
+
+  #preview-loader {
+    display: none !important;
+  }
+  
+</style> 
 
     <style>
       #storybook-root[hidden] {
@@ -194,6 +209,8 @@
         import './sb-addons/a11y-1/manager-bundle.js';
       
         import './sb-addons/docs-2/manager-bundle.js';
+      
+        import './sb-addons/storybook-3/manager-bundle.js';
       
 
       import './sb-manager/runtime.js';
