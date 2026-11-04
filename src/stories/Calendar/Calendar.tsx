@@ -172,12 +172,13 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'3px 0 0 0'}
+                    padding={'0'}
                     height={'30px'}
                     width={'30px'}
                     title="Prev Month"
                     backgroundColor="#F2F0EF"
                     borderColor="black"
+                    textColor="black"
                     onClick={() => changeYear(currentYear - 9)}
                   >
                     <IconArrowLeft color="black" height={22} width={22} />
@@ -201,12 +202,13 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'3px 0 0 0'}
+                    padding={'0'}
                     height={'30px'}
                     width={'30px'}
-                    title="Prev Month"
+                    title="Next Month"
                     backgroundColor="#F2F0EF"
                     borderColor="black"
+                    textColor="black"
                     onClick={() => changeYear(currentYear + 9)}
                   >
                     <IconArrowRight color="black" height={22} width={22} />
@@ -222,7 +224,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                       key={v + calendarState.value}
                       height={'40px'}
                       width={'80px'}
-                      color="black"
+                      textColor="black"
                       backgroundColor={currentYear == v ? 'white' : '#F2F0EF'}
                       borderColor="black"
                       title="year"
@@ -234,7 +236,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                         }));
                       }}
                     >
-                      <TextBox mobileSize={14} desktopSize={14}>
+                      <TextBox mobileSize={14} desktopSize={14} color="inherit">
                         {v}
                       </TextBox>
                     </Button>
@@ -253,6 +255,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                     key={v + calendarState.value}
                     height={'40px'}
                     width={'80px'}
+                    textColor="black"
                     backgroundColor={currentMonth == i ? 'white' : '#F2F0EF'}
                     borderColor="black"
                     title="month"
@@ -264,7 +267,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                       }));
                     }}
                   >
-                    <TextBox mobileSize={14} desktopSize={14}>
+                    <TextBox mobileSize={14} desktopSize={14} color="inherit">
                       {v}
                     </TextBox>
                   </Button>
@@ -279,12 +282,13 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'3px 0 0 0'}
+                    padding={'0'}
                     height={'30px'}
                     width={'30px'}
                     title="Prev Month"
                     backgroundColor="#F2F0EF"
                     borderColor="black"
+                    textColor="black"
                     onClick={() => changeMonth(-1)}
                   >
                     <IconArrowLeft color="black" height={22} width={22} />
@@ -322,12 +326,13 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'3px 0 0 0'}
+                    padding={'0'}
                     height={'30px'}
                     width={'30px'}
-                    title="Prev Month"
+                    title="Next Month"
                     backgroundColor="#F2F0EF"
                     borderColor="black"
+                    textColor="black"
                     onClick={() => changeMonth(1)}
                   >
                     <IconArrowRight color="black" height={22} width={22} />
