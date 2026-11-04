@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { action } from 'storybook/actions';
 
 import { Input } from '.';
-import { InputProps, SelectProps } from './Input';
+import { InputProps } from './Input';
 
 type InputStory = StoryObj<InputProps>;
-type InputSelectStory = StoryObj<SelectProps>;
 
 const meta: Meta<typeof Input> = {
   title: 'Input/Input',
@@ -14,7 +15,11 @@ const meta: Meta<typeof Input> = {
     docs: {
       description: {
         component: `
-This Input component is designed for flexible use in forms, supporting labels, placeholders, validation, disabled state, custom colors, and textarea mode.
+A form field with a label, placeholder, validation, disabled state and custom colors. It renders an \`input\` (default) or a \`textarea\` (\`kind="textarea"\`).
+
+Validation runs when the field loses focus. Once a field shows an error, it re-validates on every change, so the error clears as soon as the value is valid.
+
+\`name\` is used as the element \`id\` and must be unique on the page.
 
 \`\`\`tsx
 import { Input } from 'najwer23morsels/lib/Input';
@@ -24,95 +29,222 @@ import { Input } from 'najwer23morsels/lib/Input';
     },
   },
   tags: ['autodocs'],
+  argTypes: {
+    kind: { control: 'inline-radio', options: ['input', 'textarea'] },
+    type: { control: 'select', options: ['text', 'email', 'password', 'number', 'tel', 'url', 'search'] },
+    label: { control: 'text' },
+    placeholder: { control: 'text' },
+    defaultValue: { control: 'text' },
+    disabled: { control: 'boolean' },
+    labelColor: { control: 'color' },
+    inputColor: { control: 'color' },
+    inputColorBorder: { control: 'color' },
+  },
+  args: {
+    onChange: action('change'),
+    onBlur: action('blur'),
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '320px' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+/* ---------- Input ---------- */
 
 export const Default: InputStory = {
   args: {
     label: 'Label',
-    name: 'input',
+    name: 'default',
     placeholder: 'Type..',
   },
-  render: (args) => (
-    <div>
-      <Input {...args} />
-    </div>
-  ),
 };
 
-export const Validator: InputStory = {
+export const Required: InputStory = {
+  parameters: {
+    docs: {
+      description: { story: 'Click into the field, leave it empty, then click away to see the error.' },
+    },
+  },
   args: {
-    label: 'Label',
-    name: 'input',
+    label: 'Required field',
+    name: 'required',
     placeholder: 'Type..',
     validatorOptions: [{ type: 'empty' }],
   },
-  render: (args) => (
-    <div>
-      <Input {...args} />
-      <Input {...args} />
-    </div>
-  ),
-};
-
-export const Disabled: InputStory = {
-  args: {
-    label: 'Label',
-    name: 'disabled',
-    placeholder: 'Type..',
-    disabled: true,
-  },
-  render: (args) => (
-    <div>
-      <Input {...args} />
-    </div>
-  ),
-};
-
-export const InputColors: InputStory = {
-  args: {
-    label: 'Label',
-    name: 'inputColors',
-    placeholder: 'Type..',
-    inputColorBorder: 'blue',
-    inputColor: 'purple',
-    labelColor: 'orange',
-  },
-  render: (args) => (
-    <div>
-      <Input {...args} />
-    </div>
-  ),
 };
 
 export const DefaultValue: InputStory = {
   args: {
     label: 'Label',
     name: 'defaultValue',
-    placeholder: 'Type..',
     defaultValue: 'Default Value',
   },
-  render: (args) => (
-    <div>
-      <Input {...args} />
-    </div>
-  ),
 };
+
+export const Disabled: InputStory = {
+  args: {
+    label: 'Disabled',
+    name: 'disabled',
+    placeholder: 'Type..',
+    disabled: true,
+  },
+};
+
+export const DisabledWithValue: InputStory = {
+  args: {
+    label: 'Disabled with value',
+    name: 'disabledWithValue',
+    defaultValue: 'Cannot edit this',
+    disabled: true,
+  },
+};
+
+export const Controlled: InputStory = {
+  parameters: {
+    docs: {
+      description: { story: 'Controlled with `value` and `onChange`. The text below mirrors the state.' },
+    },
+  },
+  args: {
+    label: 'Controlled',
+    name: 'controlled',
+    placeholder: 'Type..',
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+
+    return (
+      <>
+        <Input
+          {...args}
+          value={value}
+          onChange={(e) => {
+            setValue(e.currentTarget.value);
+            args.onChange?.(e);
+          }}
+        />
+        <p style={{ fontSize: 12, margin: '8px 0 0' }}>Value: {value || '(empty)'}</p>
+      </>
+    );
+  },
+};
+
+export const Password: InputStory = {
+  args: {
+    label: 'Password',
+    name: 'password',
+    type: 'password',
+    placeholder: 'Enter password',
+    autoComplete: 'current-password',
+  },
+};
+
+export const NumberWithStep: InputStory = {
+  args: {
+    label: 'Amount',
+    name: 'amount',
+    type: 'number',
+    step: 0.01,
+    placeholder: '0.00',
+  },
+};
+
+export const Colors: InputStory = {
+  args: {
+    label: 'Label',
+    name: 'colors',
+    placeholder: 'Type..',
+    inputColorBorder: '#6B4FA0',
+    inputColor: '#3F454B',
+    labelColor: '#B45309',
+  },
+};
+
+/* ---------- Textarea ---------- */
 
 export const Textarea: InputStory = {
   args: {
-    label: 'Label',
+    label: 'Message',
     name: 'textarea',
-    placeholder: 'Type..',
-    defaultValue: 'Default Value',
     kind: 'textarea',
+    placeholder: 'Type..',
   },
-  render: (args) => (
-    <div style={{ minWidth: '400px' }}>
-      <Input {...args} />
-    </div>
-  ),
+};
+
+export const TextareaDefaultValue: InputStory = {
+  args: {
+    label: 'Message',
+    name: 'textareaDefaultValue',
+    kind: 'textarea',
+    defaultValue: 'Default Value',
+  },
+};
+
+export const TextareaRequired: InputStory = {
+  parameters: {
+    docs: {
+      description: { story: 'Click into the field, leave it empty, then click away to see the error.' },
+    },
+  },
+  args: {
+    label: 'Message',
+    name: 'textareaRequired',
+    kind: 'textarea',
+    placeholder: 'Type..',
+    validatorOptions: [{ type: 'empty' }],
+  },
+};
+
+export const TextareaDisabled: InputStory = {
+  args: {
+    label: 'Message',
+    name: 'textareaDisabled',
+    kind: 'textarea',
+    defaultValue: 'Cannot edit this',
+    disabled: true,
+  },
+};
+
+export const TextareaControlled: InputStory = {
+  args: {
+    label: 'Message',
+    name: 'textareaControlled',
+    kind: 'textarea',
+    placeholder: 'Type..',
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+
+    return (
+      <>
+        <Input
+          {...args}
+          value={value}
+          onChange={(e) => {
+            setValue(e.currentTarget.value);
+            args.onChange?.(e);
+          }}
+        />
+        <p style={{ fontSize: 12, margin: '8px 0 0' }}>Characters: {value.length}</p>
+      </>
+    );
+  },
+};
+
+export const TextareaColors: InputStory = {
+  args: {
+    label: 'Message',
+    name: 'textareaColors',
+    kind: 'textarea',
+    placeholder: 'Type..',
+    inputColorBorder: '#6B4FA0',
+    inputColor: '#3F454B',
+    labelColor: '#B45309',
+  },
 };
