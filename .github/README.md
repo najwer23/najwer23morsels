@@ -1,7 +1,10 @@
 A comprehensive collection of React components for building consistent, scalable applications.
 
-![najwer23morsels](https://raw.githubusercontent.com/najwer23/najwer23morsels/main/public/logo-light.svg#gh-light-mode-only)
-![najwer23morsels](https://raw.githubusercontent.com/najwer23/najwer23morsels/main/public/logo-dark.svg#gh-dark-mode-only)
+<p align="left">
+  <picture>
+    <img src="https://najwer23.github.io/najwer23morsels/logo.svg" alt="najwer23morsels" height="64">
+  </picture>
+</p>
 
 [![NPM Downloads](https://img.shields.io/npm/dm/najwer23morsels?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/najwer23morsels)
 

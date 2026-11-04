@@ -7,6 +7,6 @@ export default create({
   // Brand (sidebar top-left)
   brandTitle: 'najwer23morsels',
   brandUrl: 'https://najwer23.github.io/najwer23morsels',
-  brandImage: 'logo-dark.svg',
+  brandImage: 'logo.svg',
   brandTarget: '_self', // '_blank' | '_self' | '_parent' | '_top'
 });
