@@ -26,16 +26,31 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   step?: number | 'any';
 }
 
-export type InputProps = InputBase & {
-  kind?: 'input' | 'textarea';
+type InputKindProps = InputBase & {
+  kind?: 'input';
   name: string;
+  minHeight?: never;
+  maxHeight?: never;
 };
+
+type TextareaProps = InputBase & {
+  kind: 'textarea';
+  name: string;
+  minHeight?: React.CSSProperties['minHeight'];
+  maxHeight?: React.CSSProperties['maxHeight'];
+};
+
+export type InputProps = InputKindProps | TextareaProps;
 
 export type SelectProps = InputBase & {
   kind: 'select';
   name?: never;
   id: string;
+  minHeight?: never;
+  maxHeight?: never;
 };
+
+const toCssSize = (value: React.CSSProperties['minHeight']) => (typeof value === 'number' ? `${value}px` : value);
 
 export const Input: React.FC<InputProps | SelectProps> = ({
   className,
@@ -58,6 +73,8 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   onBlur,
   onChange,
   step,
+  minHeight,
+  maxHeight,
   ...props
 }) => {
   const errorRef = useRef<HTMLDivElement | null>(null);
@@ -102,6 +119,8 @@ export const Input: React.FC<InputProps | SelectProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
+  const isTextarea = kind === 'textarea';
+
   return (
     <div
       ref={wrapperRef}
@@ -111,6 +130,8 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         ...getCssVariableStyle({
           '--input-c': inputColor,
           '--input-cb': inputColorBorder,
+          '--input-minh': isTextarea ? toCssSize(minHeight) : undefined,
+          '--input-maxh': isTextarea ? toCssSize(maxHeight) : undefined,
         }),
         ...style,
       }}
