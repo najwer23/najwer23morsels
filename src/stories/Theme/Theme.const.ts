@@ -240,4 +240,6 @@ export const THEMES: Record<string, ThemeConfig> = {
       },
     },
   },
-};
+} as const satisfies Record<string, ThemeConfig>;
+
+export type ThemeName = keyof typeof THEMES;
