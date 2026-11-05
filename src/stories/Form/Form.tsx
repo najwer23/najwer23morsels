@@ -1,6 +1,6 @@
 import { LoaderDots } from '../LoaderDots';
 import { TextBox } from '../TextBox';
-import { VALIDATOR_MESSAGE_COLORS } from '../validator/validator.const';
+import { Typography } from '../Typography';
 import { FormType } from './Form.types';
 
 interface FormProps {
@@ -74,39 +74,9 @@ export const Form: React.FC<FormProps> = ({
     >
       {children}
 
-      {isError && (
-        <TextBox
-          tag="p"
-          color={VALIDATOR_MESSAGE_COLORS.error}
-          mobileSize={12}
-          desktopSize={12}
-          margin={'15px 0 10px 0'}
-          fontWeight={400}
-        >
-          {errorMsg}
-        </TextBox>
-      )}
-      {isPending && (
-        <LoaderDots
-          color={VALIDATOR_MESSAGE_COLORS.pending}
-          mobileSize={12}
-          desktopSize={12}
-          fontWeight={400}
-          margin={'15px 0 10px 0'}
-        />
-      )}
-      {isSuccess && (
-        <TextBox
-          tag="p"
-          color={VALIDATOR_MESSAGE_COLORS.success}
-          mobileSize={12}
-          desktopSize={12}
-          margin={'15px 0 10px 0'}
-          fontWeight={400}
-        >
-          {successMsg}
-        </TextBox>
-      )}
+      {isError && <Typography variant={'validatorFormError'}>{errorMsg}</Typography>}
+      {isPending && <LoaderDots variant="loaderForm" />}
+      {isSuccess && <Typography variant={'validatorFormSuccess'}>{successMsg}</Typography>}
     </form>
   );
 };

@@ -1,7 +1,11 @@
-import { TextBox } from '../TextBox';
+import { ThemeTypographyVariant } from '../Theme/Theme.types';
+import { Typography } from '../Typography';
 import styles from './LoaderDots.module.css';
 
+type LoaderDotsVariant = Extract<ThemeTypographyVariant, 'loaderForm' | 'loaderPage'>;
+
 interface LoaderDotsProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: LoaderDotsVariant;
   style?: React.CSSProperties;
   color?: React.CSSProperties['color'];
   fontWeight?: React.CSSProperties['fontWeight'];
@@ -12,26 +16,32 @@ interface LoaderDotsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const LoaderDots: React.FC<LoaderDotsProps> = ({
+  variant = 'loaderPage',
   className,
   style,
   color,
-  mobileSize = 16,
-  desktopSize = 16,
-  fontWeight = 'var(--n23mTextBoxFontWeight)',
+  fontWeight,
   text = 'Loading',
+  mobileSize,
+  desktopSize,
   margin,
   ...props
 }) => {
   return (
-    <div className={[styles.n23mLoaderDots, 'n23mLoaderDots', className].filter(Boolean).join(' ')} {...props}>
-      <TextBox
-        mobileSize={mobileSize}
-        desktopSize={desktopSize}
-        color={color}
-        margin={margin}
+    <div
+      className={[styles.n23mLoaderDots, 'n23mLoaderDots', className].filter(Boolean).join(' ')}
+      style={style}
+      {...props}
+    >
+      <Typography
+        variant={variant}
+        {...(mobileSize !== undefined && { mobileSize })}
+        {...(desktopSize !== undefined && { desktopSize })}
+        {...(margin !== undefined && { margin })}
+        {...(fontWeight !== undefined && { fontWeight })}
+        {...(color !== undefined && { color })}
         role="status"
-        aria-label="Loading"
-        fontWeight={fontWeight}
+        aria-label={text}
       >
         {text}
         <span className={styles.dots} aria-hidden="true">
@@ -39,7 +49,7 @@ export const LoaderDots: React.FC<LoaderDotsProps> = ({
           <span>.</span>
           <span>.</span>
         </span>
-      </TextBox>
+      </Typography>
     </div>
   );
 };

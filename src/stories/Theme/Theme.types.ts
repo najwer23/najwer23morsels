@@ -42,7 +42,16 @@ export interface ThemeTypographyColors {
   body: ThemeTypographyColor;
   caption: ThemeTypographyColor;
   link: ThemeTypographyColor;
+  validatorFormError: ThemeTypographyColor;
+  validatorFormSuccess: ThemeTypographyColor;
+  validatorInputError: ThemeTypographyColor;
+  validatorDialogError: ThemeTypographyColor;
+  validatorDialogSuccess: ThemeTypographyColor;
+  loaderForm: ThemeTypographyColor;
+  loaderPage: ThemeTypographyColor;
 }
+
+export type ThemeTypographyVariant = keyof ThemeTypographyColors;
 
 export interface ThemeTypography {
   colors: ThemeTypographyColors;

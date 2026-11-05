@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import { type ValidatorOptions, validator } from '../validator';
-import { VALIDATOR_MESSAGE_COLORS } from '../validator/validator.const';
 import styles from './Input.module.css';
 import { FieldElement } from './Input.types';
 import { isAutofillEvent, isAutofilled } from './Input.utils';
@@ -199,18 +199,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         )}
       </div>
 
-      {type !== 'hidden' && (
-        <TextBox
-          ref={errorRef}
-          mobileSize={12}
-          desktopSize={12}
-          tag="p"
-          fontWeight={400}
-          color={VALIDATOR_MESSAGE_COLORS.error}
-          lineHeight={'14px'}
-          margin={'2px 0 2px'}
-        />
-      )}
+      {type !== 'hidden' && <Typography ref={errorRef} variant={'validatorInputError'} />}
     </div>
   );
 };

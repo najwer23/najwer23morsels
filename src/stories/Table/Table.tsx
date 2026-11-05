@@ -10,7 +10,6 @@ import { Select } from '../Select';
 import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
-import { VALIDATOR_MESSAGE_COLORS } from '../validator/validator.const';
 import styles from './Table.module.css';
 import { TableCellDelete, TableCellEdit, TableColumn, TableRow } from './Table.types';
 
@@ -135,7 +134,7 @@ export const Table: React.FC<TableProps> = ({
       {isEditable && (
         <Dialog open={isOpenDialogEditCell} onCancel={handleOnClose} widthMax="900px">
           <Grid layout="container" widthMin="min(800px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
-            <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
+            <Typography variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
               Edit Cell
             </Typography>
 
@@ -240,7 +239,7 @@ export const Table: React.FC<TableProps> = ({
           widthMax="900px"
         >
           <Grid layout="container" widthMin="min(500px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
-            <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
+            <Typography variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
               {isCellDeleteSuccess ? 'Deleted' : 'Are you sure?'}
             </Typography>
 
@@ -251,30 +250,11 @@ export const Table: React.FC<TableProps> = ({
             )}
 
             {isCellDeleteError && !isCellDeleteSuccess && (
-              <Typography
-                variant="body"
-                tag="p"
-                desktopSize={16}
-                mobileSize={16}
-                fontWeight={400}
-                color={VALIDATOR_MESSAGE_COLORS.error}
-                style={{ margin: '10px 0 0 0' }}
-              >
-                {cellDeleteErrorMsg ?? 'Delete failed'}
-              </Typography>
+              <Typography variant="validatorDialogError">{cellDeleteErrorMsg ?? 'Delete failed'} haha</Typography>
             )}
 
             {isCellDeleteSuccess && (
-              <Typography
-                variant="body"
-                tag="p"
-                desktopSize={16}
-                mobileSize={16}
-                fontWeight={400}
-                color={VALIDATOR_MESSAGE_COLORS.success}
-              >
-                {cellDeleteSuccessMsg ?? 'Row deleted'}
-              </Typography>
+              <Typography variant="validatorDialogSuccess">{cellDeleteSuccessMsg ?? 'Row deleted'}</Typography>
             )}
 
             <Grid

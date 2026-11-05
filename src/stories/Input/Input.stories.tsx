@@ -19,12 +19,14 @@ A form field with a label, placeholder, validation, disabled state and custom co
 
 Validation runs when the field loses focus. Once a field shows an error, it re-validates on every change, so the error clears as soon as the value is valid.
 
+Validation messages use the \`validatorInputError\` variant from the Typography theme.
+
 \`name\` is used as the element \`id\` and must be unique on the page.
 
 \`\`\`tsx
 import { Input } from 'najwer23morsels/lib/Input';
 \`\`\`
-      `,
+        `,
       },
     },
   },
@@ -68,7 +70,9 @@ export const Default: InputStory = {
 export const Required: InputStory = {
   parameters: {
     docs: {
-      description: { story: 'Click into the field, leave it empty, then click away to see the error.' },
+      description: {
+        story: 'Click into the field, leave it empty, then click away to see the themed validation error.',
+      },
     },
   },
   args: {
@@ -108,7 +112,9 @@ export const DisabledWithValue: InputStory = {
 export const Controlled: InputStory = {
   parameters: {
     docs: {
-      description: { story: 'Controlled with `value` and `onChange`. The text below mirrors the state.' },
+      description: {
+        story: 'Controlled with `value` and `onChange`. The text below mirrors the state.',
+      },
     },
   },
   args: {
@@ -116,7 +122,7 @@ export const Controlled: InputStory = {
     name: 'controlled',
     placeholder: 'Type..',
   },
-  render: function Render(args) {
+  render: function Render(args: InputProps) {
     const [value, setValue] = useState('');
 
     return (
@@ -189,7 +195,9 @@ export const TextareaDefaultValue: InputStory = {
 export const TextareaRequired: InputStory = {
   parameters: {
     docs: {
-      description: { story: 'Click into the field, leave it empty, then click away to see the error.' },
+      description: {
+        story: 'Click into the field, leave it empty, then click away to see the themed validation error.',
+      },
     },
   },
   args: {
@@ -218,7 +226,7 @@ export const TextareaControlled: InputStory = {
     kind: 'textarea',
     placeholder: 'Type..',
   },
-  render: function Render(args) {
+  render: function Render(args: InputProps) {
     const [value, setValue] = useState('');
 
     return (

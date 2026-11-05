@@ -79,6 +79,27 @@ export const THEMES: Record<string, ThemeConfig> = {
             color: '#C73500',
             hover: '#C73500',
           },
+          validatorFormError: {
+            color: '#B42318',
+          },
+          validatorFormSuccess: {
+            color: '#187A3D',
+          },
+          validatorInputError: {
+            color: '#B42318',
+          },
+          validatorDialogError: {
+            color: '#B42318',
+          },
+          validatorDialogSuccess: {
+            color: '#187A3D',
+          },
+          loaderForm: {
+            color: '#5F6368',
+          },
+          loaderPage: {
+            color: 'black',
+          },
         },
       },
     },
