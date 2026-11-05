@@ -220,15 +220,16 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
               <div className={styles.menuItemMobile}>
                 <div className={styles.menuPlaceholder}>
                   <Button
+                    type="button"
+                    variant="menu"
                     height="40px"
                     width="70px"
                     padding={0}
-                    backgroundColor="orangered"
                     onClick={toggleMenu}
                     aria-label="Menu"
                     aria-controls={menuId}
                   >
-                    <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="white">
+                    <TextBox tag="span" desktopSize={20} mobileSize={20} fontWeight={400} color="inherit">
                       Menu
                     </TextBox>
                   </Button>

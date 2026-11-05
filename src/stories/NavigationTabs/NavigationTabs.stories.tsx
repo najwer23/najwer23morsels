@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { Grid } from '../Grid';
-import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import { NavigationTabs } from '.';
 
 const meta: Meta<typeof NavigationTabs> = {
@@ -45,18 +45,18 @@ const preventDefault = (e: React.MouseEvent) => e.preventDefault();
 
 const Logo = ({ label = 'Gym' }: { label?: string }) => (
   <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight="100%">
-    <TextBox desktopSize={20} mobileSize={20} fontWeight={500} tag="a" href="/" onClick={preventDefault}>
+    <Typography variant="link" desktopSize={20} mobileSize={20} fontWeight={500} href="/" onClick={preventDefault}>
       {label}
-    </TextBox>
+    </Typography>
   </Grid>
 );
 
 const TopRightLinks = ({ items = ['Login'] }: { items?: string[] }) => (
   <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight="100%" gap={{ col: '20px', row: '0' }}>
     {items.map((label) => (
-      <TextBox
+      <Typography
         key={label}
-        tag="a"
+        variant="link"
         href={`/${label.toLowerCase()}`}
         desktopSize={20}
         mobileSize={20}
@@ -64,7 +64,7 @@ const TopRightLinks = ({ items = ['Login'] }: { items?: string[] }) => (
         onClick={preventDefault}
       >
         {label}
-      </TextBox>
+      </Typography>
     ))}
   </Grid>
 );
@@ -72,9 +72,9 @@ const TopRightLinks = ({ items = ['Login'] }: { items?: string[] }) => (
 const MobileLinks = ({ items = ['Home', 'Login'] }: { items?: string[] }) => (
   <>
     {items.map((label) => (
-      <TextBox
+      <Typography
         key={label}
-        tag="a"
+        variant="link"
         href={`/${label.toLowerCase().replace(/\s+/g, '-')}`}
         desktopSize={30}
         mobileSize={30}
@@ -82,7 +82,7 @@ const MobileLinks = ({ items = ['Home', 'Login'] }: { items?: string[] }) => (
         onClick={preventDefault}
       >
         {label}
-      </TextBox>
+      </Typography>
     ))}
   </>
 );
@@ -91,8 +91,8 @@ const BottomTabs = ({ items = ['Dashboard', 'Push Ups', 'Squats', 'Sit Ups', 'Pu
   <>
     {items.map((label) => (
       <div key={label}>
-        <TextBox
-          tag="a"
+        <Typography
+          variant="link"
           href={`/in/${label.toLowerCase().replace(/\s+/g, '-')}`}
           onClick={preventDefault}
           desktopSize={18}
@@ -100,7 +100,7 @@ const BottomTabs = ({ items = ['Dashboard', 'Push Ups', 'Squats', 'Sit Ups', 'Pu
           fontWeight={500}
         >
           {label}
-        </TextBox>
+        </Typography>
       </div>
     ))}
   </>
@@ -148,9 +148,9 @@ const MobileSections = ({
     {sections.map(({ title, links }) => (
       <Grid key={title} layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
-          <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+          <Typography variant="body" tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
             {title}
-          </TextBox>
+          </Typography>
         </Grid>
 
         {links.map(({ to, label }) => {
@@ -158,8 +158,8 @@ const MobileSections = ({
 
           return (
             <Grid key={to} layout="container" margin="0 0 8px 0">
-              <TextBox
-                tag="a"
+              <Typography
+                variant="link"
                 href={to}
                 desktopSize={28}
                 mobileSize={28}
@@ -169,7 +169,7 @@ const MobileSections = ({
               >
                 {label}
                 {external && ' ↗'}
-              </TextBox>
+              </Typography>
             </Grid>
           );
         })}
@@ -205,7 +205,9 @@ const RoutePage = ({ delayMs = 100 }: { delayMs?: number }) => {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>{route}</h1>
+      <Typography variant="heading" tag="h1">
+        {route}
+      </Typography>
       <PageContent repeat={200} />
     </div>
   );
@@ -214,20 +216,20 @@ const RoutePage = ({ delayMs = 100 }: { delayMs?: number }) => {
 // No preventDefault on the hash links: the URL has to change, or the menu has nothing to wait for.
 const RouteChangeLinks = () => (
   <Grid layout="container" margin={0} gap={{ col: '0', row: '16px' }}>
-    <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={600}>
+    <Typography variant="body" tag="p" desktopSize={16} mobileSize={16} fontWeight={600}>
       Route change test
-    </TextBox>
+    </Typography>
 
     {['dashboard', 'weight', 'settings'].map((name) => (
       <div key={name}>
-        <TextBox key={name} tag="a" href={`#/${name}`} desktopSize={28} mobileSize={28}>
+        <Typography key={name} variant="link" href={`#/${name}`} desktopSize={28} mobileSize={28}>
           {name[0].toUpperCase() + name.slice(1)}
-        </TextBox>
+        </Typography>
       </div>
     ))}
 
-    <TextBox
-      tag="a"
+    <Typography
+      variant="link"
       href="https://najwer23.github.io/"
       target="_blank"
       rel="noreferrer"
@@ -235,7 +237,7 @@ const RouteChangeLinks = () => (
       mobileSize={28}
     >
       External link ↗
-    </TextBox>
+    </Typography>
   </Grid>
 );
 
@@ -336,9 +338,9 @@ export const CustomTopColumns: Story = {
         gap={{ col: '12px', row: '0' }}
       >
         <div style={{ width: 32, height: 32, borderRadius: 8, background: 'orangered' }} />
-        <TextBox desktopSize={20} mobileSize={20} fontWeight={700} tag="span">
+        <Typography variant="body" tag="span" desktopSize={20} mobileSize={20} fontWeight={700}>
           Gym
-        </TextBox>
+        </Typography>
       </Grid>
     ),
     menuTopRightColumn: (
@@ -349,9 +351,16 @@ export const CustomTopColumns: Story = {
         minHeight="100%"
         gap={{ col: '16px', row: '0' }}
       >
-        <TextBox tag="a" href="/login" desktopSize={18} mobileSize={18} fontWeight={500} onClick={preventDefault}>
+        <Typography
+          variant="link"
+          href="/login"
+          desktopSize={18}
+          mobileSize={18}
+          fontWeight={500}
+          onClick={preventDefault}
+        >
           Login
-        </TextBox>
+        </Typography>
         <button
           type="button"
           style={{ padding: '8px 16px', borderRadius: 6, border: 0, background: 'orangered', color: 'white' }}
@@ -543,12 +552,12 @@ export const MobileSectionsWithExtras: Story = {
       <Grid layout="container">
         <Grid layout="container" margin="0 0 24px 0">
           <Grid layout="container" margin="0 0 8px 0">
-            <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+            <Typography variant="body" tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
               Account
-            </TextBox>
+            </Typography>
           </Grid>
-          <TextBox
-            tag="a"
+          <Typography
+            variant="link"
             href="/auth/login"
             desktopSize={28}
             mobileSize={28}
@@ -556,14 +565,14 @@ export const MobileSectionsWithExtras: Story = {
             onClick={preventDefault}
           >
             Login
-          </TextBox>
+          </Typography>
         </Grid>
 
         <MobileSections />
 
-        <TextBox tag="p" desktopSize={14} mobileSize={14} color="grey">
+        <Typography variant="caption" tag="p" desktopSize={14} mobileSize={14} color="grey">
           © Gym
-        </TextBox>
+        </Typography>
       </Grid>
     ),
   },
