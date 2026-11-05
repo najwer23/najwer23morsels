@@ -49,6 +49,12 @@ export const THEMES: Record<string, ThemeConfig> = {
             text: '#555555',
             focus: '#8A8A8A',
           },
+          subtle: {
+            background: '#F2F0EF',
+            border: '#3F454B',
+            text: '#343A40',
+            focus: '#3F454B',
+          },
         },
       },
     },

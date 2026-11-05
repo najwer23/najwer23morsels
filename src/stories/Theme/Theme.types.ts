@@ -20,6 +20,8 @@ export interface ThemeButtonVariants {
   menu: ThemeButtonColor;
   // Unavailable state: shown for variant="disabled" or the disabled prop. Flat grey.
   disabled: ThemeButtonColor;
+  /** Low-emphasis buttons for secondary UI controls, such as Calendar selections and toolbar actions. */
+  subtle: ThemeButtonColor;
 }
 
 export type ThemeButtonVariant = keyof ThemeButtonVariants;

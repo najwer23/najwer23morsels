@@ -260,12 +260,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                   <div className={styles.yearsChild} key={v + calendarState.value}>
                     <Button
                       type="button"
-                      key={v + calendarState.value}
-                      height={'40px'}
-                      width={'80px'}
-                      textColor="black"
-                      backgroundColor={currentYear == v ? 'white' : '#F2F0EF'}
-                      borderColor="black"
+                      height="40px"
+                      width="80px"
+                      variant={currentYear === v ? 'primary' : 'subtle'}
                       title="year"
                       onClick={() => {
                         changeYear(v);
@@ -288,12 +285,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div className={styles.monthsChild} key={v + calendarState.value}>
                   <Button
                     type="button"
-                    key={v + calendarState.value}
-                    height={'40px'}
-                    width={'80px'}
-                    textColor="black"
-                    backgroundColor={currentMonth == i ? 'white' : '#F2F0EF'}
-                    borderColor="black"
+                    height="40px"
+                    width="80px"
+                    variant={currentMonth === i ? 'primary' : 'subtle'}
                     title="month"
                     onClick={() => {
                       changeMonth(i - currentMonth);

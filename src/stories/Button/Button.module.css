@@ -100,6 +100,13 @@
       --button-focus: var(--n23m-components-button-variants-disabled-focus, #8a8a8a);
     }
 
+    &[data-variant="subtle"] {
+      --button-bg: var(--n23m-components-button-variants-subtle-background, #f2f0ef);
+      --button-bc: var(--n23m-components-button-variants-subtle-border, #d6d3d1);
+      --button-color: var(--n23m-components-button-variants-subtle-text, #343a40);
+      --button-focus: var(--n23m-components-button-variants-subtle-focus, #3f454b);
+    }
+
     > * {
       position: relative;
       z-index: 1;
