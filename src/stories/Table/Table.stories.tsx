@@ -100,6 +100,8 @@ const taskColumns: TableColumn[] = [
     cellText: 'Priority',
     cellType: 'select',
     options: priorityOptions,
+    thAlign: 'center',
+    tdAlign: 'center',
     initialValue: priorityOptions[1],
   },
 ];

@@ -315,16 +315,9 @@ export const Table: React.FC<TableProps> = ({
           <tr>
             {tableColumns.map((col) => (
               <th key={col.cellName} scope="col">
-                <Typography
-                  variant="body"
-                  tag="span"
-                  mobileSize={16}
-                  desktopSize={20}
-                  color="black"
-                  textAlign={col.thAlign ?? 'left'}
-                >
+                <TextBox mobileSize={16} desktopSize={20} color="black" textAlign={col.thAlign ?? 'left'}>
                   {col.cellText}
-                </Typography>
+                </TextBox>
               </th>
             ))}
           </tr>
@@ -351,9 +344,7 @@ export const Table: React.FC<TableProps> = ({
                       data-clickable={isEditable}
                       onClick={isEditable ? () => handleOnCellClick(row) : undefined}
                     >
-                      <Typography
-                        variant="body"
-                        tag="span"
+                      <TextBox
                         fontWeight={400}
                         mobileSize={16}
                         desktopSize={16}
@@ -361,7 +352,7 @@ export const Table: React.FC<TableProps> = ({
                         textAlign={col.tdAlign ?? 'left'}
                       >
                         {value === undefined ? '' : String(value)}
-                      </Typography>
+                      </TextBox>
                     </td>
                   );
                 })}

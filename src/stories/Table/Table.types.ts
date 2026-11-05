@@ -11,8 +11,8 @@ type TableColumnBase = {
   disabledAdd?: boolean;
   disabledEdit?: boolean;
   validatorOptions?: ValidatorOptions;
-  thAlign?: 'left' | 'right';
-  tdAlign?: 'left' | 'right';
+  thAlign?: 'left' | 'right' | 'center';
+  tdAlign?: 'left' | 'right' | 'center';
 };
 
 export type TableColumn =
