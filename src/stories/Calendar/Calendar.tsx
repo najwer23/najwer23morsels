@@ -221,12 +221,10 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height={'30px'}
                     width={'30px'}
                     title="Previous years"
-                    backgroundColor="#F2F0EF"
-                    borderColor="black"
-                    textColor="black"
+                    variant="secondary"
                     onClick={() => changeYear(currentYear - 9)}
                   >
-                    <IconArrowLeft color="black" height={22} width={22} />
+                    <IconArrowLeft height={22} width={22} />
                   </Button>
                 </div>
 
@@ -249,12 +247,10 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height={'30px'}
                     width={'30px'}
                     title="Next years"
-                    backgroundColor="#F2F0EF"
-                    borderColor="black"
-                    textColor="black"
+                    variant="secondary"
                     onClick={() => changeYear(currentYear + 9)}
                   >
-                    <IconArrowRight color="black" height={22} width={22} />
+                    <IconArrowRight height={22} width={22} />
                   </Button>
                 </div>
               </div>
@@ -323,12 +319,10 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height={'30px'}
                     width={'30px'}
                     title="Previous month"
-                    backgroundColor="#F2F0EF"
-                    borderColor="black"
-                    textColor="black"
+                    variant="secondary"
                     onClick={() => changeMonth(-1)}
                   >
-                    <IconArrowLeft color="black" height={22} width={22} />
+                    <IconArrowLeft height={22} width={22} />
                   </Button>
                 </div>
 
@@ -363,12 +357,10 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height={'30px'}
                     width={'30px'}
                     title="Next month"
-                    backgroundColor="#F2F0EF"
-                    borderColor="black"
-                    textColor="black"
+                    variant="secondary"
                     onClick={() => changeMonth(1)}
                   >
-                    <IconArrowRight color="black" height={22} width={22} />
+                    <IconArrowRight height={22} width={22} />
                   </Button>
                 </div>
               </div>
