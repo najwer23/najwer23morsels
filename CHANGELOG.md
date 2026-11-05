@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 2.0.0
+
+### Major Changes
+
+- Theme
+
 ## 1.13.1
 
 ### Patch Changes
