@@ -6,14 +6,23 @@ export interface ThemeButtonColor {
 }
 
 export interface ThemeButtonVariants {
+  // Default action: Log in, Save changes, Reset password. Dark charcoal.
   primary: ThemeButtonColor;
+  // Neutral, lower-emphasis action: Close, Cancel, Back. Mid grey.
   secondary: ThemeButtonColor;
+  // Destructive action: Delete, Remove, Discard. Red.
   danger: ThemeButtonColor;
+  // Positive or confirming action: Sign up, Confirm, Publish. Green.
   success: ThemeButtonColor;
+  // Copy-to-clipboard and similar utility actions. Deep orange.
   copy: ThemeButtonColor;
+  // Menu / dropdown / toolbar triggers. Purple.
   menu: ThemeButtonColor;
+  // Unavailable state: shown for variant="disabled" or the disabled prop. Flat grey.
   disabled: ThemeButtonColor;
 }
+
+export type ThemeButtonVariant = keyof ThemeButtonVariants;
 
 export interface ThemeButton {
   variants: ThemeButtonVariants;

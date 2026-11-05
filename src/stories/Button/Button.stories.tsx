@@ -1,20 +1,21 @@
-// Button/Button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { action } from 'storybook/actions';
 import { TextBox } from '../TextBox';
+import { THEMES } from '../Theme';
 import { Button } from '.';
 
-const VARIANTS = ['primary', 'secondary', 'danger', 'success', 'copy', 'menu', 'disabled'] as const;
+const VARIANTS = Object.keys(THEMES.default.components.button.variants) as Array<
+  keyof typeof THEMES.default.components.button.variants
+>;
 
 /**
  * Loose props type for stories only.
- * `Omit` on a union is non-distributive, so this flattens the discriminated union
- * into `variant?: ButtonVariant` and `textToCopy?: string`.
+ * Omit on a union is non-distributive, so this flattens the discriminated union.
  */
 type ButtonStoryProps = Omit<React.ComponentProps<typeof Button>, 'ref'>;
 
-/** Same component, typed with the loose props so spreading `args` type-checks. */
+/** Same component, typed with loose props so spreading args type-checks. */
 const StoryButton = Button as React.ComponentType<ButtonStoryProps>;
 
 const meta: Meta<ButtonStoryProps> = {
@@ -25,15 +26,18 @@ const meta: Meta<ButtonStoryProps> = {
     docs: {
       description: {
         component: `
-A customizable button component supporting color variants, loading states, disabled states, and custom dimensions.
+A customizable button component supporting theme-based color variants, loading states, disabled states, and custom dimensions.
 
-Variants: \`primary\` (default), \`secondary\`, \`danger\`, \`success\`, \`copy\`, \`menu\`, \`disabled\`.
-Use \`backgroundColor\`, \`borderColor\` and \`textColor\` to override a variant.
+Button colors are inherited from the active Theme. Use the Storybook theme toolbar to preview different color palettes.
+
+Variants: ${VARIANTS.map((variant) => `\`${variant}\``).join(', ')}.
 
 ### Copy variant
 
 With \`variant="copy"\` the button copies \`textToCopy\` to the clipboard (\`textToCopy\` is required for this variant and not allowed for the others).
+
 After a successful copy it switches to the \`success\` variant for 800ms. A visually hidden live region announces "Copied" to screen readers.
+
 If no children are passed, a default "Copy" label is rendered.
 
 \`navigator.clipboard\` requires a secure context (HTTPS or localhost).
@@ -51,14 +55,18 @@ import { Button } from 'najwer23morsels/lib/Button';
     variant: {
       control: 'select',
       options: VARIANTS,
+      description: 'Button color variant provided by the active Theme.',
     },
     textToCopy: {
       control: 'text',
       description: 'Text copied to the clipboard. Required when `variant="copy"`.',
     },
     padding: { control: 'text' },
+    margin: { control: 'text' },
     height: { control: 'text' },
     width: { control: 'text' },
+    loading: { control: 'boolean' },
+    disabled: { control: 'boolean' },
   },
   args: {
     type: 'button',
@@ -126,15 +134,6 @@ export const Disabled: Story = {
 export const DisabledProp: Story = {
   args: { variant: 'danger', disabled: true },
   render: (args) => renderButton(args, 'Disabled via prop'),
-};
-
-export const CustomColors: Story = {
-  args: {
-    backgroundColor: '#0057B8',
-    borderColor: '#003F87',
-    textColor: '#FFFFFF',
-  },
-  render: (args) => renderButton(args, 'Custom'),
 };
 
 export const ButtonLoading: Story = {

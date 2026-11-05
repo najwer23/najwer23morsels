@@ -1,15 +1,22 @@
 @layer n23mButton {
   .n23mButtonButton {
-    color: var(--n23mButtonTextColor, var(--button-color, #ffffff));
-
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
 
+    /* Button theme */
+    --button-bg: var(--n23m-components-button-variants-primary-background, #3f454b);
+    --button-bc: var(--n23m-components-button-variants-primary-border, #343a40);
+    --button-color: var(--n23m-components-button-variants-primary-text, #ffffff);
+    --button-focus: var(--n23m-components-button-variants-primary-focus, #3f454b);
+
+    /* Dimensions */
     --button-radius: 12px;
     --button-transition: 180ms ease;
+
+    /* Shadows */
     --button-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
     --button-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.14);
 
@@ -18,16 +25,17 @@
     width: var(--button-w, auto);
     margin: var(--button-m, 0);
 
-    cursor: pointer;
-    border: 1px solid var(--n23mButtonBorderColor, var(--button-bc, transparent));
+    color: var(--button-color);
+    background-color: var(--button-bg);
+    border: 1px solid var(--button-bc);
     border-radius: var(--button-radius);
     corner-shape: squircle;
 
+    cursor: pointer;
     letter-spacing: normal;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 
-    background-color: var(--n23mButtonBg, var(--button-bg));
     box-shadow: none;
 
     transition:
@@ -35,6 +43,62 @@
       border-color var(--button-transition),
       box-shadow var(--button-transition),
       transform var(--button-transition);
+
+    /* Primary */
+    &[data-variant="primary"] {
+      --button-bg: var(--n23m-components-button-variants-primary-background, #3f454b);
+      --button-bc: var(--n23m-components-button-variants-primary-border, #343a40);
+      --button-color: var(--n23m-components-button-variants-primary-text, #ffffff);
+      --button-focus: var(--n23m-components-button-variants-primary-focus, #3f454b);
+    }
+
+    /* Secondary */
+    &[data-variant="secondary"] {
+      --button-bg: var(--n23m-components-button-variants-secondary-background, #6b6f76);
+      --button-bc: var(--n23m-components-button-variants-secondary-border, #585c62);
+      --button-color: var(--n23m-components-button-variants-secondary-text, #ffffff);
+      --button-focus: var(--n23m-components-button-variants-secondary-focus, #6b6f76);
+    }
+
+    /* Danger */
+    &[data-variant="danger"] {
+      --button-bg: var(--n23m-components-button-variants-danger-background, #c24141);
+      --button-bc: var(--n23m-components-button-variants-danger-border, #a93434);
+      --button-color: var(--n23m-components-button-variants-danger-text, #ffffff);
+      --button-focus: var(--n23m-components-button-variants-danger-focus, #c24141);
+    }
+
+    /* Success */
+    &[data-variant="success"] {
+      --button-bg: var(--n23m-components-button-variants-success-background, #367c59);
+      --button-bc: var(--n23m-components-button-variants-success-border, #2d684b);
+      --button-color: var(--n23m-components-button-variants-success-text, #ffffff);
+      --button-focus: var(--n23m-components-button-variants-success-focus, #367c59);
+    }
+
+    /* Copy */
+    &[data-variant="copy"] {
+      --button-bg: var(--n23m-components-button-variants-copy-background, #b45309);
+      --button-bc: var(--n23m-components-button-variants-copy-border, #92400e);
+      --button-color: var(--n23m-components-button-variants-copy-text, #ffffff);
+      --button-focus: var(--n23m-components-button-variants-copy-focus, #b45309);
+    }
+
+    /* Menu */
+    &[data-variant="menu"] {
+      --button-bg: var(--n23m-components-button-variants-menu-background, #6b4fa0);
+      --button-bc: var(--n23m-components-button-variants-menu-border, #593f89);
+      --button-color: var(--n23m-components-button-variants-menu-text, #ffffff);
+      --button-focus: var(--n23m-components-button-variants-menu-focus, #6b4fa0);
+    }
+
+    /* Disabled */
+    &[data-variant="disabled"] {
+      --button-bg: var(--n23m-components-button-variants-disabled-background, #cfcfcf);
+      --button-bc: var(--n23m-components-button-variants-disabled-border, #c8c8c8);
+      --button-color: var(--n23m-components-button-variants-disabled-text, #555555);
+      --button-focus: var(--n23m-components-button-variants-disabled-focus, #8a8a8a);
+    }
 
     > * {
       position: relative;
@@ -76,7 +140,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--n23mButtonFocusColor, var(--button-focus, var(--button-bg)));
+      outline: 2px solid var(--button-focus);
       outline-offset: 1px;
       box-shadow: none;
     }
@@ -85,13 +149,6 @@
       cursor: not-allowed;
       box-shadow: none;
       transform: none;
-    }
-
-    /* Disabled look applies only when not loading, so loading keeps variant colors */
-    &:disabled:not(.n23mButtonButtonLoading) {
-      background-color: var(--n23mButtonBgDisabled, var(--button-bgd, #e5e7eb));
-      color: var(--n23mButtonTextColorDisabled, var(--button-colord, #595959));
-      border-color: transparent;
     }
 
     &:disabled::before {

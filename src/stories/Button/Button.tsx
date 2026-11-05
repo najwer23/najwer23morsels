@@ -1,49 +1,10 @@
-// Button/Button.tsx
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { LoaderDots } from '../LoaderDots';
 import { TextBox } from '../TextBox';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
-import { BUTTON_VARIANTS, COPIED_RESET_MS } from './Button.const';
+import { COPIED_RESET_MS, VISUALLY_HIDDEN } from './Button.const';
 import styles from './Button.module.css';
-import { ButtonVariant } from './Button.types';
-
-const visuallyHidden: React.CSSProperties = {
-  position: 'absolute',
-  width: 1,
-  height: 1,
-  margin: -1,
-  padding: 0,
-  overflow: 'hidden',
-  clip: 'rect(0 0 0 0)',
-  whiteSpace: 'nowrap',
-  border: 0,
-};
-
-interface ButtonOwnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children?: React.ReactNode;
-  backgroundColor?: React.CSSProperties['color'];
-  backgroundColorDisabled?: React.CSSProperties['color'];
-  borderColor?: React.CSSProperties['color'];
-  textColor?: React.CSSProperties['color'];
-  padding?: React.CSSProperties['padding'];
-  margin?: React.CSSProperties['margin'];
-  height?: React.CSSProperties['height'];
-  width?: React.CSSProperties['width'];
-  loading?: boolean;
-  loaderMobileSize?: number;
-  loaderDesktopSize?: number;
-  style?: React.CSSProperties;
-}
-
-type RegularButtonProps = ButtonOwnProps & {
-  variant?: Exclude<ButtonVariant, 'copy'>;
-  textToCopy?: never;
-};
-
-type CopyButtonProps = ButtonOwnProps & {
-  variant: 'copy';
-  textToCopy: string;
-};
+import { ButtonVariant, CopyButtonProps, RegularButtonProps } from './Button.types';
 
 export type ButtonProps = RegularButtonProps | CopyButtonProps;
 
@@ -57,10 +18,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       margin,
       children,
       className,
-      backgroundColor,
-      backgroundColorDisabled,
-      borderColor,
-      textColor,
       padding = '0 12px',
       loading = false,
       height = '42px',
@@ -111,13 +68,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     useEffect(() => clearCopyTimeout, [clearCopyTimeout]);
 
     const currentVariant: ButtonVariant = isCopyVariant && isCopied ? 'success' : variant;
-    const isDisabledVariant = currentVariant === 'disabled' || (disabled && !loading);
-    const activeVariant: ButtonVariant = isDisabledVariant ? 'disabled' : currentVariant;
-    const palette = BUTTON_VARIANTS[activeVariant];
-    const disabledPalette = BUTTON_VARIANTS.disabled;
+    const activeVariant: ButtonVariant =
+      currentVariant === 'disabled' || (disabled && !loading) ? 'disabled' : currentVariant;
 
     const defaultCopyLabel = (
-      <TextBox mobileSize={10} desktopSize={10} fontWeight={600} lineHeight="17px" color="inherit">
+      <TextBox mobileSize={10} desktopSize={10} fontWeight={600} color="inherit">
         Copy
       </TextBox>
     );
@@ -133,12 +88,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           onClick={handleClick}
           style={{
             ...getCssVariableStyle({
-              '--button-bg': backgroundColor ?? palette.background,
-              '--button-bc': borderColor ?? palette.border,
-              '--button-color': textColor ?? palette.text,
-              '--button-focus': palette.focus,
-              '--button-bgd': backgroundColorDisabled ?? disabledPalette.background,
-              '--button-colord': disabledPalette.text,
               '--button-h': height,
               '--button-w': width,
               '--button-p': padding,
@@ -157,17 +106,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
           {loading && (
             <span className={styles.n23mButtonLoader}>
-              <LoaderDots
-                mobileSize={loaderMobileSize}
-                desktopSize={loaderDesktopSize}
-                color={textColor ?? palette.text}
-              />
+              <LoaderDots mobileSize={loaderMobileSize} desktopSize={loaderDesktopSize} color="var(--button-color)" />
             </span>
           )}
         </button>
 
         {isCopyVariant && (
-          <span role="status" aria-live="polite" style={visuallyHidden}>
+          <span role="status" aria-live="polite" style={VISUALLY_HIDDEN}>
             {isCopied ? 'Copied' : ''}
           </span>
         )}
