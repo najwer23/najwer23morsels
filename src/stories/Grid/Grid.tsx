@@ -1,7 +1,7 @@
 import React from 'react';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Grid.module.css';
-import { GridColumnsProps, GridContainerProps, GridFlexProps, GridSplitProps, SplitTrack } from './Grid.types';
+import { GridColumnsProps, GridContainerProps, GridFlexProps, GridSplitProps } from './Grid.types';
 import { toTemplate } from './Grid.utils';
 
 export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProps | GridSplitProps> = ({
