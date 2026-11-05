@@ -35,3 +35,5 @@ export const BUTTON_VARIANTS: Record<
 
   // Subtle UI controls: Sidebar toggles, toolbar controls, button with arrows.
 };
+
+export const COPIED_RESET_MS = 800;

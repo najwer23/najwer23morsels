@@ -1,3 +1,4 @@
+// Button/Button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { action } from 'storybook/actions';
@@ -6,9 +7,19 @@ import { Button } from '.';
 
 const VARIANTS = ['primary', 'secondary', 'danger', 'success', 'copy', 'menu', 'disabled'] as const;
 
-const meta: Meta<typeof Button> = {
+/**
+ * Loose props type for stories only.
+ * `Omit` on a union is non-distributive, so this flattens the discriminated union
+ * into `variant?: ButtonVariant` and `textToCopy?: string`.
+ */
+type ButtonStoryProps = Omit<React.ComponentProps<typeof Button>, 'ref'>;
+
+/** Same component, typed with the loose props so spreading `args` type-checks. */
+const StoryButton = Button as React.ComponentType<ButtonStoryProps>;
+
+const meta: Meta<ButtonStoryProps> = {
   title: 'Button/Button',
-  component: Button,
+  component: StoryButton,
   parameters: {
     layout: 'centered',
     docs: {
@@ -18,6 +29,14 @@ A customizable button component supporting color variants, loading states, disab
 
 Variants: \`primary\` (default), \`secondary\`, \`danger\`, \`success\`, \`copy\`, \`menu\`, \`disabled\`.
 Use \`backgroundColor\`, \`borderColor\` and \`textColor\` to override a variant.
+
+### Copy variant
+
+With \`variant="copy"\` the button copies \`textToCopy\` to the clipboard (\`textToCopy\` is required for this variant and not allowed for the others).
+After a successful copy it switches to the \`success\` variant for 800ms. A visually hidden live region announces "Copied" to screen readers.
+If no children are passed, a default "Copy" label is rendered.
+
+\`navigator.clipboard\` requires a secure context (HTTPS or localhost).
 
 Import:
 \`\`\`tsx
@@ -33,6 +52,13 @@ import { Button } from 'najwer23morsels/lib/Button';
       control: 'select',
       options: VARIANTS,
     },
+    textToCopy: {
+      control: 'text',
+      description: 'Text copied to the clipboard. Required when `variant="copy"`.',
+    },
+    padding: { control: 'text' },
+    height: { control: 'text' },
+    width: { control: 'text' },
   },
   args: {
     type: 'button',
@@ -45,14 +71,22 @@ import { Button } from 'najwer23morsels/lib/Button';
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<ButtonStoryProps>;
 
-const renderButton = (args: React.ComponentProps<typeof Button>, label: string) => (
-  <Button {...args}>
-    <TextBox mobileSize={14} desktopSize={14} color="inherit">
+/** Old ButtonCopy default: compact size, built-in "Copy" label (no children). */
+const COPY_DEFAULT_ARGS: ButtonStoryProps = {
+  variant: 'copy',
+  textToCopy: 'Hagagagga',
+  height: 'auto',
+  padding: '0px 3px',
+};
+
+const renderButton = (args: ButtonStoryProps, label: string, fontWeight?: number) => (
+  <StoryButton {...args}>
+    <TextBox mobileSize={14} desktopSize={14} fontWeight={fontWeight} color="inherit">
       {label}
     </TextBox>
-  </Button>
+  </StoryButton>
 );
 
 export const Default: Story = {
@@ -77,11 +111,6 @@ export const Danger: Story = {
 export const Success: Story = {
   args: { variant: 'success' },
   render: (args) => renderButton(args, 'Sign up'),
-};
-
-export const Copy: Story = {
-  args: { variant: 'copy' },
-  render: (args) => renderButton(args, 'Copy'),
 };
 
 export const Menu: Story = {
@@ -125,11 +154,11 @@ export const ButtonLoading: Story = {
     }, []);
 
     return (
-      <Button {...args} loading={loading}>
+      <StoryButton {...args} loading={loading}>
         <TextBox mobileSize={14} desktopSize={14} color="inherit">
           Save changes
         </TextBox>
-      </Button>
+      </StoryButton>
     );
   },
 };
@@ -156,6 +185,110 @@ export const FullWidth: Story = {
   render: (args) => renderButton(args, 'Full width'),
 };
 
+/* -------------------------------- Copy variant -------------------------------- */
+
+export const Copy: Story = {
+  args: {
+    variant: 'copy',
+    textToCopy: 'Hagagagga',
+  },
+  render: (args) => renderButton(args, 'Copy', 600),
+};
+
+export const CopyDefault: Story = {
+  name: 'Copy / Small',
+  args: COPY_DEFAULT_ARGS,
+};
+
+export const CopyCustomLabel: Story = {
+  name: 'Copy / Custom label',
+  args: {
+    variant: 'copy',
+    textToCopy: 'npm install najwer23morsels',
+  },
+  render: (args) => renderButton(args, 'Copy command', 600),
+};
+
+export const CopyCustomSize: Story = {
+  name: 'Copy / Custom size',
+  args: {
+    variant: 'copy',
+    textToCopy: 'Hagagagga',
+    height: '42px',
+    width: '120px',
+    padding: '0 12px',
+  },
+  render: (args) => renderButton(args, 'Copy', 600),
+};
+
+export const CopyFullWidth: Story = {
+  name: 'Copy / Full width',
+  args: {
+    variant: 'copy',
+    textToCopy: 'Hagagagga',
+    height: '42px',
+    width: '100%',
+    padding: '0 12px',
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '320px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  render: (args) => renderButton(args, 'Copy to clipboard', 600),
+};
+
+export const CopyCodeSnippet: Story = {
+  name: 'Copy / Code snippet',
+  args: {
+    variant: 'copy',
+    textToCopy: 'npm install najwer23morsels',
+  },
+  render: (args) => (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '8px 8px 8px 16px',
+        background: '#fff',
+        border: '1px solid #ddd',
+        borderRadius: '12px',
+      }}
+    >
+      <code style={{ fontSize: 14 }}>{args.textToCopy}</code>
+      <StoryButton {...args} height="32px" padding="0 10px" />
+    </div>
+  ),
+};
+
+export const CopyPasteToTest: Story = {
+  name: 'Copy / Paste to test',
+  args: {
+    variant: 'copy',
+    textToCopy: 'Copied from the Button story',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '320px' }}>
+        {renderButton({ ...args, height: '36px', padding: '0 12px' }, 'Copy', 600)}
+        <input
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          placeholder="Click Copy, then paste here (Ctrl/Cmd + V)"
+          style={{ height: 36, padding: '0 10px', boxSizing: 'border-box' }}
+        />
+      </div>
+    );
+  },
+};
+
+/* ---------------------------------- Overview ---------------------------------- */
+
 export const AllVariants: Story = {
   render: () => (
     <div
@@ -166,11 +299,16 @@ export const AllVariants: Story = {
       }}
     >
       {VARIANTS.map((variant) => (
-        <Button key={variant} variant={variant} onClick={action(variant)}>
+        <StoryButton
+          key={variant}
+          variant={variant}
+          textToCopy={variant === 'copy' ? 'Hagagagga' : undefined}
+          onClick={action(variant)}
+        >
           <TextBox mobileSize={14} desktopSize={14} color="inherit">
             {variant}
           </TextBox>
-        </Button>
+        </StoryButton>
       ))}
     </div>
   ),
