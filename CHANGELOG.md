@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.12.0
+
+### Minor Changes
+
+- Grid Split (2 columns diff width)
+
 ## 1.11.0
 
 ### Minor Changes
