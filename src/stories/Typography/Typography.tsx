@@ -2,8 +2,6 @@ import { TextBox, type TextBoxOwnProps } from '../TextBox';
 
 export type TypographyVariant = 'display' | 'heading' | 'subheading' | 'body' | 'caption' | 'link';
 
-export type TypographyAppearance = 'light' | 'dark';
-
 type TypographyPreset = Omit<TextBoxOwnProps, 'children'> & {
   tag?: React.ElementType;
   letterSpacing?: React.CSSProperties['letterSpacing'];
@@ -70,58 +68,26 @@ const VARIANTS: Record<TypographyVariant, TypographyPreset> = {
   },
 };
 
-type TypographyColor = {
-  color: React.CSSProperties['color'];
-  hover?: React.CSSProperties['color'];
-};
-
-const APPEARANCES: Record<TypographyAppearance, Record<TypographyVariant, TypographyColor>> = {
-  light: {
-    display: { color: '#0F1014' },
-    heading: { color: '#14151A' },
-    subheading: { color: '#3f4043' },
-    body: { color: '#26272E' },
-    caption: { color: '#6B6D76' },
-    link: { color: '#C73500', hover: '#C73500' },
-  },
-
-  dark: {
-    display: { color: '#FFFFFF' },
-    heading: { color: '#F7F8FA' },
-    subheading: { color: '#9A9DAA' },
-    body: { color: '#F7F7F8' },
-    caption: { color: '#9A9DAA' },
-    link: { color: '#C73500', hover: '#C73500' },
-  },
-};
-
 type TypographyProps = Partial<TypographyPreset> &
   React.HTMLAttributes<HTMLElement> & {
     variant: TypographyVariant;
-    appearance?: TypographyAppearance;
     href?: string;
     target?: React.HTMLAttributeAnchorTarget;
     rel?: string;
     className?: string;
   };
 
-export const Typography = ({
-  variant,
-  appearance = 'light',
-  style,
-  color,
-  colorHover,
-  ...overrides
-}: TypographyProps) => {
+export const Typography = ({ variant, style, color, colorHover, ...overrides }: TypographyProps) => {
   const preset = VARIANTS[variant];
-  const colors = APPEARANCES[appearance][variant];
+
+  const themePrefix = `--n23m-components-typography-colors-${variant}`;
 
   return (
     <TextBox
       {...preset}
       {...overrides}
-      color={color ?? colors.color}
-      colorHover={colorHover ?? colors.hover}
+      color={color ?? `var(${themePrefix}-color, inherit)`}
+      colorHover={colorHover ?? `var(${themePrefix}-hover, inherit)`}
       style={{
         ...preset.style,
         ...style,

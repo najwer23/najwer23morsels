@@ -57,6 +57,30 @@ export const THEMES: Record<string, ThemeConfig> = {
           },
         },
       },
+
+      typography: {
+        colors: {
+          display: {
+            color: '#0F1014',
+          },
+          heading: {
+            color: '#14151A',
+          },
+          subheading: {
+            color: '#3F4043',
+          },
+          body: {
+            color: '#26272E',
+          },
+          caption: {
+            color: '#6B6D76',
+          },
+          link: {
+            color: '#C73500',
+            hover: '#C73500',
+          },
+        },
+      },
     },
   },
 };

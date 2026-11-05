@@ -30,10 +30,29 @@ export interface ThemeButton {
   variants: ThemeButtonVariants;
 }
 
+export interface ThemeTypographyColor {
+  color: string;
+  hover?: string;
+}
+
+export interface ThemeTypographyColors {
+  display: ThemeTypographyColor;
+  heading: ThemeTypographyColor;
+  subheading: ThemeTypographyColor;
+  body: ThemeTypographyColor;
+  caption: ThemeTypographyColor;
+  link: ThemeTypographyColor;
+}
+
+export interface ThemeTypography {
+  colors: ThemeTypographyColors;
+}
+
 export interface ThemeConfig {
   name: string;
 
   components: {
     button: ThemeButton;
+    typography: ThemeTypography;
   };
 }
