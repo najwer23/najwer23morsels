@@ -1,211 +1,224 @@
 # najwer23morsels
 
+## 1.13.1
+
+### Patch Changes
+
+- Improved Button loading state and visual consistency
+- Refined ButtonCopy animation and interaction feedback
+
+## 1.13.0
+
+### Minor Changes
+
+- Added Validator utility for reusable input validation
+
 ## 1.12.0
 
 ### Minor Changes
 
-- Grid Split (2 columns diff width)
+- Added Grid Split layout with two columns and customizable widths
 
 ## 1.11.0
 
 ### Minor Changes
 
-- Variants
+- Introduced component variants for greater customization
 
 ## 1.10.0
 
 ### Minor Changes
 
-- Table
+- Added Table component for structured data presentation
 
 ## 1.9.0
 
 ### Minor Changes
 
-- NavigationDashboard
+- Added NavigationDashboard component with responsive sidebar navigation
 
 ## 1.8.0
 
 ### Minor Changes
 
-- Typography
+- Added Typography component with multiple text variants and appearance options
 
 ## 1.7.0
 
 ### Minor Changes
 
-- ButtonCopy
+- Added ButtonCopy component for copying content to the clipboard
 
 ## 1.6.0
 
 ### Minor Changes
 
-- FormSignUp
+- Added FormSignUp component for user registration
 
 ## 1.5.0
 
 ### Minor Changes
 
-- FormForgotPassOtp
+- Added FormForgotPassOtp component for OTP-based password recovery
 
 ## 1.4.0
 
 ### Minor Changes
 
-- FormForgotPass
+- Added FormForgotPass component for password recovery
 
 ## 1.3.0
 
 ### Minor Changes
 
-- FormLogin
+- Added FormLogin component for user authentication
 
 ## 1.2.0
 
 ### Minor Changes
 
-- LoaderDots
+- Added LoaderDots component for animated loading indicators
 
 ## 1.1.0
 
 ### Minor Changes
 
-- NavigationTabs
+- Added NavigationTabs component for tab-based navigation
 
 ## 0.22.0
 
 ### Minor Changes
 
-- Dialog
+- Added Dialog component for modal interactions
 
 ## 0.21.0
 
 ### Minor Changes
 
-- Calendar
+- Added Calendar component for date selection
 
 ## 0.20.0
 
 ### Minor Changes
 
-- Select
+- Added Select component for dropdown selection
 
 ## 0.19.5
 
 ### Minor Changes
 
-- Removed CodeParser
+- Removed CodeParser component
 
 ## 0.17.1
 
 ### Patch Changes
 
-- Test
+- Added tests and minor improvements
 
 ## 0.17.0
 
 ### Minor Changes
 
-- CopyButton
+- Added CopyButton component for clipboard interactions
 
 ## 0.16.0
 
 ### Minor Changes
 
-- Footer
+- Added Footer component
 
 ## 0.15.0
 
 ### Minor Changes
 
-- Form
+- Added Form component for form layouts and interactions
 
 ## 0.14.0
 
 ### Minor Changes
 
-- Input & Textarea
+- Added Input and Textarea components for text entry
 
 ## 0.13.0
 
 ### Minor Changes
 
-- Masonry
+- Added Masonry component for responsive grid layouts
 
 ## 0.12.0
 
 ### Minor Changes
 
-- Picture
+- Added Picture component for responsive image presentation
 
 ## 0.10.0
 
 ### Minor Changes
 
-- Ininifty Slider Scroll and Multi items Slider
+- Added Infinite Slider Scroll and Multi-Item Slider components
 
 ## 0.9.0
 
 ### Minor Changes
 
-- Slider Scroll
+- Added Slider Scroll component for horizontal scrolling content
 
 ## 0.8.0
 
 ### Minor Changes
 
-- CodeParser
+- Added CodeParser component for parsing and displaying code
 
 ## 0.7.2
 
 ### Patch Changes
 
-- Icons as SVG component
+- Added SVG support for Icons component
 
 ## 0.7.1
 
 ### Patch Changes
 
-- Slider swipe events on mobile
+- Improved Slider swipe interactions on mobile devices
 
 ## 0.7.0
 
 ### Minor Changes
 
-- Button
+- Added Button component for interactive actions
 
 ## 0.6.0
 
 ### Minor Changes
 
-- Grid
+- Added Grid component for responsive layouts
 
 ## 0.5.0
 
 ### Minor Changes
 
-- Loader
+- Added Loader component for loading states
 
 ## 0.4.0
 
 ### Minor Changes
 
-- Slider!
+- Added Slider component for interactive content navigation
 
 ## 0.3.0
 
 ### Minor Changes
 
-- Slider without styles for arrows
+- Added Slider component with customizable arrow styling
 
 ## 0.2.0
 
 ### Minor Changes
 
-- TextBox
+- Added TextBox component for consistent text presentation
 
 ## 0.0.1
 
 ### Patch Changes
 
-- Init
+- Initial package release
