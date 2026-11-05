@@ -222,7 +222,7 @@ export const Table: React.FC<TableProps> = ({
                   </Button>
                 )}
 
-                <Button type="submit" variant="success" disabled={isCellEditPending || isCellDeletePending}>
+                <Button type="submit" variant="primary" disabled={isCellEditPending || isCellDeletePending}>
                   <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                     Save changes
                   </TextBox>
