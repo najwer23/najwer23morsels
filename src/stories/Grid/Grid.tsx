@@ -1,71 +1,10 @@
 import React from 'react';
-import { Loader } from '../Loader';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Grid.module.css';
+import { GridColumnsProps, GridContainerProps, GridFlexProps, GridSplitProps, SplitTrack } from './Grid.types';
+import { toTemplate } from './Grid.utils';
 
-interface Gap {
-  col?: string;
-  row?: string;
-}
-
-interface Col {
-  mobile: number;
-  tablet: number;
-  smallDesktop: number;
-  desktop: number;
-}
-
-type GridBase = React.PropsWithChildren<
-  React.HTMLAttributes<HTMLDivElement> & {
-    as?: React.ElementType;
-    widthMin?: React.CSSProperties['width'];
-    widthMax?: React.CSSProperties['width'];
-    padding?: React.CSSProperties['padding'];
-    margin?: React.CSSProperties['margin'];
-    minHeight?: React.CSSProperties['minHeight'];
-    loading?: boolean;
-    loaderTextPosition?: React.ComponentProps<typeof Loader>['textPosition'];
-    style?: React.CSSProperties;
-  }
->;
-
-export type GridContainerProps = GridBase & {
-  layout: 'container';
-  gap?: Gap;
-  justifyContent?: never;
-  alignItems?: never;
-  flexWrap?: never;
-  col?: never;
-  flexDirection?: never;
-};
-
-export type GridFlexProps = GridBase & {
-  layout: 'flex';
-  gap?: Gap;
-  justifyContent?: React.CSSProperties['justifyContent'];
-  alignItems?: React.CSSProperties['alignItems'];
-  flexWrap?: React.CSSProperties['flexWrap'];
-  col?: never;
-  flexDirection?: React.CSSProperties['flexDirection'];
-};
-
-export type GridColumnsProps = GridBase & {
-  layout: 'columns';
-  gap?: Gap;
-  col: Partial<Col>;
-  justifyContent?: never;
-  alignItems?: never;
-  flexWrap?: never;
-  flexDirection?: never;
-};
-
-const LAYOUT_CLASS = {
-  container: 'n23mGridContainer',
-  flex: 'n23mGridFlex',
-  columns: 'n23mGridColumns',
-} as const;
-
-export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProps> = ({
+export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProps | GridSplitProps> = ({
   as: Tag = 'div',
   children,
   widthMin = '0px',
@@ -75,7 +14,7 @@ export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProp
   layout,
   gap,
   col,
-  loading = false,
+  split,
   loaderTextPosition = 'center',
   justifyContent,
   alignItems,
@@ -86,19 +25,16 @@ export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProp
   style,
   ...props
 }) => {
-  const layoutClass = LAYOUT_CLASS[layout];
+  const layoutClass = {
+    container: 'n23mGridContainer',
+    flex: 'n23mGridFlex',
+    columns: 'n23mGridColumns',
+    split: 'n23mGridSplit',
+  }[layout];
 
   return (
     <Tag
-      className={[
-        styles[layoutClass],
-        layoutClass,
-        loading && styles.n23mGridLoading,
-        loading && 'n23mGridLoading',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      className={[styles[layoutClass], layoutClass, className].filter(Boolean).join(' ')}
       style={{
         ...getCssVariableStyle({
           '--grid-p': padding,
@@ -117,16 +53,17 @@ export const Grid: React.FC<GridColumnsProps | GridFlexProps | GridContainerProp
           '--grid-ct': col?.tablet?.toString(),
           '--grid-csd': col?.smallDesktop?.toString(),
           '--grid-cd': col?.desktop?.toString(),
+          // split: same fallback behaviour
+          '--grid-sm': toTemplate(split?.mobile),
+          '--grid-st': toTemplate(split?.tablet),
+          '--grid-ssd': toTemplate(split?.smallDesktop),
+          '--grid-sdk': toTemplate(split?.desktop),
         }),
         ...style,
       }}
       {...props}
     >
-      {loading ? (
-        <Loader minHeight={minHeight !== undefined ? `${minHeight}` : 'auto'} textPosition={loaderTextPosition} />
-      ) : (
-        children
-      )}
+      {children}
     </Tag>
   );
 };

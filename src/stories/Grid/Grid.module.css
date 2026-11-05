@@ -1,7 +1,8 @@
 @layer n23mGrid {
   .n23mGridFlex,
   .n23mGridContainer,
-  .n23mGridColumns {
+  .n23mGridColumns,
+  .n23mGridSplit {
     max-width: var(--grid-wx, none);
     min-width: var(--grid-wn, 0);
     min-height: var(--grid-mh, auto);
@@ -22,12 +23,6 @@
     align-items: var(--grid-ai, center);
     flex-direction: var(--grid-fd, row);
     flex-wrap: var(--grid-fw, nowrap);
-  }
-
-  .n23mGridLoading > * {
-    flex: 1 1 100%;
-    width: 100%;
-    max-width: 100%;
   }
 
   .n23mGridColumns {
@@ -61,6 +56,43 @@
   @media (min-width: 1600px) {
     .n23mGridColumns {
       --gfc: var(--_d);
+    }
+  }
+
+  .n23mGridSplit {
+    display: grid;
+    width: 100%;
+    column-gap: var(--grid-cg, 0px);
+    row-gap: var(--grid-rg, 0px);
+    align-items: var(--grid-ai, stretch);
+
+    --_sm: var(--grid-sm, 1fr);
+    --_st: var(--grid-st, var(--_sm));
+    --_ssd: var(--grid-ssd, var(--_st));
+    --_sdk: var(--grid-sdk, var(--_ssd));
+
+    grid-template-columns: var(--_sm);
+  }
+
+  .n23mGridSplit > * {
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    .n23mGridSplit {
+      grid-template-columns: var(--_st);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .n23mGridSplit {
+      grid-template-columns: var(--_ssd);
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .n23mGridSplit {
+      grid-template-columns: var(--_sdk);
     }
   }
 }

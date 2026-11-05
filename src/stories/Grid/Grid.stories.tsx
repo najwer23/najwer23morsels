@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { TextBox } from '../TextBox';
-import { Grid, GridColumnsProps, GridContainerProps, GridFlexProps } from './Grid';
+import { Grid } from './Grid';
+import { GridColumnsProps, GridContainerProps, GridFlexProps, GridSplitProps } from './Grid.types';
 
 type GridContainerStory = StoryObj<GridContainerProps>;
 type GridFlexStory = StoryObj<GridFlexProps>;
 type GridColumnsStory = StoryObj<GridColumnsProps>;
+type GridSplitStory = StoryObj<GridSplitProps>;
 
 const meta: Meta<typeof Grid> = {
   title: 'Grid/Grid',
@@ -15,13 +17,16 @@ const meta: Meta<typeof Grid> = {
     docs: {
       description: {
         component: `
-This is a grid component that can be used to create responsive layouts. It supports three layouts:
+This is a grid component that can be used to create responsive layouts. It supports four layouts:
 
 - \`container\`: a centered box with max/min width, padding and margin
 - \`flex\`: a flex row/column with justify, align, wrap and gap
-- \`columns\`: a responsive column grid driven by \`col\`
+- \`columns\`: a responsive column grid driven by \`col\` (equal columns)
+- \`split\`: a responsive grid driven by \`split\` (custom track widths per breakpoint, e.g. fixed + fluid)
 
-Breakpoints for \`columns\`: mobile < 768px, tablet >= 768px, smallDesktop >= 1200px, desktop >= 1600px. A missing breakpoint falls back to the next smaller one.
+Breakpoints for \`columns\` and \`split\`: mobile < 768px, tablet >= 768px, smallDesktop >= 1200px, desktop >= 1600px. A missing breakpoint falls back to the next smaller one.
+
+\`split\` accepts a single track (\`'1fr'\` = stacked) or a \`[first, second]\` tuple per breakpoint. Any CSS track size works: \`400px\`, \`1fr\`, \`30%\`, \`minmax(0, 2fr)\`.
 
 \`\`\`tsx
 import { Grid } from 'najwer23morsels/lib/grid';
@@ -273,6 +278,168 @@ export const GridColumnsAsList: GridColumnsStory = {
   ),
 };
 
+/* -------------------------------- split -------------------------------- */
+
+// Children of a split grid should use margin={0} and widthMax="100%",
+// otherwise the Grid defaults (margin: auto, max-width: 1920px) stop them filling their track.
+const SplitChild = ({ label, text }: { label: string; text?: string }) => (
+  <Grid layout="container" widthMax="100%" margin={0} padding="0">
+    <div style={box}>
+      <TextBox mobileSize={14} desktopSize={14}>
+        {label}
+      </TextBox>
+      {text && (
+        <TextBox mobileSize={12} desktopSize={12}>
+          {text}
+        </TextBox>
+      )}
+    </div>
+  </Grid>
+);
+
+export const GridSplitFixedAndFluid: GridSplitStory = {
+  args: {
+    layout: 'split',
+    widthMax: '100%',
+    gap: { col: '20px', row: '20px' },
+    split: {
+      mobile: '1fr',
+      tablet: ['400px', '1fr'],
+    },
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'Stacked below 768px. From 768px up: a fixed 400px column next to a fluid one. Resize the viewport to see the switch.',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ padding: '16px', boxSizing: 'border-box' }}>
+      <Grid {...args}>
+        <SplitChild label="400px (fixed)" />
+        <SplitChild label="1fr (fluid)" text={testText} />
+      </Grid>
+    </div>
+  ),
+};
+
+export const GridSplitDifferentWidthPerBreakpoint: GridSplitStory = {
+  args: {
+    layout: 'split',
+    widthMax: '100%',
+    gap: { col: '20px', row: '20px' },
+    split: {
+      mobile: '1fr',
+      tablet: ['240px', '1fr'],
+      smallDesktop: ['320px', '1fr'],
+      desktop: ['minmax(0, 3fr)', 'minmax(0, 7fr)'],
+    },
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'tablet: 240px + 1fr, smallDesktop: 320px + 1fr, desktop: 30% / 70% (as `fr` so the gap does not cause overflow).',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ padding: '16px', boxSizing: 'border-box' }}>
+      <Grid {...args}>
+        <SplitChild label="Left" text={testText} />
+        <SplitChild label="Right" text={testText} />
+      </Grid>
+    </div>
+  ),
+};
+
+export const GridSplitPartialBreakpoints: GridSplitStory = {
+  args: {
+    layout: 'split',
+    widthMax: '100%',
+    gap: { col: '16px', row: '16px' },
+    split: { mobile: '1fr', smallDesktop: ['1fr', '2fr'] },
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'Only `mobile` and `smallDesktop` are set. Tablet falls back to `mobile` (stacked), then it becomes 1fr / 2fr at 1200px.',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ padding: '16px', boxSizing: 'border-box' }}>
+      <Grid {...args}>
+        <SplitChild label="1fr" />
+        <SplitChild label="2fr" />
+      </Grid>
+    </div>
+  ),
+};
+
+export const GridSplitAlignStart: GridSplitStory = {
+  args: {
+    layout: 'split',
+    widthMax: '100%',
+    alignItems: 'start',
+    gap: { col: '20px', row: '20px' },
+    split: { mobile: '1fr', tablet: ['300px', '1fr'] },
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'Default `alignItems` is `stretch` (equal heights). Here `alignItems="start"` keeps each column at its natural height.',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ padding: '16px', boxSizing: 'border-box' }}>
+      <Grid {...args}>
+        <SplitChild label="Short" />
+        <SplitChild label="Long" text={testText + ' ' + testText} />
+      </Grid>
+    </div>
+  ),
+};
+
+export const GridSplitLoading: GridSplitStory = {
+  args: {
+    layout: 'split',
+    widthMax: '100%',
+    gap: { col: '20px', row: '20px' },
+    split: { mobile: '1fr', tablet: ['300px', '1fr'] },
+    minHeight: '100px',
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: 'The Loader spans both columns, not just the first track.',
+      },
+    },
+  },
+  render: (args) => {
+    const loading = useBlink();
+
+    return (
+      <div style={{ padding: '16px', boxSizing: 'border-box' }}>
+        <Grid {...args} loading={loading}>
+          <SplitChild label="Left" />
+          <SplitChild label="Right" />
+        </Grid>
+      </div>
+    );
+  },
+};
+
 /* ------------------------------- nested -------------------------------- */
 
 export const GridContainerWithColumns: GridColumnsStory = {
@@ -297,6 +464,33 @@ export const GridContainerWithColumns: GridColumnsStory = {
               </TextBox>
             </div>
           ))}
+        </Grid>
+      </Grid>
+    </div>
+  ),
+};
+
+export const GridContainerWithSplit: GridSplitStory = {
+  args: {
+    layout: 'split',
+    widthMax: '100%',
+    gap: { col: '20px', row: '20px' },
+    split: { mobile: '1fr', tablet: ['200px', '1fr'] },
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: 'A split grid nested in a centered container with a max width of 900px.',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ width: '100%' }}>
+      <Grid layout="container" widthMax="900px" padding="0 10px">
+        <Grid {...args}>
+          <SplitChild label="Sidebar (200px)" />
+          <SplitChild label="Content (1fr)" text={testText} />
         </Grid>
       </Grid>
     </div>
