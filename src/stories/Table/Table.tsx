@@ -240,7 +240,7 @@ export const Table: React.FC<TableProps> = ({
           widthMax="900px"
         >
           <Grid layout="container" widthMin="min(500px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
-            <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 10px 0' }}>
+            <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
               {isCellDeleteSuccess ? 'Deleted' : 'Are you sure?'}
             </Typography>
 
