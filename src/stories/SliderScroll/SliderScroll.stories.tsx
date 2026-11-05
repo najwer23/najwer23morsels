@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { TextBox } from '../TextBox';
 import { SliderScroll } from './SliderScroll';
 
 const meta: Meta<typeof SliderScroll> = {
@@ -16,7 +17,7 @@ You can import the SliderScroll component from the library and use it in your ap
 \`\`\`tsx
 import { SliderScroll } from 'najwer23morsels/lib/SliderScroll';
 \`\`\`
-      `,
+        `,
       },
     },
   },
@@ -36,33 +37,65 @@ const slides = [
   { color: 'orangered', label: '7', href: '/here7' },
 ];
 
+const slideStyle: React.CSSProperties = {
+  width: '200px',
+  height: '340px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+
+const Slide = ({ color, label, width = '200px' }: { color: string; label: string; width?: string }) => (
+  <div
+    style={{
+      ...slideStyle,
+      width,
+      background: color,
+    }}
+  >
+    <TextBox color="white" mobileSize={60} desktopSize={60}>
+      {label}
+    </TextBox>
+  </div>
+);
+
+const SlideLink = ({ color, label, href }: { color: string; label: string; href: string }) => (
+  <a
+    draggable={false}
+    href={href}
+    style={{
+      ...slideStyle,
+      background: color,
+      textDecoration: 'none',
+    }}
+  >
+    <TextBox color="white" mobileSize={60} desktopSize={60}>
+      {label}
+    </TextBox>
+  </a>
+);
+
+const renderSlides = (differentSizes = false) =>
+  slides.map(({ label, color }, index) => (
+    <Slide
+      key={label}
+      color={color}
+      label={label}
+      width={differentSizes ? `${[180, 220, 260, 300, 320, 240, 200][index]}px` : undefined}
+    />
+  ));
+
+const renderSlider = (args: Story['args'], children: React.ReactNode) => (
+  <div style={{ width: 'min(700px, calc(100vw - 50px))', height: '400px' }}>
+    <SliderScroll {...args}>{children}</SliderScroll>
+  </div>
+);
+
 export const Default: Story = {
   args: {
     gap: '10px',
   },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <SliderScroll {...args}>
-        {slides.map(({ label }, i) => (
-          <div
-            key={i}
-            style={{
-              width: '200px',
-              height: '340px',
-              background: slides[i].color,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
-            }}
-          >
-            {label}
-          </div>
-        ))}
-      </SliderScroll>
-    </div>
-  ),
+  render: (args) => renderSlider(args, renderSlides()),
 };
 
 export const SliderScrollCircular: Story = {
@@ -70,29 +103,7 @@ export const SliderScrollCircular: Story = {
     gap: '10px',
     isCircular: true,
   },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <SliderScroll {...args}>
-        {slides.map(({ label }, i) => (
-          <div
-            key={i}
-            style={{
-              width: '200px',
-              height: '340px',
-              background: slides[i].color,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
-            }}
-          >
-            {label}
-          </div>
-        ))}
-      </SliderScroll>
-    </div>
-  ),
+  render: (args) => renderSlider(args, renderSlides()),
 };
 
 export const SliderScrollCircularDifferentSizes: Story = {
@@ -100,34 +111,7 @@ export const SliderScrollCircularDifferentSizes: Story = {
     gap: '10px',
     isCircular: true,
   },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <SliderScroll {...args}>
-        {slides.map(({ label, color }, i) => {
-          // Random width between 180 and 320 px, rounded to nearest 10px
-          const randomWidth = `${Math.round(180 + Math.random() * 140)}px`;
-
-          return (
-            <div
-              key={i}
-              style={{
-                width: randomWidth,
-                height: '340px',
-                background: color,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: 'white',
-                fontSize: '40px',
-              }}
-            >
-              {label}
-            </div>
-          );
-        })}
-      </SliderScroll>
-    </div>
-  ),
+  render: (args) => renderSlider(args, renderSlides(true)),
 };
 
 export const SliderScrollCircularDifferentSizesAutoplay: Story = {
@@ -137,96 +121,53 @@ export const SliderScrollCircularDifferentSizesAutoplay: Story = {
     autoPlay: true,
     autoPlaySpeed: 0.5,
   },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <SliderScroll {...args}>
-        {slides.map(({ label, color }, i) => {
-          // Random width between 180 and 320 px, rounded to nearest 10px
-          const randomWidth = `${Math.round(180 + Math.random() * 140)}px`;
-
-          return (
-            <div
-              key={i}
-              style={{
-                width: randomWidth,
-                height: '340px',
-                background: color,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: 'white',
-                fontSize: '40px',
-              }}
-            >
-              {label}
-            </div>
-          );
-        })}
-      </SliderScroll>
-    </div>
-  ),
+  render: (args) => renderSlider(args, renderSlides(true)),
 };
 
 export const SliderScrollWithLinksAsItem: Story = {
   args: {
     gap: '10px',
   },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <SliderScroll {...args}>
-        {slides.map(({ label, href }, i) => (
-          <a
-            draggable="false"
-            href={href}
-            key={i}
-            style={{
-              width: '200px',
-              height: '340px',
-              background: slides[i].color,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white',
-              fontSize: '40px',
-            }}
-          >
-            {label}
-          </a>
-        ))}
-      </SliderScroll>
-    </div>
-  ),
+  render: (args) =>
+    renderSlider(
+      args,
+      slides.map(({ label, color, href }) => <SlideLink key={label} color={color} label={label} href={href} />),
+    ),
 };
 
 export const SliderScrollWithImgLinksAsItem: Story = {
   args: {
     gap: '10px',
   },
-  render: (args) => (
-    <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
-      <SliderScroll {...args}>
-        {Array.from({ length: 20 }, (_, i) => (
-          <a
-            draggable="false"
-            href="/jkg"
-            key={i}
+  render: (args) =>
+    renderSlider(
+      args,
+      Array.from({ length: 20 }, (_, index) => (
+        <a
+          draggable={false}
+          href="/jkg"
+          key={index}
+          style={{
+            display: 'block',
+            width: '300px',
+            height: '340px',
+            flexShrink: 0,
+          }}
+        >
+          <img
+            draggable={false}
+            src={`https://picsum.photos/seed/slider-${index}/300/340`}
+            alt={`Slide ${index + 1}`}
+            width={300}
+            height={340}
             style={{
+              height: '100%',
+              width: '100%',
+              objectFit: 'cover',
               display: 'block',
-              width: '300px',
-              height: '340px',
             }}
-          >
-            <img
-              draggable="false"
-              src="https://picsum.photos/300/340"
-              alt=""
-              width="300px"
-              height="340px"
-              style={{ height: '100%', width: 'auto', display: 'block' }}
-            />
-          </a>
-        ))}
-      </SliderScroll>
-    </div>
-  ),
+          />
+        </a>
+      )),
+    ),
 };

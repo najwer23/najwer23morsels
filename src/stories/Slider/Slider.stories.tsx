@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { action } from 'storybook/actions';
+import { TextBox } from '../TextBox';
 import { Slider } from '.';
 
 const meta: Meta<typeof Slider> = {
@@ -17,7 +18,7 @@ You can import the Slider component from the library and use it in your applicat
 \`\`\`tsx
 import { Slider } from 'najwer23morsels/lib/Slider';
 \`\`\`
-      `,
+        `,
       },
     },
   },
@@ -28,12 +29,10 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const slideStyle = {
+const slideStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  color: 'white',
-  fontSize: '40px',
 };
 
 const slides = [
@@ -44,15 +43,27 @@ const slides = [
   { color: 'pink', label: '5', action: action('on-click-5') },
 ];
 
+const Slide = ({ color, label, onClick }: { color: string; label: string; onClick?: () => void }) => (
+  <div
+    style={{
+      background: color,
+      ...slideStyle,
+    }}
+    onClick={onClick}
+  >
+    <TextBox color="white" mobileSize={60} desktopSize={60}>
+      {label}
+    </TextBox>
+  </div>
+);
+
 export const Default: Story = {
   args: {},
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
-        {slides.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
+        {slides.map(({ color, label, action }) => (
+          <Slide key={label} color={color} label={label} onClick={action} />
         ))}
       </Slider>
     </div>
@@ -66,10 +77,8 @@ export const SliderCircular: Story = {
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
-        {slides.map(({ color, label, action }, i) => (
-          <div key={i} style={{ background: color, ...slideStyle }} onClick={action}>
-            {label}
-          </div>
+        {slides.map(({ color, label, action }) => (
+          <Slide key={label} color={color} label={label} onClick={action} />
         ))}
       </Slider>
     </div>
@@ -93,10 +102,8 @@ export const SliderLoading: Story = {
       return (
         <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
           <Slider loading={loading}>
-            {slides.map(({ color, label, action }, i) => (
-              <div key={i + 100} style={{ background: color, ...slideStyle }} onClick={action}>
-                {label}
-              </div>
+            {slides.map(({ color, label, action }) => (
+              <Slide key={`loading-${label}`} color={color} label={label} onClick={action} />
             ))}
           </Slider>
         </div>
@@ -128,9 +135,7 @@ export const Slider1Slide: Story = {
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
-        <div style={{ background: slides[0].color, ...slideStyle }} onClick={slides[0].action}>
-          {slides[0].label}
-        </div>
+        <Slide color={slides[0].color} label={slides[0].label} onClick={slides[0].action} />
       </Slider>
     </div>
   ),
@@ -157,18 +162,10 @@ export const Slider2Slides: Story = {
   render: (args) => (
     <div style={{ width: 'min(700px,calc(100vw - 50px))', height: '400px' }}>
       <Slider {...args}>
-        <div style={{ background: slides[0].color, ...slideStyle }} onClick={slides[0].action}>
-          {slides[0].label}
-        </div>
-        <div style={{ background: slides[1].color, ...slideStyle }} onClick={slides[1].action}>
-          {slides[1].label}
-        </div>
-        <div style={{ background: slides[0].color, ...slideStyle }} onClick={slides[0].action}>
-          {slides[0].label}
-        </div>
-        <div style={{ background: slides[1].color, ...slideStyle }} onClick={slides[1].action}>
-          {slides[1].label}
-        </div>
+        <Slide color={slides[0].color} label={slides[0].label} onClick={slides[0].action} />
+        <Slide color={slides[1].color} label={slides[1].label} onClick={slides[1].action} />
+        <Slide color={slides[0].color} label={slides[0].label} onClick={slides[0].action} />
+        <Slide color={slides[1].color} label={slides[1].label} onClick={slides[1].action} />
       </Slider>
     </div>
   ),
