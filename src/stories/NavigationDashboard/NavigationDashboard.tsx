@@ -4,7 +4,7 @@ import { Grid } from '../Grid';
 import { useWindowSize } from '../hooks';
 import { IconAside } from '../Icons';
 import { NavigationTabs } from '../NavigationTabs';
-import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './NavigationDashboard.module.css';
 
@@ -240,21 +240,19 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
               justifyContent="flex-start"
               gap={{ col: '15px', row: '0px' }}
               alignItems="center"
-              minHeight={'100%'}
+              minHeight="100%"
             >
               {showAside && (
                 <Grid layout="flex" justifyContent="flex-start" margin={0}>
                   <Button
+                    type="button"
+                    variant="secondary"
                     onClick={toggleSidebar}
-                    height={'40px'}
-                    width={'40px'}
-                    backgroundColor="#F2F0EF"
-                    backgroundColorDisabled="#F2F0EF"
-                    borderColor="black"
+                    height="40px"
+                    width="40px"
+                    padding={0}
                   >
-                    <TextBox tag={'div'} mobileSize={0} desktopSize={0} margin={'2px 0 0'}>
-                      <IconAside open={isSidebarOpenState} width={20} height={20} />
-                    </TextBox>
+                    <IconAside open={isSidebarOpenState} width={20} height={20} />
                   </Button>
                 </Grid>
               )}
@@ -266,7 +264,7 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
         />
       </div>
 
-      <Grid layout="container" padding="0 20px 0 0" widthMin={'100%'}>
+      <Grid layout="container" padding="0 20px 0 0" widthMin="100%">
         <div
           className={[styles.row, showAside ? isSidebarOpen && styles.rowOpen : styles.rowNoAside]
             .filter(Boolean)
@@ -289,17 +287,19 @@ export const NavigationDashboard: React.FC<NavigationDashboardProps> = ({
             {showAside && (
               <div className={styles.toggleAnchor}>
                 <Button
+                  type="button"
+                  variant="secondary"
                   height="60px"
                   width="10px"
-                  backgroundColor="#F2F0EF"
-                  borderColor="black"
-                  type="button"
+                  padding={0}
                   onClick={handleClick}
                   onPointerDown={handlePointerDown}
                   onPointerMove={handlePointerMove}
                   onPointerUp={endDrag}
                   onPointerCancel={endDrag}
                   className={[isSidebarOpen ? styles.toggleOpen : styles.toggleClosed].join(' ')}
+                  aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                  aria-expanded={isSidebarOpen}
                 >
                   <div>|</div>
                 </Button>

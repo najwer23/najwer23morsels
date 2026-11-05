@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Grid } from '../Grid';
-import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import { NavigationDashboard } from '.';
 
 const meta: Meta<typeof NavigationDashboard> = {
@@ -43,9 +43,12 @@ const NAV_ITEMS = ['Overview', 'Analytics', 'Reports', 'Users', 'Settings'];
 const NavigationLinks = ({ items = NAV_ITEMS }: { items?: string[] }) => (
   <nav aria-label="Dashboard navigation" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
     {items.map((item, index) => (
-      <a
+      <Typography
         key={item}
+        variant="link"
         href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+        desktopSize={16}
+        mobileSize={16}
         style={{
           display: 'block',
           padding: '10px 12px',
@@ -59,7 +62,7 @@ const NavigationLinks = ({ items = NAV_ITEMS }: { items?: string[] }) => (
         }}
       >
         {item}
-      </a>
+      </Typography>
     ))}
   </nav>
 );
@@ -85,8 +88,13 @@ const MainContent = ({
   minHeight?: number;
 }) => (
   <main style={{ minHeight, width: '100%' }}>
-    <h1 style={{ marginTop: 0 }}>{title}</h1>
-    <p>Drag the divider to resize the sidebar, or click it to collapse and reopen the sidebar.</p>
+    <Typography variant="heading" tag="h1" desktopSize={32} mobileSize={28} style={{ marginTop: 0 }}>
+      {title}
+    </Typography>
+
+    <Typography variant="body" tag="p" desktopSize={16} mobileSize={16}>
+      Drag the divider to resize the sidebar, or click it to collapse and reopen the sidebar.
+    </Typography>
 
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 24 }}>
       {Array.from({ length: cards }, (_, index) => {
@@ -97,8 +105,20 @@ const MainContent = ({
             key={index}
             style={{ minWidth: 200, flex: '1 1 200px', padding: 20, border: '1px solid #ddd', borderRadius: 8 }}
           >
-            <p style={{ margin: '0 0 8px', color: '#666' }}>{label}</p>
-            <strong style={{ fontSize: 24 }}>{value}</strong>
+            <Typography
+              variant="body"
+              tag="p"
+              desktopSize={14}
+              mobileSize={14}
+              color="#666"
+              style={{ margin: '0 0 8px' }}
+            >
+              {label}
+            </Typography>
+
+            <Typography variant="heading" tag="p" desktopSize={24} mobileSize={24}>
+              {value}
+            </Typography>
           </section>
         );
       })}
@@ -108,9 +128,9 @@ const MainContent = ({
 
 const defaultArgs = {
   menuTopLeftColumn: (
-    <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
-      <TextBox
-        tag="a"
+    <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight="100%">
+      <Typography
+        variant="link"
         href="https://najwer23.github.io/hol/"
         desktopSize={20}
         mobileSize={20}
@@ -119,13 +139,13 @@ const defaultArgs = {
         target="_blank"
       >
         Link
-      </TextBox>
+      </Typography>
     </Grid>
   ),
   menuTopRightColumn: (
-    <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight={'100%'}>
-      <TextBox
-        tag="a"
+    <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight="100%">
+      <Typography
+        variant="link"
         href="https://najwer23.github.io/hol/"
         desktopSize={16}
         mobileSize={16}
@@ -134,7 +154,7 @@ const defaultArgs = {
         target="_blank"
       >
         hola
-      </TextBox>
+      </Typography>
     </Grid>
   ),
   menuMobile: <NavigationLinks />,
@@ -151,10 +171,14 @@ export const CustomContent: Story = {
     ...defaultArgs,
     aside: (
       <div>
-        <h3 style={{ marginTop: 0 }}>Workspace</h3>
+        <Typography variant="heading" tag="h3" desktopSize={20} mobileSize={20}>
+          Workspace
+        </Typography>
         <NavigationLinks />
         <hr style={{ margin: '24px 0' }} />
-        <p style={{ color: '#666', fontSize: 13 }}>Workspace: Production</p>
+        <Typography variant="caption" tag="p" desktopSize={13} mobileSize={13} color="#666">
+          Workspace: Production
+        </Typography>
       </div>
     ),
     outlet: <MainContent title="Analytics" />,
@@ -166,8 +190,12 @@ export const MinimalSidebar: Story = {
     ...defaultArgs,
     aside: (
       <div>
-        <h3 style={{ marginTop: 0 }}>Menu</h3>
-        <p>Small sidebar content.</p>
+        <Typography variant="heading" tag="h3" desktopSize={20} mobileSize={20}>
+          Menu
+        </Typography>
+        <Typography variant="body" tag="p" desktopSize={16} mobileSize={16}>
+          Small sidebar content.
+        </Typography>
       </div>
     ),
     outlet: <MainContent title="Minimal sidebar content" cards={2} minHeight={300} />,
@@ -187,7 +215,9 @@ export const LongSidebar: Story = {
     ...defaultArgs,
     aside: (
       <div>
-        <h3 style={{ marginTop: 0 }}>Navigation</h3>
+        <Typography variant="heading" tag="h3" desktopSize={20} mobileSize={20}>
+          Navigation
+        </Typography>
         <NavigationLinks items={Array.from({ length: 40 }, (_, i) => `Section ${i + 1}`)} />
       </div>
     ),

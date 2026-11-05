@@ -32,4 +32,6 @@ export const BUTTON_VARIANTS: Record<
 
   // Unavailable state: shown for variant="disabled" or the disabled prop. Flat grey.
   disabled: { background: '#CFCFCF', border: '#C8C8C8', text: '#555555', focus: '#8A8A8A' },
+
+  // Subtle UI controls: Sidebar toggles, toolbar controls, button with arrows.
 };
