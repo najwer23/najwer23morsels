@@ -10,6 +10,7 @@ import { Select } from '../Select';
 import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
+import { VALIDATOR_MESSAGE_COLORS } from '../validator/validator.const';
 import styles from './Table.module.css';
 import { TableCellDelete, TableCellEdit, TableColumn, TableRow } from './Table.types';
 
@@ -134,7 +135,7 @@ export const Table: React.FC<TableProps> = ({
       {isEditable && (
         <Dialog open={isOpenDialogEditCell} onCancel={handleOnClose} widthMax="900px">
           <Grid layout="container" widthMin="min(800px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
-            <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+            <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
               Edit Cell
             </Typography>
 
@@ -211,30 +212,18 @@ export const Table: React.FC<TableProps> = ({
                 {isDeletable && (
                   <Button
                     type="button"
-                    height="40px"
-                    width="auto"
-                    padding="0 10px"
+                    variant="danger"
                     disabled={isCellEditPending || isCellDeletePending}
-                    backgroundColor="red"
-                    backgroundColorDisabled="grey"
                     onClick={handleOnDel}
                   >
-                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                       Delete
                     </TextBox>
                   </Button>
                 )}
 
-                <Button
-                  type="submit"
-                  height="40px"
-                  width="auto"
-                  padding="0 10px"
-                  disabled={isCellEditPending || isCellDeletePending}
-                  backgroundColor="#4BB543"
-                  backgroundColorDisabled="grey"
-                >
-                  <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                <Button type="submit" variant="success" disabled={isCellEditPending || isCellDeletePending}>
+                  <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                     Save changes
                   </TextBox>
                 </Button>
@@ -248,36 +237,44 @@ export const Table: React.FC<TableProps> = ({
         <Dialog
           open={isOpenDialogDeleteCell}
           onCancel={isCellDeleteSuccess ? handleOnDelClose : handleOnDelCancel}
-          widthMax="450px"
+          widthMax="900px"
         >
-          <Grid layout="container" widthMin="min(400px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
-            <Typography appearance="light" variant="subheading" style={{ margin: '0 0 10px 0' }}>
+          <Grid layout="container" widthMin="min(500px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
+            <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 10px 0' }}>
               {isCellDeleteSuccess ? 'Deleted' : 'Are you sure?'}
             </Typography>
 
             {!isCellDeleteSuccess && (
-              <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={400} color="black">
+              <Typography variant="body" tag="p" desktopSize={16} mobileSize={16} fontWeight={400}>
                 This row will be permanently deleted. This action cannot be undone.
-              </TextBox>
+              </Typography>
             )}
 
             {isCellDeleteError && !isCellDeleteSuccess && (
-              <TextBox
+              <Typography
+                variant="body"
                 tag="p"
                 desktopSize={16}
                 mobileSize={16}
                 fontWeight={400}
-                color="red"
+                color={VALIDATOR_MESSAGE_COLORS.error}
                 style={{ margin: '10px 0 0 0' }}
               >
                 {cellDeleteErrorMsg ?? 'Delete failed'}
-              </TextBox>
+              </Typography>
             )}
 
             {isCellDeleteSuccess && (
-              <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={400} color="#4BB543">
+              <Typography
+                variant="body"
+                tag="p"
+                desktopSize={16}
+                mobileSize={16}
+                fontWeight={400}
+                color={VALIDATOR_MESSAGE_COLORS.success}
+              >
                 {cellDeleteSuccessMsg ?? 'Row deleted'}
-              </TextBox>
+              </Typography>
             )}
 
             <Grid
@@ -288,46 +285,21 @@ export const Table: React.FC<TableProps> = ({
               margin="20px 0 0 0"
             >
               {isCellDeleteSuccess ? (
-                <Button
-                  type="button"
-                  height="40px"
-                  width="auto"
-                  padding="0 10px"
-                  backgroundColor="#4BB543"
-                  onClick={handleOnDelClose}
-                >
-                  <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                <Button type="button" variant="success" onClick={handleOnDelClose}>
+                  <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                     Close
                   </TextBox>
                 </Button>
               ) : (
                 <>
-                  <Button
-                    type="button"
-                    height="40px"
-                    width="auto"
-                    padding="0 10px"
-                    disabled={isCellDeletePending}
-                    backgroundColor="grey"
-                    backgroundColorDisabled="grey"
-                    onClick={handleOnDelCancel}
-                  >
-                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                  <Button type="button" variant="secondary" disabled={isCellDeletePending} onClick={handleOnDelCancel}>
+                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                       Cancel
                     </TextBox>
                   </Button>
 
-                  <Button
-                    type="button"
-                    height="40px"
-                    width="auto"
-                    padding="0 10px"
-                    disabled={isCellDeletePending}
-                    backgroundColor="red"
-                    backgroundColorDisabled="grey"
-                    onClick={handleOnDelConfirm}
-                  >
-                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                  <Button type="button" variant="danger" disabled={isCellDeletePending} onClick={handleOnDelConfirm}>
+                    <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                       Yes, delete
                     </TextBox>
                   </Button>
@@ -343,9 +315,16 @@ export const Table: React.FC<TableProps> = ({
           <tr>
             {tableColumns.map((col) => (
               <th key={col.cellName} scope="col">
-                <TextBox mobileSize={16} desktopSize={20} color="black" textAlign={col.thAlign ?? 'left'}>
+                <Typography
+                  variant="body"
+                  tag="span"
+                  mobileSize={16}
+                  desktopSize={20}
+                  color="black"
+                  textAlign={col.thAlign ?? 'left'}
+                >
                   {col.cellText}
-                </TextBox>
+                </Typography>
               </th>
             ))}
           </tr>
@@ -372,7 +351,9 @@ export const Table: React.FC<TableProps> = ({
                       data-clickable={isEditable}
                       onClick={isEditable ? () => handleOnCellClick(row) : undefined}
                     >
-                      <TextBox
+                      <Typography
+                        variant="body"
+                        tag="span"
                         fontWeight={400}
                         mobileSize={16}
                         desktopSize={16}
@@ -380,7 +361,7 @@ export const Table: React.FC<TableProps> = ({
                         textAlign={col.tdAlign ?? 'left'}
                       >
                         {value === undefined ? '' : String(value)}
-                      </TextBox>
+                      </Typography>
                     </td>
                   );
                 })}
