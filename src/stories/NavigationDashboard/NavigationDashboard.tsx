@@ -4,7 +4,6 @@ import { Grid } from '../Grid';
 import { useWindowSize } from '../hooks';
 import { IconAside } from '../Icons';
 import { NavigationTabs } from '../NavigationTabs';
-import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './NavigationDashboard.module.css';
 

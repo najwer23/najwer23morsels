@@ -1,5 +1,11 @@
 # najwer23morsels
 
+## 1.11.0
+
+### Minor Changes
+
+- Variants
+
 ## 1.10.0
 
 ### Minor Changes
