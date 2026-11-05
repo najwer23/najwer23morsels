@@ -73,6 +73,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   const clonesBefore = isCircular
     ? childrenArray.map((child, i) => cloneElement(child as React.ReactElement, { key: `cb-${i}` }))
     : [];
+
   const clonesAfter = isCircular
     ? childrenArray.map((child, i) => cloneElement(child as React.ReactElement, { key: `ca-${i}` }))
     : [];
@@ -85,12 +86,16 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
   const measure = useCallback(() => {
     if (!refs.carousel.current) return;
+
     const gapPx = Number(gap.slice(0, -2));
+
     const newWidths = refs.childRefs.current.map((el) => {
       if (!el) return 0;
+
       const s = getComputedStyle(el);
       const marginLeft = parseFloat(s.marginLeft) || 0;
       const marginRight = parseFloat(s.marginRight) || 0;
+
       return el.offsetWidth + marginLeft + marginRight + gapPx;
     });
 
@@ -111,6 +116,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
     const observer = new ResizeObserver(() => {
       if (raf) cancelAnimationFrame(raf);
+
       raf = requestAnimationFrame(() => {
         measure();
         refs.updateControls.current();
@@ -118,6 +124,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     });
 
     observer.observe(el);
+
     if (el.parentElement) observer.observe(el.parentElement);
 
     return () => {
@@ -129,10 +136,12 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   const cumulativeOffsets = useMemo(() => {
     const offsets: number[] = [];
     let sum = 0;
+
     for (const w of childWidths) {
       offsets.push(sum);
       sum += w;
     }
+
     return offsets;
   }, [childWidths]);
 
@@ -145,6 +154,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       refs.carousel.current.scrollLeft = (cumulativeOffsets[cloneCount] || 0) - Number(gap.slice(0, -2)) * 2;
       refs.hasInitialized.current = true;
     }
+
     updateControls();
   }, [width, cumulativeOffsets, cloneCount, isCircular]);
 
@@ -160,6 +170,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
         cancelAnimationFrame(refs.animationFrameId.current);
         refs.animationFrameId.current = null;
       }
+
       return;
     }
 
@@ -179,6 +190,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       if (isCircular && cumulativeOffsets.length && childWidths.length) {
         const totalLength =
           cumulativeOffsets[cumulativeOffsets.length - 1] + (childWidths[childWidths.length - 1] || 0);
+
         const leftBoundary = cumulativeOffsets[cloneCount] || 0;
         const rightBoundary = cumulativeOffsets[cloneCount + childrenArray.length] || totalLength;
 
@@ -189,6 +201,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
       track.scrollLeft = newScrollLeft;
       updateControls();
+
       refs.animationFrameId.current = requestAnimationFrame(step);
     };
 
@@ -198,6 +211,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
+
       if (refs.animationFrameId.current) {
         cancelAnimationFrame(refs.animationFrameId.current);
         refs.animationFrameId.current = null;
@@ -214,6 +228,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     } else {
       const scrollLeft = refs.carousel.current.scrollLeft;
       const maxScrollLeft = refs.carousel.current.scrollWidth - refs.carousel.current.clientWidth;
+
       refs.showArrowLeft.current = scrollLeft > 0;
       refs.showArrowRight.current = scrollLeft < maxScrollLeft - 1;
     }
@@ -227,6 +242,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     if (refs.buttonLeft.current) {
       refs.buttonLeft.current.disabled = disabled || !refs.showArrowLeft.current;
     }
+
     if (refs.buttonRight.current) {
       refs.buttonRight.current.disabled = disabled || !refs.showArrowRight.current;
     }
@@ -234,8 +250,10 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
   const onScroll = () => {
     if (!refs.carousel.current) return;
+
     if (isCircular && cumulativeOffsets.length && childWidths.length) {
       const scrollLeft = refs.carousel.current.scrollLeft;
+
       const totalLength = cumulativeOffsets[cumulativeOffsets.length - 1] + (childWidths[childWidths.length - 1] || 0);
 
       const leftBoundary = cumulativeOffsets[cloneCount] || 0;
@@ -248,22 +266,28 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
         refs.carousel.current.scrollLeft = scrollLeft - (rightBoundary - leftBoundary);
       }
     }
+
     updateControls();
   };
 
   const smoothScrollTo = (element: HTMLElement, target: number, duration: number = 300) => {
     if (refs.isSliding.current) return;
+
     refs.isSliding.current = true;
     setButtonsDisabled(true);
+
     const start = element.scrollLeft;
     const change = target - start;
     const startTime = performance.now();
+
     const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
     const animateScroll = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
+
       element.scrollLeft = start + change * easeInOutCubic(progress);
+
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
       } else {
@@ -285,7 +309,8 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     const viewportWidth = track.offsetWidth;
     const currentScroll = track.scrollLeft;
 
-    let firstVisibleIndex = cumulativeOffsets.findIndex((offset, i) => offset > currentScroll);
+    let firstVisibleIndex = cumulativeOffsets.findIndex((offset) => offset > currentScroll);
+
     if (firstVisibleIndex === -1) {
       firstVisibleIndex = cumulativeOffsets.length - 1;
     } else if (firstVisibleIndex > 0) {
@@ -294,12 +319,12 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
     let visibleWidth = 0;
     let visibleCount = 0;
+
     for (let i = firstVisibleIndex; i < cumulativeOffsets.length; i++) {
       visibleWidth += childWidths[i];
       visibleCount++;
-      if (visibleWidth >= viewportWidth) {
-        break;
-      }
+
+      if (visibleWidth >= viewportWidth) break;
     }
 
     let nextFirstIndex;
@@ -315,6 +340,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     }
 
     let targetScrollLeft = cumulativeOffsets[nextFirstIndex] - Number(gap.slice(0, -2)) * 2;
+
     if (targetScrollLeft < 0) targetScrollLeft = 0;
 
     if (isCircular) {
@@ -334,33 +360,40 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     const currentScroll = track.scrollLeft;
 
     let approxFirstVisibleIndex = 0;
+
     for (let i = 0; i < cumulativeOffsets.length; i++) {
       if (cumulativeOffsets[i] > currentScroll) {
         approxFirstVisibleIndex = i - 1;
         break;
       }
     }
+
     if (approxFirstVisibleIndex < 0) approxFirstVisibleIndex = 0;
 
     let visibleWidth = 0;
     let visibleCount = 0;
+
     for (let i = approxFirstVisibleIndex; i >= 0; i--) {
       visibleWidth += childWidths[i];
+
       if (visibleWidth <= viewportWidth) visibleCount++;
       else break;
     }
 
     let newLastIndex = approxFirstVisibleIndex;
+
     if (!isCircular) {
       newLastIndex = Math.max(visibleCount - 1, newLastIndex);
     }
 
     let targetScrollLeft =
       cumulativeOffsets[newLastIndex] + childWidths[newLastIndex] - viewportWidth + Number(gap.slice(0, -2));
+
     if (targetScrollLeft < 0) targetScrollLeft = 0;
 
     if (isCircular) {
       const offsetStart = cumulativeOffsets[cloneCount] || 0;
+
       targetScrollLeft =
         offsetStart + targetScrollLeft - (cumulativeOffsets[cloneCount] || 0) + Number(gap.slice(0, -2));
     }
@@ -379,12 +412,14 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     refs.drag.current.startX = e.pageX - (refs.carousel.current?.offsetLeft || 0);
     refs.drag.current.scrollLeft = refs.carousel.current?.scrollLeft || 0;
     refs.drag.current.isDragging = true;
+
     updateTrackDraggingClass();
   };
 
   const onMouseUp = () => {
     refs.drag.current.isDown = false;
     refs.drag.current.isDragging = false;
+
     updateTrackDraggingClass();
   };
 
@@ -392,6 +427,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     if (refs.drag.current.isDown) {
       refs.drag.current.isDown = false;
       refs.drag.current.isDragging = false;
+
       updateTrackDraggingClass();
     }
   };
@@ -401,12 +437,16 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       refs.drag.current.isMove = false;
       return;
     }
+
     e.preventDefault();
+
     const x = getEventX(e) - (refs.carousel.current?.offsetLeft || 0);
     const walk = x - refs.drag.current.startX;
+
     if (Math.abs(walk) > 5) {
       refs.drag.current.isMove = true;
     }
+
     if (refs.carousel.current) {
       refs.carousel.current.scrollLeft = refs.drag.current.scrollLeft - walk;
       updateControls();
@@ -422,6 +462,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
   const updateTrackDraggingClass = () => {
     if (!refs.carousel.current) return;
+
     if (refs.drag.current.isDragging) {
       refs.carousel.current.classList.add(styles.dragging);
     } else {
@@ -474,31 +515,31 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
           ))}
         </div>
       </div>
+
       <div className={[styles.n23mSliderScrollControls, 'n23mSliderScrollControls'].join(' ')}>
         <div className={[styles.n23mSliderScrollControlsButtons, 'n23mSliderScrollControlsButtons'].join(' ')}>
           <Button
             ref={refs.buttonLeft}
-            height={'50px'}
-            width={'50px'}
-            backgroundColor="#F2F0EF"
+            variant="secondary"
+            height="50px"
+            width="50px"
             padding={0}
-            title="Prev"
+            title="Previous"
+            aria-label="Previous"
             onClick={slideLeft}
-            borderColor="black"
-            backgroundColorDisabled="#F2F0EF"
           >
             <IconArrowLeft width={24} height={24} />
           </Button>
+
           <Button
             ref={refs.buttonRight}
-            height={'50px'}
-            width={'50px'}
-            backgroundColor="#F2F0EF"
+            variant="secondary"
+            height="50px"
+            width="50px"
             padding={0}
             title="Next"
+            aria-label="Next"
             onClick={slideRight}
-            borderColor="black"
-            backgroundColorDisabled="#F2F0EF"
           >
             <IconArrowRight width={24} height={24} />
           </Button>
