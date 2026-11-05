@@ -3,7 +3,7 @@ import { Button } from '../Button';
 import { useWindowSize } from '../hooks';
 import { IconArrowLeft, IconArrowRight } from '../Icons';
 import { Loader } from '../Loader';
-import { TextBox } from '../TextBox';
+import { Typography } from '../Typography';
 import styles from './Slider.module.css';
 
 type SlideElement = ReactElement<{ className?: string }>;
@@ -59,6 +59,7 @@ export const Slider: React.FC<SliderProps> = ({
   let slidesToScrollDynamic;
   let slideAnimation;
   let slideAnimationDelay;
+
   if (width < 767.98) {
     slidePerViewDynamic = slidesConfig.mobile.items;
     slidesToScrollDynamic = slidesConfig.mobile.slidesToScroll;
@@ -85,15 +86,16 @@ export const Slider: React.FC<SliderProps> = ({
   // Only updates the width; currSlide is left alone so the slider keeps its position.
   useLayoutEffect(() => {
     const el = slideWrapperRef.current;
-    if (!el) return; // wrapper is not mounted while loading
+    if (!el) return;
 
     const observer = new ResizeObserver(() => {
-      setWrapperWidth(el.offsetWidth); // same value => React bails out
+      setWrapperWidth(el.offsetWidth);
     });
+
     observer.observe(el);
 
     return () => observer.disconnect();
-  }, [loading]); // re-attach when the wrapper mounts after loading
+  }, [loading]);
 
   const slideWidth = (wrapperWidth - slideSpacingPx * (slidePerViewDynamic - 1)) / slidePerViewDynamic;
 
@@ -107,7 +109,6 @@ export const Slider: React.FC<SliderProps> = ({
       ]
     : childSlides;
 
-  // Touch events
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       setTouchStartX(e.touches[0].clientX);
@@ -126,12 +127,15 @@ export const Slider: React.FC<SliderProps> = ({
 
   const handleTouchEnd = () => {
     const SWIPE_THRESHOLD = 50;
-    if (touchDeltaX > SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide === 0))) prevSlide();
-    else if (
+
+    if (touchDeltaX > SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide === 0))) {
+      prevSlide();
+    } else if (
       touchDeltaX < -SWIPE_THRESHOLD &&
       !(isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length))
-    )
+    ) {
       nextSlide();
+    }
 
     setTouchStartX(null);
     setTouchDeltaX(0);
@@ -156,12 +160,15 @@ export const Slider: React.FC<SliderProps> = ({
 
   const handleMouseUp = () => {
     const SWIPE_THRESHOLD = 50;
-    if (touchDeltaX > SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide === 0))) prevSlide();
-    else if (
+
+    if (touchDeltaX > SWIPE_THRESHOLD && !(isAnimating || (!isCircular && currSlide === 0))) {
+      prevSlide();
+    } else if (
       touchDeltaX < -SWIPE_THRESHOLD &&
       !(isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length))
-    )
+    ) {
       nextSlide();
+    }
 
     setTouchStartX(null);
     setTouchDeltaX(0);
@@ -202,6 +209,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   useLayoutEffect(() => {
     if (!isAnimating) return;
+
     let timeoutId: number;
 
     const handleTransitionEnd = () => {
@@ -216,10 +224,13 @@ export const Slider: React.FC<SliderProps> = ({
       if (newIndex !== currSlide && isCircular) {
         setCurrSlide(newIndex);
       }
+
       setIsAnimating(false);
+
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
+
       clearTimeout(timeoutId);
     };
 
@@ -229,6 +240,7 @@ export const Slider: React.FC<SliderProps> = ({
 
     timeoutId = window.setTimeout(() => {
       setIsAnimating(false);
+
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
@@ -238,26 +250,31 @@ export const Slider: React.FC<SliderProps> = ({
       slideWrapperRefs.current.forEach((slide) => {
         if (slide) slide.removeEventListener('transitionend', handleTransitionEnd);
       });
+
       clearTimeout(timeoutId);
     };
   }, [currSlide, isCircular, isAnimating, childSlides.length, slidePerViewDynamic, slides.length, loading]);
 
   const nextSlide = () => {
     if (isAnimating) return;
+
     setIsAnimating(true);
     setCurrSlide((prev) => prev + slidesToScrollDynamic);
   };
 
   const prevSlide = () => {
     if (isAnimating) return;
+
     setIsAnimating(true);
     setCurrSlide((prev) => prev - slidesToScrollDynamic);
   };
 
   const getVisualIndex = () => {
     if (!isCircular) return currSlide;
+
     const total = childSlides.length;
     if (total < 1) return 0;
+
     return (currSlide + total) % total;
   };
 
@@ -270,10 +287,11 @@ export const Slider: React.FC<SliderProps> = ({
       }}
     >
       {loading && <Loader loaderColor={loaderColor} />}
+
       {!loading && (
         <>
           <div
-            className={[styles.n23mSliderContainerSlider].filter(Boolean).join(' ')}
+            className={styles.n23mSliderContainerSlider}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -323,36 +341,35 @@ export const Slider: React.FC<SliderProps> = ({
           >
             {slidePerViewDynamic === 1 && (
               <div className={[styles.n23mSliderCounter, 'n23mSliderCounter'].join(' ')}>
-                <TextBox mobileSize={16} desktopSize={16} color="black">
+                <Typography variant="body" tag="span">
                   {!isCircular
                     ? `${currSlide + 1} / ${childSlides.length}`
                     : `${getVisualIndex() + 1} / ${childSlides.length}`}
-                </TextBox>
+                </Typography>
               </div>
             )}
 
             <div className={[styles.n23mSliderControlsButtons, 'n23mSliderControlsButtons'].join(' ')}>
               <Button
-                height={'50px'}
-                width={'50px'}
-                backgroundColor="#F2F0EF"
+                variant="secondary"
+                height="50px"
+                width="50px"
                 padding={0}
-                title="Prev"
+                title="Previous slide"
+                aria-label="Previous slide"
                 onClick={prevSlide}
-                borderColor="black"
-                backgroundColorDisabled="#F2F0EF"
                 disabled={isAnimating || (!isCircular && currSlide === 0)}
               >
                 <IconArrowLeft width={24} height={24} />
               </Button>
+
               <Button
-                height={'50px'}
-                width={'50px'}
-                backgroundColor="#F2F0EF"
+                variant="secondary"
+                height="50px"
+                width="50px"
                 padding={0}
-                title="Next"
-                borderColor="black"
-                backgroundColorDisabled="#F2F0EF"
+                title="Next slide"
+                aria-label="Next slide"
                 onClick={nextSlide}
                 disabled={isAnimating || (!isCircular && currSlide + slidePerViewDynamic >= childSlides.length)}
               >
