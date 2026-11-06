@@ -102,6 +102,7 @@ const Editor = ({
 
       if (typeof value === 'string') {
         if (path.length === 0 && key === 'name') return null;
+        if (path.length === 0 && key === 'fontFamily') return null;
 
         return (
           <div
@@ -282,6 +283,20 @@ export const Playground = () => {
               setSchema((s) => ({
                 ...s,
                 name: e.target.value,
+              }))
+            }
+            style={{ marginBottom: 16 }}
+          />
+
+          <Input
+            name="playground-theme-font-family"
+            label="Font family"
+            placeholder="e.g. Inter, system-ui, sans-serif"
+            value={schema.fontFamily ?? ''}
+            onChange={(e) =>
+              setSchema((s) => ({
+                ...s,
+                fontFamily: e.target.value,
               }))
             }
             style={{ marginBottom: 16 }}

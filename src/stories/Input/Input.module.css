@@ -1,9 +1,7 @@
 @layer n23mInput {
   .n23mInput {
     margin-top: 0px;
-    --iff:
-      -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu,
-      roboto, noto, arial, sans-serif;
+    --iff: var(--n23m-fontFamily);
 
     &:not(:has(input[type="hidden"])) {
       margin-bottom: 10px;
@@ -15,7 +13,7 @@
       & input,
       & textarea {
         color: var(--input-c, black);
-        font-family: var(--n23mFontFamily, var(--iff));
+        font-family: var(--iff);
         font-weight: 500;
         font-size: 16px;
         border: 1px solid var(--input-cb, black);
@@ -58,15 +56,6 @@
         filter: brightness(125%);
         font-weight: 300;
       }
-    }
-
-    .n23mInputError {
-      font-size: var(--najwer23snacks-input-error-font-size);
-      font-family: var(--najwer23snacks-input-error-font-family);
-      font-weight: var(--najwer23snacks-input-error-font-weight);
-      line-height: 1;
-      margin: 2px;
-      color: var(--najwer23snacks-input-error-font-color);
     }
   }
 }

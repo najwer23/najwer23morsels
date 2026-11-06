@@ -4,9 +4,7 @@
     --des: var(--textbox-ds);
     --min: 400;
     --max: 1400;
-    --tff:
-      -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu,
-      roboto, noto, arial, sans-serif;
+    --tff: var(--n23m-fontFamily);
 
     /* fluid text calculation */
     --cmn: min(var(--mob), var(--des));
@@ -24,11 +22,11 @@
       calc(var(--cmx) / 16 * 1rem)
     );
 
-    line-height: var(--textbox-lh, var(--n23mTextBoxLineHeight, 1.42857));
-    font-family: var(--n23mFontFamily, var(--tff));
-    margin: var(--textbox-m, var(--n23mTextBoxMargin));
-    color: var(--textbox-c, var(--n23mTextBoxColor));
-    font-weight: var(--textbox-fw, var(--n23mTextBoxFontWeight));
+    line-height: var(--textbox-lh, 1.42857);
+    font-family: var(--tff);
+    margin: var(--textbox-m);
+    color: var(--textbox-c);
+    font-weight: var(--textbox-fw);
     text-align: var(--textbox-a);
     text-wrap: var(--textbox-w);
   }
@@ -36,9 +34,9 @@
   .n23mTextBoxLink {
     text-align: var(--text-a, left);
     text-wrap: var(--textbox-w);
-    color: var(--textbox-c, var(--n23mTextBoxColor));
+    color: var(--textbox-c);
     text-decoration: none;
-    font-weight: var(--textbox-fw, var(--n23mTextBoxFontWeight));
+    font-weight: var(--textbox-fw);
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -58,15 +56,15 @@
     &:hover,
     &:active {
       text-decoration: underline;
-      color: var(--textbox-ch, var(--n23mTextBoxColorHover));
-      font-weight: var(--textbox-fwh, var(--n23mTextBoxFontWeightHover, var(--textbox-fw)));
+      color: var(--textbox-ch);
+      font-weight: var(--textbox-fwh, var(--textbox-fw));
     }
 
     &:focus-visible {
       text-decoration: none;
-      color: var(--textbox-ch, var(--n23mTextBoxColorHover));
-      font-weight: var(--textbox-fwh, var(--n23mTextBoxFontWeightHover, var(--textbox-fw)));
-      outline: 1px solid var(--textbox-ch, var(--n23mTextBoxColorHover));
+      color: var(--textbox-ch);
+      font-weight: var(--textbox-fwh, var(--textbox-fw));
+      outline: 1px solid var(--textbox-ch);
       outline-offset: 1px;
     }
 

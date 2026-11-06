@@ -59,6 +59,7 @@ export interface ThemeTypography {
 
 export interface ThemeSchema {
   name: string;
+  fontFamily: string;
 
   components: {
     button: ThemeButton;

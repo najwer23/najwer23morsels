@@ -4,6 +4,9 @@ export const THEMES: Record<string, ThemeSchema> = {
   default: {
     name: 'default',
 
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif',
+
     components: {
       button: {
         variants: {
@@ -83,6 +86,8 @@ export const THEMES: Record<string, ThemeSchema> = {
 
   ocean: {
     name: 'ocean',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif',
 
     components: {
       button: {
@@ -164,6 +169,8 @@ export const THEMES: Record<string, ThemeSchema> = {
   forest: {
     name: 'forest',
 
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif',
     components: {
       button: {
         variants: {

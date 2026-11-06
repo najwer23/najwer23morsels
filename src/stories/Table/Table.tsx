@@ -250,7 +250,7 @@ export const Table: React.FC<TableProps> = ({
             )}
 
             {isCellDeleteError && !isCellDeleteSuccess && (
-              <Typography variant="validatorDialogError">{cellDeleteErrorMsg ?? 'Delete failed'} haha</Typography>
+              <Typography variant="validatorDialogError">{cellDeleteErrorMsg ?? 'Delete failed'}</Typography>
             )}
 
             {isCellDeleteSuccess && (

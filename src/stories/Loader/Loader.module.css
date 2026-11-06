@@ -6,8 +6,8 @@
     align-items: center;
     box-sizing: border-box;
     height: var(--loader-mh, 100%);
-    color: var(--loader-lc, var(--n23mTextBoxColor, black));
-    border: dotted 1px var(--loader-lc, var(--n23mTextBoxColor, black));
+    color: var(--loader-lc, black);
+    border: dotted 1px var(--loader-lc, black);
     border-radius: 12px;
     corner-shape: squircle;
   }

@@ -1,8 +1,6 @@
 @layer n23mCalendar {
   .n23mCalendar {
-    --iff:
-      -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu,
-      roboto, noto, arial, sans-serif;
+    --iff: var(--n23m-fontFamily);
 
     position: relative;
 
@@ -62,7 +60,7 @@
         & .controlsDate {
           display: flex;
           justify-content: center;
-          font-family: var(--n23mFontFamily, var(--iff));
+          font-family: var(--iff);
           font-size: 20px;
         }
 
@@ -78,7 +76,7 @@
           align-items: center;
           height: 30px;
           width: calc(100% / 7);
-          font-family: var(--n23mFontFamily, var(--iff));
+          font-family: var(--iff);
           font-size: 12px;
         }
 
