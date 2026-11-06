@@ -121,6 +121,19 @@ export const Input: React.FC<InputProps | SelectProps> = ({
     }
   };
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    inputProps?.onFocus?.(e);
+
+    requestAnimationFrame(() => {
+      const target = e.currentTarget;
+
+      if (document.activeElement !== target) return;
+
+      const position = target.value.length;
+      target.setSelectionRange(position, position);
+    });
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const el = wrapperRef.current?.querySelector<FieldElement>('input, textarea');
@@ -163,6 +176,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         {(kind === 'input' || kind === 'calendar') && (
           <input
             {...inputProps}
+            onFocus={handleFocus}
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             id={name}
             name={name}
@@ -198,6 +212,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         {kind === 'select' && (
           <input
             {...inputProps}
+            onFocus={handleFocus}
             id={id}
             aria-label={label}
             autoComplete="off"

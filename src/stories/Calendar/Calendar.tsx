@@ -99,19 +99,6 @@ export const Calendar: React.FC<CalendarProps> = ({
     }));
   };
 
-  const handleFocus = () => {
-    openCalendar();
-
-    requestAnimationFrame(() => {
-      const input = inputRef.current;
-
-      if (!input || document.activeElement !== input) return;
-
-      const position = input.value.length;
-      input.setSelectionRange(position, position);
-    });
-  };
-
   const closeCalendar = () => {
     setCalendarState((prevState) => ({
       ...prevState,
@@ -227,7 +214,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         ]}
         className={styles.arrowUp}
         inputProps={{
-          onFocus: handleFocus,
+          onFocus: openCalendar,
           onMouseDown: openCalendar,
           onKeyDown: (e) => {
             if (e.key === 'Escape') {

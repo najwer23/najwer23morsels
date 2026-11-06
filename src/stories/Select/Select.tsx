@@ -71,19 +71,6 @@ export const Select: React.FC<SelectProps> = ({
     setIsOpen(true);
   };
 
-  const handleFocus = () => {
-    handleOpen();
-
-    requestAnimationFrame(() => {
-      const input = inputRef.current;
-
-      if (!input || document.activeElement !== input) return;
-
-      const position = input.value.length;
-      input.setSelectionRange(position, position);
-    });
-  };
-
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setIsOpen(false);
     setIsTyping(false);
@@ -230,7 +217,7 @@ export const Select: React.FC<SelectProps> = ({
           },
         ]}
         inputProps={{
-          onFocus: handleFocus,
+          onFocus: handleOpen,
           onMouseDown: handleOpen,
           onKeyDown: handleKeyDown,
           role: 'combobox',
