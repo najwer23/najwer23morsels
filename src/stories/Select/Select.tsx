@@ -41,6 +41,7 @@ export const Select: React.FC<SelectProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const id = useId();
+  const listboxId = `${name}-listbox`;
 
   const filteredOptions = useMemo(() => {
     if (!isTyping) return options;
@@ -126,7 +127,6 @@ export const Select: React.FC<SelectProps> = ({
         placeholder={placeholder}
         value={selectedOptionLabel}
         onChange={handleChange}
-        onClick={handleOpen}
         onBlur={handleBlur}
         validatorOptions={[
           ...(validatorOptions ?? []),
@@ -138,18 +138,27 @@ export const Select: React.FC<SelectProps> = ({
             },
           },
         ]}
-        aria-autocomplete="list"
-        aria-expanded={isOpen}
-        aria-controls={`${name}-listbox`}
-        role="combobox"
+        inputProps={{
+          onMouseDown: handleOpen,
+          onKeyDown: (e) => {
+            if (e.key === 'Escape') setIsOpen(false);
+            if (e.key === 'ArrowDown') handleOpen();
+          },
+          role: 'combobox',
+          'aria-autocomplete': 'list',
+          'aria-expanded': isOpen,
+          'aria-controls': listboxId,
+        }}
       />
 
       <div className={[styles.dropdownWrapper, isOpen ? styles.open : ''].join(' ')}>
-        <div className={[styles.dropdown].join(' ')}>
+        <div id={listboxId} role="listbox" className={styles.dropdown}>
           {filteredOptions.map((option) => (
             <div
               className={styles.dropdownItem}
               key={option.value}
+              role="option"
+              aria-selected={option.value === selectedOptionValue}
               onMouseDown={() => {
                 // keep focus when selected
                 // e.preventDefault();

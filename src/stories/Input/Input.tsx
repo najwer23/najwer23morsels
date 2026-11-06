@@ -24,6 +24,8 @@ interface InputBase extends React.HTMLAttributes<HTMLElement> {
   value?: string;
   autoComplete?: string;
   step?: number | 'any';
+  /** Props forwarded to the underlying <input> (not the wrapper div). */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 type InputKindProps = InputBase & {
@@ -75,6 +77,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
   step,
   minHeight,
   maxHeight,
+  inputProps,
   ...props
 }) => {
   const errorRef = useRef<HTMLDivElement | null>(null);
@@ -143,7 +146,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           tag="label"
           fontWeight={400}
           color={labelColor}
-          htmlFor={kind === 'select' ? id : name}
+          htmlFor={kind === 'select' ? undefined : name}
         >
           {label}
         </TextBox>
@@ -152,6 +155,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
       <div className={styles.n23mInputInput}>
         {kind === 'input' && (
           <input
+            {...inputProps}
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             id={name}
             name={name}
@@ -184,7 +188,9 @@ export const Input: React.FC<InputProps | SelectProps> = ({
 
         {kind === 'select' && (
           <input
+            {...inputProps}
             id={id}
+            aria-label={label}
             autoComplete="off"
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             type={type}

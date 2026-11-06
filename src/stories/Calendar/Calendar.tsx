@@ -89,6 +89,23 @@ export const Calendar: React.FC<CalendarProps> = ({
     }));
   };
 
+  const openCalendar = () => {
+    if (disabled) return;
+
+    setCalendarState((prevState) => ({
+      ...prevState,
+      open: true,
+      dropDwonState: 'days',
+    }));
+  };
+
+  const closeCalendar = () => {
+    setCalendarState((prevState) => ({
+      ...prevState,
+      open: false,
+    }));
+  };
+
   const updateDateValue = (nextDate: Date) => {
     setCalendarState((prevState) => ({
       ...prevState,
@@ -156,15 +173,12 @@ export const Calendar: React.FC<CalendarProps> = ({
           if (disabled) return;
           e.preventDefault();
 
-          if (document.activeElement === inputRef.current) {
-            setCalendarState((prevState) => ({
-              ...prevState,
-              open: !prevState.open,
-              dropDwonState: 'days',
-            }));
-          } else {
-            inputRef.current?.focus();
-          }
+          inputRef.current?.focus();
+          setCalendarState((prevState) => ({
+            ...prevState,
+            open: !prevState.open,
+            dropDwonState: 'days',
+          }));
         }}
       />
 
@@ -178,24 +192,6 @@ export const Calendar: React.FC<CalendarProps> = ({
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
-        onFocus={() => {
-          if (disabled) return;
-
-          setCalendarState((prevState) => ({
-            ...prevState,
-            open: true,
-            dropDwonState: 'days',
-          }));
-        }}
-        onClick={() => {
-          if (disabled) return;
-
-          setCalendarState((prevState) => ({
-            ...prevState,
-            open: true,
-            dropDwonState: 'days',
-          }));
-        }}
         disabled={disabled}
         value={calendarState.value}
         validatorOptions={[
@@ -205,8 +201,15 @@ export const Calendar: React.FC<CalendarProps> = ({
           },
         ]}
         className={styles.arrowUp}
-        aria-expanded={calendarState.open}
-        role="combobox"
+        inputProps={{
+          onMouseDown: openCalendar,
+          onKeyDown: (e) => {
+            if (e.key === 'Escape') closeCalendar();
+            if (e.key === 'ArrowDown') openCalendar();
+          },
+          role: 'combobox',
+          'aria-expanded': calendarState.open,
+        }}
       />
 
       <div className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}>
