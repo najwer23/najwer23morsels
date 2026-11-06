@@ -4,7 +4,7 @@ import { ValidatorOptions } from '../validator';
 import styles from './Select.module.css';
 import { SelectOption } from './Select.types';
 
-interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur'> {
+interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur' | 'onSelect'> {
   style?: React.CSSProperties;
   name: string;
   options: SelectOption[];
@@ -18,6 +18,7 @@ interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur'> 
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
     data: { value: string; label: string },
   ) => void;
+  onSelect?: (option: SelectOption) => void; // only for theme playground
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -30,6 +31,7 @@ export const Select: React.FC<SelectProps> = ({
   validatorOptions,
   placeholder,
   onBlur,
+  onSelect,
   label = 'Select',
   ...props
 }) => {
@@ -79,6 +81,7 @@ export const Select: React.FC<SelectProps> = ({
     setSelectedOptionLabel(option.label);
     setIsTyping(false);
     setIsOpen(false);
+    onSelect?.(option);
   };
 
   return (

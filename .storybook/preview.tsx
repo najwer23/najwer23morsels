@@ -30,7 +30,7 @@ const preview: Preview = {
             'README',
             'CHANGELOG',
             'Theme',
-            ['Schema', 'CSS Variables', 'Color Palette', 'Contrast checker WCAG', '*'],
+            ['Theme Schema', 'Playground', 'CSS Variables', 'Color Palette', 'Contrast checker WCAG', '*'],
             '*',
           ],
           '*',

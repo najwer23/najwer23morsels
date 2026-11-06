@@ -1,5 +1,5 @@
 import { Source } from '@storybook/addon-docs/blocks';
-import { getThemeVariables } from '../stories/Theme/Theme.utils';
+import { getThemeVariables } from '../../stories/Theme/Theme.utils';
 
 export const ThemeCSSVariables = ({ theme }: { theme: object }) => {
   const vars = Object.entries(getThemeVariables(theme) as Record<string, string>).filter(
