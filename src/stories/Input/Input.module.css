@@ -23,6 +23,12 @@
         corner-shape: squircle;
         box-sizing: border-box;
 
+        &:focus-visible {
+          outline: 1px solid var(--input-cb, black);
+          outline-offset: 0px;
+          box-shadow: none;
+        }
+
         &:disabled {
           color: #8a8a8a;
           background-color: #f3f3f3;
@@ -46,11 +52,6 @@
         min-height: var(--input-minh, 200px);
         padding: 10px;
         resize: vertical;
-      }
-
-      &input[type="hidden"] {
-        padding: 0;
-        margin: 0;
       }
 
       & ::placeholder {

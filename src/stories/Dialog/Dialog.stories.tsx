@@ -62,7 +62,7 @@ const DialogLayout: React.FC<{ title: string; widthMax: string; children: React.
     padding="0px 30px 30px 30px"
     margin="auto"
   >
-    <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+    <Typography variant="subheading" style={{ margin: '0 0 20px 0' }}>
       {title}
     </Typography>
 
