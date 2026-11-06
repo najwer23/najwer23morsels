@@ -62,6 +62,14 @@
           justify-content: center;
           font-family: var(--iff);
           font-size: 20px;
+
+          & div:focus-visible {
+            border-radius: 12px;
+            corner-shape: squircle;
+            outline: 2px solid var(--n23m-components-button-variants-secondary-border);
+            outline-offset: 0px;
+            box-shadow: none;
+          }
         }
 
         & .weekdays {

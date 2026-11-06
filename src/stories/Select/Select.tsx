@@ -99,7 +99,6 @@ export const Select: React.FC<SelectProps> = ({
     setSelectedOptionLabel(option.label);
     setIsTyping(false);
     setIsOpen(false);
-
     onSelect?.(option);
   };
 
