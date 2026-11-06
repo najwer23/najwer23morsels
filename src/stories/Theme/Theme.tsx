@@ -4,13 +4,13 @@ import { getThemeVariables } from './Theme.utils';
 
 interface ThemeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  themeSchema?: ThemeSchema;
-  themeName?: ThemeName;
+  schema?: ThemeSchema;
+  name?: ThemeName;
   style?: React.CSSProperties;
 }
 
-export const Theme = ({ children, className, style, themeSchema, themeName = 'default', ...props }: ThemeProps) => {
-  const selectedTheme = themeSchema ?? THEMES[themeName];
+export const Theme = ({ children, className, style, schema, name = 'default', ...props }: ThemeProps) => {
+  const selectedTheme = schema ?? THEMES[name];
 
   return (
     <div

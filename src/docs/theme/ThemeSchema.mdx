@@ -3,7 +3,7 @@ import { THEMES } from '../../stories/Theme';
 
 <Meta title="Documentation/Theme/Schema" />
 
-# Theme Schema
+# Schema
 
 A theme is a plain TypeScript object that defines the colors used by the components in this library. Components read their colors from the active theme instead of hard-coding them, so you can restyle everything by changing one object.
 
@@ -18,17 +18,17 @@ The full schema of the `default` theme, generated from the source code so it is 
 
 ## Using a built-in theme
 
-Wrap your app (or any part of it) in `Theme` and choose a theme with `themeName`. If you omit it, `default` is used.
+Wrap your app (or any part of it) in `Theme` and choose a theme with `name`. If you omit it, `default` is used.
 
 ```tsx
-<Theme themeName="ocean">
+<Theme name="ocean">
   <App />
 </Theme>
 ```
 
 ## Using your own schema
 
-Pass a schema object to the `themeSchema` prop. It follows the structure above and takes priority over `themeName`.
+Pass a schema object to the `schema` prop. It follows the structure above and takes priority over `name`.
 
 ```tsx
 import { Theme, ThemeSchema } from 'najwer23morsels/lib/Theme';
@@ -56,7 +56,7 @@ const sunset: ThemeSchema = {
   },
 };
 
-<Theme themeSchema={sunset}>
+<Theme schema={sunset}>
   <App />
 </Theme>
 ```
@@ -65,7 +65,7 @@ Typing the object as `ThemeSchema` makes TypeScript report missing or misspelled
 
 ### Tips
 
-- **Define every variant and token.** The schema is a full `ThemeSchema`, not a partial one.
+- **Define every variant and token.** The schema is a full `schema`, not a partial one.
 - **Keep text readable.** Check that `text` has enough contrast against `background` (WCAG AA recommends 4.5:1 for normal text).
 - **Scope a theme to part of the page.** Colors are applied to the wrapping element, so you can nest `Theme` components to style one section differently.
 - **Target a theme in CSS.** The wrapper sets a `data-n23m-theme` attribute with the theme `name`, and adds the `n23mTheme` class.

@@ -60,7 +60,7 @@ const preview: Preview = {
 
   decorators: [
     (Story, context) => (
-      <Theme themeName={context.globals.theme as keyof typeof THEMES}>
+      <Theme name={context.globals.theme as keyof typeof THEMES}>
         <Story />
       </Theme>
     ),

@@ -142,7 +142,7 @@ export const Playground = () => {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 1fr) 2fr', gap: 32 }}>
       <div>
-        <Theme themeName="default">
+        <Theme name="default">
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 16 }}>
             <Select
               name="playground-base"
@@ -175,12 +175,12 @@ export const Playground = () => {
       </div>
 
       <div>
-        <Theme themeSchema={schema}>
+        <Theme schema={schema}>
           <Preview schema={schema} />
         </Theme>
 
-        <Typography variant="subheading" margin={'52px 0 0 0'}>
-          Your themeSchema: {schema.name}
+        <Typography variant="subheading" margin={'20px 0 0 0'}>
+          Your Schema: {schema.name}
         </Typography>
         <div style={{ overflow: 'auto' }}>
           <Source language="typescript" code={output} />
