@@ -236,7 +236,7 @@ export const Playground = () => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'minmax(320px, 1fr) 2fr',
+        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 2fr)',
         gap: 32,
       }}
     >
@@ -314,7 +314,18 @@ export const Playground = () => {
           <br />
           <h2>3. Your Schema: {schema.name}</h2>
 
-          <Source language="typescript" code={output} />
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              minWidth: 0,
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+              <Source language="typescript" code={output} />
+            </div>
+          </div>
         </Theme>
       </div>
     </div>
