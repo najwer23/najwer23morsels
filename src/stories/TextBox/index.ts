@@ -1,3 +1,4 @@
-import { TextBox, type TextBoxOwnProps } from './TextBox';
+import { TextBox } from './TextBox';
+import { TextBoxOwnProps } from './TextBox.types';
 
 export { TextBox, type TextBoxOwnProps };
