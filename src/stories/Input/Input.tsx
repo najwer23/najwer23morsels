@@ -42,7 +42,14 @@ type TextareaProps = InputBase & {
   maxHeight?: React.CSSProperties['maxHeight'];
 };
 
-export type InputProps = InputKindProps | TextareaProps;
+type CalendarProps = InputBase & {
+  kind: 'calendar';
+  name: string;
+  minHeight?: never;
+  maxHeight?: never;
+};
+
+export type InputProps = InputKindProps | TextareaProps | CalendarProps;
 
 export type SelectProps = InputBase & {
   kind: 'select';
@@ -146,20 +153,21 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           tag="label"
           fontWeight={400}
           color={labelColor}
-          htmlFor={kind === 'select' ? undefined : name}
+          htmlFor={kind === 'select' || kind === 'calendar' ? undefined : name}
         >
           {label}
         </TextBox>
       )}
 
       <div className={styles.n23mInputInput}>
-        {kind === 'input' && (
+        {(kind === 'input' || kind === 'calendar') && (
           <input
             {...inputProps}
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             id={name}
             name={name}
             type={type}
+            aria-label={label}
             onBlur={handleBlur}
             onChange={handleChange}
             placeholder={placeholder}
@@ -175,6 +183,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           <textarea
             autoComplete={autoComplete}
             id={name}
+            aria-label={label}
             name={name}
             onBlur={handleBlur}
             onChange={handleChange}

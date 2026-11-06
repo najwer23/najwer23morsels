@@ -67,9 +67,9 @@ export const Calendar: React.FC<CalendarProps> = ({
     iso: gridBase,
   } = parseTypedDate(calendarState.value);
 
-  // Used by the input and by the dropdown: close only when focus leaves the whole component
   const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     const next = e.relatedTarget as Node | null;
+
     if (next && wrapperRef.current?.contains(next)) return;
 
     setCalendarState((prev) => ({
@@ -97,6 +97,19 @@ export const Calendar: React.FC<CalendarProps> = ({
       open: true,
       dropDwonState: 'days',
     }));
+  };
+
+  const handleFocus = () => {
+    openCalendar();
+
+    requestAnimationFrame(() => {
+      const input = inputRef.current;
+
+      if (!input || document.activeElement !== input) return;
+
+      const position = input.value.length;
+      input.setSelectionRange(position, position);
+    });
   };
 
   const closeCalendar = () => {
@@ -137,10 +150,12 @@ export const Calendar: React.FC<CalendarProps> = ({
     if (day > 0) {
       changeDayOfMonth(day);
     }
+
     setCalendarState((prev) => ({
       ...prev,
       open: false,
     }));
+
     setTimeout(() => {
       inputRef.current?.blur();
     });
@@ -148,12 +163,21 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   const weekdays = useMemo(
     () =>
-      Array.from({ length: 7 }, (_, i) => new Date(2021, 0, (i + 4) % 7).toLocaleString('en-US', { weekday: 'short' })),
+      Array.from({ length: 7 }, (_, i) =>
+        new Date(2021, 0, (i + 4) % 7).toLocaleString('en-US', {
+          weekday: 'short',
+        }),
+      ),
     [],
   );
 
   const months = useMemo(
-    () => Array.from({ length: 12 }, (_, i) => new Date(2021, i + 1, 0).toLocaleString('en-US', { month: 'short' })),
+    () =>
+      Array.from({ length: 12 }, (_, i) =>
+        new Date(2021, i + 1, 0).toLocaleString('en-US', {
+          month: 'short',
+        }),
+      ),
     [],
   );
 
@@ -171,9 +195,10 @@ export const Calendar: React.FC<CalendarProps> = ({
         className={styles.icon}
         onMouseDown={(e) => {
           if (disabled) return;
-          e.preventDefault();
 
+          e.preventDefault();
           inputRef.current?.focus();
+
           setCalendarState((prevState) => ({
             ...prevState,
             open: !prevState.open,
@@ -186,9 +211,9 @@ export const Calendar: React.FC<CalendarProps> = ({
         inputRef={inputRef}
         label={label}
         type="text"
-        kind="input"
+        kind="calendar"
         name={name}
-        autoComplete={'off'}
+        autoComplete="off"
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -202,27 +227,42 @@ export const Calendar: React.FC<CalendarProps> = ({
         ]}
         className={styles.arrowUp}
         inputProps={{
+          onFocus: handleFocus,
           onMouseDown: openCalendar,
           onKeyDown: (e) => {
-            if (e.key === 'Escape') closeCalendar();
-            if (e.key === 'ArrowDown') openCalendar();
+            if (e.key === 'Escape') {
+              if (!calendarState.open) return;
+
+              e.preventDefault();
+              closeCalendar();
+            }
+
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              openCalendar();
+            }
+
+            if (e.key === 'Tab') {
+              closeCalendar();
+            }
           },
           role: 'combobox',
           'aria-expanded': calendarState.open,
+          'aria-haspopup': 'dialog',
         }}
       />
 
       <div className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}>
-        <div className={[styles.dropdown].join(' ')} onMouseDown={(e) => e.preventDefault()} onBlur={handleBlur}>
+        <div className={styles.dropdown} onMouseDown={(e) => e.preventDefault()} onBlur={handleBlur}>
           {calendarState.dropDwonState === 'years' && (
             <>
               <div className={styles.controls} style={{ marginBottom: '10px' }}>
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'0'}
-                    height={'30px'}
-                    width={'30px'}
+                    padding="0"
+                    height="30px"
+                    width="30px"
                     title="Previous years"
                     variant="secondary"
                     onClick={() => changeYear(currentYear - 9)}
@@ -246,9 +286,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'0'}
-                    height={'30px'}
-                    width={'30px'}
+                    padding="0"
+                    height="30px"
+                    width="30px"
                     title="Next years"
                     variant="secondary"
                     onClick={() => changeYear(currentYear + 9)}
@@ -312,9 +352,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'0'}
-                    height={'30px'}
-                    width={'30px'}
+                    padding="0"
+                    height="30px"
+                    width="30px"
                     title="Previous month"
                     variant="secondary"
                     onClick={() => changeMonth(-1)}
@@ -333,7 +373,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                   >
                     {currentYear}
                   </div>
+
                   <div>-</div>
+
                   <div
                     style={{ cursor: 'pointer' }}
                     role="button"
@@ -343,16 +385,18 @@ export const Calendar: React.FC<CalendarProps> = ({
                   >
                     {String(currentMonth + 1).padStart(2, '0')}
                   </div>
+
                   <div>-</div>
+
                   <div>{String(currentDay).padStart(2, '0')}</div>
                 </div>
 
                 <div style={{ width: '30px' }}>
                   <Button
                     type="button"
-                    padding={'0'}
-                    height={'30px'}
-                    width={'30px'}
+                    padding="0"
+                    height="30px"
+                    width="30px"
                     title="Next month"
                     variant="secondary"
                     onClick={() => changeMonth(1)}
@@ -380,9 +424,11 @@ export const Calendar: React.FC<CalendarProps> = ({
                       className={[
                         styles.weekdaysChild,
                         styles.daysChild,
-                        v.cssClass == 'active' && styles.daysActive,
-                        v.cssClass == 'clickable' && styles.daysClickable,
-                      ].join(' ')}
+                        v.cssClass === 'active' && styles.daysActive,
+                        v.cssClass === 'clickable' && styles.daysClickable,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
                       role={inMonth ? 'button' : undefined}
                       tabIndex={inMonth ? 0 : undefined}
                       onKeyDown={inMonth ? onActivate(() => selectDay(v.day)) : undefined}
