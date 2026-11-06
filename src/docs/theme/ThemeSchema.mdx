@@ -1,34 +1,54 @@
-import { Meta, Source  } from '@storybook/addon-docs/blocks';
+
+import { Meta, Source } from '@storybook/addon-docs/blocks';
 import { THEMES } from '../../stories/Theme';
 
 <Meta title="Documentation/Theme/Schema" />
 
-# Schema
+# Theme Schema
 
-A theme is a plain TypeScript object that defines the colors used by the components in this library. Components read their colors from the active theme instead of hard-coding them, so you can restyle everything by changing one object.
+The theme system provides a centralized way to customize the visual appearance of components across your application. Instead of relying on hard-coded colors, components use design tokens defined in a shared theme schema.
 
-Three themes are built in: `default`, `ocean` and `forest`. You can also pass your own schema, with no changes to the library.
+A theme is a strongly typed TypeScript object that defines the colors used by individual components, their variants, and typography elements. This approach keeps styling consistent, makes customization straightforward, and allows you to change the appearance of your application without modifying individual components.
 
+The library includes three predefined themes: `default`, `ocean`, and `forest`. You can use them as provided or create your own theme to match your application's visual identity.
 
-# Theme: default
+# Available Themes
 
-The full schema of the `default` theme, generated from the source code so it is always up to date.
+The following themes are included in the library:
+
+- **Default** – A neutral, versatile color palette suitable for general-purpose applications.
+- **Ocean** – A cool-toned palette inspired by ocean colors.
+- **Forest** – A nature-inspired palette with earthy green tones.
+
+# Default Theme Schema
+
+The complete schema of the built-in `default` theme is displayed below. It is generated directly from the source configuration, ensuring that the documentation always reflects the latest available theme structure.
 
 <Source language="json" code={JSON.stringify(THEMES.default, null, 2)} />
 
-# Using a built-in theme
+# Using a Built-in Theme
 
-Wrap your app (or any part of it) in `Theme` and choose a theme with `name`. If you omit it, `default` is used.
+The `Theme` component provides a simple way to apply a predefined theme to your application.
+
+Pass the desired theme name through the `name` prop. The selected theme is applied to the wrapping element and inherited by its child components.
+
+If no theme is specified, the `default` theme is used.
 
 ```tsx
-<Theme name="ocean">
-  <App />
-</Theme>
+import { Theme } from 'najwer23morsels/lib/Theme';
+
+const App = () => (
+  <Theme name="ocean">
+    <AppContent />
+  </Theme>
+);
 ```
 
-# Using your own schema
+# Creating a Custom Theme
 
-Pass a schema object to the `schema` prop. It follows the structure above and takes priority over `name`.
+You can define your own color palette by creating an object that follows the `ThemeSchema` interface.
+
+Pass your custom configuration through the `schema` prop instead of selecting a predefined theme with `name`. The custom schema takes precedence over the built-in theme selection.
 
 ```tsx
 import { Theme, ThemeSchema } from 'najwer23morsels/lib/Theme';
@@ -56,17 +76,20 @@ const sunset: ThemeSchema = {
   },
 };
 
-<Theme schema={sunset}>
-  <App />
-</Theme>
+const App = () => (
+  <Theme schema={sunset}>
+    <AppContent />
+  </Theme>
+);
 ```
 
-Typing the object as `ThemeSchema` makes TypeScript report missing or misspelled keys.
+The `ThemeSchema` type provides compile-time validation of your configuration. TypeScript reports missing required properties and misspelled keys, helping prevent incomplete or incorrectly structured themes.
 
-### Tips
+# Theme Configuration Tips
 
-- **Define every variant and token.** The schema is a full `schema`, not a partial one.
-- **Keep text readable.** Check that `text` has enough contrast against `background` (WCAG AA recommends 4.5:1 for normal text).
-- **Scope a theme to part of the page.** Colors are applied to the wrapping element, so you can nest `Theme` components to style one section differently.
-- **Target a theme in CSS.** The wrapper sets a `data-n23m-theme` attribute with the theme `name`, and adds the `n23mTheme` class.
+- **Define all required tokens.** A theme represents a complete configuration rather than a partial override. Make sure every component variant and typography token is included.
+- **Maintain sufficient color contrast.** Ensure text colors are readable against their corresponding backgrounds. For normal-sized text, WCAG 2.1 AA requires a minimum contrast ratio of 4.5:1.
+- **Use consistent color relationships.** Keep backgrounds, borders, text, and focus indicators visually consistent across component variants.
+- **Scope themes to specific sections.** Themes are applied to the wrapping element, allowing you to nest `Theme` components and create independently styled sections within the same application.
+- **Target themes in CSS.** The wrapper exposes a `data-n23m-theme` attribute containing the theme name and applies the `n23mTheme` class. This allows you to write theme-specific styles when needed.
 
