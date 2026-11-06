@@ -22,6 +22,21 @@ const preview: Preview = {
       config: {},
       options: {},
     },
+    options: {
+      storySort: {
+        order: [
+          'Documentation',
+          [
+            'README',
+            'CHANGELOG',
+            'Theme',
+            ['Schema', 'CSS Variables', 'Color Palette', 'Contrast checker WCAG', '*'],
+            '*',
+          ],
+          '*',
+        ],
+      },
+    },
   },
 
   globalTypes: {

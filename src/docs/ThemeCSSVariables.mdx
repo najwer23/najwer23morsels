@@ -1,0 +1,16 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { THEMES } from '../stories/Theme';
+import { ThemeCSSVariables } from './ThemeCSSVariables';
+
+<Meta title="Documentation/Theme/CSS Variables" />
+
+# CSS Variables
+
+Every theme is applied as CSS variables on the `Theme` wrapper element. Copy the block for your theme and use the variables in your own CSS with `var(--name)`.
+
+{Object.entries(THEMES).map(([key, theme]) => (
+  <section key={key} style={{ marginTop: 48 }}>
+    <h2>{theme.name}</h2>
+    <ThemeCSSVariables theme={theme} />
+  </section>
+))}
