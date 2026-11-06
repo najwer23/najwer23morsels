@@ -6,7 +6,7 @@ export type {
   ThemeButtonColor,
   ThemeButtonVariant,
   ThemeButtonVariants,
-  ThemeConfig,
+  ThemeSchema,
   ThemeTypography,
   ThemeTypographyColor,
   ThemeTypographyColors,

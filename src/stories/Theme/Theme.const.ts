@@ -1,6 +1,6 @@
-import { ThemeConfig } from './Theme.types';
+import { ThemeSchema } from './Theme.types';
 
-export const THEMES: Record<string, ThemeConfig> = {
+export const THEMES: Record<string, ThemeSchema> = {
   default: {
     name: 'Default',
 
@@ -240,6 +240,6 @@ export const THEMES: Record<string, ThemeConfig> = {
       },
     },
   },
-} as const satisfies Record<string, ThemeConfig>;
+} as const satisfies Record<string, ThemeSchema>;
 
 export type ThemeName = keyof typeof THEMES;

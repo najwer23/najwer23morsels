@@ -65,7 +65,8 @@
     "tree shaking",
     "vite",
     "css modules",
-    "front-end"
+    "front-end",
+    "Theme"
   ],
   "repository": {
     "type": "git",

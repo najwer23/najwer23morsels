@@ -57,7 +57,7 @@ export interface ThemeTypography {
   colors: ThemeTypographyColors;
 }
 
-export interface ThemeConfig {
+export interface ThemeSchema {
   name: string;
 
   components: {
