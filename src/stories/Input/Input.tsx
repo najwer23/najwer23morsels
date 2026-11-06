@@ -123,15 +123,33 @@ export const Input: React.FC<InputProps | SelectProps> = ({
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     inputProps?.onFocus?.(e);
+  };
 
-    requestAnimationFrame(() => {
-      const target = e.currentTarget;
+  const handleMouseDown = (e: React.MouseEvent<HTMLInputElement>) => {
+    const input = e.currentTarget;
+    const rect = input.getBoundingClientRect();
+    const style = window.getComputedStyle(input);
 
-      if (document.activeElement !== target) return;
+    const paddingLeft = parseFloat(style.paddingLeft);
+    const paddingRight = parseFloat(style.paddingRight);
+    const borderLeft = parseFloat(style.borderLeftWidth);
+    const borderRight = parseFloat(style.borderRightWidth);
 
-      const position = target.value.length;
-      target.setSelectionRange(position, position);
-    });
+    const clickX = e.clientX - rect.left;
+    const textStart = borderLeft + paddingLeft;
+    const textEnd =
+      input.scrollWidth > input.clientWidth
+        ? rect.width - borderRight - paddingRight
+        : textStart + input.value.length * parseFloat(style.fontSize) * 0.6;
+
+    if (clickX < textStart || clickX > textEnd) {
+      requestAnimationFrame(() => {
+        const position = input.value.length;
+        input.setSelectionRange(position, position);
+      });
+    }
+
+    inputProps?.onMouseDown?.(e);
   };
 
   useEffect(() => {
@@ -177,6 +195,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           <input
             {...inputProps}
             onFocus={handleFocus}
+            onMouseDown={handleMouseDown}
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             id={name}
             name={name}
@@ -213,6 +232,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
           <input
             {...inputProps}
             onFocus={handleFocus}
+            onMouseDown={handleMouseDown}
             id={id}
             aria-label={label}
             autoComplete="off"
