@@ -84,7 +84,7 @@ const Preview = ({ schema }: { schema: ThemeSchema }) => {
   return (
     <div>
       <Typography variant="subheading" margin={'0 0 20px'}>
-        Buttons
+        1. Buttons
       </Typography>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         {Object.keys(schema.components.button.variants).map((name) => {
@@ -111,8 +111,8 @@ const Preview = ({ schema }: { schema: ThemeSchema }) => {
         })}
       </div>
 
-      <Typography variant="subheading" margin={'20px 0 20px'}>
-        Typography
+      <Typography variant="subheading" margin={'50px 0 20px'}>
+        2. Typography
       </Typography>
 
       {Object.keys(schema.components.typography.colors).map((name) => (
@@ -177,14 +177,11 @@ export const Playground = () => {
       <div>
         <Theme schema={schema}>
           <Preview schema={schema} />
-        </Theme>
-
-        <Typography variant="subheading" margin={'20px 0 0 0'}>
-          Your Schema: {schema.name}
-        </Typography>
-        <div style={{ overflow: 'auto' }}>
+          <Typography variant="subheading" margin={'50px 0 0 0'}>
+            3. Your Schema: {schema.name}
+          </Typography>
           <Source language="typescript" code={output} />
-        </div>
+        </Theme>
       </div>
     </div>
   );

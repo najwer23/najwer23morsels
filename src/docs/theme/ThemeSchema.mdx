@@ -10,13 +10,13 @@ A theme is a plain TypeScript object that defines the colors used by the compone
 Three themes are built in: `default`, `ocean` and `forest`. You can also pass your own schema, with no changes to the library.
 
 
-## Default theme
+# Theme: default
 
 The full schema of the `default` theme, generated from the source code so it is always up to date.
 
 <Source language="json" code={JSON.stringify(THEMES.default, null, 2)} />
 
-## Using a built-in theme
+# Using a built-in theme
 
 Wrap your app (or any part of it) in `Theme` and choose a theme with `name`. If you omit it, `default` is used.
 
@@ -26,7 +26,7 @@ Wrap your app (or any part of it) in `Theme` and choose a theme with `name`. If 
 </Theme>
 ```
 
-## Using your own schema
+# Using your own schema
 
 Pass a schema object to the `schema` prop. It follows the structure above and takes priority over `name`.
 
@@ -34,7 +34,7 @@ Pass a schema object to the `schema` prop. It follows the structure above and ta
 import { Theme, ThemeSchema } from 'najwer23morsels/lib/Theme';
 
 const sunset: ThemeSchema = {
-  name: 'Sunset',
+  name: 'sunset',
   components: {
     button: {
       variants: {

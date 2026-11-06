@@ -2,7 +2,7 @@ import { ThemeSchema } from './Theme.types';
 
 export const THEMES: Record<string, ThemeSchema> = {
   default: {
-    name: 'Default',
+    name: 'default',
 
     components: {
       button: {
@@ -82,7 +82,7 @@ export const THEMES: Record<string, ThemeSchema> = {
   },
 
   ocean: {
-    name: 'Ocean',
+    name: 'ocean',
 
     components: {
       button: {
@@ -162,7 +162,7 @@ export const THEMES: Record<string, ThemeSchema> = {
   },
 
   forest: {
-    name: 'Forest',
+    name: 'forest',
 
     components: {
       button: {
