@@ -3,19 +3,15 @@ import { useState } from 'react';
 import { Button } from '../../stories/Button';
 import { Input } from '../../stories/Input';
 import { Select } from '../../stories/Select';
+import { TextBox } from '../../stories/TextBox';
 import { Theme } from '../../stories/Theme/Theme';
 import { THEMES } from '../../stories/Theme/Theme.const';
+import { Typography } from '../../stories/Typography/Typography';
 
 type ThemeSchema = (typeof THEMES)[string];
 type Path = string[];
 
 const PREFIX = '--n23m';
-
-const SELECT_OPTIONS = [
-  { value: 'apple', label: 'Apple' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'cherry', label: 'Cherry' },
-];
 
 const toHex = (value: string) => {
   const ctx = document.createElement('canvas').getContext('2d');
@@ -54,20 +50,25 @@ const Editor = ({
               value={toHex(value)}
               onChange={(e) => onChange(current, e.target.value.toUpperCase())}
             />
-            <input
+
+            <Input
+              label={key}
+              name="editor-playground-theme-name"
               type="text"
               value={value}
               onChange={(e) => onChange(current, e.target.value)}
-              style={{ width: 90, fontFamily: 'monospace' }}
             />
-            <span>{key}</span>
           </div>
         );
       }
 
       return (
         <details key={key} open={path.length < 2} style={{ margin: '8px 0 8px 12px' }}>
-          <summary style={{ cursor: 'pointer', fontWeight: 600 }}>{key}</summary>
+          <summary style={{ cursor: 'pointer', fontWeight: 600 }}>
+            <Typography variant="body" tag={'span'}>
+              {key}
+            </Typography>
+          </summary>
           <Editor node={value} path={current} onChange={onChange} />
         </details>
       );
@@ -81,7 +82,9 @@ const Preview = ({ schema }: { schema: ThemeSchema }) => {
 
   return (
     <div>
-      <h3>Buttons</h3>
+      <Typography variant="subheading" margin={'0 0 20px'}>
+        Buttons
+      </Typography>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         {Object.keys(schema.components.button.variants).map((name) => (
           <button
@@ -101,12 +104,14 @@ const Preview = ({ schema }: { schema: ThemeSchema }) => {
         ))}
       </div>
 
-      <h3 style={{ marginTop: 32 }}>Typography</h3>
+      <Typography variant="subheading" margin={'20px 0 20px'}>
+        Typography
+      </Typography>
 
       {Object.keys(schema.components.typography.colors).map((name) => (
-        <div key={name} style={{ color: text(name), margin: '4px 0' }}>
+        <Typography variant="body" color={text(name)}>
           {name}
-        </div>
+        </Typography>
       ))}
     </div>
   );
@@ -140,7 +145,9 @@ export const Playground = () => {
             />
             <div style={{ paddingTop: 20 }}>
               <Button variant="secondary" onClick={() => pickBase(base)}>
-                Reset
+                <TextBox mobileSize={16} desktopSize={16} color="inherit">
+                  Reset
+                </TextBox>
               </Button>
             </div>
           </div>
@@ -163,7 +170,9 @@ export const Playground = () => {
           <Preview schema={schema} />
         </Theme>
 
-        <h3 style={{ marginTop: 32 }}>Your themeSchema: {schema.name}</h3>
+        <Typography variant="subheading" margin={'52px 0 0 0'}>
+          Your themeSchema: {schema.name}
+        </Typography>
         <div style={{ overflow: 'auto' }}>
           <Source language="typescript" code={output} />
         </div>
