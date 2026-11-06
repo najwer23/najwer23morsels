@@ -241,10 +241,6 @@ export const Calendar: React.FC<CalendarProps> = ({
               e.preventDefault();
               openCalendar();
             }
-
-            if (e.key === 'Tab') {
-              closeCalendar();
-            }
           },
           role: 'combobox',
           'aria-expanded': calendarState.open,
@@ -432,7 +428,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                       role={inMonth ? 'button' : undefined}
                       tabIndex={inMonth ? 0 : undefined}
                       onKeyDown={inMonth ? onActivate(() => selectDay(v.day)) : undefined}
-                      onMouseDown={() => selectDay(v.day)}
+                      onMouseDown={inMonth ? () => selectDay(v.day) : undefined}
                     >
                       {inMonth ? v.day : ' '}
                     </div>

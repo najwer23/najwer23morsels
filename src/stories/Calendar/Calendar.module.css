@@ -104,8 +104,17 @@
           cursor: pointer;
         }
 
+        & .daysActive,
         & .daysClickable {
           cursor: pointer;
+          &:focus-visible {
+            border-radius: 12px;
+            corner-shape: squircle;
+            background-color: #f2f2f2;
+            outline: 0px solid white;
+            outline-offset: 0px;
+            box-shadow: none;
+          }
         }
 
         & .months,
