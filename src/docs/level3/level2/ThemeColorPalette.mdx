@@ -14,20 +14,22 @@ export const Tree = ({ node, title, depth = 2 }) => {
   const branches = children.filter(([, v]) => !isColors(v));
 
   return (
-    <section>
+    <section style={{ marginTop: depth === 2 ? 64 : 32 }}>
       <Heading>{title}</Heading>
 
       {tokens.length > 0 && (
-        <ColorPalette>
-          {tokens.map(([key, colors]) => (
-            <ColorItem
-              key={key}
-              title={key}
-              subtitle={Object.keys(colors).join(' · ')}
-              colors={colors}
-            />
-          ))}
-        </ColorPalette>
+        <div style={{ margin: '24px 0 40px' }}>
+          <ColorPalette>
+            {tokens.map(([key, colors]) => (
+              <ColorItem
+                key={key}
+                title={key}
+                subtitle={Object.keys(colors).join(' · ')}
+                colors={colors}
+              />
+            ))}
+          </ColorPalette>
+        </div>
       )}
 
       {branches.map(([key, child]) => (
