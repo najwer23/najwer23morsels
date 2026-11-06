@@ -1,5 +1,5 @@
 import { Source } from '@storybook/addon-docs/blocks';
-import { useState } from 'react';
+import { type ComponentProps, useState } from 'react';
 import { Button } from '../../stories/Button';
 import { Input } from '../../stories/Input';
 import { Select } from '../../stories/Select';
@@ -10,6 +10,8 @@ import { Typography } from '../../stories/Typography/Typography';
 
 type ThemeSchema = (typeof THEMES)[string];
 type Path = string[];
+type ButtonVariant = NonNullable<ComponentProps<typeof Button>['variant']>;
+type TypographyVariant = NonNullable<ComponentProps<typeof Typography>['variant']>;
 
 const PREFIX = '--n23m';
 
@@ -77,7 +79,6 @@ const Editor = ({
 );
 
 const Preview = ({ schema }: { schema: ThemeSchema }) => {
-  const button = (name: string, part: string) => `var(${PREFIX}-components-button-variants-${name}-${part})`;
   const text = (name: string) => `var(${PREFIX}-components-typography-colors-${name}-color)`;
 
   return (
@@ -86,22 +87,28 @@ const Preview = ({ schema }: { schema: ThemeSchema }) => {
         Buttons
       </Typography>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-        {Object.keys(schema.components.button.variants).map((name) => (
-          <button
-            key={name}
-            type="button"
-            style={{
-              padding: '8px 16px',
-              borderRadius: 6,
-              cursor: 'pointer',
-              background: button(name, 'background'),
-              border: `1px solid ${button(name, 'border')}`,
-              color: button(name, 'text'),
-            }}
-          >
-            {name}
-          </button>
-        ))}
+        {Object.keys(schema.components.button.variants).map((name) => {
+          const variant = name as ButtonVariant;
+          const label = (
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
+              {name}
+            </TextBox>
+          );
+
+          if (variant === 'copy') {
+            return (
+              <Button key={name} variant="copy" textToCopy={name}>
+                {label}
+              </Button>
+            );
+          }
+
+          return (
+            <Button key={name} variant={variant}>
+              {label}
+            </Button>
+          );
+        })}
       </div>
 
       <Typography variant="subheading" margin={'20px 0 20px'}>
@@ -109,9 +116,11 @@ const Preview = ({ schema }: { schema: ThemeSchema }) => {
       </Typography>
 
       {Object.keys(schema.components.typography.colors).map((name) => (
-        <Typography variant="body" color={text(name)}>
-          {name}
-        </Typography>
+        <div>
+          <Typography key={name} variant={name as TypographyVariant} color={text(name)}>
+            Lorem Ipsum is simply..
+          </Typography>
+        </div>
       ))}
     </div>
   );
