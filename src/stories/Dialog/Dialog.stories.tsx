@@ -25,7 +25,7 @@ A modal dialog built with the native \`<dialog>\` element.
 
 It is controlled with \`open\` and \`onCancel\`. \`onCancel\` runs for the Close button and for the Escape key, so it should set \`open\` to false.
 
-Recommended content layout: a \`Grid\` container (\`padding="0px 30px 30px 30px"\`, \`margin="auto"\`) with a \`Typography\` subheading (\`appearance="light"\`, bottom margin 20px) above the content. All stories use this layout.
+Recommended content layout: a \`Grid\` container (\`padding="0px 30px 30px 30px"\`, \`margin="auto"\`) with a \`Typography\` subheading, bottom margin 20px) above the content. All stories use this layout.
 
 \`\`\`tsx
 import { Dialog } from 'najwer23morsels/lib/Dialog';
