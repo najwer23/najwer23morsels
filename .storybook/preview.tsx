@@ -26,13 +26,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Documentation',
-          [
-            'README',
-            'CHANGELOG',
-            'Theme',
-            ['Schema', 'Playground', 'CSS Variables', 'Color Palette', 'Contrast checker WCAG', '*'],
-            '*',
-          ],
+          ['README', 'CHANGELOG', 'Theme', ['Schema', 'Playground', 'CSS Variables', 'Color Palette', '*'], '*'],
           '*',
         ],
       },

@@ -10,7 +10,7 @@ Every theme is applied as CSS variables on the `Theme` wrapper element. Copy the
 
 {Object.entries(THEMES).map(([key, theme]) => (
   <section key={key} style={{ marginTop: 48 }}>
-    <h2>{theme.name}</h2>
+    <h2>Theme name: {theme.name}</h2>
     <ThemeCSSVariables theme={theme} />
   </section>
 ))}

@@ -15,7 +15,7 @@ export const Tree = ({ node, title, depth = 2 }) => {
 
   return (
     <section style={{ marginTop: depth === 2 ? 64 : 32 }}>
-      <Heading>{title}</Heading>
+      <Heading>{depth == 2 ? 'Theme:' : ""} {title}</Heading>
 
       {tokens.length > 0 && (
         <div style={{ margin: '24px 0 40px' }}>
