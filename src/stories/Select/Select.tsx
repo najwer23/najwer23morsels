@@ -18,7 +18,7 @@ interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur' |
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
     data: { value: string; label: string },
   ) => void;
-  onSelect?: (option: SelectOption) => void; // only for theme playground
+  onSelect?: (option: SelectOption) => void;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -39,38 +39,42 @@ export const Select: React.FC<SelectProps> = ({
   const [selectedOptionValue, setSelectedOptionValue] = useState<string>(initialValue?.value ?? '');
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [activeOptionIndex, setActiveOptionIndex] = useState(0);
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   const id = useId();
-  const listboxId = `${name}-listbox`;
+  const listboxId = `${id}-listbox`;
 
   const filteredOptions = useMemo(() => {
     if (!isTyping) return options;
+
     return options.filter((option) => option.label.toLowerCase().includes(selectedOptionLabel.toLowerCase()));
   }, [options, selectedOptionLabel, isTyping]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const nextValue = e.currentTarget.value;
+
     setSelectedOptionLabel(nextValue);
     setSelectedOptionValue('');
+    setActiveOptionIndex(0);
     setIsTyping(true);
     setIsOpen(true);
   };
 
   const handleOpen = () => {
     if (disabled) return;
+
+    const selectedIndex = filteredOptions.findIndex((option) => option.value === selectedOptionValue);
+
+    setActiveOptionIndex(selectedIndex >= 0 ? selectedIndex : 0);
     setIsTyping(false);
     setIsOpen(true);
-  };
-
-  const handleToggle = () => {
-    if (disabled) return;
-    setIsTyping(false);
-    setIsOpen((prev) => !prev);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setIsOpen(false);
     setIsTyping(false);
+
     onBlur?.(e, {
       value: selectedOptionValue,
       label: selectedOptionLabel,
@@ -82,7 +86,77 @@ export const Select: React.FC<SelectProps> = ({
     setSelectedOptionLabel(option.label);
     setIsTyping(false);
     setIsOpen(false);
+
     onSelect?.(option);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    switch (e.key) {
+      case 'ArrowDown': {
+        e.preventDefault();
+
+        if (!isOpen) {
+          handleOpen();
+          return;
+        }
+
+        setActiveOptionIndex((prev) => Math.min(prev + 1, filteredOptions.length - 1));
+        break;
+      }
+
+      case 'ArrowUp': {
+        e.preventDefault();
+
+        if (!isOpen) {
+          setIsTyping(false);
+          setIsOpen(true);
+          setActiveOptionIndex(filteredOptions.length - 1);
+          return;
+        }
+
+        setActiveOptionIndex((prev) => Math.max(prev - 1, 0));
+        break;
+      }
+
+      case 'Home': {
+        if (!isOpen) return;
+
+        e.preventDefault();
+        setActiveOptionIndex(0);
+        break;
+      }
+
+      case 'End': {
+        if (!isOpen) return;
+
+        e.preventDefault();
+        setActiveOptionIndex(filteredOptions.length - 1);
+        break;
+      }
+
+      case 'Enter': {
+        if (!isOpen || !filteredOptions[activeOptionIndex]) return;
+
+        e.preventDefault();
+        handleSelect(filteredOptions[activeOptionIndex]);
+        break;
+      }
+
+      case 'Escape': {
+        if (!isOpen) return;
+
+        e.preventDefault();
+        setIsOpen(false);
+        setIsTyping(false);
+        break;
+      }
+
+      case 'Tab': {
+        setIsOpen(false);
+        setIsTyping(false);
+        break;
+      }
+    }
   };
 
   return (
@@ -96,14 +170,19 @@ export const Select: React.FC<SelectProps> = ({
         onMouseDown={(e) => {
           e.preventDefault();
           inputRef.current?.focus();
-          handleToggle();
+
+          if (isOpen) {
+            setIsOpen(false);
+          } else {
+            handleOpen();
+          }
         }}
-      ></div>
+      />
 
       <Input
         name={name}
         type="hidden"
-        kind={'input'}
+        kind="input"
         validatorOptions={[
           ...(validatorOptions ?? []),
           {
@@ -139,28 +218,31 @@ export const Select: React.FC<SelectProps> = ({
           },
         ]}
         inputProps={{
+          onFocus: handleOpen,
           onMouseDown: handleOpen,
-          onKeyDown: (e) => {
-            if (e.key === 'Escape') setIsOpen(false);
-            if (e.key === 'ArrowDown') handleOpen();
-          },
+          onKeyDown: handleKeyDown,
           role: 'combobox',
           'aria-autocomplete': 'list',
           'aria-expanded': isOpen,
           'aria-controls': listboxId,
+          'aria-activedescendant':
+            isOpen && filteredOptions[activeOptionIndex] ? `${id}-option-${activeOptionIndex}` : undefined,
         }}
       />
 
       <div className={[styles.dropdownWrapper, isOpen ? styles.open : ''].join(' ')}>
         <div id={listboxId} role="listbox" className={styles.dropdown}>
-          {filteredOptions.map((option) => (
+          {filteredOptions.map((option, index) => (
             <div
-              className={styles.dropdownItem}
+              id={`${id}-option-${index}`}
+              className={[styles.dropdownItem, index === activeOptionIndex ? styles.active : '']
+                .filter(Boolean)
+                .join(' ')}
               key={option.value}
               role="option"
               aria-selected={option.value === selectedOptionValue}
-              onMouseDown={() => {
-                // keep focus when selected
+              onMouseEnter={() => setActiveOptionIndex(index)}
+              onMouseDown={(e) => {
                 // e.preventDefault();
                 handleSelect(option);
               }}
