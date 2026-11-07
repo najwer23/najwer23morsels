@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Grid } from '../Grid';
 import { Typography } from '../Typography';
 import { NavigationDashboard } from '.';
@@ -10,6 +9,7 @@ const meta: Meta<typeof NavigationDashboard> = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      story: { inline: false, iframeHeight: 600 },
       description: {
         component: `
 A dashboard layout with a sticky, resizable, collapsible sidebar.
