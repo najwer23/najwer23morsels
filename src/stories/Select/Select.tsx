@@ -115,6 +115,10 @@ export const Select: React.FC<SelectProps> = ({
     setIsTyping(false);
     setIsOpen(false);
     onSelect?.(option);
+
+    setTimeout(() => {
+      inputRef.current?.blur();
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
