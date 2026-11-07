@@ -1,6 +1,6 @@
 {
   "name": "najwer23morsels",
-  "version": "2.0.22",
+  "version": "2.0.23",
   "exports": {
     "./lib/*": {
       "types": "./lib/*/index.d.ts",
