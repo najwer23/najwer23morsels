@@ -245,7 +245,7 @@ export const Playground = () => {
           <div
             style={{
               display: 'flex',
-              alignItems: 'flex-start',
+              alignItems: 'center',
               gap: 8,
               marginBottom: 16,
             }}
@@ -265,7 +265,7 @@ export const Playground = () => {
               onSelect={(option) => pickBase(option.value)}
             />
 
-            <div style={{ paddingTop: 20 }}>
+            <div style={{ paddingTop: 11 }}>
               <Button variant="secondary" onClick={() => pickBase(base)}>
                 <TextBox mobileSize={16} desktopSize={16} color="inherit">
                   Reset
