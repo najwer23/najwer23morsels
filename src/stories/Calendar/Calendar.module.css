@@ -1,6 +1,7 @@
 @layer n23mCalendar {
   .n23mCalendar {
     --iff: var(--n23m-fontFamily);
+    --calendar-gap: 2px;
 
     position: relative;
 
@@ -72,10 +73,16 @@
           }
         }
 
-        & .weekdays {
-          display: flex;
+        & .weekdays,
+        & .days {
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          column-gap: var(--calendar-gap);
           width: 100%;
-          justify-content: center;
+        }
+
+        & .days {
+          row-gap: var(--calendar-gap);
         }
 
         & .weekdaysChild {
@@ -83,20 +90,14 @@
           justify-content: center;
           align-items: center;
           height: 30px;
-          width: calc(100% / 7);
+          min-width: 0;
           font-family: var(--iff);
           font-size: 12px;
         }
 
-        & .days {
-          display: flex;
-          width: 100%;
-          justify-content: flex-start;
-          flex-wrap: wrap;
-        }
-
         & .daysChild {
           font-size: 16px;
+          position: relative;
         }
 
         & .daysChild:nth-child(7n) {
@@ -115,11 +116,13 @@
         & .daysActive,
         & .daysClickable {
           cursor: pointer;
+
           &:focus-visible {
+            z-index: 1;
             border-radius: 12px;
             corner-shape: squircle;
             background-color: #f2f2f2;
-            outline: 0px solid white;
+            outline: 2px solid var(--n23m-components-button-variants-secondary-border);
             outline-offset: 0px;
             box-shadow: none;
           }

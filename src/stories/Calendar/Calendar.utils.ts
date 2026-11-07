@@ -1,3 +1,6 @@
+import { FOCUSABLE } from './Calendar.const';
+import { Direction } from './Calendar.types';
+
 const createDate = (year: number, monthIndex: number, day: number) => {
   const date = new Date(0);
   date.setFullYear(year, monthIndex, day);
@@ -116,4 +119,52 @@ export const parseTypedDate = (value: string, today: Date = new Date()) => {
     day,
     iso: `${String(year).padStart(4, '0')}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
   };
+};
+
+export const onActivate = (fn: () => void) => (e: React.KeyboardEvent) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    fn();
+  }
+};
+
+export const getFocusable = (root: HTMLElement | null) =>
+  root ? Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)) : [];
+
+export const center = (el: HTMLElement) => {
+  const r = el.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+};
+
+// Tab stops inside the dropdown: everything except grid cells (days / years / months),
+// where only the selected cell is a stop. Arrow keys reach the rest of the grid.
+export const getTabStops = (root: HTMLElement | null) =>
+  getFocusable(root).filter((el) => !el.closest('[data-grid]') || !!el.closest('[data-autofocus]'));
+
+// Spatial navigation: picks the closest focusable element in the pressed direction.
+export const findNeighbour = (items: HTMLElement[], current: HTMLElement, dir: Direction) => {
+  const c = center(current);
+  const horizontal = dir === 'left' || dir === 'right';
+  let best: HTMLElement | null = null;
+  let bestScore = Infinity;
+
+  for (const item of items) {
+    if (item === current) continue;
+
+    const p = center(item);
+    const dx = p.x - c.x;
+    const dy = p.y - c.y;
+    const along = dir === 'left' ? -dx : dir === 'right' ? dx : dir === 'up' ? -dy : dy;
+    const across = horizontal ? Math.abs(dy) : Math.abs(dx);
+
+    if (along <= 1) continue;
+
+    const score = along + across * 2;
+    if (score < bestScore) {
+      bestScore = score;
+      best = item;
+    }
+  }
+
+  return best;
 };

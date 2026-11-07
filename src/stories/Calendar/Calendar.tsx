@@ -1,18 +1,23 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../Button';
 import { IconArrowLeft, IconArrowRight } from '../Icons';
 import { Input } from '../Input';
 import { TextBox } from '../TextBox';
 import { ValidatorOptions } from '../validator';
+import { FOCUSABLE, KEY_TO_DIRECTION, OUTSIDE_FOCUSABLE } from './Calendar.const';
 import styles from './Calendar.module.css';
 import {
   addMonths,
   calculateNewDayOfMonth,
   changeYearInDate,
+  findNeighbour,
   generateDaysArray,
   generateYears,
   getDateForInput,
   getDaysInMonth,
+  getFocusable,
+  getTabStops,
+  onActivate,
   parseTypedDate,
 } from './Calendar.utils';
 
@@ -26,13 +31,6 @@ interface CalendarProps extends React.HTMLAttributes<HTMLElement> {
   initialValue?: '' | `${number}-${number}-${number}`;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
-
-const onActivate = (fn: () => void) => (e: React.KeyboardEvent) => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    fn();
-  }
-};
 
 export const Calendar: React.FC<CalendarProps> = ({
   children,
@@ -49,6 +47,11 @@ export const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  // set while a keyboard action may re-render (and unmount) the focused element
+  const suppressBlurRef = useRef(false);
+  // set when we move focus back to the input and don't want onFocus to reset the view
+  const skipOpenRef = useRef(false);
 
   const [calendarState, setCalendarState] = useState<{
     value: string;
@@ -68,6 +71,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   } = parseTypedDate(calendarState.value);
 
   const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    if (suppressBlurRef.current) return;
+
     const next = e.relatedTarget as Node | null;
 
     if (next && wrapperRef.current?.contains(next)) return;
@@ -148,6 +153,145 @@ export const Calendar: React.FC<CalendarProps> = ({
     });
   };
 
+  const focusPreferred = () => {
+    const root = dropdownRef.current;
+    if (!root) return;
+
+    const marked = root.querySelector<HTMLElement>('[data-autofocus]');
+    const target = marked ? (marked.matches(FOCUSABLE) ? marked : marked.querySelector<HTMLElement>(FOCUSABLE)) : null;
+
+    (target ?? getFocusable(root)[0])?.focus();
+  };
+
+  const focusInput = () => {
+    skipOpenRef.current = true;
+    inputRef.current?.focus();
+  };
+
+  // After a keyboard action re-renders the dropdown (view switch, new value),
+  // the focused element may be gone - put focus back inside the dropdown.
+  useEffect(() => {
+    console.log('333');
+    if (!suppressBlurRef.current) return;
+
+    suppressBlurRef.current = false;
+
+    if (!calendarState.open) return;
+    if (dropdownRef.current?.contains(document.activeElement)) return;
+
+    focusPreferred();
+  });
+
+  const handleInputFocus = () => {
+    if (skipOpenRef.current) {
+      skipOpenRef.current = false;
+      return;
+    }
+
+    openCalendar();
+  };
+
+  // Input: ArrowDown opens the dropdown / moves focus into it, Escape closes it.
+  // Left/right/up stay normal text-caret keys.
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.key === 'Escape') {
+      if (!calendarState.open) return;
+
+      e.preventDefault();
+      closeCalendar();
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+
+      if (!calendarState.open) {
+        openCalendar();
+        return;
+      }
+
+      focusPreferred();
+    }
+  };
+
+  // Dropdown: arrows move focus between its elements, Escape closes it.
+  const handleDropdownKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeCalendar();
+      focusInput();
+      return;
+    }
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      // activation can re-render the dropdown - keep it open and restore focus afterwards
+      suppressBlurRef.current = true;
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      const current = document.activeElement as HTMLElement | null;
+      if (!current) return;
+
+      const stops = getTabStops(dropdownRef.current).filter((el) => el !== current);
+      const following = (el: HTMLElement) => !!(current.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
+
+      const next = e.shiftKey ? [...stops].reverse().find((el) => !following(el)) : stops.find((el) => following(el));
+
+      if (next) {
+        e.preventDefault();
+        next.focus();
+        return;
+      }
+
+      if (e.shiftKey) {
+        // before the first stop -> back to the input
+        e.preventDefault();
+        focusInput();
+        return;
+      }
+
+      // after the last stop -> continue to the next focusable element outside the calendar
+      const wrapper = wrapperRef.current;
+      if (!wrapper) return;
+
+      const outside = Array.from(document.querySelectorAll<HTMLElement>(OUTSIDE_FOCUSABLE)).find(
+        (el) => !wrapper.contains(el) && !!(wrapper.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING),
+      );
+
+      e.preventDefault();
+
+      if (outside) {
+        outside.focus();
+      } else {
+        current.blur();
+        closeCalendar();
+      }
+      return;
+    }
+
+    const dir = KEY_TO_DIRECTION[e.key];
+    if (!dir) return;
+
+    e.preventDefault();
+
+    const items = getFocusable(dropdownRef.current);
+    const current = document.activeElement as HTMLElement | null;
+
+    if (!current || !items.includes(current)) {
+      items[0]?.focus();
+      return;
+    }
+
+    const next = findNeighbour(items, current, dir);
+
+    if (next) {
+      next.focus();
+    } else if (dir === 'up') {
+      focusInput();
+    }
+  };
+
   const weekdays = useMemo(
     () =>
       Array.from({ length: 7 }, (_, i) =>
@@ -214,21 +358,9 @@ export const Calendar: React.FC<CalendarProps> = ({
         ]}
         className={styles.arrowUp}
         inputProps={{
-          onFocus: openCalendar,
+          onFocus: handleInputFocus,
           onMouseDown: openCalendar,
-          onKeyDown: (e) => {
-            if (e.key === 'Escape') {
-              if (!calendarState.open) return;
-
-              e.preventDefault();
-              closeCalendar();
-            }
-
-            if (e.key === 'ArrowDown') {
-              e.preventDefault();
-              openCalendar();
-            }
-          },
+          onKeyDown: handleInputKeyDown,
           role: 'combobox',
           'aria-expanded': calendarState.open,
           'aria-haspopup': 'dialog',
@@ -236,7 +368,13 @@ export const Calendar: React.FC<CalendarProps> = ({
       />
 
       <div className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}>
-        <div className={styles.dropdown} onMouseDown={(e) => e.preventDefault()} onBlur={handleBlur}>
+        <div
+          ref={dropdownRef}
+          className={styles.dropdown}
+          onMouseDown={(e) => e.preventDefault()}
+          onKeyDown={handleDropdownKeyDown}
+          onBlur={handleBlur}
+        >
           {calendarState.dropDwonState === 'years' && (
             <>
               <div className={styles.controls} style={{ marginBottom: '10px' }}>
@@ -281,9 +419,13 @@ export const Calendar: React.FC<CalendarProps> = ({
                 </div>
               </div>
 
-              <div className={styles.years}>
+              <div className={styles.years} data-grid>
                 {years.map((v) => (
-                  <div className={styles.yearsChild} key={v + calendarState.value}>
+                  <div
+                    className={styles.yearsChild}
+                    key={v + calendarState.value}
+                    data-autofocus={currentYear === v ? '' : undefined}
+                  >
                     <Button
                       type="button"
                       height="40px"
@@ -306,9 +448,13 @@ export const Calendar: React.FC<CalendarProps> = ({
           )}
 
           {calendarState.dropDwonState === 'months' && (
-            <div className={styles.months}>
+            <div className={styles.months} data-grid>
               {months.map((v, i) => (
-                <div className={styles.monthsChild} key={v + calendarState.value}>
+                <div
+                  className={styles.monthsChild}
+                  key={v + calendarState.value}
+                  data-autofocus={currentMonth === i ? '' : undefined}
+                >
                   <Button
                     type="button"
                     height="40px"
@@ -397,7 +543,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                 ))}
               </div>
 
-              <div className={styles.days}>
+              <div className={styles.days} data-grid>
                 {days.map((v) => {
                   const inMonth = v.day > 0 && v.day <= getDaysInMonth(gridBase);
 
@@ -412,6 +558,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                       ]
                         .filter(Boolean)
                         .join(' ')}
+                      data-autofocus={inMonth && v.cssClass === 'active' ? '' : undefined}
                       role={inMonth ? 'button' : undefined}
                       tabIndex={inMonth ? 0 : undefined}
                       onKeyDown={inMonth ? onActivate(() => selectDay(v.day)) : undefined}
