@@ -5,7 +5,6 @@
     position: relative;
 
     & input {
-      cursor: pointer;
       padding-right: 40px;
     }
 
