@@ -38,11 +38,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 }) => {
   const refs = {
     carousel: useRef<HTMLDivElement | null>(null),
-    buttonLeft: useRef<HTMLButtonElement | null>(null),
-    buttonRight: useRef<HTMLButtonElement | null>(null),
 
-    showArrowLeft: useRef(false),
-    showArrowRight: useRef(false),
     isSliding: useRef(false),
     animationFrameId: useRef<number | null>(null),
     isHovered: useRef(false),
@@ -66,6 +62,11 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
 
     childRefs: useRef<(HTMLDivElement | null)[]>([]),
   };
+
+  // Arrow state (drives the `disabled` prop, same approach as Slider)
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [isSliding, setIsSliding] = useState(false);
 
   const childrenArray = Children.toArray(children);
   const cloneCount = childrenArray.length;
@@ -159,10 +160,6 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   }, [width, cumulativeOffsets, cloneCount, isCircular]);
 
   useEffect(() => {
-    setButtonsDisabled(false);
-  }, []);
-
-  useEffect(() => {
     if (!isCircular) return;
 
     if (!autoPlay) {
@@ -220,33 +217,22 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
   }, [autoPlay, autoPlaySpeed, isCircular, cumulativeOffsets, childWidths, cloneCount, childrenArray.length]);
 
   const updateControls = () => {
-    if (!refs.carousel.current) return;
+    const track = refs.carousel.current;
+    if (!track) return;
 
     if (isCircular) {
-      refs.showArrowLeft.current = true;
-      refs.showArrowRight.current = true;
-    } else {
-      const scrollLeft = refs.carousel.current.scrollLeft;
-      const maxScrollLeft = refs.carousel.current.scrollWidth - refs.carousel.current.clientWidth;
-
-      refs.showArrowLeft.current = scrollLeft > 0;
-      refs.showArrowRight.current = scrollLeft < maxScrollLeft - 1;
+      setCanScrollLeft(true);
+      setCanScrollRight(true);
+      return;
     }
 
-    setButtonsDisabled(refs.isSliding.current);
+    const { scrollLeft, scrollWidth, clientWidth } = track;
+
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
   };
 
   refs.updateControls.current = updateControls;
-
-  const setButtonsDisabled = (disabled: boolean) => {
-    if (refs.buttonLeft.current) {
-      refs.buttonLeft.current.disabled = disabled || !refs.showArrowLeft.current;
-    }
-
-    if (refs.buttonRight.current) {
-      refs.buttonRight.current.disabled = disabled || !refs.showArrowRight.current;
-    }
-  };
 
   const onScroll = () => {
     if (!refs.carousel.current) return;
@@ -274,7 +260,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
     if (refs.isSliding.current) return;
 
     refs.isSliding.current = true;
-    setButtonsDisabled(true);
+    setIsSliding(true);
 
     const start = element.scrollLeft;
     const change = target - start;
@@ -292,7 +278,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
         requestAnimationFrame(animateScroll);
       } else {
         refs.isSliding.current = false;
-        setButtonsDisabled(false);
+        setIsSliding(false);
         updateControls();
       }
     };
@@ -519,7 +505,6 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
       <div className={[styles.n23mSliderScrollControls, 'n23mSliderScrollControls'].join(' ')}>
         <div className={[styles.n23mSliderScrollControlsButtons, 'n23mSliderScrollControlsButtons'].join(' ')}>
           <Button
-            ref={refs.buttonLeft}
             variant="secondary"
             height="50px"
             width="50px"
@@ -527,12 +512,12 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
             title="Previous"
             aria-label="Previous"
             onClick={slideLeft}
+            disabled={isSliding || !canScrollLeft}
           >
             <IconArrowLeft width={24} height={24} />
           </Button>
 
           <Button
-            ref={refs.buttonRight}
             variant="secondary"
             height="50px"
             width="50px"
@@ -540,6 +525,7 @@ export const SliderScroll: React.FC<SliderScrollProps> = ({
             title="Next"
             aria-label="Next"
             onClick={slideRight}
+            disabled={isSliding || !canScrollRight}
           >
             <IconArrowRight width={24} height={24} />
           </Button>
