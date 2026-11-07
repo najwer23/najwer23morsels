@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useEffect, useState } from 'react';
 import { Grid } from '../Grid';
 import { Typography } from '../Typography';
 import { NavigationTabs } from '.';
@@ -8,6 +7,7 @@ const meta: Meta<typeof NavigationTabs> = {
   title: 'Navigation/NavigationTabs',
   component: NavigationTabs,
   parameters: {
+    layout: 'fullscreen',
     docs: {
       description: {
         component: `
@@ -178,69 +178,6 @@ const MobileSections = ({
   </Grid>
 );
 
-const PageContent = ({ repeat = 1000 }: { repeat?: number }) => (
-  <div style={{ padding: 20 }}>{'Page content. '.repeat(repeat)}</div>
-);
-
-// Simulates a router: swaps the page shortly after the hash changes.
-// delayMs must stay below the settle time (150 ms), otherwise the menu closes before the swap.
-const RoutePage = ({ delayMs = 100 }: { delayMs?: number }) => {
-  const [route, setRoute] = useState(() => window.location.hash || '#/home');
-
-  useEffect(() => {
-    let timer: number | undefined;
-
-    const onHashChange = () => {
-      clearTimeout(timer);
-      timer = window.setTimeout(() => setRoute(window.location.hash), delayMs);
-    };
-
-    window.addEventListener('hashchange', onHashChange);
-
-    return () => {
-      window.removeEventListener('hashchange', onHashChange);
-      clearTimeout(timer);
-    };
-  }, [delayMs]);
-
-  return (
-    <div style={{ padding: 20 }}>
-      <Typography variant="heading" tag="h1">
-        {route}
-      </Typography>
-      <PageContent repeat={200} />
-    </div>
-  );
-};
-
-// No preventDefault on the hash links: the URL has to change, or the menu has nothing to wait for.
-const RouteChangeLinks = () => (
-  <Grid layout="container" margin={0} gap={{ col: '0', row: '16px' }}>
-    <Typography variant="body" tag="p" desktopSize={16} mobileSize={16} fontWeight={600}>
-      Route change test
-    </Typography>
-
-    {['dashboard', 'weight', 'settings'].map((name) => (
-      <div key={name}>
-        <Typography key={name} variant="link" href={`#/${name}`} desktopSize={28} mobileSize={28}>
-          {name[0].toUpperCase() + name.slice(1)}
-        </Typography>
-      </div>
-    ))}
-
-    <Typography
-      variant="link"
-      href="https://najwer23.github.io/"
-      target="_blank"
-      rel="noreferrer"
-      desktopSize={28}
-      mobileSize={28}
-    >
-      External link ↗
-    </Typography>
-  </Grid>
-);
-
 const defaultArgs = {
   menuTopLeftColumn: <Logo />,
   menuTopRightColumn: <TopRightLinks />,
@@ -248,15 +185,10 @@ const defaultArgs = {
   menuBottomTabs: <BottomTabs />,
 };
 
-const isolatedDocs = { docs: { story: { inline: false, iframeHeight: 500 } } };
+const isolatedDocs = { docs: { story: { inline: false, iframeHeight: 600 } } };
 
 export const Default: Story = {
   args: defaultArgs,
-  render: (args) => (
-    <div style={{ width: '100vw', height: '400px' }}>
-      <NavigationTabs {...args} />
-    </div>
-  ),
 };
 
 export const NavigationTabsOnlyTop: Story = {
@@ -265,12 +197,6 @@ export const NavigationTabsOnlyTop: Story = {
     menuBottomTabs: undefined,
     menuOnlyTop: true,
   },
-  render: (args) => (
-    <div style={{ width: '100vw', height: '400px' }}>
-      <NavigationTabs {...args} />
-      <PageContent />
-    </div>
-  ),
 };
 
 export const WithoutMobileMenu: Story = {
@@ -292,27 +218,6 @@ export const ManyTopLinks: Story = {
   args: {
     ...defaultArgs,
     menuTopRightColumn: <TopRightLinks items={['Pricing', 'Docs', 'Blog', 'Contact', 'Login']} />,
-  },
-};
-
-export const ManyBottomTabs: Story = {
-  args: {
-    ...defaultArgs,
-    menuBottomTabs: (
-      <BottomTabs
-        items={Array.from(
-          { length: 16 },
-          (_, i) => ['Dashboard', 'Push Ups', 'Squats', 'Sit Ups'][i % 4] + ` ${i + 1}`,
-        )}
-      />
-    ),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'The tabs wrap onto several rows (row gap 20px) and stay centered.',
-      },
-    },
   },
 };
 
@@ -417,23 +322,6 @@ export const CustomClassAndStyle: Story = {
     style: { background: '#fafafa', borderBottom: '1px solid #ddd' },
     'data-testid': 'navigation-tabs',
   } as Story['args'],
-};
-
-export const WithLongPage: Story = {
-  args: defaultArgs,
-  render: (args) => (
-    <div style={{ width: '100vw' }}>
-      <NavigationTabs {...args} />
-      <PageContent repeat={3000} />
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'The navigation scrolls away with the page. Below 768px the Menu button stays fixed on screen.',
-      },
-    },
-  },
 };
 
 export const Mobile: Story = {
@@ -614,40 +502,4 @@ export const MobileManySections: Story = {
       },
     },
   },
-};
-
-export const MobileLongPage: Story = {
-  args: defaultArgs,
-  globals: { viewport: { value: 'mobile1', isRotated: false } },
-  parameters: isolatedDocs,
-  render: (args) => (
-    <div style={{ width: '100%' }}>
-      <NavigationTabs {...args} />
-      <PageContent repeat={3000} />
-    </div>
-  ),
-};
-
-export const MobileMenuRouteChange: Story = {
-  args: {
-    ...defaultArgs,
-    menuMobile: <RouteChangeLinks />,
-  },
-  globals: { viewport: { value: 'mobile1', isRotated: false } },
-  parameters: {
-    ...isolatedDocs,
-    docs: {
-      ...isolatedDocs.docs,
-      description: {
-        story:
-          'Open the menu and click a route. The menu stays open while the page changes underneath, then closes with its animation, so the old page is never visible. The external link opens in a new tab and leaves the menu as it is.',
-      },
-    },
-  },
-  render: (args) => (
-    <div style={{ width: '100%' }}>
-      <NavigationTabs {...args} />
-      <RoutePage />
-    </div>
-  ),
 };
