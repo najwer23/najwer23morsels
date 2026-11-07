@@ -2,29 +2,44 @@
   .n23mTable {
     --hover-bg: rgb(0 0 0 / 11%);
     --shadow-size: 14px;
-    --shadow-cover: 15px; /* slightly wider than the shadow, hides it fully at scroll 0 */
+    --shadow-color: rgb(0 0 0 / 30%);
     overflow-x: auto;
     overflow-y: hidden; /* clips the column highlight */
     isolation: isolate; /* keeps the z-index: -1 highlight inside the wrapper */
 
     background-color: #fff;
-
     background-image:
-      linear-gradient(#fff, #fff), linear-gradient(#fff, #fff),
-      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 30%), rgb(0 0 0 / 0%)),
-      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 30%), rgb(0 0 0 / 0%));
+      radial-gradient(farthest-side at 0 50%, var(--shadow-color), rgb(0 0 0 / 0%)),
+      radial-gradient(farthest-side at 100% 50%, var(--shadow-color), rgb(0 0 0 / 0%));
     background-repeat: no-repeat;
     background-position:
       left center,
-      right center,
-      left center,
       right center;
+    background-attachment: scroll, scroll;
+    /* both hidden by default */
     background-size:
-      var(--shadow-cover) 100%,
-      var(--shadow-cover) 100%,
+      0 100%,
+      0 100%;
+  }
+
+  /* content is hidden on the left → show the left shadow */
+  .n23mTable[data-shadow-start="true"] {
+    background-size:
+      var(--shadow-size) 100%,
+      0 100%;
+  }
+
+  /* content is hidden on the right → show the right shadow */
+  .n23mTable[data-shadow-end="true"] {
+    background-size:
+      0 100%,
+      var(--shadow-size) 100%;
+  }
+
+  .n23mTable[data-shadow-start="true"][data-shadow-end="true"] {
+    background-size:
       var(--shadow-size) 100%,
       var(--shadow-size) 100%;
-    background-attachment: local, local, scroll, scroll;
   }
 
   .n23mTable:focus-visible {

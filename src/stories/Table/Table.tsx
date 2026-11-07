@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react'; // NEW: useRef
 import { Button } from '../Button';
 import { Calendar } from '../Calendar';
 import { Dialog } from '../Dialog';
@@ -12,6 +12,7 @@ import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
 import { TableCellDelete, TableCellEdit, TableColumn, TableRow } from './Table.types';
+import { useScrollShadows } from './useScrollShadows'; // NEW
 
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
@@ -40,6 +41,9 @@ export const Table: React.FC<TableProps> = ({
   tableLoadingHeight,
   ...props
 }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  useScrollShadows(wrapperRef);
+
   const [isOpenDialogEditCell, setIsOpenDialogEditCell] = useState(false);
   const [isOpenDialogDeleteCell, setIsOpenDialogDeleteCell] = useState(false);
   const [dialogEditCellKey, setDialogEditCellKey] = useState(0);
@@ -122,6 +126,7 @@ export const Table: React.FC<TableProps> = ({
     <div
       className={[styles.n23mTable, 'n23mTable', className].filter(Boolean).join(' ')}
       {...props}
+      ref={wrapperRef}
       style={
         {
           ...getCssVariableStyle({
