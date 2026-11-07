@@ -328,13 +328,20 @@ export const Calendar: React.FC<CalendarProps> = ({
           if (disabled) return;
 
           e.preventDefault();
-          inputRef.current?.focus();
 
-          setCalendarState((prevState) => ({
-            ...prevState,
-            open: !prevState.open,
-            dropDwonState: 'days',
-          }));
+          const input = inputRef.current;
+
+          if (calendarState.open) {
+            closeCalendar();
+
+            if (input && document.activeElement !== input) {
+              skipOpenRef.current = true;
+              input.focus();
+            }
+          } else {
+            input?.focus();
+            openCalendar();
+          }
         }}
       />
 
