@@ -189,7 +189,8 @@ export const Table: React.FC<TableProps> = ({
                         key={col.cellName}
                         label={col.cellText}
                         name={col.cellName}
-                        type={col.cellType}
+                        type={col.cellType === 'currency' ? 'number' : col.cellType}
+                        step={col.cellType === 'number' ? 0.01 : undefined}
                         defaultValue={col.cellType === 'number' ? Number(value ?? 0).toFixed(2) : String(value ?? '')}
                         disabled={col.disabledEdit}
                         placeholder={col.cellText}
@@ -330,7 +331,14 @@ export const Table: React.FC<TableProps> = ({
                         color="black"
                         textAlign={col.tdAlign ?? 'left'}
                       >
-                        {typeof value === 'number' ? value.toFixed(2) : String(value ?? '')}
+                        {col.cellType === 'currency'
+                          ? new Intl.NumberFormat(col.localeCode ?? 'pl-PL', {
+                              style: 'currency',
+                              currency: col.currency ?? 'PLN',
+                            }).format(Number(value ?? 0))
+                          : typeof value === 'number'
+                            ? value.toFixed(2)
+                            : String(value ?? '')}
                       </TextBox>
                     </td>
                   );

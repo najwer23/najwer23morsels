@@ -30,6 +30,11 @@ export type TableColumn =
       cellType: 'text' | 'number';
       options?: never;
       initialValue?: never;
+    })
+  | (TableColumnBase & {
+      cellType: 'currency';
+      localeCode?: 'pl-PL';
+      currency?: 'PLN' | 'USD';
     });
 
 export interface TableCellEdit {
