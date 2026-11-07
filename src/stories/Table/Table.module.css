@@ -1,49 +1,18 @@
 @layer n23mTable {
-  @property --n23-table-shadow-start {
-    syntax: "<number>";
-    inherits: false;
-    initial-value: 0;
-  }
-
-  @property --n23-table-shadow-end {
-    syntax: "<number>";
-    inherits: false;
-    initial-value: 0;
-  }
-
-  @keyframes n23mShadowStart {
-    from {
-      --n23-table-shadow-start: 0;
-    }
-    to {
-      --n23-table-shadow-start: 1;
-    }
-  }
-
-  @keyframes n23mShadowEnd {
-    from {
-      --n23-table-shadow-end: 1;
-    }
-    to {
-      --n23-table-shadow-end: 0;
-    }
-  }
-
   .n23mTable {
     --hover-bg: rgb(0 0 0 / 11%);
-    --shadow-ramp: 6px; /* scroll distance needed for full-strength shadow */
+    --shadow-size: 14px;
+    --shadow-cover: 15px; /* slightly wider than the shadow, hides it fully at scroll 0 */
     overflow-x: auto;
     overflow-y: hidden; /* clips the column highlight */
     isolation: isolate; /* keeps the z-index: -1 highlight inside the wrapper */
 
     background-color: #fff;
 
-    /* Fallback for browsers without scroll-driven animations (old behaviour) */
     background-image:
-      linear-gradient(to right, #fff 20px, rgb(255 255 255 / 0%)),
-      linear-gradient(to left, #fff 20px, rgb(255 255 255 / 0%)),
-      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%)),
-      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%));
+      linear-gradient(#fff, #fff), linear-gradient(#fff, #fff),
+      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 30%), rgb(0 0 0 / 0%)),
+      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 30%), rgb(0 0 0 / 0%));
     background-repeat: no-repeat;
     background-position:
       left center,
@@ -51,39 +20,11 @@
       left center,
       right center;
     background-size:
-      40px 100%,
-      40px 100%,
-      14px 100%,
-      14px 100%;
+      var(--shadow-cover) 100%,
+      var(--shadow-cover) 100%,
+      var(--shadow-size) 100%,
+      var(--shadow-size) 100%;
     background-attachment: local, local, scroll, scroll;
-  }
-
-  @supports (animation-timeline: scroll()) {
-    .n23mTable {
-      /* No covers anymore, just the two shadows, whose opacity is scroll-driven */
-      background-image:
-        radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / calc(var(--n23-table-shadow-start) * 25%)), rgb(0 0 0 / 0%)),
-        radial-gradient(
-          farthest-side at 100% 50%,
-          rgb(0 0 0 / calc(var(--n23-table-shadow-end) * 25%)),
-          rgb(0 0 0 / 0%)
-        );
-      background-position:
-        left center,
-        right center;
-      background-size:
-        14px 100%,
-        14px 100%;
-      background-attachment: scroll, scroll;
-
-      animation:
-        n23mShadowStart linear both,
-        n23mShadowEnd linear both;
-      animation-timeline: scroll(self inline);
-      animation-range:
-        0 var(--shadow-ramp),
-        calc(100% - var(--shadow-ramp)) 100%;
-    }
   }
 
   .n23mTable:focus-visible {
