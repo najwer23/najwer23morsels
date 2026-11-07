@@ -203,6 +203,7 @@ export const NavigationTabs: React.FC<NavigationTabsProps> = ({
       <Grid layout="container" widthMax={widthMainContainer}>
         <Grid layout="container" widthMax={widthInnerContainer} padding="20px" margin="auto">
           <Grid
+            widthMax={widthMainContainer}
             layout="columns"
             gap={{ col: '20px', row: '20px' }}
             col={{
