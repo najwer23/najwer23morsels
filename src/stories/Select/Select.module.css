@@ -94,7 +94,7 @@
           /* Mouse and keyboard highlighting */
           &:hover,
           &.active {
-            background-color: whitesmoke;
+            background-color: #f2f2f2;
           }
 
           &:not(:first-child) {

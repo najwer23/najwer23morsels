@@ -1,4 +1,4 @@
-import React, { useId, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Input } from '../Input';
 import { ValidatorOptions } from '../validator';
 import styles from './Select.module.css';
@@ -21,6 +21,19 @@ interface SelectProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onBlur' |
   onSelect?: (option: SelectOption) => void;
 }
 
+// visually hidden, but still read by screen readers
+const srOnly: React.CSSProperties = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
+
 export const Select: React.FC<SelectProps> = ({
   className,
   name,
@@ -42,6 +55,8 @@ export const Select: React.FC<SelectProps> = ({
   const [activeOptionIndex, setActiveOptionIndex] = useState(0);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+  // true only right after a keyboard navigation, so mouse hover never scrolls the list
+  const scrollOnKeyboardRef = useRef(false);
   const id = useId();
   const listboxId = `${id}-listbox`;
 
@@ -50,6 +65,19 @@ export const Select: React.FC<SelectProps> = ({
 
     return options.filter((option) => option.label.toLowerCase().includes(selectedOptionLabel.toLowerCase()));
   }, [options, selectedOptionLabel, isTyping]);
+
+  const lastIndex = Math.max(filteredOptions.length - 1, 0);
+
+  // keep the active option visible when navigating with the keyboard (not the mouse)
+  useEffect(() => {
+    if (!scrollOnKeyboardRef.current) return;
+
+    scrollOnKeyboardRef.current = false;
+
+    if (!isOpen) return;
+
+    document.getElementById(`${id}-option-${activeOptionIndex}`)?.scrollIntoView({ block: 'nearest' });
+  }, [id, isOpen, activeOptionIndex]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const nextValue = e.currentTarget.value;
@@ -90,6 +118,10 @@ export const Select: React.FC<SelectProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End') {
+      scrollOnKeyboardRef.current = true;
+    }
+
     switch (e.key) {
       case 'ArrowDown': {
         e.preventDefault();
@@ -99,7 +131,7 @@ export const Select: React.FC<SelectProps> = ({
           return;
         }
 
-        setActiveOptionIndex((prev) => Math.min(prev + 1, filteredOptions.length - 1));
+        setActiveOptionIndex((prev) => Math.min(prev + 1, lastIndex));
         break;
       }
 
@@ -109,7 +141,7 @@ export const Select: React.FC<SelectProps> = ({
         if (!isOpen) {
           setIsTyping(false);
           setIsOpen(true);
-          setActiveOptionIndex(filteredOptions.length - 1);
+          setActiveOptionIndex(lastIndex);
           return;
         }
 
@@ -129,7 +161,7 @@ export const Select: React.FC<SelectProps> = ({
         if (!isOpen) return;
 
         e.preventDefault();
-        setActiveOptionIndex(filteredOptions.length - 1);
+        setActiveOptionIndex(lastIndex);
         break;
       }
 
@@ -158,14 +190,24 @@ export const Select: React.FC<SelectProps> = ({
     }
   };
 
+  // announced to screen readers while the user types and the list is filtered
+  const statusMessage =
+    isOpen && isTyping
+      ? filteredOptions.length === 0
+        ? 'No results'
+        : `${filteredOptions.length} ${filteredOptions.length === 1 ? 'result' : 'results'} available`
+      : '';
+
   return (
     <div
       className={[styles.n23mSelect, 'n23mSelect', className].filter(Boolean).join(' ')}
       {...props}
       style={{ ...style }}
     >
+      {/* decorative, mouse-only: keyboard and screen reader users use the input */}
       <div
         className={[styles.icon, isOpen ? styles.iconRotate : ''].join(' ')}
+        aria-hidden="true"
         onMouseDown={(e) => {
           e.preventDefault();
           inputRef.current?.focus();
@@ -222,6 +264,7 @@ export const Select: React.FC<SelectProps> = ({
           onKeyDown: handleKeyDown,
           role: 'combobox',
           'aria-autocomplete': 'list',
+          'aria-haspopup': 'listbox',
           'aria-expanded': isOpen,
           'aria-controls': listboxId,
           'aria-activedescendant':
@@ -229,8 +272,12 @@ export const Select: React.FC<SelectProps> = ({
         }}
       />
 
+      <div role="status" aria-live="polite" style={srOnly}>
+        {statusMessage}
+      </div>
+
       <div className={[styles.dropdownWrapper, isOpen ? styles.open : ''].join(' ')}>
-        <div id={listboxId} role="listbox" className={styles.dropdown}>
+        <div id={listboxId} role="listbox" aria-label={label} className={styles.dropdown}>
           {filteredOptions.map((option, index) => (
             <div
               id={`${id}-option-${index}`}
@@ -240,7 +287,10 @@ export const Select: React.FC<SelectProps> = ({
               key={option.value}
               role="option"
               aria-selected={option.value === selectedOptionValue}
-              onMouseEnter={() => setActiveOptionIndex(index)}
+              onMouseEnter={() => {
+                scrollOnKeyboardRef.current = false;
+                setActiveOptionIndex(index);
+              }}
               onMouseDown={(e) => {
                 e.preventDefault();
                 handleSelect(option);

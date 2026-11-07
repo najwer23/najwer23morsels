@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
@@ -89,6 +89,12 @@ export const Input: React.FC<InputProps | SelectProps> = ({
 }) => {
   const errorRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const errorId = `${useId()}-error`;
+
+  // keep any describedby the caller passed and add the validation message to it
+  // (the error element isn't rendered for type="hidden", so don't reference it there)
+  const describedBy =
+    [inputProps?.['aria-describedby'], type !== 'hidden' ? errorId : undefined].filter(Boolean).join(' ') || undefined;
 
   const validate = (target: FieldElement) => {
     if (errorRef.current) errorRef.current.textContent = '';
@@ -99,8 +105,10 @@ export const Input: React.FC<InputProps | SelectProps> = ({
     if (validatorResult.length > 0) {
       if (errorRef.current) errorRef.current.textContent = validatorResult[0];
       target.classList.add('error');
+      target.setAttribute('aria-invalid', 'true');
     } else {
       target.classList.remove('error');
+      target.removeAttribute('aria-invalid');
     }
   };
 
@@ -152,6 +160,13 @@ export const Input: React.FC<InputProps | SelectProps> = ({
     inputProps?.onMouseDown?.(e);
   };
 
+  // A field that already shows an error is re-validated whenever its value changes,
+  // including changes made from code (e.g. Select picking an option fires no change event).
+  useEffect(() => {
+    const el = wrapperRef.current?.querySelector<FieldElement>('input, textarea');
+    if (el?.classList.contains('error')) validate(el);
+  }, [value]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const el = wrapperRef.current?.querySelector<FieldElement>('input, textarea');
@@ -201,6 +216,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             name={name}
             type={type}
             aria-label={label}
+            aria-describedby={describedBy}
             onBlur={handleBlur}
             onChange={handleChange}
             placeholder={placeholder}
@@ -217,6 +233,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             autoComplete={autoComplete}
             id={name}
             aria-label={label}
+            aria-describedby={describedBy}
             name={name}
             onBlur={handleBlur}
             onChange={handleChange}
@@ -235,6 +252,7 @@ export const Input: React.FC<InputProps | SelectProps> = ({
             onMouseDown={handleMouseDown}
             id={id}
             aria-label={label}
+            aria-describedby={describedBy}
             autoComplete="off"
             ref={inputRef as React.RefObject<HTMLInputElement | null>}
             type={type}
@@ -249,7 +267,11 @@ export const Input: React.FC<InputProps | SelectProps> = ({
         )}
       </div>
 
-      {type !== 'hidden' && <Typography ref={errorRef} variant={'validatorInputError'} />}
+      {type !== 'hidden' && (
+        <div id={errorId} role="alert">
+          <Typography ref={errorRef} variant={'validatorInputError'} />
+        </div>
+      )}
     </div>
   );
 };

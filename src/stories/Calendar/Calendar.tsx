@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Button } from '../Button';
 import { IconArrowLeft, IconArrowRight } from '../Icons';
 import { Input } from '../Input';
@@ -48,6 +48,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const dropdownId = useId();
   // set while a keyboard action may re-render (and unmount) the focused element
   const suppressBlurRef = useRef(false);
   // set when we move focus back to the input and don't want onFocus to reset the view
@@ -171,7 +172,6 @@ export const Calendar: React.FC<CalendarProps> = ({
   // After a keyboard action re-renders the dropdown (view switch, new value),
   // the focused element may be gone - put focus back inside the dropdown.
   useEffect(() => {
-    console.log('333');
     if (!suppressBlurRef.current) return;
 
     suppressBlurRef.current = false;
@@ -314,6 +314,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   const days = generateDaysArray(gridBase);
   const years = generateYears(gridBase);
+  const currentMonthName = new Date(currentYear, currentMonth, 1).toLocaleString('en-US', { month: 'long' });
 
   return (
     <div
@@ -322,8 +323,10 @@ export const Calendar: React.FC<CalendarProps> = ({
       {...props}
       style={{ ...style }}
     >
+      {/* decorative, mouse-only: keyboard and screen reader users use the input (ArrowDown) */}
       <div
         className={styles.icon}
+        aria-hidden="true"
         onMouseDown={(e) => {
           if (disabled) return;
 
@@ -334,6 +337,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           if (calendarState.open) {
             closeCalendar();
 
+            // focus the input without letting onFocus reopen the dropdown
             if (input && document.activeElement !== input) {
               skipOpenRef.current = true;
               input.focus();
@@ -371,12 +375,16 @@ export const Calendar: React.FC<CalendarProps> = ({
           role: 'combobox',
           'aria-expanded': calendarState.open,
           'aria-haspopup': 'dialog',
+          'aria-controls': dropdownId,
         }}
       />
 
       <div className={[styles.dropdownWrapper, calendarState.open ? styles.open : ''].join(' ')}>
         <div
           ref={dropdownRef}
+          id={dropdownId}
+          role="dialog"
+          aria-label={`${label} picker`}
           className={styles.dropdown}
           onMouseDown={(e) => e.preventDefault()}
           onKeyDown={handleDropdownKeyDown}
@@ -392,6 +400,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height="30px"
                     width="30px"
                     title="Previous years"
+                    aria-label="Previous years"
                     variant="secondary"
                     onClick={() => changeYear(currentYear - 9)}
                   >
@@ -399,11 +408,12 @@ export const Calendar: React.FC<CalendarProps> = ({
                   </Button>
                 </div>
 
-                <div style={{ width: '60%' }} className={styles.controlsDate}>
+                <div style={{ width: '60%' }} className={styles.controlsDate} aria-live="polite" aria-atomic="true">
                   <div
                     style={{ cursor: 'pointer' }}
                     role="button"
                     tabIndex={0}
+                    aria-label={`${currentYear}, back to days`}
                     onClick={() => setView('days')}
                     onKeyDown={onActivate(() => setView('days'))}
                   >
@@ -418,6 +428,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height="30px"
                     width="30px"
                     title="Next years"
+                    aria-label="Next years"
                     variant="secondary"
                     onClick={() => changeYear(currentYear + 9)}
                   >
@@ -438,7 +449,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                       height="40px"
                       width="80px"
                       variant={currentYear === v ? 'primary' : 'subtle'}
-                      title="year"
+                      title={String(v)}
+                      aria-label={String(v)}
+                      aria-pressed={currentYear === v}
                       onClick={() => {
                         changeYear(v);
                         setView('days');
@@ -467,7 +480,9 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height="40px"
                     width="80px"
                     variant={currentMonth === i ? 'primary' : 'subtle'}
-                    title="month"
+                    title={new Date(2021, i, 1).toLocaleString('en-US', { month: 'long' })}
+                    aria-label={new Date(2021, i, 1).toLocaleString('en-US', { month: 'long' })}
+                    aria-pressed={currentMonth === i}
                     onClick={() => {
                       changeMonth(i - currentMonth);
                       setView('days');
@@ -492,6 +507,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height="30px"
                     width="30px"
                     title="Previous month"
+                    aria-label="Previous month"
                     variant="secondary"
                     onClick={() => changeMonth(-1)}
                   >
@@ -499,30 +515,32 @@ export const Calendar: React.FC<CalendarProps> = ({
                   </Button>
                 </div>
 
-                <div style={{ width: '60%' }} className={styles.controlsDate}>
+                <div style={{ width: '60%' }} className={styles.controlsDate} aria-live="polite" aria-atomic="true">
                   <div
                     style={{ cursor: 'pointer' }}
                     role="button"
                     tabIndex={0}
+                    aria-label={`Choose year, ${currentYear}`}
                     onClick={() => setView('years')}
                     onKeyDown={onActivate(() => setView('years'))}
                   >
                     {currentYear}
                   </div>
 
-                  <div>-</div>
+                  <div aria-hidden="true">-</div>
 
                   <div
                     style={{ cursor: 'pointer' }}
                     role="button"
                     tabIndex={0}
+                    aria-label={`Choose month, ${currentMonthName}`}
                     onClick={() => setView('months')}
                     onKeyDown={onActivate(() => setView('months'))}
                   >
                     {String(currentMonth + 1).padStart(2, '0')}
                   </div>
 
-                  <div>-</div>
+                  <div aria-hidden="true">-</div>
 
                   <div>{String(currentDay).padStart(2, '0')}</div>
                 </div>
@@ -534,6 +552,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                     height="30px"
                     width="30px"
                     title="Next month"
+                    aria-label="Next month"
                     variant="secondary"
                     onClick={() => changeMonth(1)}
                   >
@@ -542,7 +561,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                 </div>
               </div>
 
-              <div className={styles.weekdays}>
+              <div className={styles.weekdays} aria-hidden="true">
                 {weekdays.map((v) => (
                   <div key={v} className={styles.weekdaysChild}>
                     {v}
@@ -568,6 +587,15 @@ export const Calendar: React.FC<CalendarProps> = ({
                       data-autofocus={inMonth && v.cssClass === 'active' ? '' : undefined}
                       role={inMonth ? 'button' : undefined}
                       tabIndex={inMonth ? 0 : undefined}
+                      aria-hidden={inMonth ? undefined : true}
+                      aria-label={
+                        inMonth
+                          ? new Date(currentYear, currentMonth, v.day).toLocaleDateString('en-US', {
+                              dateStyle: 'full',
+                            })
+                          : undefined
+                      }
+                      aria-pressed={inMonth ? v.cssClass === 'active' : undefined}
                       onKeyDown={inMonth ? onActivate(() => selectDay(v.day)) : undefined}
                       onMouseDown={inMonth ? () => selectDay(v.day) : undefined}
                     >
