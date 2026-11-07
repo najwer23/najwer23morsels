@@ -190,8 +190,8 @@ export const Table: React.FC<TableProps> = ({
                         label={col.cellText}
                         name={col.cellName}
                         type={col.cellType === 'currency' ? 'number' : col.cellType}
-                        step={col.cellType === 'number' ? 0.01 : undefined}
-                        defaultValue={col.cellType === 'number' ? Number(value ?? 0).toFixed(2) : String(value ?? '')}
+                        step={col.cellType === 'currency' ? 0.01 : undefined}
+                        defaultValue={col.cellType === 'currency' ? Number(value ?? 0).toFixed(2) : String(value ?? '')}
                         disabled={col.disabledEdit}
                         placeholder={col.cellText}
                         validatorOptions={col.validatorOptions}
