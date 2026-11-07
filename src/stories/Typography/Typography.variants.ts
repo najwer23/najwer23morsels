@@ -93,9 +93,9 @@ export const TYPOGRAPHY_VARIANTS: Record<ThemeTypographyVariant, TypographyPrese
   validatorDialogSuccess: { ...dialogMessage },
 
   loaderPage: {
+    tag: 'p',
     mobileSize: 16,
-    desktopSize: 16,
-    lineHeight: 1.2,
+    desktopSize: 17,
     fontWeight: 400,
     margin: 0,
   },
