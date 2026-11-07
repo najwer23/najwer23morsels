@@ -330,7 +330,7 @@ export const Table: React.FC<TableProps> = ({
                         color="black"
                         textAlign={col.tdAlign ?? 'left'}
                       >
-                        {value === undefined ? '' : String(value)}
+                        {typeof value === 'number' ? value.toFixed(2) : String(value ?? '')}
                       </TextBox>
                     </td>
                   );
