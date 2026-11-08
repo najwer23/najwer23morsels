@@ -37,20 +37,20 @@ export type TableColumn =
       currency?: 'PLN' | 'USD';
     });
 
-export interface TableCellEdit {
-  onCellEdit?: (cell: Record<string, string>) => void;
-  isCellEditError?: boolean;
-  isCellEditPending?: boolean;
-  isCellEditSuccess?: boolean;
-  cellEditErrorMsg?: string;
-  cellEditSuccessMsg?: string;
+export interface TableRowEdit {
+  onRowEdit?: (row: Record<string, string>) => void;
+  isRowEditError?: boolean;
+  isRowEditPending?: boolean;
+  isRowEditSuccess?: boolean;
+  rowEditErrorMsg?: string;
+  rowEditSuccessMsg?: string;
 }
 
-export interface TableCellDelete {
-  onCellDelete?: (id: TableRow['id']) => void;
-  isCellDeleteError?: boolean;
-  isCellDeletePending?: boolean;
-  isCellDeleteSuccess?: boolean;
-  cellDeleteErrorMsg?: string;
-  cellDeleteSuccessMsg?: string;
+export interface TableRowDelete {
+  onRowDelete?: (id: TableRow['id']) => void;
+  isRowDeleteError?: boolean;
+  isRowDeletePending?: boolean;
+  isRowDeleteSuccess?: boolean;
+  rowDeleteErrorMsg?: string;
+  rowDeleteSuccessMsg?: string;
 }

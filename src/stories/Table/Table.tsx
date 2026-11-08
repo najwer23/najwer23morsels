@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'; // NEW: useRef
+import { useRef, useState } from 'react';
 import { Button } from '../Button';
 import { Calendar } from '../Calendar';
 import { Dialog } from '../Dialog';
@@ -11,8 +11,8 @@ import { TextBox } from '../TextBox';
 import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
-import { TableCellDelete, TableCellEdit, TableColumn, TableRow } from './Table.types';
-import { useScrollShadows } from './useScrollShadows'; // NEW
+import { TableColumn, TableRow, TableRowDelete, TableRowEdit } from './Table.types';
+import { useScrollShadows } from './useScrollShadows';
 
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
@@ -22,9 +22,9 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   jsonData: {
     rows: TableRow[];
   };
-  cellEdit?: TableCellEdit;
-  cellDelete?: TableCellDelete;
-  onCellReset?: () => void;
+  rowEdit?: TableRowEdit;
+  rowDelete?: TableRowDelete;
+  onRowReset?: () => void;
   isLoading?: boolean;
   tableLoadingHeight?: React.CSSProperties['height'];
 }
@@ -33,9 +33,9 @@ export const Table: React.FC<TableProps> = ({
   className,
   jsonSchema,
   jsonData,
-  cellEdit,
-  cellDelete,
-  onCellReset,
+  rowEdit,
+  rowDelete,
+  onRowReset,
   isLoading = false,
   style,
   tableLoadingHeight,
@@ -44,82 +44,83 @@ export const Table: React.FC<TableProps> = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
   useScrollShadows(wrapperRef);
 
-  const [isOpenDialogEditCell, setIsOpenDialogEditCell] = useState(false);
-  const [isOpenDialogDeleteCell, setIsOpenDialogDeleteCell] = useState(false);
-  const [dialogEditCellKey, setDialogEditCellKey] = useState(0);
+  const [isOpenDialogEditRow, setIsOpenDialogEditRow] = useState(false);
+  const [isOpenDialogDeleteRow, setIsOpenDialogDeleteRow] = useState(false);
+  const [dialogEditRowKey, setDialogEditRowKey] = useState(0);
   const [selectedRow, setSelectedRow] = useState<TableRow | null>(null);
 
   const {
-    onCellEdit,
-    isCellEditError = false,
-    isCellEditPending = false,
-    isCellEditSuccess = false,
-    cellEditErrorMsg,
-    cellEditSuccessMsg,
-  } = cellEdit ?? {};
+    onRowEdit,
+    isRowEditError = false,
+    isRowEditPending = false,
+    isRowEditSuccess = false,
+    rowEditErrorMsg,
+    rowEditSuccessMsg,
+  } = rowEdit ?? {};
 
   const {
-    onCellDelete,
-    isCellDeleteError = false,
-    isCellDeletePending = false,
-    isCellDeleteSuccess = false,
-    cellDeleteErrorMsg,
-    cellDeleteSuccessMsg,
-  } = cellDelete ?? {};
+    onRowDelete,
+    isRowDeleteError = false,
+    isRowDeletePending = false,
+    isRowDeleteSuccess = false,
+    rowDeleteErrorMsg,
+    rowDeleteSuccessMsg,
+  } = rowDelete ?? {};
 
-  const isEditable = Boolean(onCellEdit);
-  const isDeletable = Boolean(onCellDelete);
+  const isEditable = Boolean(onRowEdit);
+  const isDeletable = Boolean(onRowDelete);
   const tableColumns = jsonSchema.cols.filter((col) => col.cellName !== 'id');
 
   const handleOnSubmit = (form: FormType) => {
-    if (!onCellEdit) return;
+    if (!onRowEdit) return;
     if (Object.values(form).some(({ error }) => error)) return;
 
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    onCellEdit(dataForm);
+    onRowEdit(dataForm);
   };
 
   // "Delete" in the edit dialog -> open the confirmation dialog
   const handleOnDel = () => {
     if (!isDeletable || !selectedRow) return;
-    setIsOpenDialogDeleteCell(true);
+    setIsOpenDialogDeleteRow(true);
   };
 
   // "Yes, delete": only fires the request; the dialog stays open to show the result
   const handleOnDelConfirm = () => {
-    if (!onCellDelete || !selectedRow) return;
-    onCellDelete(selectedRow.id);
+    if (!onRowDelete || !selectedRow) return;
+    onRowDelete(selectedRow.id);
   };
 
-  const handleOnCellReset = () => {
-    if (onCellReset) {
-      setTimeout(() => onCellReset(), 300);
+  const handleOnRowReset = () => {
+    if (onRowReset) {
+      setTimeout(() => onRowReset(), 300);
     }
   };
 
   // Cancel before deleting: close only the confirmation dialog
   const handleOnDelCancel = () => {
-    setIsOpenDialogDeleteCell(false);
-    handleOnCellReset();
+    setIsOpenDialogDeleteRow(false);
+    handleOnRowReset();
   };
 
   // Close after a successful delete: close both dialogs
   const handleOnDelClose = () => {
-    setIsOpenDialogDeleteCell(false);
-    setIsOpenDialogEditCell(false);
-    handleOnCellReset();
+    setIsOpenDialogDeleteRow(false);
+    setIsOpenDialogEditRow(false);
+    handleOnRowReset();
   };
 
   const handleOnClose = () => {
-    setIsOpenDialogEditCell(false);
-    handleOnCellReset();
+    setIsOpenDialogEditRow(false);
+    handleOnRowReset();
   };
 
+  // The click happens on a cell, but it opens the edit dialog for the whole row
   const handleOnCellClick = (row: TableRow) => {
     setSelectedRow(row);
-    setIsOpenDialogEditCell(true);
-    setDialogEditCellKey((prev) => prev + 1);
+    setIsOpenDialogEditRow(true);
+    setDialogEditRowKey((prev) => prev + 1);
   };
 
   return (
@@ -137,20 +138,20 @@ export const Table: React.FC<TableProps> = ({
       }
     >
       {isEditable && (
-        <Dialog open={isOpenDialogEditCell} onCancel={handleOnClose} widthMax="900px">
+        <Dialog open={isOpenDialogEditRow} onCancel={handleOnClose} widthMax="900px">
           <Grid layout="container" widthMin="min(800px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
             <Typography variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
-              Edit Cell
+              Edit Row
             </Typography>
 
             <Form
-              key={dialogEditCellKey}
+              key={dialogEditRowKey}
               onSubmit={handleOnSubmit}
-              isError={isCellEditError}
-              isPending={isCellEditPending}
-              isSuccess={isCellEditSuccess}
-              errorMsg={cellEditErrorMsg}
-              successMsg={cellEditSuccessMsg}
+              isError={isRowEditError}
+              isPending={isRowEditPending}
+              isSuccess={isRowEditSuccess}
+              errorMsg={rowEditErrorMsg}
+              successMsg={rowEditSuccessMsg}
             >
               <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px' }}>
                 {selectedRow &&
@@ -217,7 +218,7 @@ export const Table: React.FC<TableProps> = ({
                   <Button
                     type="button"
                     variant="danger"
-                    disabled={isCellEditPending || isCellDeletePending}
+                    disabled={isRowEditPending || isRowDeletePending}
                     onClick={handleOnDel}
                   >
                     <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
@@ -226,7 +227,7 @@ export const Table: React.FC<TableProps> = ({
                   </Button>
                 )}
 
-                <Button type="submit" variant="primary" disabled={isCellEditPending || isCellDeletePending}>
+                <Button type="submit" variant="primary" disabled={isRowEditPending || isRowDeletePending}>
                   <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                     Save changes
                   </TextBox>
@@ -239,37 +240,37 @@ export const Table: React.FC<TableProps> = ({
 
       {isDeletable && (
         <Dialog
-          open={isOpenDialogDeleteCell}
-          onCancel={isCellDeleteSuccess ? handleOnDelClose : handleOnDelCancel}
+          open={isOpenDialogDeleteRow}
+          onCancel={isRowDeleteSuccess ? handleOnDelClose : handleOnDelCancel}
           widthMax="900px"
         >
           <Grid layout="container" widthMin="min(500px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
             <Typography variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
-              {isCellDeleteSuccess ? 'Deleted' : 'Are you sure?'}
+              {isRowDeleteSuccess ? 'Deleted' : 'Are you sure?'}
             </Typography>
 
-            {!isCellDeleteSuccess && (
+            {!isRowDeleteSuccess && (
               <Typography variant="body" tag="p" desktopSize={16} mobileSize={16} fontWeight={400}>
                 This row will be permanently deleted. This action cannot be undone.
               </Typography>
             )}
 
-            {isCellDeleteError && !isCellDeleteSuccess && (
-              <Typography variant="validatorDialogError">{cellDeleteErrorMsg ?? 'Delete failed'}</Typography>
+            {isRowDeleteError && !isRowDeleteSuccess && (
+              <Typography variant="validatorDialogError">{rowDeleteErrorMsg ?? 'Delete failed'}</Typography>
             )}
 
-            {isCellDeleteSuccess && (
-              <Typography variant="validatorDialogSuccess">{cellDeleteSuccessMsg ?? 'Row deleted'}</Typography>
+            {isRowDeleteSuccess && (
+              <Typography variant="validatorDialogSuccess">{rowDeleteSuccessMsg ?? 'Row deleted'}</Typography>
             )}
 
             <Grid
               layout="flex"
               widthMax="100%"
               padding="0"
-              justifyContent={isCellDeleteSuccess ? 'flex-end' : 'space-between'}
+              justifyContent={isRowDeleteSuccess ? 'flex-end' : 'space-between'}
               margin="20px 0 0 0"
             >
-              {isCellDeleteSuccess ? (
+              {isRowDeleteSuccess ? (
                 <Button type="button" variant="success" onClick={handleOnDelClose}>
                   <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                     Close
@@ -277,13 +278,13 @@ export const Table: React.FC<TableProps> = ({
                 </Button>
               ) : (
                 <>
-                  <Button type="button" variant="secondary" disabled={isCellDeletePending} onClick={handleOnDelCancel}>
+                  <Button type="button" variant="secondary" disabled={isRowDeletePending} onClick={handleOnDelCancel}>
                     <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                       Cancel
                     </TextBox>
                   </Button>
 
-                  <Button type="button" variant="danger" disabled={isCellDeletePending} onClick={handleOnDelConfirm}>
+                  <Button type="button" variant="danger" disabled={isRowDeletePending} onClick={handleOnDelConfirm}>
                     <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="inherit">
                       Yes, delete
                     </TextBox>

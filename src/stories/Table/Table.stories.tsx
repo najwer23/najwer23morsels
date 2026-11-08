@@ -1,28 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { SelectOption } from '../Select';
-import { Table, type TableCellDelete, type TableCellEdit, type TableColumn } from '.';
+import { Table, type TableColumn, type TableRowDelete, type TableRowEdit } from '.';
 
-const defaultCellEdit: TableCellEdit = {
-  onCellEdit: (form) => {
+const defaultRowEdit: TableRowEdit = {
+  onRowEdit: (form) => {
     console.log('Edited row:', form);
   },
-  isCellEditError: false,
-  isCellEditPending: false,
-  isCellEditSuccess: false,
-  cellEditErrorMsg: undefined,
-  cellEditSuccessMsg: undefined,
+  isRowEditError: false,
+  isRowEditPending: false,
+  isRowEditSuccess: false,
+  rowEditErrorMsg: undefined,
+  rowEditSuccessMsg: undefined,
 };
 
-const defaultCellDelete: TableCellDelete = {
-  onCellDelete: (id) => {
+const defaultRowDelete: TableRowDelete = {
+  onRowDelete: (id) => {
     console.log('Deleted row:', id);
   },
-  isCellDeleteError: false,
-  isCellDeletePending: false,
-  isCellDeleteSuccess: false,
-  cellDeleteErrorMsg: undefined,
-  cellDeleteSuccessMsg: undefined,
+  isRowDeleteError: false,
+  isRowDeletePending: false,
+  isRowDeleteSuccess: false,
+  rowDeleteErrorMsg: undefined,
+  rowDeleteSuccessMsg: undefined,
 };
 
 const meta: Meta<typeof Table> = {
@@ -35,11 +35,11 @@ const meta: Meta<typeof Table> = {
         component: `
 A table with columns defined in \`jsonSchema.cols\` and rows in \`jsonData.rows\`.
 
-Editing is optional and configured through the \`cellEdit\` object. Pass \`cellEdit.onCellEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`cellEdit\` for a read-only table. Submission status and feedback messages are controlled through \`isCellEditError\`, \`isCellEditPending\`, \`isCellEditSuccess\`, \`cellEditErrorMsg\` and \`cellEditSuccessMsg\`.
+Editing is optional and configured through the \`rowEdit\` object. Pass \`rowEdit.onRowEdit\` to make cells clickable and open the row editor (the \`id\` field is read-only); omit \`rowEdit\` for a read-only table. Submission status and feedback messages are controlled through \`isRowEditError\`, \`isRowEditPending\`, \`isRowEditSuccess\`, \`rowEditErrorMsg\` and \`rowEditSuccessMsg\`.
 
-Deleting is configured separately through the \`cellDelete\` object. Pass \`cellDelete.onCellDelete\` to add a Delete button to the editor. Clicking it opens an "Are you sure?" confirmation dialog, and \`onCellDelete\` is called only after confirming. The dialog stays open to show the result: \`cellDeleteErrorMsg\` when \`isCellDeleteError\` is true, or \`cellDeleteSuccessMsg\` with a Close button when \`isCellDeleteSuccess\` is true. Delete status is controlled through \`isCellDeleteError\`, \`isCellDeletePending\`, \`isCellDeleteSuccess\`, \`cellDeleteErrorMsg\` and \`cellDeleteSuccessMsg\`. Because the Delete button lives in the editor, \`cellEdit.onCellEdit\` must also be set.
+Deleting is configured separately through the \`rowDelete\` object. Pass \`rowDelete.onRowDelete\` to add a Delete button to the editor. Clicking it opens an "Are you sure?" confirmation dialog, and \`onRowDelete\` is called only after confirming. The dialog stays open to show the result: \`rowDeleteErrorMsg\` when \`isRowDeleteError\` is true, or \`rowDeleteSuccessMsg\` with a Close button when \`isRowDeleteSuccess\` is true. Delete status is controlled through \`isRowDeleteError\`, \`isRowDeletePending\`, \`isRowDeleteSuccess\`, \`rowDeleteErrorMsg\` and \`rowDeleteSuccessMsg\`. Because the Delete button lives in the editor, \`rowEdit.onRowEdit\` must also be set.
 
-\`onCellReset\` is independent of both objects. It is called when a dialog is closed or cancelled, including the Close button after a successful delete, so the parent can reset its edit and delete queries.
+\`onRowReset\` is independent of both objects. It is called when a dialog is closed or cancelled, including the Close button after a successful delete, so the parent can reset its edit and delete queries.
 
 Pass \`isLoading\` to replace the body rows with a loader while data is being fetched; the header row stays visible.
 `,
@@ -47,10 +47,10 @@ Pass \`isLoading\` to replace the body rows with a loader while data is being fe
     },
   },
   args: {
-    cellEdit: defaultCellEdit,
-    cellDelete: defaultCellDelete,
-    onCellReset: () => {
-      console.log('Reset cell edit and delete queries');
+    rowEdit: defaultRowEdit,
+    rowDelete: defaultRowDelete,
+    onRowReset: () => {
+      console.log('Reset row edit and delete queries');
     },
   },
 };
@@ -298,14 +298,14 @@ export const ReadOnly: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellEdit: undefined,
-    cellDelete: undefined,
-    onCellReset: undefined,
+    rowEdit: undefined,
+    rowDelete: undefined,
+    onRowReset: undefined,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Without `cellEdit` the table is read-only: cells are not clickable and no dialogs are rendered.',
+        story: 'Without `rowEdit` the table is read-only: cells are not clickable and no dialogs are rendered.',
       },
     },
   },
@@ -315,12 +315,12 @@ export const EditWithoutDelete: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellDelete: undefined,
+    rowDelete: undefined,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Without `cellDelete` the edit dialog has no Delete button and Save stays aligned to the right.',
+        story: 'Without `rowDelete` the edit dialog has no Delete button and Save stays aligned to the right.',
       },
     },
   },
@@ -335,7 +335,7 @@ export const DeleteConfirmation: Story = {
     docs: {
       description: {
         story:
-          'Click a cell, then Delete. An "Are you sure?" dialog opens. Cancel closes only the confirmation; "Yes, delete" calls `cellDelete.onCellDelete` with the row id and leaves the dialog open so the parent can show the result.',
+          'Click a cell, then Delete. An "Are you sure?" dialog opens. Cancel closes only the confirmation; "Yes, delete" calls `rowDelete.onRowDelete` with the row id and leaves the dialog open so the parent can show the result.',
       },
     },
   },
@@ -345,13 +345,13 @@ export const DeletePending: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellDelete: { ...defaultCellDelete, isCellDeletePending: true },
+    rowDelete: { ...defaultRowDelete, isRowDeletePending: true },
   },
   parameters: {
     docs: {
       description: {
         story:
-          'While `isCellDeletePending` is true, the Delete and Save buttons in the editor and both buttons in the confirmation dialog are disabled.',
+          'While `isRowDeletePending` is true, the Delete and Save buttons in the editor and both buttons in the confirmation dialog are disabled.',
       },
     },
   },
@@ -361,17 +361,17 @@ export const DeleteError: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellDelete: {
-      ...defaultCellDelete,
-      isCellDeleteError: true,
-      cellDeleteErrorMsg: 'Could not delete this row. Try again.',
+    rowDelete: {
+      ...defaultRowDelete,
+      isRowDeleteError: true,
+      rowDeleteErrorMsg: 'Could not delete this row. Try again.',
     },
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When `isCellDeleteError` is true, the confirmation dialog stays open and shows `cellDeleteErrorMsg` so the user can retry or cancel.',
+          'When `isRowDeleteError` is true, the confirmation dialog stays open and shows `rowDeleteErrorMsg` so the user can retry or cancel.',
       },
     },
   },
@@ -381,17 +381,17 @@ export const DeleteSuccess: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellDelete: {
-      ...defaultCellDelete,
-      isCellDeleteSuccess: true,
-      cellDeleteSuccessMsg: 'Row deleted successfully',
+    rowDelete: {
+      ...defaultRowDelete,
+      isRowDeleteSuccess: true,
+      rowDeleteSuccessMsg: 'Row deleted successfully',
     },
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When `isCellDeleteSuccess` is true, the confirmation dialog shows `cellDeleteSuccessMsg` in place of the error message, with a single Close button. Close (or Esc) closes both dialogs and calls `onCellReset` so the parent can reset the delete query.',
+          'When `isRowDeleteSuccess` is true, the confirmation dialog shows `rowDeleteSuccessMsg` in place of the error message, with a single Close button. Close (or Esc) closes both dialogs and calls `onRowReset` so the parent can reset the delete query.',
       },
     },
   },
@@ -401,10 +401,10 @@ export const EditError: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellEdit: {
-      ...defaultCellEdit,
-      isCellEditError: true,
-      cellEditErrorMsg: 'Could not save changes.',
+    rowEdit: {
+      ...defaultRowEdit,
+      isRowEditError: true,
+      rowEditErrorMsg: 'Could not save changes.',
     },
   },
   parameters: {
@@ -420,17 +420,16 @@ export const EditSuccess: Story = {
   args: {
     jsonSchema: { cols: taskColumns },
     jsonData: { rows: taskRows },
-    cellEdit: {
-      ...defaultCellEdit,
-      isCellEditSuccess: true,
-      cellEditSuccessMsg: 'Changes saved',
+    rowEdit: {
+      ...defaultRowEdit,
+      isRowEditSuccess: true,
+      rowEditSuccessMsg: 'Changes saved',
     },
   },
   parameters: {
     docs: {
       description: {
-        story:
-          'When `isCellEditSuccess` is true, the edit form shows `cellEditSuccessMsg`. Delete state is unaffected.',
+        story: 'When `isRowEditSuccess` is true, the edit form shows `rowEditSuccessMsg`. Delete state is unaffected.',
       },
     },
   },
