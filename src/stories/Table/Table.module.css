@@ -1,16 +1,32 @@
 @layer n23mTable {
   .n23mTable {
     --hover-bg: rgb(0 0 0 / 11%);
-    --shadow-size: 14px;
-    --shadow-color: rgb(0 0 0 / 30%);
+    --shadow-size: 16px;
+    --shadow-rgb: 0 0 0;
     overflow-x: auto;
     overflow-y: hidden; /* clips the column highlight */
     isolation: isolate; /* keeps the z-index: -1 highlight inside the wrapper */
 
     background-color: #fff;
     background-image:
-      radial-gradient(farthest-side at 0 50%, var(--shadow-color), rgb(0 0 0 / 0%)),
-      radial-gradient(farthest-side at 100% 50%, var(--shadow-color), rgb(0 0 0 / 0%));
+      /* left edge */
+      linear-gradient(
+        to right,
+        rgb(var(--shadow-rgb) / 28%) 0%,
+        rgb(var(--shadow-rgb) / 17%) 25%,
+        rgb(var(--shadow-rgb) / 8%) 55%,
+        rgb(var(--shadow-rgb) / 2%) 80%,
+        rgb(var(--shadow-rgb) / 0%) 100%
+      ),
+      /* right edge */
+      linear-gradient(
+        to left,
+        rgb(var(--shadow-rgb) / 28%) 0%,
+        rgb(var(--shadow-rgb) / 17%) 25%,
+        rgb(var(--shadow-rgb) / 8%) 55%,
+        rgb(var(--shadow-rgb) / 2%) 80%,
+        rgb(var(--shadow-rgb) / 0%) 100%
+      );
     background-repeat: no-repeat;
     background-position:
       left center,

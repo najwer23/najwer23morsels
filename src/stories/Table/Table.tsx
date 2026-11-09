@@ -4,6 +4,7 @@ import { Calendar } from '../Calendar';
 import { Dialog } from '../Dialog';
 import { Form, FormType } from '../Form';
 import { Grid } from '../Grid';
+import { useScrollShadows } from '../hooks/useScrollShadows';
 import { Input } from '../Input';
 import { LoaderDots } from '../LoaderDots';
 import { Select } from '../Select';
@@ -12,7 +13,6 @@ import { Typography } from '../Typography';
 import { getCssVariableStyle } from '../utils/getCssVariableStyle';
 import styles from './Table.module.css';
 import { TableColumn, TableRow, TableRowDelete, TableRowEdit } from './Table.types';
-import { useScrollShadows } from './useScrollShadows';
 
 interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
